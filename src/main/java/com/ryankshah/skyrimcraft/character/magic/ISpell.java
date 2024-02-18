@@ -34,13 +34,7 @@ public class ISpell //extends ForgeRegistryEntry<ISpell>
     private int identifier;
     private Player caster;
     private String loc;
-//    private ResourceLocation location;
-
-    public static Codec<ISpell> CODEC = RecordCodecBuilder.create(spell -> spell.group(
-            ExtraCodecs.strictOptionalField(Codec.INT, "identifier", -1).forGetter(q -> q.identifier),
-            ExtraCodecs.strictOptionalField(Codec.STRING, "location", "").forGetter(q -> q.loc)
-
-    ).apply(spell, ISpell::new));
+    private ResourceLocation location;
 
     public ISpell() {
         this.identifier = -1;
@@ -50,7 +44,7 @@ public class ISpell //extends ForgeRegistryEntry<ISpell>
     public ISpell(int identifier, String location) {
         this.identifier = identifier;
         this.loc = location;
-//        this.location = new ResourceLocation(Skyrimcraft.MODID, this.loc);
+        this.location = new ResourceLocation(Skyrimcraft.MODID, this.loc);
     }
 
     /**

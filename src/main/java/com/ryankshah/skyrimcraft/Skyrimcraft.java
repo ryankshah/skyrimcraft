@@ -120,7 +120,6 @@ public class Skyrimcraft
         GeckoLib.initialize(bus);
 
         SkyrimLootModifiers.GLOBAL_LOOT_MODIFIER_SERIALIZERS.register(bus);
-        PlayerAttachments.ATTACHMENT_TYPES.register(bus);
         ParticleInit.PARTICLE_TYPES.register(bus);
         ModEffects.MOB_EFFECTS.register(bus);
         AttributeInit.ATTRIBUTES.register(bus);
@@ -136,6 +135,8 @@ public class Skyrimcraft
         SerializerInit.SERIALIZERS.register(bus);
 
         SoundsInit.SOUNDS.register(bus);
+
+        PlayerAttachments.ATTACHMENT_TYPES.register(bus);
 
         // listeners
         bus.addListener(this::dataPackRegistry);

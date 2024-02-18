@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mojang.serialization.codecs.SimpleMapCodec;
 import com.ryankshah.skyrimcraft.character.magic.EmptySpell;
 import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import net.minecraft.util.ExtraCodecs;
 
 import java.util.ArrayList;
@@ -19,10 +20,10 @@ public class SpellHandler //implements INBTSerializable<CompoundTag>
     private List<Pair<ISpell, Float>> spellsOnCooldown;
 
     public static Codec<SpellHandler> CODEC = RecordCodecBuilder.create(spellHandlerInstance -> spellHandlerInstance.group(
-            ISpell.CODEC.listOf().fieldOf("knownSpells").forGetter(s -> s.knownSpells),
-            ISpell.CODEC.fieldOf("selectedSpell1").forGetter(s -> s.selectedSpell1),
-            ISpell.CODEC.fieldOf("selectedSpell1").forGetter(s -> s.selectedSpell2),
-            Codec.pair(ISpell.CODEC, Codec.FLOAT).listOf().fieldOf("spellsOnCooldown").forGetter(s -> s.spellsOnCooldown)
+            SpellRegistry.SPELLS_REGISTRY.byNameCodec().listOf().fieldOf("knownSpells").forGetter(s -> s.knownSpells),
+            SpellRegistry.SPELLS_REGISTRY.byNameCodec().fieldOf("selectedSpell1").forGetter(s -> s.selectedSpell1),
+            SpellRegistry.SPELLS_REGISTRY.byNameCodec().fieldOf("selectedSpell1").forGetter(s -> s.selectedSpell2),
+            Codec.pair(SpellRegistry.SPELLS_REGISTRY.byNameCodec(), Codec.FLOAT).listOf().fieldOf("spellsOnCooldown").forGetter(s -> s.spellsOnCooldown)
 
     ).apply(spellHandlerInstance, SpellHandler::new));
 

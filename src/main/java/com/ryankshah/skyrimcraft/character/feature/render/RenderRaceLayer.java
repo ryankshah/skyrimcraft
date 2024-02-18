@@ -74,11 +74,11 @@ public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
     }
 
     private void renderKhajiit(PoseStack poseStack, MultiBufferSource renderBuffer, int packedLight, AbstractClientPlayer playerEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        VertexConsumer ivertexbuilder = renderBuffer.getBuffer(RenderType.entitySolid(new ResourceLocation(Skyrimcraft.MODID, "textures/entity/khajiit_male.png")));
+        VertexConsumer ivertexbuilder = renderBuffer.getBuffer(RenderType.entityTranslucent(new ResourceLocation(Skyrimcraft.MODID, "textures/entity/khajiit_male.png")));
         int overlayCoords = PlayerRenderer.getOverlayCoords(playerEntity, 0.0F);
         poseStack.pushPose();
-        this.getParentModel().setAllVisible(false);
         this.getParentModel().copyPropertiesTo(khajiitFullModel);
+        this.getParentModel().setAllVisible(false);
         khajiitFullModel.renderToBuffer(poseStack, ivertexbuilder, packedLight, overlayCoords, 1.0F, 1.0F, 1.0F, 1.0F);
 //        khajiitHeadModel.renderToBuffer(matrixStack, ivertexbuilder, packedLight, overlayCoords, 1.0F, 1.0F, 1.0F, 1.0F);
         poseStack.popPose();
