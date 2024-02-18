@@ -4,8 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.attachment.SpellHandler;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
-import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -16,7 +15,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
 import java.util.List;
-import java.util.Map;
 
 public record UpdateShoutCooldown(int spellID, float cooldown) implements CustomPacketPayload
 {
@@ -43,7 +41,7 @@ public record UpdateShoutCooldown(int spellID, float cooldown) implements Custom
 
                     if (player instanceof ServerPlayer) {
                         ServerPlayer serverPlayer = (ServerPlayer) player;
-                        List<Pair<ISpell, Float>> cooldowns = serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
+                        List<Pair<Spell, Float>> cooldowns = serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
 
 //                        cooldowns.stream().filter(pair -> pair.getFirst().getID() == data.spellID).findFirst().ifPresent(
 //                                pair -> new Pair<>(pair.getFirst(), data.cooldown)
@@ -67,17 +65,17 @@ public record UpdateShoutCooldown(int spellID, float cooldown) implements Custom
                 });
     }
 
-    public static List<Pair<ISpell, Float>> setCooldown(List<Pair<ISpell, Float>> cooldowns, int id, float cooldown) {
+    public static List<Pair<Spell, Float>> setCooldown(List<Pair<Spell, Float>> cooldowns, int id, float cooldown) {
         for(int i = 0; i < cooldowns.size(); i++) {
-            Pair<ISpell, Float> p = cooldowns.get(i);
+            Pair<Spell, Float> p = cooldowns.get(i);
             if(p.getFirst().getID() == id) {
                 cooldowns.add(i, new Pair<>(p.getFirst(), cooldown));
             }
         }
         return cooldowns;
     }
-    public static Float getCooldown (List<Pair<ISpell, Float>> cooldowns, ISpell value) {
-        for (Pair<ISpell, Float> p : cooldowns)
+    public static Float getCooldown (List<Pair<Spell, Float>> cooldowns, Spell value) {
+        for (Pair<Spell, Float> p : cooldowns)
             if (p.getFirst().equals(value))
                 return p.getSecond();
         return null;
@@ -87,7 +85,7 @@ public record UpdateShoutCooldown(int spellID, float cooldown) implements Custom
         context.workHandler().submitAsync(() -> {
                     Player player = context.player().orElseThrow();
 
-                    List<Pair<ISpell, Float>> cooldowns = player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
+                    List<Pair<Spell, Float>> cooldowns = player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
 
 //                    cooldowns.stream().filter(pair -> pair.getFirst().getID() == data.spellID).findFirst().ifPresent(
 //                            pair -> new Pair<>(pair.getFirst(), data.cooldown)

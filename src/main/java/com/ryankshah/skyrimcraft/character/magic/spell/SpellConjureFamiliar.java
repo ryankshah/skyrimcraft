@@ -1,7 +1,7 @@
 package com.ryankshah.skyrimcraft.character.magic.spell;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +17,7 @@ import net.minecraft.world.phys.AABB;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpellConjureFamiliar extends ISpell
+public class SpellConjureFamiliar extends Spell
 {
     public SpellConjureFamiliar(int identifier) {
         super(identifier, "conjure_familiar");

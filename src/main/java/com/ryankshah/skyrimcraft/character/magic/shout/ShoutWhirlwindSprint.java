@@ -1,7 +1,7 @@
 package com.ryankshah.skyrimcraft.character.magic.shout;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.util.ClientUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ShoutWhirlwindSprint extends ISpell //implements IForgeRegistryEntry<ISpell>
+public class ShoutWhirlwindSprint extends Spell //implements IForgeRegistryEntry<ISpell>
 {
     public ShoutWhirlwindSprint(int identifier) {
         super(identifier, "whirlwind_sprint");

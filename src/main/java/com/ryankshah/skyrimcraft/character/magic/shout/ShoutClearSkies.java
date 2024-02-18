@@ -1,7 +1,7 @@
 package com.ryankshah.skyrimcraft.character.magic.shout;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -10,7 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoutClearSkies extends ISpell //implements IForgeRegistryEntry<ISpell>
+public class ShoutClearSkies extends Spell //implements IForgeRegistryEntry<ISpell>
 {
     public ShoutClearSkies(int identifier) {
         super(identifier, "clear_skies");

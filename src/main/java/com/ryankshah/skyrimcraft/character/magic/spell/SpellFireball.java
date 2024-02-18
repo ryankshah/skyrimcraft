@@ -1,7 +1,7 @@
 package com.ryankshah.skyrimcraft.character.magic.spell;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.entity.FireballEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -10,7 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpellFireball extends ISpell
+public class SpellFireball extends Spell
 {
     public SpellFireball(int identifier) {
         super(identifier, "fireball");

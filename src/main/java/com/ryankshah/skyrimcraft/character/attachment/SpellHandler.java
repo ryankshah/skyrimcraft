@@ -3,21 +3,19 @@ package com.ryankshah.skyrimcraft.character.attachment;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.mojang.serialization.codecs.SimpleMapCodec;
-import com.ryankshah.skyrimcraft.character.magic.EmptySpell;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
-import net.minecraft.util.ExtraCodecs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SpellHandler //implements INBTSerializable<CompoundTag>
 {
-    private List<ISpell> knownSpells;
-    private ISpell selectedSpell1;
-    private ISpell selectedSpell2;
-    private List<Pair<ISpell, Float>> spellsOnCooldown;
+    private List<Spell> knownSpells;
+    private Spell selectedSpell1;
+    private Spell selectedSpell2;
+    private List<Pair<Spell, Float>> spellsOnCooldown;
 
     public static Codec<SpellHandler> CODEC = RecordCodecBuilder.create(spellHandlerInstance -> spellHandlerInstance.group(
             SpellRegistry.SPELLS_REGISTRY.byNameCodec().listOf().fieldOf("knownSpells").forGetter(s -> s.knownSpells),
@@ -28,32 +26,33 @@ public class SpellHandler //implements INBTSerializable<CompoundTag>
     ).apply(spellHandlerInstance, SpellHandler::new));
 
     public SpellHandler() {
-        this(new ArrayList<>(), new EmptySpell(), new EmptySpell(), new ArrayList<>());
+        this(new ArrayList<>(), SpellRegistry.EMPTY_SPELL.get(), SpellRegistry.EMPTY_SPELL.get(), new ArrayList<>());
     }
 
-    public SpellHandler(List<ISpell> spells, ISpell selectedSpell1, ISpell selectedSpell2, List<Pair<ISpell, Float>> cooldowns) {
+    public SpellHandler(List<Spell> spells, Spell selectedSpell1, Spell selectedSpell2, List<Pair<Spell, Float>> cooldowns) {
         this.knownSpells = spells;
         this.selectedSpell1 = selectedSpell1;
         this.selectedSpell2 = selectedSpell2;
         this.spellsOnCooldown = cooldowns;
     }
 
-    public float getSpellCooldown(ISpell shout) {
-        return spellsOnCooldown.stream().filter(p -> p.getFirst().getID() == shout.getID()).findFirst().get().getSecond();
+    public float getSpellCooldown(Spell shout) {
+        Optional<Pair<Spell, Float>> cooldown = spellsOnCooldown.stream().filter(p -> p.getFirst().equals(shout)).findFirst();
+        return cooldown.isPresent() ? cooldown.get().getSecond() : 0f;
     }
 
-    public List<ISpell> getKnownSpells() {
+    public List<Spell> getKnownSpells() {
         return knownSpells;
     }
 
-    public ISpell getSelectedSpell1() { return selectedSpell1; }
-    public ISpell getSelectedSpell2() { return selectedSpell2; }
+    public Spell getSelectedSpell1() { return selectedSpell1; }
+    public Spell getSelectedSpell2() { return selectedSpell2; }
 
 //    public Map<Integer, ISpell> getSelectedSpells() {
 //        return selectedSpells;
 //    }
 
-    public List<Pair<ISpell, Float>> getSpellsOnCooldown() {
+    public List<Pair<Spell, Float>> getSpellsOnCooldown() {
         return spellsOnCooldown;
     }
 //

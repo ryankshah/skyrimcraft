@@ -1,10 +1,9 @@
 package com.ryankshah.skyrimcraft.item;
 
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.network.spell.AddToKnownSpells;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -22,9 +21,9 @@ import java.util.function.Supplier;
 
 public class SpellBook extends Item
 {
-    private final Supplier<ISpell> spell;
+    private final Supplier<Spell> spell;
 
-    public SpellBook(Properties properties, Supplier<ISpell> spell) {
+    public SpellBook(Properties properties, Supplier<Spell> spell) {
         super(properties);
         this.spell = spell;
     }
@@ -37,7 +36,7 @@ public class SpellBook extends Item
         if (!worldIn.isClientSide) {
             return InteractionResultHolder.pass(itemstack);
         }
-        List<ISpell> knownSpells = playerIn.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
+        List<Spell> knownSpells = playerIn.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
         if (this.spell != null && !knownSpells.contains(spell.get())) {
             final AddToKnownSpells addSpell = new AddToKnownSpells(spell.get().getID());
             PacketDistributor.SERVER.noArg().send(addSpell);

@@ -2,27 +2,19 @@ package com.ryankshah.skyrimcraft.character.magic.spell;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
-import com.ryankshah.skyrimcraft.effect.ModEffects;
-import com.ryankshah.skyrimcraft.init.ParticleInit;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.particle.ZapParticleOption;
 import com.ryankshah.skyrimcraft.util.RayTraceUtil;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -30,7 +22,7 @@ import org.joml.Matrix4f;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpellLightning extends ISpell
+public class SpellLightning extends Spell
 {
     public static final ResourceLocation LIGHTNING = new ResourceLocation(Skyrimcraft.MODID,"lightning");
     public static final ResourceLocation SPARK = new ResourceLocation(Skyrimcraft.MODID,"spark");

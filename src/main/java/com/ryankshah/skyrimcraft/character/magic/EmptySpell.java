@@ -1,22 +1,9 @@
 package com.ryankshah.skyrimcraft.character.magic;
 
-import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.effect.ModEffects;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.entity.animal.Wolf;
-import net.minecraft.world.phys.AABB;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class EmptySpell extends ISpell
+public class EmptySpell extends Spell
 {
     public EmptySpell() {
         super(-1, "empty_spell");

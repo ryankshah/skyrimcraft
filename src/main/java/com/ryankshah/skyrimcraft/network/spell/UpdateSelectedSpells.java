@@ -3,7 +3,7 @@ package com.ryankshah.skyrimcraft.network.spell;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.attachment.SpellHandler;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -13,8 +13,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
-
-import java.util.Map;
 
 public record UpdateSelectedSpells(int position, int spell) implements CustomPacketPayload
 {
@@ -41,7 +39,7 @@ public record UpdateSelectedSpells(int position, int spell) implements CustomPac
 
                     // TODO: Check if we need to add this on client too
                     if(data.spell != -1) {
-                        ISpell spell = SpellRegistry.SPELLS_REGISTRY.stream().filter(s -> s.getID() == data.spell)
+                        Spell spell = SpellRegistry.SPELLS_REGISTRY.stream().filter(s -> s.getID() == data.spell)
                                 .findFirst().orElseThrow();
                         if(data.position == 1)
                             player.setData(PlayerAttachments.KNOWN_SPELLS, new SpellHandler(player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells(), spell, player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()));
@@ -66,7 +64,7 @@ public record UpdateSelectedSpells(int position, int spell) implements CustomPac
                     // TODO: Check if we need to add this on client too
 //                    if (player instanceof ServerPlayer) {
 //                    System.out.println("AddToKnownSpells: " + knownSpells);
-                    ISpell spell = SpellRegistry.SPELLS_REGISTRY.stream().filter(s -> s.getID() == data.spell)
+                    Spell spell = SpellRegistry.SPELLS_REGISTRY.stream().filter(s -> s.getID() == data.spell)
                             .findFirst().orElseThrow();
                     if(data.position == 1)
                         player.setData(PlayerAttachments.KNOWN_SPELLS, new SpellHandler(player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells(), spell, player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()));

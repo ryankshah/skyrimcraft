@@ -29,10 +29,10 @@ public class KhajiitFullModel extends EntityModel<AbstractClientPlayer>
 
         PartDefinition khajiit = partdefinition.addOrReplaceChild("khajiit", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-        PartDefinition LeftLeg = khajiit.addOrReplaceChild("leftLeg", CubeListBuilder.create().texOffs(71, 32).mirror().addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+        PartDefinition LeftLeg = khajiit.addOrReplaceChild("left_pants", CubeListBuilder.create().texOffs(71, 32).mirror().addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(71, 48).mirror().addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)).mirror(false), PartPose.offset(1.9F, -12.0F, 0.0F));
 
-        PartDefinition RightLeg = khajiit.addOrReplaceChild("rightLeg", CubeListBuilder.create().texOffs(55, 32).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
+        PartDefinition RightLeg = khajiit.addOrReplaceChild("right_pants", CubeListBuilder.create().texOffs(55, 32).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
                 .texOffs(55, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(-1.9F, -12.0F, 0.0F));
 
         PartDefinition Body = khajiit.addOrReplaceChild("body", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
@@ -62,10 +62,10 @@ public class KhajiitFullModel extends EntityModel<AbstractClientPlayer>
 
         PartDefinition eyes = Head.addOrReplaceChild("eyes", CubeListBuilder.create().texOffs(8, 46).addBox(-2.5F, -4.0F, -4.01F, 5.0F, 1.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-        PartDefinition RightArm = khajiit.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(56, 0).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
+        PartDefinition RightArm = khajiit.addOrReplaceChild("right_sleeve", CubeListBuilder.create().texOffs(56, 0).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
                 .texOffs(56, 16).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(-5.0F, -22.0F, 0.0F));
 
-        PartDefinition LeftArm = khajiit.addOrReplaceChild("leftArm", CubeListBuilder.create().texOffs(72, 0).mirror().addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+        PartDefinition LeftArm = khajiit.addOrReplaceChild("left_sleeve", CubeListBuilder.create().texOffs(72, 0).mirror().addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(72, 16).mirror().addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)).mirror(false), PartPose.offset(5.0F, -22.0F, 0.0F));
 
         return LayerDefinition.create(meshdefinition, 96, 96);

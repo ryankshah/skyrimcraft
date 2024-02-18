@@ -1,7 +1,7 @@
 package com.ryankshah.skyrimcraft.character.magic.shout;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -11,7 +11,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoutBecomeEthereal extends ISpell { // implements IForgeRegistryEntry<ISpell>
+public class ShoutBecomeEthereal extends Spell { // implements IForgeRegistryEntry<ISpell>
     public ShoutBecomeEthereal(int identifier) {
         super(identifier, "become_ethereal");
     }

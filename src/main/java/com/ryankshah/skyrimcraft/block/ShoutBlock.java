@@ -1,7 +1,7 @@
 package com.ryankshah.skyrimcraft.block;
 
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.network.spell.AddToKnownSpells;
 import net.minecraft.core.BlockPos;
@@ -72,13 +72,13 @@ public class ShoutBlock extends Block {
                 }
 
                 //TODO: Later on we will make use of dragon souls to unlock shouts...
-                List<ISpell> knownSpells = pPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
+                List<Spell> knownSpells = pPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
 //                System.out.println("Current Known Spells: " + knownSpells);
                 if (knownSpells.contains(SpellRegistry.UNRELENTING_FORCE.get())) {
-                    List<ISpell> shouts = SpellRegistry.SPELLS.getEntries().stream().filter(spell -> spell.get().getType() == ISpell.SpellType.SHOUT && spell != SpellRegistry.UNRELENTING_FORCE && !knownSpells.contains(spell.get())).map(Holder::value).toList();
+                    List<Spell> shouts = SpellRegistry.SPELLS.getEntries().stream().filter(spell -> spell.get().getType() == Spell.SpellType.SHOUT && spell != SpellRegistry.UNRELENTING_FORCE && !knownSpells.contains(spell.get())).map(Holder::value).toList();
                     System.out.println(shouts);
                     if (!shouts.isEmpty()) {
-                        ISpell shout = shouts.get(random.nextInt(shouts.size()));
+                        Spell shout = shouts.get(random.nextInt(shouts.size()));
                         System.out.println(shout);
 
                         final AddToKnownSpells addSpell = new AddToKnownSpells(shout.getID());

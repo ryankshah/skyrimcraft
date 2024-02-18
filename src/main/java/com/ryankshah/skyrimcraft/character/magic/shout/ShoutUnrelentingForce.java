@@ -1,17 +1,16 @@
 package com.ryankshah.skyrimcraft.character.magic.shout;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.entity.UnrelentingForceEntity;
 import com.ryankshah.skyrimcraft.init.SoundsInit;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoutUnrelentingForce extends ISpell //implements IForgeRegistryEntry<ISpell>
+public class ShoutUnrelentingForce extends Spell //implements IForgeRegistryEntry<ISpell>
 {
     public ShoutUnrelentingForce(int identifier) {
         super(identifier, "unrelenting_force");

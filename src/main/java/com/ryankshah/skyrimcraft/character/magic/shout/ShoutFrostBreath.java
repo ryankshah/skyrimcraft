@@ -1,7 +1,7 @@
 package com.ryankshah.skyrimcraft.character.magic.shout;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.util.RayTraceUtil;
 import net.minecraft.core.particles.ParticleTypes;
@@ -14,17 +14,14 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoutFrostBreath extends ISpell //implements IForgeRegistryEntry<ISpell>
+public class ShoutFrostBreath extends Spell //implements IForgeRegistryEntry<ISpell>
 {
     public ShoutFrostBreath(int identifier) {
         super(identifier, "frost_breath");

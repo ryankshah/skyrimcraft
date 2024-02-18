@@ -1,7 +1,7 @@
 package com.ryankshah.skyrimcraft.character.magic.shout;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.util.RayTraceUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +15,7 @@ import net.minecraft.world.level.Level;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoutDragonrend extends ISpell //implements IForgeRegistryEntry<ISpell>
+public class ShoutDragonrend extends Spell //implements IForgeRegistryEntry<ISpell>
 {
     public ShoutDragonrend(int identifier) {
         super(identifier, "dragonrend");

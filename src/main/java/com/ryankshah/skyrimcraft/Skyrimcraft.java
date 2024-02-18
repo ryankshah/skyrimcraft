@@ -138,7 +138,7 @@ public class Skyrimcraft
         SoundsInit.SOUNDS.register(bus);
 
         // listeners
-        bus.addListener(this::dataPackRegistry);
+//        bus.addListener(this::dataPackRegistry);
         bus.addListener(DataGenerators::gatherData);
         bus.addListener(this::createEntityAttributes);
         bus.addListener(this::addEntityAttributes);
@@ -147,9 +147,9 @@ public class Skyrimcraft
         bus.addListener(this::renderCurios);
     }
 
-    public void dataPackRegistry(DataPackRegistryEvent.NewRegistry event) {
-        event.dataPackRegistry(QuestRegistry.QUESTS_REGISTRY_KEY, Quest.CODEC, Quest.CODEC);
-    }
+//    public void dataPackRegistry(DataPackRegistryEvent.NewRegistry event) {
+//        event.dataPackRegistry(QuestRegistry.QUESTS_REGISTRY_KEY, Quest.CODEC, Quest.CODEC);
+//    }
 
     public void createEntityAttributes(EntityAttributeCreationEvent event) {
         event.put(EntityInit.SABRE_CAT.get(), SabreCatEntity.createAttributes().build());

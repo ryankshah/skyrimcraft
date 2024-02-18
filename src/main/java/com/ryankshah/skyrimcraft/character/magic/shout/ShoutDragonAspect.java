@@ -1,26 +1,20 @@
 package com.ryankshah.skyrimcraft.character.magic.shout;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
-import com.ryankshah.skyrimcraft.effect.ModEffects;
-import com.ryankshah.skyrimcraft.util.RayTraceUtil;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
-import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoutDragonAspect extends ISpell //implements IForgeRegistryEntry<ISpell>
+public class ShoutDragonAspect extends Spell //implements IForgeRegistryEntry<ISpell>
 {
     public ShoutDragonAspect(int identifier) {
         super(identifier, "dragonrend");

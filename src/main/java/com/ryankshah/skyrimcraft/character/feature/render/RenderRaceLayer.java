@@ -17,10 +17,16 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.PlayerModelPart;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.ClientHooks;
 
 public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>
@@ -38,10 +44,12 @@ public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
         khajiitHeadModel = new KhajiitHeadModel(Minecraft.getInstance().getEntityModels().bakeLayer(KhajiitHeadModel.LAYER_LOCATION));
         khajiitFullModel = new KhajiitFullModel(Minecraft.getInstance().getEntityModels().bakeLayer(KhajiitFullModel.LAYER_LOCATION));
 
-        entityRenderer.getModel().copyPropertiesTo(highElfEarModel);
-        entityRenderer.getModel().copyPropertiesTo(dunmerEarModel);
-        entityRenderer.getModel().copyPropertiesTo(khajiitHeadModel);
-        entityRenderer.getModel().copyPropertiesTo(khajiitFullModel);
+//        getParentModel().setAllVisible(false);
+
+//        entityRenderer.getModel().copyPropertiesTo(highElfEarModel);
+//        entityRenderer.getModel().copyPropertiesTo(dunmerEarModel);
+//        entityRenderer.getModel().copyPropertiesTo(khajiitHeadModel);
+//        entityRenderer.getModel().copyPropertiesTo(khajiitFullModel);
     }
 
     @Override
@@ -79,22 +87,22 @@ public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
     }
 
     private void renderKhajiit(PoseStack poseStack, MultiBufferSource renderBuffer, int packedLight, AbstractClientPlayer playerEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        VertexConsumer ivertexbuilder = renderBuffer.getBuffer(RenderType.entityTranslucent(new ResourceLocation(Skyrimcraft.MODID, "textures/entity/khajiit_male.png")));
-        int overlayCoords = PlayerRenderer.getOverlayCoords(playerEntity, 0.0F);
-        poseStack.pushPose();
-//        this.getParentModel().copyPropertiesTo(khajiitFullModel);
-//        this.getParentModel().setAllVisible(false);
-        this.getParentModel().setAllVisible(false);
-        this.getParentModel().head.translateAndRotate(poseStack);
-        this.getParentModel().body.translateAndRotate(poseStack);
-        this.getParentModel().rightArm.translateAndRotate(poseStack);
-        this.getParentModel().rightLeg.translateAndRotate(poseStack);
-        this.getParentModel().leftArm.translateAndRotate(poseStack);
-        this.getParentModel().leftLeg.translateAndRotate(poseStack);
-        khajiitFullModel.setupAnim(playerEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        khajiitFullModel.renderToBuffer(poseStack, ivertexbuilder, packedLight, overlayCoords, 1.0F, 1.0F, 1.0F, 1.0F);
-//        khajiitHeadModel.renderToBuffer(matrixStack, ivertexbuilder, packedLight, overlayCoords, 1.0F, 1.0F, 1.0F, 1.0F);
-        poseStack.popPose();
+        coloredCutoutModelCopyLayerRender(getParentModel(), khajiitFullModel, new ResourceLocation(Skyrimcraft.MODID, "textures/entity/khajiit_male.png"), poseStack, renderBuffer, packedLight, playerEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, 1, 1, 1);
+        getParentModel().setAllVisible(false);
+//        VertexConsumer ivertexbuilder = renderBuffer.getBuffer(RenderType.entityTranslucent(new ResourceLocation(Skyrimcraft.MODID, "textures/entity/khajiit_male.png")));
+//        int overlayCoords = PlayerRenderer.getOverlayCoords(playerEntity, 0.0F);
+//        poseStack.pushPose();
+////        this.getParentModel().copyPropertiesTo(khajiitFullModel);
+////        this.getParentModel().setAllVisible(false);
+////        this.getParentModel().rightArm.translateAndRotate(poseStack);
+////        this.getParentModel().rightLeg.translateAndRotate(poseStack);
+////        this.getParentModel().leftArm.translateAndRotate(poseStack);
+////        this.getParentModel().leftLeg.translateAndRotate(poseStack);
+//        this.getParentModel().copyPropertiesTo(this.khajiitFullModel);
+//        this.khajiitFullModel.setupAnim(playerEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+//        this.khajiitFullModel.renderToBuffer(poseStack, ivertexbuilder, packedLight, overlayCoords, 1.0F, 1.0F, 1.0F, 1.0F);
+////        this.getParentModel().setAllVisible(false);
+////        khajiitHeadModel.renderToBuffer(matrixStack, ivertexbuilder, packedLight, overlayCoords, 1.0F, 1.0F, 1.0F, 1.0F);
+//        poseStack.popPose();
     }
-
 }

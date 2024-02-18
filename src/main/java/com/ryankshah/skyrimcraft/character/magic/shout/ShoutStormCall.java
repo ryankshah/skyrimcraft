@@ -1,7 +1,7 @@
 package com.ryankshah.skyrimcraft.character.magic.shout;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.util.RayTraceUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoutStormCall extends ISpell { // implements IForgeRegistryEntry<ISpell> {
+public class ShoutStormCall extends Spell { // implements IForgeRegistryEntry<ISpell> {
     public ShoutStormCall(int identifier) {
         super(identifier, "storm_call");
     }

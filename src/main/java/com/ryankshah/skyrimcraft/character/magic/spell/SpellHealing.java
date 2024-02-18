@@ -1,14 +1,14 @@
 package com.ryankshah.skyrimcraft.character.magic.spell;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpellHealing extends ISpell
+public class SpellHealing extends Spell
 {
     public SpellHealing(int identifier) {
         super(identifier, "healing");

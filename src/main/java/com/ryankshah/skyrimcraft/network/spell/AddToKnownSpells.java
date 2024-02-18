@@ -3,7 +3,7 @@ package com.ryankshah.skyrimcraft.network.spell;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.attachment.SpellHandler;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -40,9 +40,9 @@ public record AddToKnownSpells(int spell) implements CustomPacketPayload
 
                     // TODO: Check if we need to add this on client too
 //                    if (player instanceof ServerPlayer) {
-                    List<ISpell> knownSpells = player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
+                    List<Spell> knownSpells = player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
 //                    System.out.println("AddToKnownSpells: " + knownSpells);
-                    ISpell spell = SpellRegistry.SPELLS_REGISTRY.stream().filter(s -> s.getID() == data.spell)
+                    Spell spell = SpellRegistry.SPELLS_REGISTRY.stream().filter(s -> s.getID() == data.spell)
                             .findFirst().orElseThrow();
                     knownSpells.add(spell);
 //                        System.out.println("AddToKnownSpells: " + knownSpells);
@@ -64,9 +64,9 @@ public record AddToKnownSpells(int spell) implements CustomPacketPayload
 
                     // TODO: Check if we need to add this on client too
 //                    if (player instanceof ServerPlayer) {
-                    List<ISpell> knownSpells = player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
+                    List<Spell> knownSpells = player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
 //                    System.out.println("AddToKnownSpells: " + knownSpells);
-                    ISpell spell = SpellRegistry.SPELLS_REGISTRY.stream().filter(s -> s.getID() == data.spell)
+                    Spell spell = SpellRegistry.SPELLS_REGISTRY.stream().filter(s -> s.getID() == data.spell)
                             .findFirst().orElseThrow();
                     knownSpells.add(spell);
 //                        System.out.println("AddToKnownSpells: " + knownSpells);

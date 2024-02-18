@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.magic.EmptySpell;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.event.KeyEvents;
 import com.ryankshah.skyrimcraft.network.spell.UpdateSelectedSpells;
 import com.ryankshah.skyrimcraft.util.RenderUtil;
@@ -29,32 +29,32 @@ public class SkyrimMagicScreen extends Screen
     protected static final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID, "textures/gui/overlay_icons.png");
     private static final int PADDING = 7;
 
-    private Map<ISpell.SpellType, ArrayList<ISpell>> spellsAndTypes;
+    private Map<Spell.SpellType, ArrayList<Spell>> spellsAndTypes;
     private List<Object> spellTypes;
-    private List<ISpell> spellsListForCurrentSpellType;
+    private List<Spell> spellsListForCurrentSpellType;
     private boolean spellTypeChosen;
     private int currentSpellType;
     private int currentSpell;
-    private ISpell currentSpellObject;
-    private ISpell.SpellType currentSpellTypeObject;
+    private Spell currentSpellObject;
+    private Spell.SpellType currentSpellTypeObject;
 
     private float currentTick, lastTick;
     private int currentSpellFrame;
 
-    public SkyrimMagicScreen(List<ISpell> knownSpells) {
+    public SkyrimMagicScreen(List<Spell> knownSpells) {
         super(Component.translatable(Skyrimcraft.MODID + ".magicgui.title"));
         this.spellsAndTypes = new HashMap<>();
-        spellsAndTypes.put(ISpell.SpellType.ALL, new ArrayList<>());
+        spellsAndTypes.put(Spell.SpellType.ALL, new ArrayList<>());
 
-        for(ISpell spell : knownSpells) {
+        for(Spell spell : knownSpells) {
             if(spellsAndTypes.containsKey(spell.getType()))
                 spellsAndTypes.get(spell.getType()).add(spell);
             else {
-                ArrayList<ISpell> temp = new ArrayList<>();
+                ArrayList<Spell> temp = new ArrayList<>();
                 temp.add(spell);
                 spellsAndTypes.put(spell.getType(), temp);
             }
-            spellsAndTypes.get(ISpell.SpellType.ALL).add(spell);
+            spellsAndTypes.get(Spell.SpellType.ALL).add(spell);
         }
 
         spellsAndTypes = spellsAndTypes.entrySet().stream().sorted(Comparator.comparingInt(e -> e.getKey().getTypeID())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
@@ -130,19 +130,19 @@ public class SkyrimMagicScreen extends Screen
         }
 
         // Get ISpell.SpellType
-        currentSpellTypeObject = (ISpell.SpellType) spellTypes.get(currentSpellType);
+        currentSpellTypeObject = (Spell.SpellType) spellTypes.get(currentSpellType);
         // Get player's known spells for chosen spell type
         spellsListForCurrentSpellType = spellsAndTypes.get(currentSpellTypeObject);
 
         for(int j = 0; j < spellsListForCurrentSpellType.size(); j++) {
-            ISpell spell = spellsListForCurrentSpellType.get(j);
+            Spell spell = spellsListForCurrentSpellType.get(j);
             String displayName = spell.getName();
 
             AtomicInteger color = new AtomicInteger(0x00C0C0C0);
 
             int finalJ = j;
-            ISpell selectedSpell1 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
-            ISpell selectedSpell2 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
+            Spell selectedSpell1 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
+            Spell selectedSpell2 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
             if(!(selectedSpell1 instanceof EmptySpell) && selectedSpell1 == spell) color.set(0x0000FF00);
             else if(!(selectedSpell2 instanceof EmptySpell) && selectedSpell2 == spell) color.set(0x0000FFFF);
             else if(finalJ == this.currentSpell) {
@@ -186,7 +186,7 @@ public class SkyrimMagicScreen extends Screen
     }
 
 
-    private void drawSpellInformation(GuiGraphics graphics, PoseStack matrixStack, ISpell spell, int width, int height, float partialTicks) {
+    private void drawSpellInformation(GuiGraphics graphics, PoseStack matrixStack, Spell spell, int width, int height, float partialTicks) {
         drawGradientRect(graphics, matrixStack, 40, (this.height) / 2 - 20, 200, (this.height) / 2 + 60, 0xAA000000, 0xAA000000, 0xFF6E6B64);
         graphics.fillGradient(50, (this.height) / 2, 190, (this.height) / 2 + 1, 0xFF6E6B64, 0xFF6E6B64); // Line under spell name
 
@@ -194,7 +194,7 @@ public class SkyrimMagicScreen extends Screen
         for(int i = 1; i < spell.getDescription().size()+1; i++)
             graphics.drawCenteredString(font, spell.getDescription().get(i-1), 120, (this.height) / 2 + (8 * i), 0x00FFFFFF); // Spell description
 
-        if(spell.getType() != ISpell.SpellType.SHOUT) {
+        if(spell.getType() != Spell.SpellType.SHOUT) {
             graphics.drawString(font, "Cost: " + (int) spell.getCost(), 50, (this.height) / 2 + 40, 0x00FFFFFF);
             // TODO: Draw the spell difficulty (spell#getDifficulty)
         } else
@@ -301,8 +301,8 @@ public class SkyrimMagicScreen extends Screen
         }
 
         if(KeyEvents.SPELL_SLOT_1_KEY.get().isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
-            ISpell selectedSpell1 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
-            ISpell selectedSpell2 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
+            Spell selectedSpell1 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
+            Spell selectedSpell2 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
 
             if(!selectedSpell1.equals(currentSpellObject)) {
                 if (!(selectedSpell2.equals(currentSpellObject))) {
@@ -323,8 +323,8 @@ public class SkyrimMagicScreen extends Screen
         }
 
         if(KeyEvents.SPELL_SLOT_2_KEY.get().isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
-            ISpell selectedSpell1 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
-            ISpell selectedSpell2 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
+            Spell selectedSpell1 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
+            Spell selectedSpell2 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
 
             if(!selectedSpell2.equals(currentSpellObject)) {
                 if (!selectedSpell1.equals(currentSpellObject)) {

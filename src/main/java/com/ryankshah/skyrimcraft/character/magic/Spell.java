@@ -1,23 +1,17 @@
 package com.ryankshah.skyrimcraft.character.magic;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
-import com.ryankshah.skyrimcraft.character.attachment.SpellHandler;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
 import com.ryankshah.skyrimcraft.network.spell.ConsumeMagicka;
 import com.ryankshah.skyrimcraft.network.spell.UpdateShoutCooldown;
-import com.ryankshah.skyrimcraft.quest.Quest;
-import net.minecraft.advancements.Criterion;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -29,19 +23,19 @@ import java.util.List;
  *   - Implement spell "stages" - specifically for shouts so that each
  *     individual part of the shout is learnable
  */
-public class ISpell //extends ForgeRegistryEntry<ISpell>
+public abstract class Spell //extends ForgeRegistryEntry<ISpell>
 {
     private int identifier;
     private Player caster;
     private String loc;
     private ResourceLocation location;
 
-    public ISpell() {
+    public Spell() {
         this.identifier = -1;
         this.loc = "";
     }
 
-    public ISpell(int identifier, String location) {
+    public Spell(int identifier, String location) {
         this.identifier = identifier;
         this.loc = location;
         this.location = new ResourceLocation(Skyrimcraft.MODID, this.loc);
@@ -56,7 +50,7 @@ public class ISpell //extends ForgeRegistryEntry<ISpell>
         return identifier;
     }
 
-    public ISpell getSpell() {
+    public Spell getSpell() {
         return this;
     }
 
@@ -276,6 +270,6 @@ public class ISpell //extends ForgeRegistryEntry<ISpell>
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof ISpell && getID() == ((ISpell) obj).getID();
+        return obj instanceof Spell && getID() == ((Spell) obj).getID();
     }
 }

@@ -4,22 +4,15 @@ import com.mojang.datafixers.util.Pair;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.CompassFeatureHandler;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
-import com.ryankshah.skyrimcraft.data.recipe.AlchemyRecipe;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.init.AttributeInit;
-import com.ryankshah.skyrimcraft.init.RecipeTypeInit;
 import com.ryankshah.skyrimcraft.init.TagsInit;
 import com.ryankshah.skyrimcraft.network.character.AddToCompassFeatures;
 import com.ryankshah.skyrimcraft.network.character.OpenCharacterCreationScreen;
 import com.ryankshah.skyrimcraft.network.spell.UpdateShoutCooldown;
-import com.ryankshah.skyrimcraft.quest.Quest;
-import com.ryankshah.skyrimcraft.quest.registry.QuestRegistry;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.RegistryDataLoader;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -27,7 +20,6 @@ import net.minecraft.tags.StructureTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -38,7 +30,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = Skyrimcraft.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -59,7 +50,7 @@ public class PlayerEvents
 //            );
 
             if(!playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown().isEmpty()) {
-                for (Pair<ISpell, Float> entry : playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()) {
+                for (Pair<Spell, Float> entry : playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()) {
                     if (entry.getSecond() <= 0f) {
                         final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(entry.getFirst().getID(), 0f);
                         PacketDistributor.SERVER.noArg().send(updateShoutCooldown);

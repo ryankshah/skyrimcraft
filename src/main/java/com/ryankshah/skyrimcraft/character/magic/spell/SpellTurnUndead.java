@@ -1,7 +1,7 @@
 package com.ryankshah.skyrimcraft.character.magic.spell;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -11,7 +11,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpellTurnUndead extends ISpell
+public class SpellTurnUndead extends Spell
 {
     public SpellTurnUndead(int identifier) {
         super(identifier, "turn_undead");

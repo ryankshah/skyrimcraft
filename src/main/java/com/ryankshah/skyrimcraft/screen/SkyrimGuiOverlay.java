@@ -8,10 +8,9 @@ import com.mojang.datafixers.util.Pair;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.magic.EmptySpell;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.event.KeyEvents;
 import com.ryankshah.skyrimcraft.init.EntityInit;
-import com.ryankshah.skyrimcraft.quest.registry.QuestRegistry;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
 import com.ryankshah.skyrimcraft.util.LevelUpdate;
 import com.ryankshah.skyrimcraft.util.RenderUtil;
@@ -42,7 +41,6 @@ import net.neoforged.neoforge.fluids.FluidType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.glfwGetKeyName;
 
@@ -295,8 +293,8 @@ public class SkyrimGuiOverlay
         private int DOUBLE_SLOT_WIDTH = 22, DOUBLE_SLOT_HEIGHT = 41;
         private int ICON_WIDTH = 16, ICON_HEIGHT = 16;
 
-        public Float getCooldown (List<Pair<ISpell, Float>> cooldowns, ISpell value) {
-            for (Pair<ISpell, Float> p : cooldowns)
+        public Float getCooldown (List<Pair<Spell, Float>> cooldowns, Spell value) {
+            for (Pair<Spell, Float> p : cooldowns)
                 if (p.getFirst().equals(value))
                     return p.getSecond();
             return null;
@@ -310,9 +308,9 @@ public class SkyrimGuiOverlay
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
             
-            ISpell selectedSpell1 = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
-            ISpell selectedSpell2 = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
-            List<Pair<ISpell, Float>> spellCooldowns = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
+            Spell selectedSpell1 = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
+            Spell selectedSpell2 = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
+            List<Pair<Spell, Float>> spellCooldowns = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
 
             poseStack.pushPose();
             RenderUtil.bind(OVERLAY_ICONS);

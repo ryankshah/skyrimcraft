@@ -1,7 +1,7 @@
 package com.ryankshah.skyrimcraft.network.spell;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -34,7 +34,7 @@ public record CastSpell(int spellID) implements CustomPacketPayload
                     Player player = context.player().orElseThrow();
 
                     if (player instanceof ServerPlayer) {
-                        ISpell spellInstance = SpellRegistry.SPELLS_REGISTRY.stream().filter(spell -> spell.getID() == data.spellID).findFirst().orElseThrow();
+                        Spell spellInstance = SpellRegistry.SPELLS_REGISTRY.stream().filter(spell -> spell.getID() == data.spellID).findFirst().orElseThrow();
                         spellInstance.setCaster(player);
                         spellInstance.cast();
 //                        player.setData(PlayerAttachments.KNOWN_SPELLS, new SpellHandler(knownSpells, player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpells(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()));
