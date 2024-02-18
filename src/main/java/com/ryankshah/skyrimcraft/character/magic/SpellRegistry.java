@@ -17,6 +17,7 @@ public class SpellRegistry
     public static final Registry<ISpell> SPELLS_REGISTRY = SPELLS.makeRegistry(builder -> {});
 
     // Shouts
+    public static Holder<ISpell> EMPTY_SPELL = SPELLS.register("empty_spell", EmptySpell::new);
     public static Holder<ISpell> UNRELENTING_FORCE = SPELLS.register("unrelenting_force", () -> new ShoutUnrelentingForce(1));
     public static Holder<ISpell> STORM_CALL = SPELLS.register("storm_call", () -> new ShoutStormCall(2));
     public static Holder<ISpell> WHIRLWIND_SPRINT = SPELLS.register("whirlwind_sprint", () -> new ShoutWhirlwindSprint(3));

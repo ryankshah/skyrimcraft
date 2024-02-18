@@ -21,6 +21,7 @@ import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,7 +80,7 @@ public class ISpell //extends ForgeRegistryEntry<ISpell>
      * @return description
      */
     public List<String> getDescription() {
-        return null;
+        return new ArrayList<>();
     }
 
     public void setCaster(Player playerEntity) {
@@ -94,9 +95,9 @@ public class ISpell //extends ForgeRegistryEntry<ISpell>
         return this.caster;
     }
 
-    public ResourceLocation getDisplayAnimation() { return null; }
+    public ResourceLocation getDisplayAnimation() { return new ResourceLocation(""); }
 
-    public ResourceLocation getIcon() { return null; }
+    public ResourceLocation getIcon() { return new ResourceLocation(""); }
 
     /**
      * Get the magicka cost of the spell
@@ -210,6 +211,7 @@ public class ISpell //extends ForgeRegistryEntry<ISpell>
 //                Networking.sendToServer(new ConsumeMagicka(getCost()));
             }
         }
+        // player var was null, check it
         caster.getCommandSenderWorld().playSound(null, caster.getX(), caster.getY(), caster.getZ(), getSound(), SoundSource.PLAYERS, 1f, 1f);
     }
 

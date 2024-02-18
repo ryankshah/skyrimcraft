@@ -3,7 +3,10 @@ package com.ryankshah.skyrimcraft.character.attachment;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.mojang.serialization.codecs.SimpleMapCodec;
+import com.ryankshah.skyrimcraft.character.magic.EmptySpell;
 import com.ryankshah.skyrimcraft.character.magic.ISpell;
+import net.minecraft.util.ExtraCodecs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ public class SpellHandler //implements INBTSerializable<CompoundTag>
     ).apply(spellHandlerInstance, SpellHandler::new));
 
     public SpellHandler() {
-        this(new ArrayList<>(), null, null, new ArrayList<>());
+        this(new ArrayList<>(), new EmptySpell(), new EmptySpell(), new ArrayList<>());
     }
 
     public SpellHandler(List<ISpell> spells, ISpell selectedSpell1, ISpell selectedSpell2, List<Pair<ISpell, Float>> cooldowns) {
@@ -35,7 +38,7 @@ public class SpellHandler //implements INBTSerializable<CompoundTag>
     }
 
     public float getSpellCooldown(ISpell shout) {
-        return spellsOnCooldown.stream().map(pair -> pair.getFirst().getID() == shout.getID() ? pair.getSecond() : 0f).findFirst().orElseThrow();
+        return spellsOnCooldown.stream().filter(p -> p.getFirst().getID() == shout.getID()).findFirst().get().getSecond();
     }
 
     public List<ISpell> getKnownSpells() {

@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
+import com.ryankshah.skyrimcraft.character.magic.EmptySpell;
 import com.ryankshah.skyrimcraft.character.magic.ISpell;
 import com.ryankshah.skyrimcraft.event.KeyEvents;
 import com.ryankshah.skyrimcraft.network.spell.UpdateSelectedSpells;
@@ -56,7 +57,7 @@ public class SkyrimMagicScreen extends Screen
             spellsAndTypes.get(ISpell.SpellType.ALL).add(spell);
         }
 
-        spellsAndTypes = spellsAndTypes.entrySet().stream().sorted((e1,e2) -> Integer.compare(e1.getKey().getTypeID(), (e2.getKey().getTypeID()))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        spellsAndTypes = spellsAndTypes.entrySet().stream().sorted(Comparator.comparingInt(e -> e.getKey().getTypeID())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
         this.currentSpellType = 0;
         this.currentSpell = 0;
@@ -142,8 +143,8 @@ public class SkyrimMagicScreen extends Screen
             int finalJ = j;
             ISpell selectedSpell1 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
             ISpell selectedSpell2 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
-            if(selectedSpell1 != null && selectedSpell1 == spell) color.set(0x0000FF00);
-            else if(selectedSpell2 != null && selectedSpell2 == spell) color.set(0x0000FFFF);
+            if(!(selectedSpell1 instanceof EmptySpell) && selectedSpell1 == spell) color.set(0x0000FF00);
+            else if(!(selectedSpell2 instanceof EmptySpell) && selectedSpell2 == spell) color.set(0x0000FFFF);
             else if(finalJ == this.currentSpell) {
                 color.set(0x00FFFFFF);
             }
@@ -303,38 +304,40 @@ public class SkyrimMagicScreen extends Screen
             ISpell selectedSpell1 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
             ISpell selectedSpell2 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
 
-            if(selectedSpell1 != currentSpellObject) {
-                if (selectedSpell2 != currentSpellObject) {
-                    final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(0, currentSpellObject.getID());
-                    PacketDistributor.SERVER.noArg().send(updatedSpells0);
-                } else {
-                    final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(1, minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1().getID());
-                    PacketDistributor.SERVER.noArg().send(updatedSpells0);
-                    final UpdateSelectedSpells updatedSpells1 = new UpdateSelectedSpells(0, currentSpellObject.getID());
-                    PacketDistributor.SERVER.noArg().send(updatedSpells1);
-                }
-            } else {
-                final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(0, -1);
-                PacketDistributor.SERVER.noArg().send(updatedSpells0);
-            }
-        }
-
-        if(KeyEvents.SPELL_SLOT_2_KEY.get().isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
-            ISpell selectedSpell1 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
-            ISpell selectedSpell2 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
-
-            if(selectedSpell2 != currentSpellObject) {
-                if (selectedSpell1 != currentSpellObject) {
+            if(!selectedSpell1.equals(currentSpellObject)) {
+                if (!(selectedSpell2.equals(currentSpellObject))) {
                     final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(1, currentSpellObject.getID());
                     PacketDistributor.SERVER.noArg().send(updatedSpells0);
                 } else {
-                    final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(0, minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2().getID());
+                    final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(2, minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1().getID());
                     PacketDistributor.SERVER.noArg().send(updatedSpells0);
                     final UpdateSelectedSpells updatedSpells1 = new UpdateSelectedSpells(1, currentSpellObject.getID());
                     PacketDistributor.SERVER.noArg().send(updatedSpells1);
                 }
             } else {
                 final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(1, -1);
+                PacketDistributor.SERVER.noArg().send(updatedSpells0);
+            }
+
+            System.out.println(minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).toString());
+        }
+
+        if(KeyEvents.SPELL_SLOT_2_KEY.get().isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
+            ISpell selectedSpell1 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
+            ISpell selectedSpell2 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
+
+            if(!selectedSpell2.equals(currentSpellObject)) {
+                if (!selectedSpell1.equals(currentSpellObject)) {
+                    final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(2, currentSpellObject.getID());
+                    PacketDistributor.SERVER.noArg().send(updatedSpells0);
+                } else {
+                    final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(1, minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2().getID());
+                    PacketDistributor.SERVER.noArg().send(updatedSpells0);
+                    final UpdateSelectedSpells updatedSpells1 = new UpdateSelectedSpells(2, currentSpellObject.getID());
+                    PacketDistributor.SERVER.noArg().send(updatedSpells1);
+                }
+            } else {
+                final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(2, -1);
                 PacketDistributor.SERVER.noArg().send(updatedSpells0);
             }
         }

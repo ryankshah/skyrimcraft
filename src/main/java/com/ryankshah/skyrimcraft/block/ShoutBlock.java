@@ -77,7 +77,7 @@ public class ShoutBlock extends Block {
                 if (knownSpells.contains(SpellRegistry.UNRELENTING_FORCE.value())) {
                     List<ISpell> shouts = SpellRegistry.SPELLS.getEntries().stream().filter(spell -> spell.get().getType() == ISpell.SpellType.SHOUT && spell != SpellRegistry.UNRELENTING_FORCE && !knownSpells.contains(spell.get())).map(Holder::value).toList();
                     System.out.println(shouts);
-                    if (shouts.size() > 0) {
+                    if (!shouts.isEmpty()) {
                         ISpell shout = shouts.get(random.nextInt(shouts.size()));
                         System.out.println(shout);
 

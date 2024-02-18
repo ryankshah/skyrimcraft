@@ -45,9 +45,10 @@ public record UpdateShoutCooldown(int spellID, float cooldown) implements Custom
                         ServerPlayer serverPlayer = (ServerPlayer) player;
                         List<Pair<ISpell, Float>> cooldowns = serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
 
-                        cooldowns.stream().filter(pair -> pair.getFirst().getID() == data.spellID).findFirst().ifPresent(
-                                pair -> new Pair<>(pair.getFirst(), data.cooldown)
-                        );
+//                        cooldowns.stream().filter(pair -> pair.getFirst().getID() == data.spellID).findFirst().ifPresent(
+//                                pair -> new Pair<>(pair.getFirst(), data.cooldown)
+//                        );
+                        setCooldown(cooldowns, data.spellID, data.cooldown);
 
                         serverPlayer.setData(PlayerAttachments.KNOWN_SPELLS,
                                 new SpellHandler(serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells(),
@@ -66,15 +67,33 @@ public record UpdateShoutCooldown(int spellID, float cooldown) implements Custom
                 });
     }
 
+    public static List<Pair<ISpell, Float>> setCooldown(List<Pair<ISpell, Float>> cooldowns, int id, float cooldown) {
+        for(int i = 0; i < cooldowns.size(); i++) {
+            Pair<ISpell, Float> p = cooldowns.get(i);
+            if(p.getFirst().getID() == id) {
+                cooldowns.add(i, new Pair<>(p.getFirst(), cooldown));
+            }
+        }
+        return cooldowns;
+    }
+    public static Float getCooldown (List<Pair<ISpell, Float>> cooldowns, ISpell value) {
+        for (Pair<ISpell, Float> p : cooldowns)
+            if (p.getFirst().equals(value))
+                return p.getSecond();
+        return null;
+    }
+
     public static void handleClient(final UpdateShoutCooldown data, final PlayPayloadContext context) {
         context.workHandler().submitAsync(() -> {
                     Player player = context.player().orElseThrow();
 
                     List<Pair<ISpell, Float>> cooldowns = player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
 
-                    cooldowns.stream().filter(pair -> pair.getFirst().getID() == data.spellID).findFirst().ifPresent(
-                            pair -> new Pair<>(pair.getFirst(), data.cooldown)
-                    );
+//                    cooldowns.stream().filter(pair -> pair.getFirst().getID() == data.spellID).findFirst().ifPresent(
+//                            pair -> new Pair<>(pair.getFirst(), data.cooldown)
+//                    );
+
+                    setCooldown(cooldowns, data.spellID, data.cooldown);
 
                     player.setData(PlayerAttachments.KNOWN_SPELLS,
                             new SpellHandler(player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells(),

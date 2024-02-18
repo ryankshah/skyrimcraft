@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
+import com.ryankshah.skyrimcraft.character.magic.EmptySpell;
 import com.ryankshah.skyrimcraft.character.magic.ISpell;
 import com.ryankshah.skyrimcraft.event.KeyEvents;
 import com.ryankshah.skyrimcraft.init.EntityInit;
@@ -315,7 +316,7 @@ public class SkyrimGuiOverlay
 
             poseStack.pushPose();
             RenderUtil.bind(OVERLAY_ICONS);
-            if(selectedSpell1 != null && selectedSpell2 == null) {
+            if(!(selectedSpell1 instanceof EmptySpell) && selectedSpell2 instanceof EmptySpell) {
                 RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2), 234, 83, SLOT_WIDTH, SLOT_HEIGHT, 256, 256, 4, 1);
                 poseStack.pushPose();
                 RenderUtil.bind(selectedSpell1.getIcon());
@@ -332,7 +333,7 @@ public class SkyrimGuiOverlay
                     }
                 }
                 poseStack.popPose();
-            } else if(selectedSpell1 == null && selectedSpell2 != null) {
+            } else if(selectedSpell1 instanceof EmptySpell && !(selectedSpell2 instanceof EmptySpell)) {
                 RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH, (scaledHeight / 2) + (DOUBLE_SLOT_HEIGHT / 2), 234, 83, SLOT_WIDTH, SLOT_HEIGHT, 256, 256, 4, 1);
                 poseStack.pushPose();
                 RenderUtil.bind(selectedSpell2.getIcon());
@@ -349,7 +350,7 @@ public class SkyrimGuiOverlay
                     }
                 }
                 poseStack.popPose();
-            } else if (selectedSpell1 != null && selectedSpell2 != null) {
+            } else if (!(selectedSpell1 instanceof EmptySpell) && !(selectedSpell2 instanceof EmptySpell)) {
                 RenderUtil.blitWithBlend(poseStack, scaledWidth - DOUBLE_SLOT_WIDTH, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2), 234, 106, DOUBLE_SLOT_WIDTH, DOUBLE_SLOT_HEIGHT, 256, 256, 4, 1);
 
                 poseStack.pushPose();
