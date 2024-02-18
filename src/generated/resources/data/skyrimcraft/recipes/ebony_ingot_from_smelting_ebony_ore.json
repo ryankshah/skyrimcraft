@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.25,
+  "group": "ebony_ingot",
+  "ingredient": {
+    "item": "skyrimcraft:ebony_ore"
+  },
+  "result": "skyrimcraft:ebony_ingot"
+}

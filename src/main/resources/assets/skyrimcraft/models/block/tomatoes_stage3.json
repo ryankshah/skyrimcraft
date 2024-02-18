@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "skyrimcraft:block/tomatoes_stage3"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "skyrimcraft:alchemy",
+  "category": "RESTORE MAGICKA",
+  "count": 1,
+  "ingredients": [
+    {
+      "item": "skyrimcraft:grass_pod"
+    },
+    {
+      "item": "skyrimcraft:red_mountain_flower"
+    }
+  ],
+  "level": 2,
+  "result": "skyrimcraft:minor_magicka_potion",
+  "xp": 1
+}

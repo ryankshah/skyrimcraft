@@ -1,0 +1,35 @@
+{
+  "icon": "minecraft:dirt", // RL item/block icon
+  "table": "minecraft:chests/bastion_hoglin_stable", // loot table or null (some quests might not want a reward?)
+  "title": "Kill a Spider", // quest title
+  "type": "beginner", // beginner, intermediate, advanced, legendary
+  "repeatable": false, // can the quest be given to player again?
+  "delay": 0.0, // time delay before quest can be given to player again
+  "parent": null, // if there is a parent quest it should be linked to, define it here
+  "requires_parent_complete": false, // if this quest requires parent quest to be complete before it can start
+  "show_toast": true, // show a toast popup for completing the quest when finished
+  "steps": { // list of quest steps
+    "step": [
+      {
+        "task": "Kill a Spider", // name of step
+        "triggers": [ // criteria triggers (i.e. kill the spider)
+          {
+            "conditions": {
+              "entity": [
+                {
+                  "condition": "minecraft:entity_properties",
+                  "entity": "this",
+                  "predicate": {
+                    "type": "minecraft:spider"
+                  }
+                }
+              ]
+            },
+            "trigger": "minecraft:player_killed_entity"
+          }
+        ],
+        "reward": null // can be null or loot table (some steps wont have a reward)
+      }
+    ]
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "skyrimcraft:quest/root",
+  "criteria": {
+    "smelt_ebony": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "skyrimcraft:ebony_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.skyrimcraft.quest.ebony_dreams.description"
+    },
+    "icon": {
+      "item": "skyrimcraft:ebony_ingot"
+    },
+    "title": {
+      "translate": "advancements.skyrimcraft.quest.ebony_dreams.title"
+    }
+  },
+  "requirements": [
+    [
+      "smelt_ebony"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

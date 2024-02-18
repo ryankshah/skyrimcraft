@@ -1,0 +1,16 @@
+{
+  "type": "skyrimcraft:alchemy",
+  "category": "RESTORE MAGICKA",
+  "count": 1,
+  "ingredients": [
+    {
+      "item": "skyrimcraft:grass_pod"
+    },
+    {
+      "item": "skyrimcraft:briar_heart"
+    }
+  ],
+  "level": 2,
+  "result": "skyrimcraft:magicka_potion",
+  "xp": 1
+}

@@ -1,0 +1,16 @@
+{
+  "type": "skyrimcraft:alchemy",
+  "category": "RESTORE MAGICKA",
+  "count": 1,
+  "ingredients": [
+    {
+      "item": "skyrimcraft:vampire_dust"
+    },
+    {
+      "item": "skyrimcraft:briar_heart"
+    }
+  ],
+  "level": 2,
+  "result": "skyrimcraft:plentiful_magicka_potion",
+  "xp": 1
+}
