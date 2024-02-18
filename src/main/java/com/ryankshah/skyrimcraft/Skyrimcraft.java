@@ -124,7 +124,9 @@ public class Skyrimcraft
         ModEffects.MOB_EFFECTS.register(bus);
         AttributeInit.ATTRIBUTES.register(bus);
         EntityInit.ENTITY_TYPES.register(bus);
-        SpellRegistry.SPELLS.register(bus);
+        bus.addListener(SpellRegistry::registrySpellRegistry);
+        PlayerAttachments.ATTACHMENT_TYPES.register(bus);
+//        SpellRegistry.SPELLS.register(bus);
         StructureInit.STRUCTURES.register(bus);
 
         ItemInit.ITEMS.register(bus);
@@ -135,8 +137,6 @@ public class Skyrimcraft
         SerializerInit.SERIALIZERS.register(bus);
 
         SoundsInit.SOUNDS.register(bus);
-
-        PlayerAttachments.ATTACHMENT_TYPES.register(bus);
 
         // listeners
         bus.addListener(this::dataPackRegistry);

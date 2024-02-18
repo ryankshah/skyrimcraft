@@ -116,8 +116,7 @@ public class SkyrimMenuScreen extends Screen
 //                minecraft.setScreen(new QuestScreen());
 //                minecraft.setScreen(new InventoryScreen(minecraft.player));
             } else if(currentDirection == Direction.EAST) {
-                AtomicReference<List<ISpell>> knownSpells;
-                knownSpells = new AtomicReference<>(minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells());
+                AtomicReference<List<ISpell>> knownSpells = new AtomicReference<>(minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells());
 
                 if(knownSpells.get().isEmpty()) {
                     minecraft.setScreen(null);

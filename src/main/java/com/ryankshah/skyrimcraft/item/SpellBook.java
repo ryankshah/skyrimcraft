@@ -18,12 +18,13 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class SpellBook extends Item
 {
-    private final Holder<ISpell> spell;
+    private final Supplier<ISpell> spell;
 
-    public SpellBook(Properties properties, Holder<ISpell> spell) {
+    public SpellBook(Properties properties, Supplier<ISpell> spell) {
         super(properties);
         this.spell = spell;
     }
@@ -37,10 +38,10 @@ public class SpellBook extends Item
             return InteractionResultHolder.pass(itemstack);
         }
         List<ISpell> knownSpells = playerIn.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
-        if (this.spell != null && !knownSpells.contains(spell.value())) {
-            final AddToKnownSpells addSpell = new AddToKnownSpells(spell.value().getID());
+        if (this.spell != null && !knownSpells.contains(spell.get())) {
+            final AddToKnownSpells addSpell = new AddToKnownSpells(spell.get().getID());
             PacketDistributor.SERVER.noArg().send(addSpell);
-            playerIn.displayClientMessage(Component.translatable("spellbook.learn", Component.translatable(spell.value().getName()).withStyle(ChatFormatting.RED)), false);
+            playerIn.displayClientMessage(Component.translatable("spellbook.learn", Component.translatable(spell.get().getName()).withStyle(ChatFormatting.RED)), false);
             playerIn.awardStat(Stats.ITEM_USED.get(this));
             itemstack.shrink(1);
         } else {
@@ -54,7 +55,7 @@ public class SpellBook extends Item
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if(spell != null)
-            pTooltipComponents.add(Component.translatable("spellbook.tooltip", Component.translatable(spell.value().getName()).withStyle(ChatFormatting.RED)));
+            pTooltipComponents.add(Component.translatable("spellbook.tooltip", Component.translatable(spell.get().getName()).withStyle(ChatFormatting.RED)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

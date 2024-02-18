@@ -74,7 +74,7 @@ public class ShoutBlock extends Block {
                 //TODO: Later on we will make use of dragon souls to unlock shouts...
                 List<ISpell> knownSpells = pPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
 //                System.out.println("Current Known Spells: " + knownSpells);
-                if (knownSpells.contains(SpellRegistry.UNRELENTING_FORCE.value())) {
+                if (knownSpells.contains(SpellRegistry.UNRELENTING_FORCE.get())) {
                     List<ISpell> shouts = SpellRegistry.SPELLS.getEntries().stream().filter(spell -> spell.get().getType() == ISpell.SpellType.SHOUT && spell != SpellRegistry.UNRELENTING_FORCE && !knownSpells.contains(spell.get())).map(Holder::value).toList();
                     System.out.println(shouts);
                     if (!shouts.isEmpty()) {
@@ -95,7 +95,7 @@ public class ShoutBlock extends Block {
                         pPlayer.displayClientMessage(Component.translatable("shoutblock.allshoutsknown"), false);
                     }
                 } else {
-                    final AddToKnownSpells addSpell = new AddToKnownSpells(SpellRegistry.UNRELENTING_FORCE.value().getID());
+                    final AddToKnownSpells addSpell = new AddToKnownSpells(SpellRegistry.UNRELENTING_FORCE.get().getID());
                     PacketDistributor.SERVER.noArg().send(addSpell);
 
                     pLevel.setBlockAndUpdate(pPos, pState.setValue(SHOUT_GIVEN, true));
