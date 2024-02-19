@@ -190,7 +190,7 @@ public abstract class Spell //extends ForgeRegistryEntry<ISpell>
 
         if(!caster.isCreative()) {
             if (getType() == SpellType.SHOUT) {
-                final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(getID(), getCooldown());
+                final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(SpellRegistry.SPELLS_REGISTRY.getResourceKey(this).get(), getCooldown());
                 PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
 //                Networking.sendToServer(new PacketUpdateShoutCooldownOnServer(this, getCooldown()));
             } else {

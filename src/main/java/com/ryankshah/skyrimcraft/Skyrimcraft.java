@@ -3,7 +3,6 @@ package com.ryankshah.skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.feature.model.DunmerEarModel;
 import com.ryankshah.skyrimcraft.character.feature.model.HighElfEarModel;
-import com.ryankshah.skyrimcraft.character.feature.model.KhajiitFullModel;
 import com.ryankshah.skyrimcraft.character.feature.model.KhajiitHeadModel;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.curios.render.NecklaceRenderer;
@@ -160,13 +159,14 @@ public class Skyrimcraft
         event.put(EntityInit.LUNAR_MOTH.get(), LunarMoth.createAttributes().build());
         event.put(EntityInit.TORCHBUG.get(), TorchBug.createAttributes().build());
 
+//        event.put(EntityInit.KHAJIIT.get(), KhajiitEntity.createMobAttributes().build());
     }
 
     public void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(DunmerEarModel.LAYER_LOCATION, DunmerEarModel::createBodyLayer);
         event.registerLayerDefinition(HighElfEarModel.LAYER_LOCATION, HighElfEarModel::createBodyLayer);
         event.registerLayerDefinition(KhajiitHeadModel.LAYER_LOCATION, KhajiitHeadModel::createBodyLayer);
-        event.registerLayerDefinition(KhajiitFullModel.LAYER_LOCATION, KhajiitFullModel::createBodyLayer);
+//        event.registerLayerDefinition(KhajiitModel.LAYER_LOCATION, KhajiitModel::createBodyLayer);
     }
 
     public void addEntityAttributes(EntityAttributeModificationEvent event) {

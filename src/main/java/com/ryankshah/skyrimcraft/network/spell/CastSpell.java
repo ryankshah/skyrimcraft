@@ -6,22 +6,23 @@ import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
-public record CastSpell(int spellID) implements CustomPacketPayload
+public record CastSpell(ResourceKey<Spell> spell) implements CustomPacketPayload
 {
     public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"castspell");
 
     public CastSpell(final FriendlyByteBuf buffer) {
-        this(buffer.readInt());
+        this(buffer.readResourceKey(SpellRegistry.SPELLS_KEY));
     }
 
     @Override
     public void write(final FriendlyByteBuf buffer) {
-        buffer.writeInt(spellID);
+        buffer.writeResourceKey(spell);
     }
 
     @Override
@@ -34,7 +35,7 @@ public record CastSpell(int spellID) implements CustomPacketPayload
                     Player player = context.player().orElseThrow();
 
                     if (player instanceof ServerPlayer) {
-                        Spell spellInstance = SpellRegistry.SPELLS_REGISTRY.stream().filter(spell -> spell.getID() == data.spellID).findFirst().orElseThrow();
+                        Spell spellInstance = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
                         spellInstance.setCaster(player);
                         spellInstance.cast();
 //                        player.setData(PlayerAttachments.KNOWN_SPELLS, new SpellHandler(knownSpells, player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpells(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()));

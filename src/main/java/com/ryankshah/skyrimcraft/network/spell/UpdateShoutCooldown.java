@@ -5,9 +5,11 @@ import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.attachment.SpellHandler;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
+import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -16,17 +18,17 @@ import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
 import java.util.List;
 
-public record UpdateShoutCooldown(int spellID, float cooldown) implements CustomPacketPayload
+public record UpdateShoutCooldown(ResourceKey<Spell> spell, float cooldown) implements CustomPacketPayload
 {
     public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"updateshoutcooldown");
 
     public UpdateShoutCooldown(final FriendlyByteBuf buffer) {
-        this(buffer.readInt(), buffer.readFloat());
+        this(buffer.readResourceKey(SpellRegistry.SPELLS_KEY), buffer.readFloat());
     }
 
     @Override
     public void write(final FriendlyByteBuf buffer) {
-        buffer.writeInt(spellID);
+        buffer.writeResourceKey(spell);
         buffer.writeFloat(cooldown);
     }
 
@@ -46,7 +48,7 @@ public record UpdateShoutCooldown(int spellID, float cooldown) implements Custom
 //                        cooldowns.stream().filter(pair -> pair.getFirst().getID() == data.spellID).findFirst().ifPresent(
 //                                pair -> new Pair<>(pair.getFirst(), data.cooldown)
 //                        );
-                        setCooldown(cooldowns, data.spellID, data.cooldown);
+                        setCooldown(cooldowns, data.spell, data.cooldown);
 
                         serverPlayer.setData(PlayerAttachments.KNOWN_SPELLS,
                                 new SpellHandler(serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells(),
@@ -54,7 +56,7 @@ public record UpdateShoutCooldown(int spellID, float cooldown) implements Custom
                                         serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2(),
                                         cooldowns));
 
-                        final UpdateShoutCooldown sendToClient = new UpdateShoutCooldown(data.spellID, data.cooldown);
+                        final UpdateShoutCooldown sendToClient = new UpdateShoutCooldown(data.spell, data.cooldown);
                         PacketDistributor.PLAYER.with(serverPlayer).send(sendToClient);
                     }
                 })
@@ -65,10 +67,10 @@ public record UpdateShoutCooldown(int spellID, float cooldown) implements Custom
                 });
     }
 
-    public static List<Pair<Spell, Float>> setCooldown(List<Pair<Spell, Float>> cooldowns, int id, float cooldown) {
+    public static List<Pair<Spell, Float>> setCooldown(List<Pair<Spell, Float>> cooldowns, ResourceKey<Spell> spell, float cooldown) {
         for(int i = 0; i < cooldowns.size(); i++) {
             Pair<Spell, Float> p = cooldowns.get(i);
-            if(p.getFirst().getID() == id) {
+            if(p.getFirst().getID() == SpellRegistry.SPELLS_REGISTRY.get(spell).getID()) {
                 cooldowns.add(i, new Pair<>(p.getFirst(), cooldown));
             }
         }
@@ -91,7 +93,7 @@ public record UpdateShoutCooldown(int spellID, float cooldown) implements Custom
 //                            pair -> new Pair<>(pair.getFirst(), data.cooldown)
 //                    );
 
-                    setCooldown(cooldowns, data.spellID, data.cooldown);
+                    setCooldown(cooldowns, data.spell, data.cooldown);
 
                     player.setData(PlayerAttachments.KNOWN_SPELLS,
                             new SpellHandler(player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells(),

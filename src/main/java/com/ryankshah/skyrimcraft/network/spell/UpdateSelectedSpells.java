@@ -8,24 +8,25 @@ import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
-public record UpdateSelectedSpells(int position, int spell) implements CustomPacketPayload
+public record UpdateSelectedSpells(int position, ResourceKey<Spell> spell) implements CustomPacketPayload
 {
     public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"updateselectedspells");
 
     public UpdateSelectedSpells(final FriendlyByteBuf buffer) {
-        this(buffer.readInt(), buffer.readInt());
+        this(buffer.readInt(), buffer.readResourceKey(SpellRegistry.SPELLS_KEY));
     }
 
     @Override
     public void write(final FriendlyByteBuf buffer) {
         buffer.writeInt(position);
-        buffer.writeInt(spell);
+        buffer.writeResourceKey(spell);
     }
 
     @Override
@@ -38,9 +39,8 @@ public record UpdateSelectedSpells(int position, int spell) implements CustomPac
                     ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
 
                     // TODO: Check if we need to add this on client too
-                    if(data.spell != -1) {
-                        Spell spell = SpellRegistry.SPELLS_REGISTRY.stream().filter(s -> s.getID() == data.spell)
-                                .findFirst().orElseThrow();
+                    if(data.spell != SpellRegistry.EMPTY_SPELL) {
+                        Spell spell = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
                         if(data.position == 1)
                             player.setData(PlayerAttachments.KNOWN_SPELLS, new SpellHandler(player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells(), spell, player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()));
                         if(data.position == 2)
@@ -64,8 +64,7 @@ public record UpdateSelectedSpells(int position, int spell) implements CustomPac
                     // TODO: Check if we need to add this on client too
 //                    if (player instanceof ServerPlayer) {
 //                    System.out.println("AddToKnownSpells: " + knownSpells);
-                    Spell spell = SpellRegistry.SPELLS_REGISTRY.stream().filter(s -> s.getID() == data.spell)
-                            .findFirst().orElseThrow();
+                    Spell spell = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
                     if(data.position == 1)
                         player.setData(PlayerAttachments.KNOWN_SPELLS, new SpellHandler(player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells(), spell, player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()));
                     if(data.position == 2)

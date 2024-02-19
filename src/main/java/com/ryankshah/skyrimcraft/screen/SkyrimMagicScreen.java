@@ -8,6 +8,7 @@ import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.magic.EmptySpell;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
+import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.event.KeyEvents;
 import com.ryankshah.skyrimcraft.network.spell.UpdateSelectedSpells;
 import com.ryankshah.skyrimcraft.util.RenderUtil;
@@ -306,16 +307,16 @@ public class SkyrimMagicScreen extends Screen
 
             if(!selectedSpell1.equals(currentSpellObject)) {
                 if (!(selectedSpell2.equals(currentSpellObject))) {
-                    final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(1, currentSpellObject.getID());
+                    final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(1, SpellRegistry.SPELLS_REGISTRY.getResourceKey(currentSpellObject).get());
                     PacketDistributor.SERVER.noArg().send(updatedSpells0);
                 } else {
-                    final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(2, minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1().getID());
+                    final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(2, SpellRegistry.SPELLS_REGISTRY.getResourceKey(minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1()).get());
                     PacketDistributor.SERVER.noArg().send(updatedSpells0);
-                    final UpdateSelectedSpells updatedSpells1 = new UpdateSelectedSpells(1, currentSpellObject.getID());
+                    final UpdateSelectedSpells updatedSpells1 = new UpdateSelectedSpells(1, SpellRegistry.SPELLS_REGISTRY.getResourceKey(currentSpellObject).get());
                     PacketDistributor.SERVER.noArg().send(updatedSpells1);
                 }
             } else {
-                final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(1, -1);
+                final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(1, SpellRegistry.SPELLS_REGISTRY.getResourceKey(SpellRegistry.EMPTY_SPELL.get()).get());
                 PacketDistributor.SERVER.noArg().send(updatedSpells0);
             }
 
@@ -328,16 +329,16 @@ public class SkyrimMagicScreen extends Screen
 
             if(!selectedSpell2.equals(currentSpellObject)) {
                 if (!selectedSpell1.equals(currentSpellObject)) {
-                    final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(2, currentSpellObject.getID());
+                    final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(2, SpellRegistry.SPELLS_REGISTRY.getResourceKey(currentSpellObject).get());
                     PacketDistributor.SERVER.noArg().send(updatedSpells0);
                 } else {
-                    final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(1, minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2().getID());
+                    final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(1, SpellRegistry.SPELLS_REGISTRY.getResourceKey(minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2()).get());
                     PacketDistributor.SERVER.noArg().send(updatedSpells0);
-                    final UpdateSelectedSpells updatedSpells1 = new UpdateSelectedSpells(2, currentSpellObject.getID());
+                    final UpdateSelectedSpells updatedSpells1 = new UpdateSelectedSpells(2, SpellRegistry.SPELLS_REGISTRY.getResourceKey(currentSpellObject).get());
                     PacketDistributor.SERVER.noArg().send(updatedSpells1);
                 }
             } else {
-                final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(2, -1);
+                final UpdateSelectedSpells updatedSpells0 = new UpdateSelectedSpells(2, SpellRegistry.SPELLS_REGISTRY.getResourceKey(SpellRegistry.EMPTY_SPELL.get()).get());
                 PacketDistributor.SERVER.noArg().send(updatedSpells0);
             }
         }

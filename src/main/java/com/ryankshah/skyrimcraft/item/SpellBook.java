@@ -2,6 +2,7 @@ package com.ryankshah.skyrimcraft.item;
 
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
+import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.network.spell.AddToKnownSpells;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -38,7 +39,7 @@ public class SpellBook extends Item
         }
         List<Spell> knownSpells = playerIn.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
         if (this.spell != null && !knownSpells.contains(spell.get())) {
-            final AddToKnownSpells addSpell = new AddToKnownSpells(spell.get().getID());
+            final AddToKnownSpells addSpell = new AddToKnownSpells(SpellRegistry.SPELLS_REGISTRY.getResourceKey(spell.get()).get());
             PacketDistributor.SERVER.noArg().send(addSpell);
             playerIn.displayClientMessage(Component.translatable("spellbook.learn", Component.translatable(spell.get().getName()).withStyle(ChatFormatting.RED)), false);
             playerIn.awardStat(Stats.ITEM_USED.get(this));
@@ -54,7 +55,9 @@ public class SpellBook extends Item
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if(spell != null)
-            pTooltipComponents.add(Component.translatable("spellbook.tooltip", Component.translatable(spell.get().getName()).withStyle(ChatFormatting.RED)));
+            pTooltipComponents.add(Component.translatable("spellbook.tooltip", Component.translatable(
+                    spell.get().getName())
+                    .withStyle(ChatFormatting.RED)));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

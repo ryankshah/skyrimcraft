@@ -8,6 +8,7 @@ import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -16,17 +17,17 @@ import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
 import java.util.List;
 
-public record AddToKnownSpells(int spell) implements CustomPacketPayload
+public record AddToKnownSpells(ResourceKey<Spell> spell) implements CustomPacketPayload
 {
     public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"addtoknownspells");
 
     public AddToKnownSpells(final FriendlyByteBuf buffer) {
-        this(buffer.readInt());
+        this(buffer.readResourceKey(SpellRegistry.SPELLS_KEY));
     }
 
     @Override
     public void write(final FriendlyByteBuf buffer) {
-        buffer.writeInt(spell);
+        buffer.writeResourceKey(spell);
     }
 
     @Override
@@ -42,8 +43,10 @@ public record AddToKnownSpells(int spell) implements CustomPacketPayload
 //                    if (player instanceof ServerPlayer) {
                     List<Spell> knownSpells = player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
 //                    System.out.println("AddToKnownSpells: " + knownSpells);
-                    Spell spell = SpellRegistry.SPELLS_REGISTRY.stream().filter(s -> s.getID() == data.spell)
-                            .findFirst().orElseThrow();
+                    Spell spell = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
+
+//                            SpellRegistry.SPELLS_REGISTRY.stream().filter(s -> s.getID() == data.spell)
+//                            .findFirst().orElseThrow();
                     knownSpells.add(spell);
 //                        System.out.println("AddToKnownSpells: " + knownSpells);
                     player.setData(PlayerAttachments.KNOWN_SPELLS, new SpellHandler(knownSpells, player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()));
@@ -66,8 +69,7 @@ public record AddToKnownSpells(int spell) implements CustomPacketPayload
 //                    if (player instanceof ServerPlayer) {
                     List<Spell> knownSpells = player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
 //                    System.out.println("AddToKnownSpells: " + knownSpells);
-                    Spell spell = SpellRegistry.SPELLS_REGISTRY.stream().filter(s -> s.getID() == data.spell)
-                            .findFirst().orElseThrow();
+                    Spell spell = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
                     knownSpells.add(spell);
 //                        System.out.println("AddToKnownSpells: " + knownSpells);
                     player.setData(PlayerAttachments.KNOWN_SPELLS, new SpellHandler(knownSpells, player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()));

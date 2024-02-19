@@ -5,25 +5,33 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.feature.Race;
-import com.ryankshah.skyrimcraft.character.feature.model.DunmerEarModel;
-import com.ryankshah.skyrimcraft.character.feature.model.HighElfEarModel;
-import com.ryankshah.skyrimcraft.character.feature.model.KhajiitFullModel;
-import com.ryankshah.skyrimcraft.character.feature.model.KhajiitHeadModel;
+import com.ryankshah.skyrimcraft.character.feature.model.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.Player;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RenderPlayerEvent;
 
 public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>
 {
     private final HighElfEarModel highElfEarModel;
     private final DunmerEarModel dunmerEarModel;
     private final KhajiitHeadModel khajiitHeadModel;
-    private final KhajiitFullModel<AbstractClientPlayer> khajiitFullModel;
+//    private final KhajiitFullModel<AbstractClientPlayer> khajiitFullModel;
 
     private final ResourceLocation fullModelTexture = new ResourceLocation(Skyrimcraft.MODID, "textures/entity/khajiit_male.png");
 
@@ -33,7 +41,7 @@ public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
         highElfEarModel = new HighElfEarModel(Minecraft.getInstance().getEntityModels().bakeLayer(HighElfEarModel.LAYER_LOCATION));
         dunmerEarModel = new DunmerEarModel(Minecraft.getInstance().getEntityModels().bakeLayer(DunmerEarModel.LAYER_LOCATION));
         khajiitHeadModel = new KhajiitHeadModel(Minecraft.getInstance().getEntityModels().bakeLayer(KhajiitHeadModel.LAYER_LOCATION));
-        khajiitFullModel = new KhajiitFullModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(KhajiitFullModel.LAYER_LOCATION));
+//        khajiitFullModel = new KhajiitFullModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(KhajiitFullModel.LAYER_LOCATION));
 
 //        getParentModel().setAllVisible(false);
 

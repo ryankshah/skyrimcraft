@@ -5,6 +5,7 @@ import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.CompassFeatureHandler;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
+import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.init.AttributeInit;
 import com.ryankshah.skyrimcraft.init.TagsInit;
@@ -52,11 +53,11 @@ public class PlayerEvents
             if(!playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown().isEmpty()) {
                 for (Pair<Spell, Float> entry : playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()) {
                     if (entry.getSecond() <= 0f) {
-                        final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(entry.getFirst().getID(), 0f);
+                        final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(SpellRegistry.SPELLS_REGISTRY.getResourceKey(entry.getFirst()).get(), 0f);
                         PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
                     }
                     if (entry.getSecond() > 0f) {
-                        final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(entry.getFirst().getID(), playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellCooldown(entry.getFirst()) -0.05f);
+                        final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(SpellRegistry.SPELLS_REGISTRY.getResourceKey(entry.getFirst()).get(), playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellCooldown(entry.getFirst()) -0.05f);
                         PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
                     }
                 }
