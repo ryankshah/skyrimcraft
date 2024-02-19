@@ -15,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record AddToKnownSpells(ResourceKey<Spell> spell) implements CustomPacketPayload
@@ -41,7 +42,7 @@ public record AddToKnownSpells(ResourceKey<Spell> spell) implements CustomPacket
 
                     // TODO: Check if we need to add this on client too
 //                    if (player instanceof ServerPlayer) {
-                    List<Spell> knownSpells = player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
+                    List<Spell> knownSpells = new ArrayList<>(player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells());
 //                    System.out.println("AddToKnownSpells: " + knownSpells);
                     Spell spell = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
 
@@ -67,7 +68,7 @@ public record AddToKnownSpells(ResourceKey<Spell> spell) implements CustomPacket
 
                     // TODO: Check if we need to add this on client too
 //                    if (player instanceof ServerPlayer) {
-                    List<Spell> knownSpells = player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
+                    List<Spell> knownSpells = new ArrayList<>(player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells());
 //                    System.out.println("AddToKnownSpells: " + knownSpells);
                     Spell spell = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
                     knownSpells.add(spell);

@@ -16,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record UpdateShoutCooldown(ResourceKey<Spell> spell, float cooldown) implements CustomPacketPayload
@@ -43,7 +44,7 @@ public record UpdateShoutCooldown(ResourceKey<Spell> spell, float cooldown) impl
 
                     if (player instanceof ServerPlayer) {
                         ServerPlayer serverPlayer = (ServerPlayer) player;
-                        List<Pair<Spell, Float>> cooldowns = serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
+                        List<Pair<Spell, Float>> cooldowns = new ArrayList<>(serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown());
 
 //                        cooldowns.stream().filter(pair -> pair.getFirst().getID() == data.spellID).findFirst().ifPresent(
 //                                pair -> new Pair<>(pair.getFirst(), data.cooldown)
@@ -87,7 +88,7 @@ public record UpdateShoutCooldown(ResourceKey<Spell> spell, float cooldown) impl
         context.workHandler().submitAsync(() -> {
                     Player player = context.player().orElseThrow();
 
-                    List<Pair<Spell, Float>> cooldowns = player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
+                    List<Pair<Spell, Float>> cooldowns = new ArrayList<>(player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown());
 
 //                    cooldowns.stream().filter(pair -> pair.getFirst().getID() == data.spellID).findFirst().ifPresent(
 //                            pair -> new Pair<>(pair.getFirst(), data.cooldown)
