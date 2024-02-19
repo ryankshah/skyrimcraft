@@ -10,7 +10,6 @@ import com.mojang.math.Axis;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.data.recipe.AlchemyRecipe;
 import com.ryankshah.skyrimcraft.event.KeyEvents;
-import com.ryankshah.skyrimcraft.quest.registry.QuestRegistry;
 import com.ryankshah.skyrimcraft.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

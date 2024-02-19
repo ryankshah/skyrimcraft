@@ -10,8 +10,6 @@ import com.ryankshah.skyrimcraft.item.SkyrimArmor;
 import com.ryankshah.skyrimcraft.network.character.AddToTargetingEntities;
 import com.ryankshah.skyrimcraft.network.character.UpdateCurrentTarget;
 import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
-import com.ryankshah.skyrimcraft.quest.registry.QuestRegistry;
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.monster.Monster;

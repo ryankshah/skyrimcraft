@@ -1,13 +1,10 @@
 package com.ryankshah.skyrimcraft.data.sound;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.SoundDefinitionsProvider;
-import net.minecraft.data.PackOutput;
-
-import java.util.function.Supplier;
 
 public class SkyrimSoundsProvider extends SoundDefinitionsProvider
 {

@@ -7,7 +7,6 @@ import com.ryankshah.skyrimcraft.init.RecipeTypeInit;
 import com.ryankshah.skyrimcraft.init.SerializerInit;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -19,7 +18,6 @@ import net.neoforged.neoforge.common.conditions.WithConditions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class AlchemyRecipe implements Recipe<IAlchemyInventory>
 {

@@ -2,7 +2,6 @@ package com.ryankshah.skyrimcraft.quest;
 
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.core.HolderLookup;

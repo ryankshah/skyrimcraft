@@ -2,7 +2,6 @@ package com.ryankshah.skyrimcraft.quest;
 
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
-import net.minecraft.advancements.Criterion;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 

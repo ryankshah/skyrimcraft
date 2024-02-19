@@ -1,7 +1,6 @@
 package com.ryankshah.skyrimcraft.item.potion;
 
 import net.minecraft.core.NonNullList;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public interface IPotion
