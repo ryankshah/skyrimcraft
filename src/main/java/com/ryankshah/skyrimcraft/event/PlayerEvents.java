@@ -53,7 +53,7 @@ public class PlayerEvents
 //            Minecraft.getInstance().getConnection().registryAccess().registry(QuestRegistry.QUESTS_REGISTRY_KEY).ifPresent(
 //                    registry -> System.out.println(registry.stream().toList())
 //            );
-            if(!playerEntity.level().isClientSide) {
+            if(playerEntity.level().isClientSide) {
                 if (!playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown().isEmpty()) {
                     for (Map.Entry<Spell, Float> entry : playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown().entrySet()) {
                         if (entry.getValue() <= 0f) {

@@ -38,7 +38,7 @@ public record UpdateSelectedSpell(int position, ResourceKey<Spell> spell) implem
             Spell spell = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
             if(data.position == 1)
                 player.getData(PlayerAttachments.KNOWN_SPELLS).setSelectedSpell1(spell);
-            if(data.position == 2)
+            else if(data.position == 2)
                 player.getData(PlayerAttachments.KNOWN_SPELLS).setSelectedSpell2(spell);
 
             final UpdateSpellHandlerOnClient sendToClient = new UpdateSpellHandlerOnClient(player.getData(PlayerAttachments.KNOWN_SPELLS));
