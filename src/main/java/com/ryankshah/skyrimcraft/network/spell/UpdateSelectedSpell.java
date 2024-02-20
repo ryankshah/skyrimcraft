@@ -34,7 +34,7 @@ public record UpdateSelectedSpell(int position, ResourceKey<Spell> spell) implem
 
     public static void handleServer(final UpdateSelectedSpell data, final PlayPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
-        if(data.spell != SpellRegistry.EMPTY_SPELL) {
+        if(!data.spell.equals(SpellRegistry.EMPTY_SPELL)) {
             Spell spell = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
             if(data.position == 1)
                 player.getData(PlayerAttachments.KNOWN_SPELLS).setSelectedSpell1(spell);

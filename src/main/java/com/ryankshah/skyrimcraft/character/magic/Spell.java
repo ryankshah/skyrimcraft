@@ -200,7 +200,8 @@ public abstract class Spell //extends ForgeRegistryEntry<ISpell>
             }
         }
         // player var was null, check it
-        caster.getCommandSenderWorld().playSound(null, caster.getX(), caster.getY(), caster.getZ(), getSound(), SoundSource.PLAYERS, 1f, 1f);
+        if(this.getSound() != null)
+            caster.getCommandSenderWorld().playSound(null, caster.getX(), caster.getY(), caster.getZ(), getSound(), SoundSource.PLAYERS, 1f, 1f);
     }
 
     public enum SpellType {

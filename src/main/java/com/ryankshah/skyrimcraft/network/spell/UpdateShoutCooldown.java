@@ -6,6 +6,7 @@ import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.attachment.SpellHandler;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -43,13 +44,20 @@ public record UpdateShoutCooldown(ResourceKey<Spell> spell, float cooldown) impl
 
         if (player instanceof ServerPlayer) {
             ServerPlayer serverPlayer = (ServerPlayer) player;
-            serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).addSpellAndCooldown(SpellRegistry.SPELLS_REGISTRY.get(data.spell));
+            serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).addSpellAndCooldown(SpellRegistry.SPELLS_REGISTRY.get(data.spell), data.cooldown);
 
-            final UpdateSpellHandlerOnClient sendToClient = new UpdateSpellHandlerOnClient(player.getData(PlayerAttachments.KNOWN_SPELLS));
+//            final UpdateShoutCooldown sendToClient = new UpdateShoutCooldown(data.spell, data.cooldown);
+//            PacketDistributor.PLAYER.with(serverPlayer).send(sendToClient);
+
+            final UpdateSpellHandlerOnClient sendToClient = new UpdateSpellHandlerOnClient(serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS));
             PacketDistributor.PLAYER.with(serverPlayer).send(sendToClient);
         }
     }
 
     public static void handleClient(final UpdateShoutCooldown data, final PlayPayloadContext context) {
+//        Minecraft minecraft = Minecraft.getInstance();
+//        minecraft.execute(() -> {
+//            Minecraft.getInstance().player.getData(PlayerAttachments.KNOWN_SPELLS).addSpellAndCooldown(SpellRegistry.SPELLS_REGISTRY.get(data.spell), data.cooldown);
+//        });
     }
 }

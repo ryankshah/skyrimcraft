@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
+import com.ryankshah.skyrimcraft.character.attachment.SpellHandler;
 import com.ryankshah.skyrimcraft.character.magic.EmptySpell;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.event.KeyEvents;
@@ -41,6 +42,7 @@ import net.neoforged.neoforge.fluids.FluidType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.glfwGetKeyName;
 
@@ -293,13 +295,6 @@ public class SkyrimGuiOverlay
         private int DOUBLE_SLOT_WIDTH = 22, DOUBLE_SLOT_HEIGHT = 41;
         private int ICON_WIDTH = 16, ICON_HEIGHT = 16;
 
-        public Float getCooldown (List<Pair<Spell, Float>> cooldowns, Spell value) {
-            for (Pair<Spell, Float> p : cooldowns)
-                if (p.getFirst().equals(value))
-                    return p.getSecond();
-            return null;
-        }
-
         @Override
         public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
             PoseStack poseStack = guiGraphics.pose();
@@ -310,7 +305,7 @@ public class SkyrimGuiOverlay
             
             Spell selectedSpell1 = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
             Spell selectedSpell2 = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
-            List<Pair<Spell, Float>> spellCooldowns = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
+            Map<Spell, Float> spellCooldowns = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
 
             poseStack.pushPose();
             RenderUtil.bind(OVERLAY_ICONS);
@@ -319,11 +314,11 @@ public class SkyrimGuiOverlay
                 poseStack.pushPose();
                 RenderUtil.bind(selectedSpell1.getIcon());
                 RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3, 0, 0, 16, 16, ICON_WIDTH, ICON_HEIGHT, 5, 1);
-                if(spellCooldowns.stream().anyMatch(p -> p.getFirst().getID() == selectedSpell1.getID())) {
-                    if (getCooldown(spellCooldowns, selectedSpell1) > 0) {
+                if(spellCooldowns.containsKey(selectedSpell1)) {
+                    float cooldown = spellCooldowns.get(selectedSpell1);
+                    if (cooldown> 0) {
                         poseStack.pushPose();
                         RenderUtil.bind(OVERLAY_ICONS);
-                        float cooldown = getCooldown(spellCooldowns, selectedSpell1);
                         float maxCooldown = selectedSpell1.getCooldown();
                         float offset = Mth.floor(cooldown/maxCooldown * 8);
                         RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3, 118 - (16 * (offset % 8)), 148, ICON_WIDTH, ICON_HEIGHT, 256, 256, 6, 1);
@@ -336,11 +331,11 @@ public class SkyrimGuiOverlay
                 poseStack.pushPose();
                 RenderUtil.bind(selectedSpell2.getIcon());
                 RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3, 0, 0, 16, 16, 16, 16, 5, 1);
-                if(spellCooldowns.stream().anyMatch(p -> p.getFirst().getID() == selectedSpell2.getID())) {
-                    if (getCooldown(spellCooldowns, selectedSpell2) > 0) {
+                if(spellCooldowns.containsKey(selectedSpell2)) {
+                    float cooldown = spellCooldowns.get(selectedSpell2);
+                    if (cooldown > 0) {
                         poseStack.pushPose();
                         RenderUtil.bind(OVERLAY_ICONS);
-                        float cooldown = getCooldown(spellCooldowns, selectedSpell2);
                         float maxCooldown = selectedSpell2.getCooldown();
                         float offset = Mth.floor(cooldown/maxCooldown * 8);
                         RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3, 118 - (16 * (offset % 8)), 148, ICON_WIDTH, ICON_HEIGHT, 256, 256, 6, 1);
@@ -353,12 +348,12 @@ public class SkyrimGuiOverlay
 
                 poseStack.pushPose();
                 RenderUtil.bind(selectedSpell1.getIcon());
-                RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3 + 20, 0, 0, 16, 16, 16, 16, 5, 1);
-                if(spellCooldowns.stream().anyMatch(p -> p.getFirst().getID() == selectedSpell1.getID())) {
-                    if (getCooldown(spellCooldowns, selectedSpell1) > 0) {
+                RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3 - 20, 0, 0, 16, 16, 16, 16, 5, 1);
+                if(spellCooldowns.containsKey(selectedSpell1)) {
+                    float cooldown = spellCooldowns.get(selectedSpell1);
+                    if (cooldown > 0) {
                         poseStack.pushPose();
                         RenderUtil.bind(OVERLAY_ICONS);
-                        float cooldown = getCooldown(spellCooldowns, selectedSpell1);
                         float maxCooldown = selectedSpell1.getCooldown();
                         float offset = Mth.floor(cooldown/maxCooldown * 8);
                         RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3, 118 - (16 * (offset % 8)), 148, ICON_WIDTH, ICON_HEIGHT, 256, 256, 6, 1);
@@ -369,12 +364,12 @@ public class SkyrimGuiOverlay
 
                 poseStack.pushPose();
                 RenderUtil.bind(selectedSpell2.getIcon());
-                RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3 + 40, 0, 0, 16, 16, 16, 16, 5, 1);
-                if(spellCooldowns.stream().anyMatch(p -> p.getFirst().getID() == selectedSpell1.getID())) {
-                    if (getCooldown(spellCooldowns, selectedSpell2) > 0) {
+                RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3 + 20, 0, 0, 16, 16, 16, 16, 5, 1);
+                if(spellCooldowns.containsKey(selectedSpell2)) {
+                    float cooldown = spellCooldowns.get(selectedSpell2);
+                    if (cooldown > 0) {
                         poseStack.pushPose();
                         RenderUtil.bind(OVERLAY_ICONS);
-                        float cooldown = getCooldown(spellCooldowns, selectedSpell2);
                         float maxCooldown = selectedSpell2.getCooldown();
                         float offset = Mth.floor(cooldown/maxCooldown * 8);
                         RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3, 118 - (16 * (offset % 8)), 148, ICON_WIDTH, ICON_HEIGHT, 256, 256, 6, 1);
@@ -384,12 +379,6 @@ public class SkyrimGuiOverlay
                 poseStack.popPose();
             }
             poseStack.popPose();
-
-
-//            for(Map.Entry<Integer, ISpell> spell : selectedSpells.entrySet()) {
-//                if(spell.getValue() != null)
-//                    guiGraphics.drawString(mc.font, "(" + spell.getKey() + ") : " + spell.getValue().getName(), 20, scaledHeight - 120 + 10 * spell.getKey(), 0xFFFFFF);
-//            }
         }
     }
 

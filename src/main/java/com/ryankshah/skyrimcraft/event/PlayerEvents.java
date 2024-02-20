@@ -34,6 +34,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = Skyrimcraft.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -52,16 +53,18 @@ public class PlayerEvents
 //            Minecraft.getInstance().getConnection().registryAccess().registry(QuestRegistry.QUESTS_REGISTRY_KEY).ifPresent(
 //                    registry -> System.out.println(registry.stream().toList())
 //            );
-
-            if(!playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown().isEmpty()) {
-                for (Pair<Spell, Float> entry : playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()) {
-                    if (entry.getSecond() <= 0f) {
-                        final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(SpellRegistry.SPELLS_REGISTRY.getResourceKey(entry.getFirst()).get(), 0f);
-                        PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
-                    }
-                    if (entry.getSecond() > 0f) {
-                        final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(SpellRegistry.SPELLS_REGISTRY.getResourceKey(entry.getFirst()).get(), playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellCooldown(entry.getFirst()) -0.05f);
-                        PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
+            if(!playerEntity.level().isClientSide) {
+                if (!playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown().isEmpty()) {
+                    for (Map.Entry<Spell, Float> entry : playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown().entrySet()) {
+                        if (entry.getValue() <= 0f) {
+                            final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(SpellRegistry.SPELLS_REGISTRY.getResourceKey(entry.getKey()).get(), 0f);
+                            PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
+                        }
+                        if (entry.getValue() > 0f) {
+                            float cooldown = playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellCooldown(entry.getKey());
+                            final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(SpellRegistry.SPELLS_REGISTRY.getResourceKey(entry.getKey()).get(), cooldown - 0.05f);
+                            PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
+                        }
                     }
                 }
             }

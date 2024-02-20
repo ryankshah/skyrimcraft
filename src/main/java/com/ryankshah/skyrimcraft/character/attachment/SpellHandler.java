@@ -12,37 +12,36 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 public class SpellHandler
 {
     private List<Spell> knownSpells;
     private Spell selectedSpell1;
     private Spell selectedSpell2;
-    private List<Pair<Spell, Float>> spellsOnCooldown;
+    private Map<Spell, Float> spellsOnCooldown;
 
     public static Codec<SpellHandler> CODEC = RecordCodecBuilder.create(spellHandlerInstance -> spellHandlerInstance.group(
-            SpellRegistry.SPELLS_REGISTRY.byNameCodec().listOf().fieldOf("knownSpells").forGetter(s -> s.knownSpells),
-            SpellRegistry.SPELLS_REGISTRY.byNameCodec().fieldOf("selectedSpell1").forGetter(s -> s.selectedSpell1),
-            SpellRegistry.SPELLS_REGISTRY.byNameCodec().fieldOf("selectedSpell1").forGetter(s -> s.selectedSpell2),
-            Codec.pair(SpellRegistry.SPELLS_REGISTRY.byNameCodec(), Codec.FLOAT).listOf().fieldOf("spellsOnCooldown").forGetter(s -> s.spellsOnCooldown)
+            SpellRegistry.SPELLS_REGISTRY.byNameCodec().listOf().fieldOf("knownSpells").forGetter(SpellHandler::getKnownSpells),
+            SpellRegistry.SPELLS_REGISTRY.byNameCodec().fieldOf("selectedSpell1").forGetter(SpellHandler::getSelectedSpell1),
+            SpellRegistry.SPELLS_REGISTRY.byNameCodec().fieldOf("selectedSpell1").forGetter(SpellHandler::getSelectedSpell2),
+            Codec.unboundedMap(SpellRegistry.SPELLS_REGISTRY.byNameCodec(), Codec.FLOAT).fieldOf("spellsOnCooldown").forGetter(SpellHandler::getSpellsOnCooldown)
 
     ).apply(spellHandlerInstance, SpellHandler::new));
 
     public SpellHandler() {
-        this(new ArrayList<>(), SpellRegistry.EMPTY_SPELL.get(), SpellRegistry.EMPTY_SPELL.get(), new ArrayList<>());
+        this(new ArrayList<>(), SpellRegistry.EMPTY_SPELL.get(), SpellRegistry.EMPTY_SPELL.get(), new HashMap<>());
     }
 
-    public SpellHandler(List<Spell> spells, Spell selectedSpell1, Spell selectedSpell2, List<Pair<Spell, Float>> cooldowns) {
+    public SpellHandler(List<Spell> spells, Spell selectedSpell1, Spell selectedSpell2, Map<Spell, Float> cooldowns) {
         this.knownSpells = spells;
         this.selectedSpell1 = selectedSpell1;
         this.selectedSpell2 = selectedSpell2;
@@ -71,30 +70,22 @@ public class SpellHandler
         this.selectedSpell2 = spell;
     }
 
-    public void addSpellAndCooldown(Spell spell) {
-        for(int i = 0; i < spellsOnCooldown.size(); i++) {
-            Pair<Spell, Float> p = spellsOnCooldown.get(i);
-            if(p.getFirst().getID() == spell.getID()) {
-                List<Pair<Spell, Float>> copy = spellsOnCooldown;
-                copy.add(i, new Pair<>(p.getFirst(), spell.getCooldown()));
-                this.spellsOnCooldown = copy;
-            }
-        }
+    //TODO: fix this pls.
+    public void addSpellAndCooldown(Spell spell, float cooldown) {
+        Map<Spell, Float> cooldowns = new HashMap<>(spellsOnCooldown);
+        cooldowns.put(spell, cooldown);
+        this.spellsOnCooldown = cooldowns;
     }
 
     public float getSpellCooldown(Spell shout) {
-        for(Pair<Spell, Float> pair : spellsOnCooldown) {
-            if(pair.getFirst().getID() == shout.getID())
-                return shout.getCooldown();
-        }
-        return 0f;
+        return spellsOnCooldown.getOrDefault(shout, 0f);
     }
 
     public void setKnownSpells(List<Spell> spells) {
         this.knownSpells = spells;
     }
 
-    public void setSpellsOnCooldown(List<Pair<Spell, Float>> cooldowns) {
+    public void setSpellsOnCooldown(Map<Spell, Float> cooldowns) {
         this.spellsOnCooldown = cooldowns;
     }
 
@@ -124,8 +115,21 @@ public class SpellHandler
         target.send(new UpdateSpellHandlerOnClient(this));
     }
 
-    public List<Pair<Spell, Float>> getSpellsOnCooldown() {
+    public Map<Spell, Float> getSpellsOnCooldown() {
         return spellsOnCooldown;
+    }
+
+    public class SpellCooldown<L,R> {
+        private L l;
+        private R r;
+        public SpellCooldown(L l, R r){
+            this.l = l;
+            this.r = r;
+        }
+        public L getL(){ return l; }
+        public R getR(){ return r; }
+        public void setL(L l){ this.l = l; }
+        public void setR(R r){ this.r = r; }
     }
 
     private static class SpellHandlerEvents
@@ -177,7 +181,7 @@ public class SpellHandler
             List<Spell> oldKnownSpells = oldHandler.getKnownSpells();
             Spell selected1 = oldHandler.getSelectedSpell1();
             Spell selected2 = oldHandler.getSelectedSpell2();
-            List<Pair<Spell, Float>> oldCooldowns = oldHandler.getSpellsOnCooldown();
+            Map<Spell, Float> oldCooldowns = oldHandler.getSpellsOnCooldown();
             var newHandler = get(newPlayer);
             newHandler.setKnownSpells(oldKnownSpells);
             newHandler.setSelectedSpell1(selected1);
