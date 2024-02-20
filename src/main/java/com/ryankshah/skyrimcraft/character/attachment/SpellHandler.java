@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
@@ -22,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//TODO: Check why selected spells are not syncing!!
 public class SpellHandler
 {
     private List<Spell> knownSpells;
@@ -165,7 +167,7 @@ public class SpellHandler
                 return;
             if (target instanceof Player)
             {
-                get((LivingEntity) target).syncToSelf((Player)target);
+                get((Player)target).syncToSelf((Player)target);
             }
         }
 
