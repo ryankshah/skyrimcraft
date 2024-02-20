@@ -12,6 +12,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
@@ -39,37 +40,27 @@ public record AddToCompassFeatures(UUID uuid, ResourceLocation location, BlockPo
     }
 
     public static void handleServer(final AddToCompassFeatures data, final PlayPayloadContext context) {
-        context.workHandler().submitAsync(() -> {
-                    if(context.player().isPresent()) {
-                        ServerPlayer player = (ServerPlayer) context.player().get();
-                        List<CompassFeature> features = player.getData(PlayerAttachments.COMPASS_FEATURES).getCompassFeatures();
-                        features.add(new CompassFeature(data.uuid, TagKey.create(Registries.STRUCTURE, data.location), data.blockPos));
-                        player.setData(PlayerAttachments.COMPASS_FEATURES, new CompassFeatureHandler(features));
+        ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
+        List<CompassFeature> features = player.getData(PlayerAttachments.COMPASS_FEATURES).getCompassFeatures();
+        features.add(new CompassFeature(data.uuid, TagKey.create(Registries.STRUCTURE, data.location), data.blockPos));
+        player.setData(PlayerAttachments.COMPASS_FEATURES, new CompassFeatureHandler(features));
 
-                        final AddToCompassFeatures sendToClient = new AddToCompassFeatures(data.uuid, data.location, data.blockPos);
-                        PacketDistributor.PLAYER.with(player).send(sendToClient);
-                    }
-                })
-                .exceptionally(e -> {
-                    // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
-                    return null;
-                });
+        final AddToCompassFeatures sendToClient = new AddToCompassFeatures(data.uuid, data.location, data.blockPos);
+        PacketDistributor.PLAYER.with(player).send(sendToClient);
     }
 
     public static void handleClient(final AddToCompassFeatures data, final PlayPayloadContext context) {
         context.workHandler().submitAsync(() -> {
-                    if(context.player().isPresent()) {
-                        List<CompassFeature> features = context.player().get().getData(PlayerAttachments.COMPASS_FEATURES).getCompassFeatures();
-                        features.add(new CompassFeature(data.uuid, TagKey.create(Registries.STRUCTURE, data.location), data.blockPos));
-                        context.player().get().setData(PlayerAttachments.COMPASS_FEATURES, new CompassFeatureHandler(features));
-                    }
-                })
-                .exceptionally(e -> {
-                    // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
-                    return null;
-                });
+            if(context.player().isPresent()) {
+                Player player = context.player().get();
+                List<CompassFeature> features = player.getData(PlayerAttachments.COMPASS_FEATURES).getCompassFeatures();
+                features.add(new CompassFeature(data.uuid, TagKey.create(Registries.STRUCTURE, data.location), data.blockPos));
+                player.setData(PlayerAttachments.COMPASS_FEATURES, new CompassFeatureHandler(features));
+            }
+        }).exceptionally(e -> {
+                context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
+            return null;
+        });
     }
 }
 

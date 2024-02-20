@@ -39,75 +39,17 @@ public record UpdateShoutCooldown(ResourceKey<Spell> spell, float cooldown) impl
     }
 
     public static void handleServer(final UpdateShoutCooldown data, final PlayPayloadContext context) {
-        context.workHandler().submitAsync(() -> {
-                    Player player = context.player().orElseThrow();
+        Player player = context.player().orElseThrow();
 
-                    if (player instanceof ServerPlayer) {
-                        ServerPlayer serverPlayer = (ServerPlayer) player;
-                        List<Pair<Spell, Float>> cooldowns = new ArrayList<>(serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown());
+        if (player instanceof ServerPlayer) {
+            ServerPlayer serverPlayer = (ServerPlayer) player;
+            serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).addSpellAndCooldown(SpellRegistry.SPELLS_REGISTRY.get(data.spell));
 
-//                        cooldowns.stream().filter(pair -> pair.getFirst().getID() == data.spellID).findFirst().ifPresent(
-//                                pair -> new Pair<>(pair.getFirst(), data.cooldown)
-//                        );
-                        setCooldown(cooldowns, data.spell, data.cooldown);
-
-                        serverPlayer.setData(PlayerAttachments.KNOWN_SPELLS,
-                                new SpellHandler(serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells(),
-                                        serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1(),
-                                        serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2(),
-                                        cooldowns));
-
-                        final UpdateShoutCooldown sendToClient = new UpdateShoutCooldown(data.spell, data.cooldown);
-                        PacketDistributor.PLAYER.with(serverPlayer).send(sendToClient);
-                    }
-                })
-                .exceptionally(e -> {
-                    // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
-                    return null;
-                });
-    }
-
-    public static List<Pair<Spell, Float>> setCooldown(List<Pair<Spell, Float>> cooldowns, ResourceKey<Spell> spell, float cooldown) {
-        for(int i = 0; i < cooldowns.size(); i++) {
-            Pair<Spell, Float> p = cooldowns.get(i);
-            if(p.getFirst().getID() == SpellRegistry.SPELLS_REGISTRY.get(spell).getID()) {
-                cooldowns.add(i, new Pair<>(p.getFirst(), cooldown));
-            }
+            final UpdateSpellHandlerOnClient sendToClient = new UpdateSpellHandlerOnClient(player.getData(PlayerAttachments.KNOWN_SPELLS));
+            PacketDistributor.PLAYER.with(serverPlayer).send(sendToClient);
         }
-        return cooldowns;
-    }
-    public static Float getCooldown (List<Pair<Spell, Float>> cooldowns, Spell value) {
-        for (Pair<Spell, Float> p : cooldowns)
-            if (p.getFirst().equals(value))
-                return p.getSecond();
-        return null;
     }
 
     public static void handleClient(final UpdateShoutCooldown data, final PlayPayloadContext context) {
-        context.workHandler().submitAsync(() -> {
-                    Player player = context.player().orElseThrow();
-
-                    List<Pair<Spell, Float>> cooldowns = new ArrayList<>(player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown());
-
-//                    cooldowns.stream().filter(pair -> pair.getFirst().getID() == data.spellID).findFirst().ifPresent(
-//                            pair -> new Pair<>(pair.getFirst(), data.cooldown)
-//                    );
-
-                    setCooldown(cooldowns, data.spell, data.cooldown);
-
-                    player.setData(PlayerAttachments.KNOWN_SPELLS,
-                            new SpellHandler(player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells(),
-                                    player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1(),
-                                    player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2(),
-                                    cooldowns));
-
-//                    System.out.println(cooldowns);
-                })
-                .exceptionally(e -> {
-                    // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
-                    return null;
-                });
     }
 }

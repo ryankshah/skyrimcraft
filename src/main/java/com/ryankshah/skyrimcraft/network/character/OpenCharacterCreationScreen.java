@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
@@ -31,30 +32,18 @@ public record OpenCharacterCreationScreen(boolean hasSetup) implements CustomPac
     }
 
     public static void handleServer(final OpenCharacterCreationScreen data, final PlayPayloadContext context) {
-        context.workHandler().submitAsync(() -> {
-                    ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
+        ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
 
-                    player.setData(PlayerAttachments.HAS_SETUP.get(), true);
+        player.setData(PlayerAttachments.HAS_SETUP.get(), true);
 
-                    final OpenCharacterCreationScreen sendToClient = new OpenCharacterCreationScreen(data.hasSetup);
-                    PacketDistributor.PLAYER.with(player).send(sendToClient);
-                })
-                .exceptionally(e -> {
-                    // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
-                    return null;
-                });
+        final OpenCharacterCreationScreen sendToClient = new OpenCharacterCreationScreen(data.hasSetup);
+        PacketDistributor.PLAYER.with(player).send(sendToClient);
     }
 
     public static void handleClient(final OpenCharacterCreationScreen data, final PlayPayloadContext context) {
-        context.workHandler().submitAsync(() -> {
-                    Minecraft.getInstance().player.setData(PlayerAttachments.HAS_SETUP.get(), true);
-                    Minecraft.getInstance().setScreen(new CharacterCreationScreen());
-                })
-                .exceptionally(e -> {
-                    // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
-                    return null;
-                });
+        Player player = context.player().orElseThrow();
+        player.setData(PlayerAttachments.HAS_SETUP.get(), true);
+//        Minecraft.getInstance().setScreen(new CharacterCreationScreen());
+        Minecraft.getInstance().setScreen(null);
     }
 }

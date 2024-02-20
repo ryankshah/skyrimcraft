@@ -1,6 +1,7 @@
 package com.ryankshah.skyrimcraft;
 
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
+import com.ryankshah.skyrimcraft.character.attachment.SpellHandler;
 import com.ryankshah.skyrimcraft.character.feature.model.DunmerEarModel;
 import com.ryankshah.skyrimcraft.character.feature.model.HighElfEarModel;
 import com.ryankshah.skyrimcraft.character.feature.model.KhajiitHeadModel;
@@ -120,7 +121,10 @@ public class Skyrimcraft
         AttributeInit.ATTRIBUTES.register(bus);
         EntityInit.ENTITY_TYPES.register(bus);
         SpellRegistry.SPELLS.register(bus);
+
         PlayerAttachments.ATTACHMENT_TYPES.register(bus);
+        SpellHandler.register(bus);
+
         StructureInit.STRUCTURES.register(bus);
 
         ItemInit.ITEMS.register(bus);

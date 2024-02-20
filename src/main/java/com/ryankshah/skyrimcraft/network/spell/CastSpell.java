@@ -31,20 +31,12 @@ public record CastSpell(ResourceKey<Spell> spell) implements CustomPacketPayload
     }
 
     public static void handle(final CastSpell data, final PlayPayloadContext context) {
-        context.workHandler().submitAsync(() -> {
-                    Player player = context.player().orElseThrow();
+        Player player = context.player().orElseThrow();
 
-                    if (player instanceof ServerPlayer) {
-                        Spell spellInstance = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
-                        spellInstance.setCaster(player);
-                        spellInstance.cast();
-//                        player.setData(PlayerAttachments.KNOWN_SPELLS, new SpellHandler(knownSpells, player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpells(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()));
-                    }
-                })
-                .exceptionally(e -> {
-                    // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
-                    return null;
-                });
+        if (player instanceof ServerPlayer) {
+            Spell spellInstance = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
+            spellInstance.setCaster(player);
+            spellInstance.cast();
+        }
     }
 }

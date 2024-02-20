@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
@@ -32,41 +33,20 @@ public record RemoveFromTargetingEntities(int entityId) implements CustomPacketP
     }
 
     public static void handleServer(final RemoveFromTargetingEntities data, final PlayPayloadContext context) {
-        // Do something with the data, on the network thread
-//        blah(data.name());
+        ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
+        List<Integer> targets = player.getData(PlayerAttachments.PLAYER_TARGETS).getTargets();
+        targets.remove(data.entityId());
+        player.setData(PlayerAttachments.PLAYER_TARGETS, new PlayerTargetsHandler(targets, player.getData(PlayerAttachments.PLAYER_TARGETS).getCurrentTarget()));
 
-        // Do something with the data, on the main thread
-        context.workHandler().submitAsync(() -> {
-                    ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
-                    List<Integer> targets = player.getData(PlayerAttachments.PLAYER_TARGETS).getTargets();
-                    targets.remove(data.entityId());
-                    player.setData(PlayerAttachments.PLAYER_TARGETS, new PlayerTargetsHandler(targets, player.getData(PlayerAttachments.PLAYER_TARGETS).getCurrentTarget()));
-
-                    final AddToTargetingEntities sendToClient = new AddToTargetingEntities(data.entityId);
-                    PacketDistributor.PLAYER.with(player).send(sendToClient);
-                })
-                .exceptionally(e -> {
-                    // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
-                    return null;
-                });
+        final AddToTargetingEntities sendToClient = new AddToTargetingEntities(data.entityId);
+        PacketDistributor.PLAYER.with(player).send(sendToClient);
     }
 
     public static void handleClient(final RemoveFromTargetingEntities data, final PlayPayloadContext context) {
-        // Do something with the data, on the network thread
-//        blah(data.name());
-
-        // Do something with the data, on the main thread
-        context.workHandler().submitAsync(() -> {
-                    List<Integer> targets = context.player().get().getData(PlayerAttachments.PLAYER_TARGETS).getTargets();
-                    targets.remove(data.entityId());
-                    context.player().get().setData(PlayerAttachments.PLAYER_TARGETS, new PlayerTargetsHandler(targets, context.player().get().getData(PlayerAttachments.PLAYER_TARGETS).getCurrentTarget()));
-                })
-                .exceptionally(e -> {
-                    // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
-                    return null;
-                });
+        Player player = context.player().orElseThrow();
+        List<Integer> targets = player.getData(PlayerAttachments.PLAYER_TARGETS).getTargets();
+        targets.remove(data.entityId());
+        player.setData(PlayerAttachments.PLAYER_TARGETS, new PlayerTargetsHandler(targets, player.getData(PlayerAttachments.PLAYER_TARGETS).getCurrentTarget()));
     }
 }
 

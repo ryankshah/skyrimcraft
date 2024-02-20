@@ -37,49 +37,14 @@ public record AddToKnownSpells(ResourceKey<Spell> spell) implements CustomPacket
     }
 
     public static void handleServer(final AddToKnownSpells data, final PlayPayloadContext context) {
-        context.workHandler().submitAsync(() -> {
-                    ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
+        ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
+        player.getData(PlayerAttachments.KNOWN_SPELLS).addNewSpell(SpellRegistry.SPELLS_REGISTRY.get(data.spell));
 
-                    // TODO: Check if we need to add this on client too
-//                    if (player instanceof ServerPlayer) {
-                    List<Spell> knownSpells = new ArrayList<>(player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells());
-//                    System.out.println("AddToKnownSpells: " + knownSpells);
-                    Spell spell = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
-
-//                            SpellRegistry.SPELLS_REGISTRY.stream().filter(s -> s.getID() == data.spell)
-//                            .findFirst().orElseThrow();
-                    knownSpells.add(spell);
-//                        System.out.println("AddToKnownSpells: " + knownSpells);
-                    player.setData(PlayerAttachments.KNOWN_SPELLS, new SpellHandler(knownSpells, player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()));
-
-                    final AddToKnownSpells sendToClient = new AddToKnownSpells(data.spell);
-                    PacketDistributor.PLAYER.with(player).send(sendToClient);
-                })
-                .exceptionally(e -> {
-                    // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
-                    return null;
-                });
+        final UpdateSpellHandlerOnClient sendToClient = new UpdateSpellHandlerOnClient(player.getData(PlayerAttachments.KNOWN_SPELLS));
+        PacketDistributor.PLAYER.with(player).send(sendToClient);
     }
 
     public static void handleClient(final AddToKnownSpells data, final PlayPayloadContext context) {
-        context.workHandler().submitAsync(() -> {
-                    Player player = context.player().orElseThrow();
-
-                    // TODO: Check if we need to add this on client too
-//                    if (player instanceof ServerPlayer) {
-                    List<Spell> knownSpells = new ArrayList<>(player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells());
-//                    System.out.println("AddToKnownSpells: " + knownSpells);
-                    Spell spell = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
-                    knownSpells.add(spell);
-//                        System.out.println("AddToKnownSpells: " + knownSpells);
-                    player.setData(PlayerAttachments.KNOWN_SPELLS, new SpellHandler(knownSpells, player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2(), player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown()));
-                })
-                .exceptionally(e -> {
-                    // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
-                    return null;
-                });
     }
 }
 

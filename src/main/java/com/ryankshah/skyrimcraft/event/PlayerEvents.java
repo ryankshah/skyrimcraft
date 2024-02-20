@@ -10,9 +10,12 @@ import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.init.AttributeInit;
 import com.ryankshah.skyrimcraft.init.TagsInit;
 import com.ryankshah.skyrimcraft.network.character.AddToCompassFeatures;
-import com.ryankshah.skyrimcraft.network.character.OpenCharacterCreationScreen;
 import com.ryankshah.skyrimcraft.network.spell.UpdateShoutCooldown;
+import com.ryankshah.skyrimcraft.network.spell.UpdateSpellHandlerOnClient;
+import com.ryankshah.skyrimcraft.screen.CharacterCreationScreen;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -41,7 +44,7 @@ public class PlayerEvents
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         Player playerEntity = event.player;
-        if (!playerEntity.isAlive())
+        if (!playerEntity.isAlive() || playerEntity == null)
             return;
 
         if (event.phase == TickEvent.Phase.END) {
@@ -141,12 +144,44 @@ public class PlayerEvents
     @SubscribeEvent
     public static void playerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = event.getEntity();
-        if(player instanceof ServerPlayer) {
-            ServerPlayer serverPlayer = (ServerPlayer) player;
-            if (!serverPlayer.getData(PlayerAttachments.HAS_SETUP)) {
-                final OpenCharacterCreationScreen packet = new OpenCharacterCreationScreen(serverPlayer.getData(PlayerAttachments.HAS_SETUP));
-                PacketDistributor.PLAYER.with(serverPlayer).send(packet);
-            }
+//        if(player instanceof ServerPlayer) {
+//            final UpdateSpellHandlerOnClient sendToClient = new UpdateSpellHandlerOnClient(player.getData(PlayerAttachments.KNOWN_SPELLS));
+//            PacketDistributor.PLAYER.with((ServerPlayer) player).send(sendToClient);
+//        }
+//            List<Spell> spells = player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
+//            if(!spells.isEmpty()) {
+//                for (Spell spell : spells) {
+//                    final AddToKnownSpells packet = new AddToKnownSpells(SpellRegistry.SPELLS_REGISTRY.getResourceKey(spell).get());
+//                    PacketDistributor.PLAYER.with((ServerPlayer) player).send(packet);
+//                }
+//            }
+//
+//            final UpdateSelectedSpells selectedSpell1 = new UpdateSelectedSpells(1, SpellRegistry.SPELLS_REGISTRY.getResourceKey(player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1()).get());
+//            PacketDistributor.PLAYER.with((ServerPlayer) player).send(selectedSpell1);
+//            final UpdateSelectedSpells selectedSpell2 = new UpdateSelectedSpells(2, SpellRegistry.SPELLS_REGISTRY.getResourceKey(player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2()).get());
+//            PacketDistributor.PLAYER.with((ServerPlayer) player).send(selectedSpell2);
+//
+//            List<Pair<Spell, Float>> cooldowns = player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
+//            if(!cooldowns.isEmpty()) {
+//                for (Pair<Spell, Float> pair : cooldowns) {
+//                    final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(SpellRegistry.SPELLS_REGISTRY.getResourceKey(pair.getFirst()).get(), pair.getSecond());
+//                    PacketDistributor.PLAYER.with((ServerPlayer) player).send(updateShoutCooldown);
+//                }
+//            }
+//        }
+
+        if(player instanceof AbstractClientPlayer) {
+            //TODO: Check this out... (if player has not setup, then show this, else... well?
+            Minecraft.getInstance().setScreen(new CharacterCreationScreen());
         }
+//        if(player instanceof ServerPlayer) {
+//            ServerPlayer serverPlayer = (ServerPlayer) player;
+//            if (!serverPlayer.getData(PlayerAttachments.HAS_SETUP)) {
+//                final OpenCharacterCreationScreen packet = new OpenCharacterCreationScreen(serverPlayer.getData(PlayerAttachments.HAS_SETUP));
+//                PacketDistributor.PLAYER.with(serverPlayer).send(packet);
+//            } else {
+//                // Do sync
+//            }
+//        }
     }
 }

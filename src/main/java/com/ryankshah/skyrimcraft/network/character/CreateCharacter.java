@@ -34,32 +34,18 @@ public record CreateCharacter(int raceID) implements CustomPacketPayload //(int 
     }
 
     public static void handleServer(final CreateCharacter data, final PlayPayloadContext context) {
-        context.workHandler().submitAsync(() -> {
-                    ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
+        ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
+        Race race = Race.getRaces().stream().filter(r -> r.getId() == data.raceID()).findFirst().get();
 
-                    Race race = Race.getRaces().stream().filter(r -> r.getId() == data.raceID()).findFirst().get();
-
-                    player.setData(PlayerAttachments.SKILLS, new SkillsHandler(race));
-                    final CreateCharacter sendToClient = new CreateCharacter(race.getId());
-                    PacketDistributor.PLAYER.with(player).send(sendToClient);
-                })
-                .exceptionally(e -> {
-                    // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
-                    return null;
-                });
+        player.setData(PlayerAttachments.SKILLS, new SkillsHandler(race));
+        final CreateCharacter sendToClient = new CreateCharacter(race.getId());
+        PacketDistributor.PLAYER.with(player).send(sendToClient);
     }
 
     public static void handleClient(final CreateCharacter data, final PlayPayloadContext context) {
-        context.workHandler().submitAsync(() -> {
-                    Player player = context.player().orElseThrow();
-                    Race race = Race.getRaces().stream().filter(r -> r.getId() == data.raceID()).findFirst().get();
-                    player.setData(PlayerAttachments.SKILLS, new SkillsHandler(race));
-                })
-                .exceptionally(e -> {
-                    // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
-                    return null;
-                });
+        Player player = context.player().orElseThrow();
+        Race race = Race.getRaces().stream().filter(r -> r.getId() == data.raceID()).findFirst().get();
+
+        player.setData(PlayerAttachments.SKILLS, new SkillsHandler(race));
     }
 }

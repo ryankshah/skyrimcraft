@@ -26,9 +26,10 @@ public class Networking
         registrar.play(AddToCompassFeatures.ID, AddToCompassFeatures::new, payload -> payload.server(AddToCompassFeatures::handleServer).client(AddToCompassFeatures::handleClient));
 
         registrar.play(AddToKnownSpells.ID, AddToKnownSpells::new, payload -> payload.server(AddToKnownSpells::handleServer).client(AddToKnownSpells::handleClient));
-        registrar.play(UpdateSelectedSpells.ID, UpdateSelectedSpells::new, payload -> payload.server(UpdateSelectedSpells::handleServer).client(UpdateSelectedSpells::handleClient));
+        registrar.play(UpdateSelectedSpell.ID, UpdateSelectedSpell::new, payload -> payload.server(UpdateSelectedSpell::handleServer).client(UpdateSelectedSpell::handleClient));
         registrar.play(UpdateShoutCooldown.ID, UpdateShoutCooldown::new, payload -> payload.server(UpdateShoutCooldown::handleServer).client(UpdateShoutCooldown::handleClient));
         registrar.play(CastSpell.ID, CastSpell::new, payload -> payload.server(CastSpell::handle));
+        registrar.play(UpdateSpellHandlerOnClient.ID, UpdateSpellHandlerOnClient::new, payload -> payload.client(UpdateSpellHandlerOnClient::handleClient));
 
         registrar.play(OpenCharacterCreationScreen.ID, OpenCharacterCreationScreen::new, payload -> payload.server(OpenCharacterCreationScreen::handleServer).client(OpenCharacterCreationScreen::handleClient));
         registrar.play(CreateCharacter.ID, CreateCharacter::new, payload -> payload.server(CreateCharacter::handleServer).client(CreateCharacter::handleClient));
