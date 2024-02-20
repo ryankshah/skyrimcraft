@@ -10,6 +10,7 @@ import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.init.AttributeInit;
 import com.ryankshah.skyrimcraft.init.TagsInit;
 import com.ryankshah.skyrimcraft.network.character.AddToCompassFeatures;
+import com.ryankshah.skyrimcraft.network.character.OpenCharacterCreationScreen;
 import com.ryankshah.skyrimcraft.network.spell.UpdateShoutCooldown;
 import com.ryankshah.skyrimcraft.network.spell.UpdateSpellHandlerOnClient;
 import com.ryankshah.skyrimcraft.screen.CharacterCreationScreen;
@@ -148,18 +149,16 @@ public class PlayerEvents
     public static void playerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = event.getEntity();
 
-        if(player instanceof AbstractClientPlayer) {
-            if(!player.getData(PlayerAttachments.HAS_SETUP))
-                Minecraft.getInstance().setScreen(new CharacterCreationScreen());
-        }
-//        if(player instanceof ServerPlayer) {
-//            ServerPlayer serverPlayer = (ServerPlayer) player;
-//            if (!serverPlayer.getData(PlayerAttachments.HAS_SETUP)) {
-//                final OpenCharacterCreationScreen packet = new OpenCharacterCreationScreen(serverPlayer.getData(PlayerAttachments.HAS_SETUP));
-//                PacketDistributor.PLAYER.with(serverPlayer).send(packet);
-//            } else {
-//                // Do sync
-//            }
+//        if(player instanceof AbstractClientPlayer) {
+//            if(!player.getData(PlayerAttachments.HAS_SETUP))
+//                Minecraft.getInstance().setScreen(new CharacterCreationScreen());
 //        }
+        if(player instanceof ServerPlayer) {
+            ServerPlayer serverPlayer = (ServerPlayer) player;
+            if (!serverPlayer.getData(PlayerAttachments.HAS_SETUP)) {
+                final OpenCharacterCreationScreen packet = new OpenCharacterCreationScreen(serverPlayer.getData(PlayerAttachments.HAS_SETUP));
+                PacketDistributor.PLAYER.with(serverPlayer).send(packet);
+            }
+        }
     }
 }

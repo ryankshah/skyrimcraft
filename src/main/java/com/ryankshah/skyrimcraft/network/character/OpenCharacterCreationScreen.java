@@ -41,9 +41,11 @@ public record OpenCharacterCreationScreen(boolean hasSetup) implements CustomPac
     }
 
     public static void handleClient(final OpenCharacterCreationScreen data, final PlayPayloadContext context) {
-        Player player = context.player().orElseThrow();
-        player.setData(PlayerAttachments.HAS_SETUP.get(), true);
-//        Minecraft.getInstance().setScreen(new CharacterCreationScreen());
-        Minecraft.getInstance().setScreen(null);
+        Minecraft minecraft = Minecraft.getInstance();
+        minecraft.execute(() -> {
+            Player player = Minecraft.getInstance().player;
+            player.setData(PlayerAttachments.HAS_SETUP.get(), true);
+            Minecraft.getInstance().setScreen(new CharacterCreationScreen());
+        });
     }
 }

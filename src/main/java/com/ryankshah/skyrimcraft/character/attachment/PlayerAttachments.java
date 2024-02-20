@@ -27,6 +27,11 @@ public class PlayerAttachments
 {
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Skyrimcraft.MODID);
 
+    public static final Supplier<AttachmentType<Character>> CHARACTER = ATTACHMENT_TYPES.register(
+            "character", () -> AttachmentType.builder(Character::new).serialize(Character.CODEC).copyOnDeath().build());
+
+
+
     public static final Supplier<AttachmentType<Boolean>> HAS_SETUP = ATTACHMENT_TYPES.register(
             "has_setup", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).copyOnDeath().build());
 
@@ -56,27 +61,19 @@ public class PlayerAttachments
 
 
     public static void registerSyncEvents(IEventBus modEventBus) {
-        NeoForge.EVENT_BUS.register(new AttachmentEvents());
-        SpellHandler.register(modEventBus);
-        SkillsHandler.register(modEventBus);
-        CompassFeatureHandler.register(modEventBus);
+        Character.register(modEventBus);
+//        NeoForge.EVENT_BUS.register(new AttachmentEvents());
+//
+//        SpellHandler.register(modEventBus);
+//        SkillsHandler.register(modEventBus);
+//        CompassFeatureHandler.register(modEventBus);
     }
 
     private static class AttachmentEvents
     {
         protected void sync(Player player)
         {
-            PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateMagicka(
-                    player.getData(PlayerAttachments.MAGICKA),
-                    player.getData(PlayerAttachments.MAX_MAGICKA),
-                    player.getData(PlayerAttachments.MAGICKA_REGEN_MODIFIER)
-            ));
 
-            PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateCharacter(
-                    player.getData(PlayerAttachments.HAS_SETUP),
-                    player.getData(PlayerAttachments.CHARACTER_LEVEL),
-                    player.getData(PlayerAttachments.CHARACTER_TOTAL_XP)
-            ));
         }
 
         @SubscribeEvent
