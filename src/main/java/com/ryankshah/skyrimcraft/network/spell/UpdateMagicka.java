@@ -12,17 +12,19 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
-public record UpdateMagicka(float amount) implements CustomPacketPayload
+public record UpdateMagicka(float magicka, float maxMagicka, float magickaRegenModifier) implements CustomPacketPayload
 {
     public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"updatemagicka");
 
     public UpdateMagicka(final FriendlyByteBuf buffer) {
-        this(buffer.readFloat());
+        this(buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
     }
 
     @Override
     public void write(final FriendlyByteBuf buffer) {
-        buffer.writeFloat(amount);
+        buffer.writeFloat(magicka);
+        buffer.writeFloat(maxMagicka);
+        buffer.writeFloat(magickaRegenModifier);
     }
 
     @Override
@@ -33,7 +35,9 @@ public record UpdateMagicka(float amount) implements CustomPacketPayload
     public static void handleServer(final UpdateMagicka data, final PlayPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
 
-        float curMagicka = data.amount;
+        player.setData(PlayerAttachments.MAX_MAGICKA, data.maxMagicka);
+
+        float curMagicka = data.magicka;
         float maxMagicka = player.getData(PlayerAttachments.MAX_MAGICKA);
 
         if(curMagicka <= 0.0f)
@@ -43,7 +47,9 @@ public record UpdateMagicka(float amount) implements CustomPacketPayload
 
         player.setData(PlayerAttachments.MAGICKA, curMagicka);
 
-        final UpdateMagicka sendToClient = new UpdateMagicka(data.amount);
+        player.setData(PlayerAttachments.MAGICKA_REGEN_MODIFIER, data.magickaRegenModifier);
+
+        final UpdateMagicka sendToClient = new UpdateMagicka(curMagicka, data.maxMagicka, data.magickaRegenModifier);
         PacketDistributor.PLAYER.with(player).send(sendToClient);
     }
 
@@ -51,15 +57,9 @@ public record UpdateMagicka(float amount) implements CustomPacketPayload
         Minecraft minecraft = Minecraft.getInstance();
         minecraft.execute(() -> {
             Player player = Minecraft.getInstance().player;
-            float curMagicka = data.amount;
-            float maxMagicka = player.getData(PlayerAttachments.MAX_MAGICKA);
-
-            if (curMagicka <= 0.0f)
-                curMagicka = 0.0f;
-            if (curMagicka >= maxMagicka)
-                curMagicka = maxMagicka;
-
-            player.setData(PlayerAttachments.MAGICKA, curMagicka);
+            player.setData(PlayerAttachments.MAGICKA, data.magicka);
+            player.setData(PlayerAttachments.MAX_MAGICKA, data.maxMagicka);
+            player.setData(PlayerAttachments.MAGICKA_REGEN_MODIFIER, data.magickaRegenModifier);
         });
     }
 }

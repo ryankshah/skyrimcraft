@@ -6,7 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
-import com.ryankshah.skyrimcraft.character.skill.ISkill;
+import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.event.KeyEvents;
 import com.ryankshah.skyrimcraft.util.RenderUtil;
@@ -40,8 +40,8 @@ public class SkillScreen extends Screen
             SKILL_BAR_WIDTH = 67,
             SKILL_BAR_HEIGHT = 2;
 
-    private Map<Integer, ISkill> skillsList;
-    private ISkill selectedSkillObject;
+    private Map<Integer, Skill> skillsList;
+    private Skill selectedSkillObject;
     private Minecraft minecraft;
     private LocalPlayer player;
     private float cubeMapPosition = 0.0f;
@@ -90,7 +90,7 @@ public class SkillScreen extends Screen
 //        RenderSystem.setShaderTexture(0, GuiComponent.GUI_ICONS_LOCATION);
         // If no skill is selected, show skill icons etc.
         if(!skillSelected) {
-            for (Map.Entry<Integer, ISkill> skillEntry : skillsList.entrySet()) {
+            for (Map.Entry<Integer, Skill> skillEntry : skillsList.entrySet()) {
                 int x = this.width / 2 + 128 * (skillEntry.getKey() + 1) - (this.currentSkill + 1) * 128; //(width / 2) - ((SKILL_BAR_CONTAINER_WIDTH / 2) + (24 * currentSkill+1))
                 drawSkill(skillEntry.getValue(), graphics, matrixStack, x, height / 2);
             }
@@ -174,7 +174,7 @@ public class SkillScreen extends Screen
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
-    public static AbstractMap.SimpleEntry<Integer, Integer> getIconUV(ISkill skill) {
+    public static AbstractMap.SimpleEntry<Integer, Integer> getIconUV(Skill skill) {
         if(skill.getID() == SkillRegistry.ALTERATION.getID()) {
             return new AbstractMap.SimpleEntry<>(0, 0);
         } else if(skill.getID() == SkillRegistry.CONJURATION.getID()) {
@@ -209,7 +209,7 @@ public class SkillScreen extends Screen
         return new AbstractMap.SimpleEntry<>(384, 0); // return null or perhaps a default no-icon tex when we have all icons?
     }
 
-    private void drawSkill(ISkill skill, GuiGraphics graphics, PoseStack matrixStack, int x, int y) {
+    private void drawSkill(Skill skill, GuiGraphics graphics, PoseStack matrixStack, int x, int y) {
         float skillProgress = skill.getXpProgress();
         //float skillBarWidth = SKILL_BAR_WIDTH * skillProgress;
 

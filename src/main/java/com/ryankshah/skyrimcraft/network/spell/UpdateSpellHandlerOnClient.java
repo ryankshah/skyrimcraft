@@ -17,12 +17,12 @@ public record UpdateSpellHandlerOnClient(SpellHandler spellHandler) implements C
     public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"updatespellhandleronclient");
 
     public UpdateSpellHandlerOnClient(final FriendlyByteBuf buffer) {
-        this(buffer.readJsonWithCodec(SpellHandler.CODEC));
+        this(buffer.readJsonWithCodec(SpellHandler.SPELL_HANDLER_CODEC));
     }
 
     @Override
     public void write(final FriendlyByteBuf buffer) {
-        buffer.writeJsonWithCodec(SpellHandler.CODEC, spellHandler);
+        buffer.writeJsonWithCodec(SpellHandler.SPELL_HANDLER_CODEC, spellHandler);
     }
 
     @Override

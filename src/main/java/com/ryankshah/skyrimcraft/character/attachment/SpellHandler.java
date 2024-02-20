@@ -31,10 +31,10 @@ public class SpellHandler
     private Spell selectedSpell2;
     private Map<Spell, Float> spellsOnCooldown;
 
-    public static Codec<SpellHandler> CODEC = RecordCodecBuilder.create(spellHandlerInstance -> spellHandlerInstance.group(
+    public static Codec<SpellHandler> SPELL_HANDLER_CODEC = RecordCodecBuilder.create(spellHandlerInstance -> spellHandlerInstance.group(
             SpellRegistry.SPELLS_REGISTRY.byNameCodec().listOf().fieldOf("knownSpells").forGetter(SpellHandler::getKnownSpells),
             SpellRegistry.SPELLS_REGISTRY.byNameCodec().fieldOf("selectedSpell1").forGetter(SpellHandler::getSelectedSpell1),
-            SpellRegistry.SPELLS_REGISTRY.byNameCodec().fieldOf("selectedSpell1").forGetter(SpellHandler::getSelectedSpell2),
+            SpellRegistry.SPELLS_REGISTRY.byNameCodec().fieldOf("selectedSpell2").forGetter(SpellHandler::getSelectedSpell2),
             Codec.unboundedMap(SpellRegistry.SPELLS_REGISTRY.byNameCodec(), Codec.FLOAT).fieldOf("spellsOnCooldown").forGetter(SpellHandler::getSpellsOnCooldown)
 
     ).apply(spellHandlerInstance, SpellHandler::new));
@@ -51,16 +51,13 @@ public class SpellHandler
     }
 
 
-    public static void register(IEventBus modEventBus)
-    {
+    public static void register(IEventBus modEventBus) {
         NeoForge.EVENT_BUS.register(new SpellHandlerEvents());
     }
 
     public void addNewSpell(Spell spell) {
         if(!this.knownSpells.contains(spell)) {
-            List<Spell> copy = new ArrayList<>(knownSpells);
-            copy.add(spell);
-            this.knownSpells = copy;
+            this.knownSpells.add(spell);
         }
     }
 
@@ -74,9 +71,7 @@ public class SpellHandler
 
     //TODO: fix this pls.
     public void addSpellAndCooldown(Spell spell, float cooldown) {
-        Map<Spell, Float> cooldowns = new HashMap<>(spellsOnCooldown);
-        cooldowns.put(spell, cooldown);
-        this.spellsOnCooldown = cooldowns;
+        this.spellsOnCooldown.put(spell, cooldown);
     }
 
     public float getSpellCooldown(Spell shout) {
@@ -102,36 +97,20 @@ public class SpellHandler
     public Spell getSelectedSpell1() { return selectedSpell1; }
     public Spell getSelectedSpell2() { return selectedSpell2; }
 
-    private void syncToSelf(Player owner)
-    {
+    private void syncToSelf(Player owner) {
         syncTo(owner);
     }
 
-    protected void syncTo(Player owner)
-    {
+    protected void syncTo(Player owner) {
         PacketDistributor.PLAYER.with((ServerPlayer) owner).send(new UpdateSpellHandlerOnClient(this));
     }
 
-    protected void syncTo(PacketDistributor.PacketTarget target, Player owner)
-    {
+    protected void syncTo(PacketDistributor.PacketTarget target, Player owner) {
         target.send(new UpdateSpellHandlerOnClient(this));
     }
 
     public Map<Spell, Float> getSpellsOnCooldown() {
         return spellsOnCooldown;
-    }
-
-    public class SpellCooldown<L,R> {
-        private L l;
-        private R r;
-        public SpellCooldown(L l, R r){
-            this.l = l;
-            this.r = r;
-        }
-        public L getL(){ return l; }
-        public R getR(){ return r; }
-        public void setL(L l){ this.l = l; }
-        public void setR(R r){ this.r = r; }
     }
 
     private static class SpellHandlerEvents
@@ -172,23 +151,23 @@ public class SpellHandler
         }
 
         @SubscribeEvent
-        public void playerClone(PlayerEvent.Clone event)
-        {
+        public void playerClone(PlayerEvent.Clone event) {
             Player oldPlayer = event.getOriginal();
             Player newPlayer = event.getEntity();
-
-//            printDebugLog("Processing respawn for entity {}({})", newPlayer.getScoreboardName(), newPlayer.getUUID());
             var oldHandler = get(oldPlayer);
-//            printDebugLog("Old entity has data, copying...");
             List<Spell> oldKnownSpells = oldHandler.getKnownSpells();
             Spell selected1 = oldHandler.getSelectedSpell1();
             Spell selected2 = oldHandler.getSelectedSpell2();
             Map<Spell, Float> oldCooldowns = oldHandler.getSpellsOnCooldown();
             var newHandler = get(newPlayer);
-            newHandler.setKnownSpells(oldKnownSpells);
-            newHandler.setSelectedSpell1(selected1);
-            newHandler.setSelectedSpell2(selected2);
-            newHandler.setSpellsOnCooldown(oldCooldowns);
+
+            newHandler.knownSpells = oldKnownSpells;
+            newHandler.selectedSpell1 = selected1;
+            newHandler.selectedSpell2 = selected2;
+            newHandler.spellsOnCooldown = oldCooldowns;
+
+            newPlayer.setData(PlayerAttachments.KNOWN_SPELLS, newHandler);
+            PacketDistributor.PLAYER.with((ServerPlayer) newPlayer).send(new UpdateSpellHandlerOnClient(newHandler));
         }
     }
 }

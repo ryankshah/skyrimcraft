@@ -12,17 +12,17 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
-public record ReplenishMagicka(int amount) implements CustomPacketPayload
+public record ReplenishMagicka(float amount) implements CustomPacketPayload
 {
     public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"replenishmagicka");
 
     public ReplenishMagicka(final FriendlyByteBuf buffer) {
-        this(buffer.readInt());
+        this(buffer.readFloat());
     }
 
     @Override
     public void write(final FriendlyByteBuf buffer) {
-        buffer.writeInt(amount);
+        buffer.writeFloat(amount);
     }
 
     @Override
@@ -33,8 +33,9 @@ public record ReplenishMagicka(int amount) implements CustomPacketPayload
     public static void handleServer(final ReplenishMagicka data, final PlayPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
         float newMagicka = player.getData(PlayerAttachments.MAGICKA) + player.getData(PlayerAttachments.MAX_MAGICKA);
-        player.setData(PlayerAttachments.MAGICKA, newMagicka >= player.getData(PlayerAttachments.MAX_MAGICKA) ? player.getData(PlayerAttachments.MAX_MAGICKA) : newMagicka);
-        final ReplenishMagicka sendToClient = new ReplenishMagicka(data.amount);
+        newMagicka = newMagicka >= player.getData(PlayerAttachments.MAX_MAGICKA) ? player.getData(PlayerAttachments.MAX_MAGICKA) : newMagicka;
+        player.setData(PlayerAttachments.MAGICKA, newMagicka);
+        final ReplenishMagicka sendToClient = new ReplenishMagicka(newMagicka);
         PacketDistributor.PLAYER.with(player).send(sendToClient);
     }
 
@@ -42,8 +43,7 @@ public record ReplenishMagicka(int amount) implements CustomPacketPayload
         Minecraft minecraft = Minecraft.getInstance();
         minecraft.execute(() -> {
             Player player = Minecraft.getInstance().player;
-            float newMagicka = player.getData(PlayerAttachments.MAGICKA) + player.getData(PlayerAttachments.MAX_MAGICKA);
-            player.setData(PlayerAttachments.MAGICKA, newMagicka >= player.getData(PlayerAttachments.MAX_MAGICKA) ? player.getData(PlayerAttachments.MAX_MAGICKA) : newMagicka);
+            player.setData(PlayerAttachments.MAGICKA, data.amount);
         });
     }
 }

@@ -1,9 +1,11 @@
 package com.ryankshah.skyrimcraft.character.skill;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 
-public class ISkill //implements Registry<ISkill>
+public class Skill //implements Registry<ISkill>
 {
     private Player player;
     private int identifier;
@@ -17,26 +19,22 @@ public class ISkill //implements Registry<ISkill>
     public float skillImproveMultiplier;
     public int skillImproveOffset;
 
-    // For predicate use (@see SkillPreciate)
-    public ISkill(int identifier, int level) {
-        this.identifier = identifier;
-        this.level = level;
-    }
+    public static Codec<Skill> SKILL_CODEC = RecordCodecBuilder.create(skill -> skill.group(
+            Codec.INT.fieldOf("identifier").forGetter(Skill::getIdentifier),
+            Codec.STRING.fieldOf("name").forGetter(Skill::getName),
+            Codec.INT.fieldOf("level").forGetter(Skill::getLevel),
+            Codec.FLOAT.fieldOf("skillUseMultiplier").forGetter(Skill::getSkillUseMultiplier),
+            Codec.INT.fieldOf("skillUseOffset").forGetter(Skill::getSkillUseOffset),
+            Codec.FLOAT.fieldOf("skillImproveMultiplier").forGetter(Skill::getSkillImproveMultiplier),
+            Codec.INT.fieldOf("skillImproveOffset").forGetter(Skill::getSkillImproveOffset)
+    ).apply(skill, Skill::new));
 
     // Main constructor to use
-    public ISkill(int identifier, String name, int baseLevel, float skillUseMultiplier, int skillUseOffset, float skillImproveMultiplier, int skillImproveOffset) {
-        this.identifier = identifier;
-        this.name = name;
-        this.level = baseLevel;
-        this.totalXp = 0;
-        this.xpProgress = 0;
-        this.skillUseMultiplier = skillUseMultiplier;
-        this.skillUseOffset = skillUseOffset;
-        this.skillImproveMultiplier = skillImproveMultiplier;
-        this.skillImproveOffset = skillImproveOffset;
+    public Skill(int identifier, String name, int baseLevel, float skillUseMultiplier, int skillUseOffset, float skillImproveMultiplier, int skillImproveOffset) {
+        this(identifier, name, baseLevel, 0, 0, skillUseMultiplier, skillUseOffset, skillImproveMultiplier, skillImproveOffset);
     }
 
-    public ISkill(int identifier, String name, int level, int totalXp, float xpProgress, float skillUseMultiplier, int skillUseOffset, float skillImproveMultiplier, int skillImproveOffset) {
+    public Skill(int identifier, String name, int level, int totalXp, float xpProgress, float skillUseMultiplier, int skillUseOffset, float skillImproveMultiplier, int skillImproveOffset) {
         this.identifier = identifier;
         this.name = name;
         this.level = level;
@@ -49,7 +47,7 @@ public class ISkill //implements Registry<ISkill>
     }
 
     // Dummy constructor
-    public ISkill(ISkill skill) {
+    public Skill(Skill skill) {
         this(skill.identifier, skill.name, skill.level, skill.totalXp, skill.xpProgress, skill.skillUseMultiplier, skill.skillUseOffset, skill.skillImproveMultiplier, skill.skillImproveOffset);
     }
 
@@ -67,7 +65,7 @@ public class ISkill //implements Registry<ISkill>
      *
      * @return ISkill instance
      */
-    public ISkill getSkill() {
+    public Skill getSkill() {
         return this;
     }
 
@@ -190,7 +188,7 @@ public class ISkill //implements Registry<ISkill>
         return nbt;
     }
 
-    public static ISkill deserialise(CompoundTag nbt) {
+    public static Skill deserialise(CompoundTag nbt) {
         int p1 = nbt.getInt("id");
         String p2 = nbt.getString("name");
         int p3 = nbt.getInt("level");
@@ -200,7 +198,7 @@ public class ISkill //implements Registry<ISkill>
         int p7 = nbt.getInt("skillUseOffset");
         float p8 = nbt.getFloat("skillImproveMultiplier");
         int p9 = nbt.getInt("skillImproveOffset");
-        return new ISkill(p1, p2, p3, p4, p5, p6, p7, p8, p9);
+        return new Skill(p1, p2, p3, p4, p5, p6, p7, p8, p9);
     }
 
     @Override

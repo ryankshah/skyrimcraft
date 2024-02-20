@@ -110,7 +110,7 @@ public class PlayerEvents
                     if (featureStartPos != null) {
                         System.out.println("Found Structure: " + structure.toString());
                         List<CompassFeature> playerCompassFeatures = player.getData(PlayerAttachments.COMPASS_FEATURES).getCompassFeatures();
-                        CompassFeature compassFeature = new CompassFeature(UUID.randomUUID(), structure, featureStartPos);
+                        CompassFeature compassFeature = new CompassFeature(UUID.randomUUID().toString(), structure, featureStartPos);
                         if (playerCompassFeatures.stream().noneMatch(feature -> feature.equals(compassFeature))) {
 //                                System.out.println(playerCompassFeatures);
 
@@ -147,35 +147,10 @@ public class PlayerEvents
     @SubscribeEvent
     public static void playerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = event.getEntity();
-//        if(player instanceof ServerPlayer) {
-//            final UpdateSpellHandlerOnClient sendToClient = new UpdateSpellHandlerOnClient(player.getData(PlayerAttachments.KNOWN_SPELLS));
-//            PacketDistributor.PLAYER.with((ServerPlayer) player).send(sendToClient);
-//        }
-//            List<Spell> spells = player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
-//            if(!spells.isEmpty()) {
-//                for (Spell spell : spells) {
-//                    final AddToKnownSpells packet = new AddToKnownSpells(SpellRegistry.SPELLS_REGISTRY.getResourceKey(spell).get());
-//                    PacketDistributor.PLAYER.with((ServerPlayer) player).send(packet);
-//                }
-//            }
-//
-//            final UpdateSelectedSpells selectedSpell1 = new UpdateSelectedSpells(1, SpellRegistry.SPELLS_REGISTRY.getResourceKey(player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1()).get());
-//            PacketDistributor.PLAYER.with((ServerPlayer) player).send(selectedSpell1);
-//            final UpdateSelectedSpells selectedSpell2 = new UpdateSelectedSpells(2, SpellRegistry.SPELLS_REGISTRY.getResourceKey(player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2()).get());
-//            PacketDistributor.PLAYER.with((ServerPlayer) player).send(selectedSpell2);
-//
-//            List<Pair<Spell, Float>> cooldowns = player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
-//            if(!cooldowns.isEmpty()) {
-//                for (Pair<Spell, Float> pair : cooldowns) {
-//                    final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(SpellRegistry.SPELLS_REGISTRY.getResourceKey(pair.getFirst()).get(), pair.getSecond());
-//                    PacketDistributor.PLAYER.with((ServerPlayer) player).send(updateShoutCooldown);
-//                }
-//            }
-//        }
 
         if(player instanceof AbstractClientPlayer) {
-            //TODO: Check this out... (if player has not setup, then show this, else... well?
-            Minecraft.getInstance().setScreen(new CharacterCreationScreen());
+            if(!player.getData(PlayerAttachments.HAS_SETUP))
+                Minecraft.getInstance().setScreen(new CharacterCreationScreen());
         }
 //        if(player instanceof ServerPlayer) {
 //            ServerPlayer serverPlayer = (ServerPlayer) player;

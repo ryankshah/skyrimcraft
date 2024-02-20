@@ -1,5 +1,9 @@
 package com.ryankshah.skyrimcraft.util;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ryankshah.skyrimcraft.character.attachment.CompassFeatureHandler;
+import com.ryankshah.skyrimcraft.character.feature.Race;
 import com.ryankshah.skyrimcraft.init.TagsInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -16,11 +20,17 @@ public class CompassFeature
 {
     private TagKey<Structure> feature;
     private BlockPos blockPos;
-    private UUID id;
+    private String id;
+
+    public static Codec<CompassFeature> CODEC = RecordCodecBuilder.create(cf -> cf.group(
+            Codec.STRING.fieldOf("id").forGetter(CompassFeature::getId),
+            TagKey.codec(Registries.STRUCTURE).fieldOf("feature").forGetter(CompassFeature::getFeature),
+            BlockPos.CODEC.fieldOf("blockPos").forGetter(CompassFeature::getBlockPos)
+    ).apply(cf, CompassFeature::new));
 
     public static final int ICON_WIDTH = 12, ICON_HEIGHT = 16;
 
-    public CompassFeature(UUID id, TagKey<Structure> feature, BlockPos blockPos) {
+    public CompassFeature(String id, TagKey<Structure> feature, BlockPos blockPos) {
         this.feature = feature;
         this.blockPos = blockPos;
         this.id = id;
@@ -34,7 +44,7 @@ public class CompassFeature
         return blockPos;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
@@ -56,7 +66,7 @@ public class CompassFeature
     public CompoundTag serialise() {
         CompoundTag nbt = new CompoundTag();
 
-        nbt.putUUID("uuid", id);
+        nbt.putString("id", id);
         nbt.putString("resourcelocation", feature.location().toString());
         nbt.putInt("xPos", blockPos.getX());
         nbt.putInt("yPos", blockPos.getY());
@@ -66,7 +76,7 @@ public class CompassFeature
     }
 
     public static CompassFeature deserialise(CompoundTag nbt) {
-        UUID id = nbt.getUUID("uuid");
+        String id = nbt.getString("id");
         ResourceLocation feature = new ResourceLocation(nbt.getString("resourcelocation"));
         int x = nbt.getInt("xPos");
         int y = nbt.getInt("yPos");

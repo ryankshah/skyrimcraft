@@ -17,27 +17,27 @@ public class SkillRegistry
     public static final int BASE_BLOCK_XP = 4;
     public static final int BASE_PICKPOCKET_XP = 4;
 
-    public static ISkill ALTERATION = new ISkill(0, "Alteration", 15, 3f, 0, 2f, 0);
-    public static ISkill CONJURATION = new ISkill(1, "Conjuration", 15, 2.1f, 0, 2f, 0);
-    public static ISkill DESTRUCTION = new ISkill(2, "Destruction", 15, 1.35f, 0, 2f, 0);
-    public static ISkill ILLUSION = new ISkill(3, "Illusion", 15, 4.6f, 0, 2f, 0);
-    public static ISkill RESTORATION = new ISkill(4, "Restoration", 15, 2.1f, 0, 2f, 0);
-    public static ISkill ENCHANTING = new ISkill(5, "Enchanting", 15, 900f, 0, 1f, 170);
-    public static ISkill ONE_HANDED = new ISkill(6, "One-Handed", 15, 6.3f, 0, 2f, 0);
-    public static ISkill TWO_HANDED = new ISkill(7, "Two-Handed", 15, 5.95f, 0, 2f, 0);
-    public static ISkill ARCHERY = new ISkill(8, "Archery", 15, 9.3f, 0, 2f, 0);
-    public static ISkill BLOCK = new ISkill(9, "Block", 15, 8.1f, 0, 2f, 0);
-    public static ISkill SMITHING = new ISkill(10, "Smithing", 15, 1f, 0, 0.25f, 300);
-    public static ISkill HEAVY_ARMOR = new ISkill(11, "Heavy Armor", 15, 3.8f, 0, 2f, 0);
-    public static ISkill LIGHT_ARMOR = new ISkill(12, "Light Armor", 15, 4f, 0, 2f, 0);
-    public static ISkill PICKPOCKET = new ISkill(13, "Pickpocket", 15, 8.1f, 0, 0.25f, 250);
-    public static ISkill LOCKPICKING = new ISkill(14, "Lockpicking", 15, 45f, 10, 0.25f, 300);
-    public static ISkill SNEAK = new ISkill(15, "Sneak", 15, 11.25f, 0, 0.5f, 120);
-    public static ISkill ALCHEMY = new ISkill(16, "Alchemy", 15, 0.75f, 0, 1.6f, 65);
-    public static ISkill SPEECH = new ISkill(17, "Speech", 15, 0.36f, 0, 2f, 0);
+    public static Skill ALTERATION = new Skill(0, "Alteration", 15, 3f, 0, 2f, 0);
+    public static Skill CONJURATION = new Skill(1, "Conjuration", 15, 2.1f, 0, 2f, 0);
+    public static Skill DESTRUCTION = new Skill(2, "Destruction", 15, 1.35f, 0, 2f, 0);
+    public static Skill ILLUSION = new Skill(3, "Illusion", 15, 4.6f, 0, 2f, 0);
+    public static Skill RESTORATION = new Skill(4, "Restoration", 15, 2.1f, 0, 2f, 0);
+    public static Skill ENCHANTING = new Skill(5, "Enchanting", 15, 900f, 0, 1f, 170);
+    public static Skill ONE_HANDED = new Skill(6, "One-Handed", 15, 6.3f, 0, 2f, 0);
+    public static Skill TWO_HANDED = new Skill(7, "Two-Handed", 15, 5.95f, 0, 2f, 0);
+    public static Skill ARCHERY = new Skill(8, "Archery", 15, 9.3f, 0, 2f, 0);
+    public static Skill BLOCK = new Skill(9, "Block", 15, 8.1f, 0, 2f, 0);
+    public static Skill SMITHING = new Skill(10, "Smithing", 15, 1f, 0, 0.25f, 300);
+    public static Skill HEAVY_ARMOR = new Skill(11, "Heavy Armor", 15, 3.8f, 0, 2f, 0);
+    public static Skill LIGHT_ARMOR = new Skill(12, "Light Armor", 15, 4f, 0, 2f, 0);
+    public static Skill PICKPOCKET = new Skill(13, "Pickpocket", 15, 8.1f, 0, 0.25f, 250);
+    public static Skill LOCKPICKING = new Skill(14, "Lockpicking", 15, 45f, 10, 0.25f, 300);
+    public static Skill SNEAK = new Skill(15, "Sneak", 15, 11.25f, 0, 0.5f, 120);
+    public static Skill ALCHEMY = new Skill(16, "Alchemy", 15, 0.75f, 0, 1.6f, 65);
+    public static Skill SPEECH = new Skill(17, "Speech", 15, 0.36f, 0, 2f, 0);
 
-    public static Map<Integer, ISkill> getDefaults() {
-        Map<Integer, ISkill> skills = new HashMap<>();
+    public static Map<Integer, Skill> getDefaults() {
+        Map<Integer, Skill> skills = new HashMap<>();
 
         skills.put(ALTERATION.getID(), ALTERATION);
         skills.put(CONJURATION.getID(), CONJURATION);

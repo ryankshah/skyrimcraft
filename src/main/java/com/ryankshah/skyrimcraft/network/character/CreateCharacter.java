@@ -38,6 +38,8 @@ public record CreateCharacter(int raceID) implements CustomPacketPayload //(int 
         Race race = Race.getRaces().stream().filter(r -> r.getId() == data.raceID()).findFirst().get();
 
         player.setData(PlayerAttachments.SKILLS, new SkillsHandler(race));
+        player.setData(PlayerAttachments.HAS_SETUP, true);
+
         final CreateCharacter sendToClient = new CreateCharacter(race.getId());
         PacketDistributor.PLAYER.with(player).send(sendToClient);
     }
@@ -47,5 +49,6 @@ public record CreateCharacter(int raceID) implements CustomPacketPayload //(int 
         Race race = Race.getRaces().stream().filter(r -> r.getId() == data.raceID()).findFirst().get();
 
         player.setData(PlayerAttachments.SKILLS, new SkillsHandler(race));
+        player.setData(PlayerAttachments.HAS_SETUP, true);
     }
 }

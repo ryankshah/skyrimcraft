@@ -3,7 +3,7 @@ package com.ryankshah.skyrimcraft.network.skill;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.attachment.SkillsHandler;
-import com.ryankshah.skyrimcraft.character.skill.ISkill;
+import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.network.character.AddToLevelUpdates;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -40,9 +40,9 @@ public record AddXpToSkill(int skillID, int baseXp) implements CustomPacketPaylo
                     Player player = context.player().orElseThrow();
                     if (player instanceof ServerPlayer) {
                         ServerPlayer serverPlayer = (ServerPlayer) player;
-                        Map<Integer, ISkill> skillsList = serverPlayer.getData(PlayerAttachments.SKILLS).getSkills();
-                        ISkill skill = skillsList.get(data.skillID);
-                        ISkill skillOld = new ISkill(skill);
+                        Map<Integer, Skill> skillsList = serverPlayer.getData(PlayerAttachments.SKILLS).getSkills();
+                        Skill skill = skillsList.get(data.skillID);
+                        Skill skillOld = new Skill(skill);
 
                         int oldSkillLevel = skillOld.getLevel();
                         skill.giveExperiencePoints(data.baseXp);
@@ -83,9 +83,9 @@ public record AddXpToSkill(int skillID, int baseXp) implements CustomPacketPaylo
     public static void handleClient(final AddXpToSkill data, final PlayPayloadContext context) {
         context.workHandler().submitAsync(() -> {
                     Player player = context.player().orElseThrow();
-                    Map<Integer, ISkill> skillsList = player.getData(PlayerAttachments.SKILLS).getSkills();
-                    ISkill skill = skillsList.get(data.skillID);
-                    ISkill skillOld = new ISkill(skill);
+                    Map<Integer, Skill> skillsList = player.getData(PlayerAttachments.SKILLS).getSkills();
+                    Skill skill = skillsList.get(data.skillID);
+                    Skill skillOld = new Skill(skill);
 
                     int oldSkillLevel = skillOld.getLevel();
                     skill.giveExperiencePoints(data.baseXp);

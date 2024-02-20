@@ -159,7 +159,7 @@ public abstract class Spell //extends ForgeRegistryEntry<ISpell>
         if(canCast() == CastResult.SUCCESS) {
             onCast();
         } else if(canCast() == CastResult.FAIL) {
-            getCaster().displayClientMessage(Component.literal("Failed to Cast Shout"), false);
+            getCaster().displayClientMessage(Component.literal("Failed to Cast Spell/Shout"), false);
         } else {
             getCaster().displayClientMessage(Component.literal("" + (canCast() == CastResult.MAGICKA ? "Not enough magicka!" : "This shout is still on cooldown!")), false);
         }

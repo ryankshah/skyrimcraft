@@ -19,17 +19,17 @@ import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 import java.util.List;
 import java.util.UUID;
 
-public record AddToCompassFeatures(UUID uuid, ResourceLocation location, BlockPos blockPos) implements CustomPacketPayload
+public record AddToCompassFeatures(String uuid, ResourceLocation location, BlockPos blockPos) implements CustomPacketPayload
 {
     public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"addtocompassfeatures");
 
     public AddToCompassFeatures(final FriendlyByteBuf buffer) {
-        this(buffer.readUUID(), buffer.readResourceLocation(), buffer.readBlockPos());
+        this(buffer.readUtf(), buffer.readResourceLocation(), buffer.readBlockPos());
     }
 
     @Override
     public void write(final FriendlyByteBuf buffer) {
-        buffer.writeUUID(uuid);
+        buffer.writeUtf(uuid);
         buffer.writeResourceLocation(location);
         buffer.writeBlockPos(blockPos);
     }

@@ -35,7 +35,11 @@ public class Networking
         registrar.play(CreateCharacter.ID, CreateCharacter::new, payload -> payload.server(CreateCharacter::handleServer).client(CreateCharacter::handleClient));
 
         registrar.play(ReplenishMagicka.ID, ReplenishMagicka::new, payload -> payload.server(ReplenishMagicka::handleServer).client(ReplenishMagicka::handleClient));
-        registrar.play(UpdateMagicka.ID, UpdateMagicka::new, payload -> payload.server(UpdateMagicka::handleServer).client(UpdateMagicka::handleClient));
         registrar.play(ConsumeMagicka.ID, ConsumeMagicka::new, payload -> payload.server(ConsumeMagicka::handleServer).client(ConsumeMagicka::handleClient));
+
+        registrar.play(UpdateMagicka.ID, UpdateMagicka::new, payload -> payload.server(UpdateMagicka::handleServer).client(UpdateMagicka::handleClient));
+        registrar.play(UpdateCharacter.ID, UpdateCharacter::new, payload -> payload.server(UpdateCharacter::handleServer).client(UpdateCharacter::handleClient));
+        registrar.play(UpdateSkillHandlerOnClient.ID, UpdateSkillHandlerOnClient::new, payload -> payload.client(UpdateSkillHandlerOnClient::handleClient));
+        registrar.play(UpdateCompassFeatureHandlerOnClient.ID, UpdateCompassFeatureHandlerOnClient::new, payload -> payload.client(UpdateCompassFeatureHandlerOnClient::handleClient));
     }
 }

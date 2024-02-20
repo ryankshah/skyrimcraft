@@ -29,6 +29,7 @@ public class InputEvents
             }
             while (KeyEvents.SPELL_SLOT_1_KEY.get().consumeClick()) {
                 Spell spell = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
+                float magicka = mc.player.getData(PlayerAttachments.MAGICKA);
                 if(spell != null) {
                     final CastSpell castSpell = new CastSpell(SpellRegistry.SPELLS_REGISTRY.getResourceKey(spell).get());
                     PacketDistributor.SERVER.noArg().send(castSpell);

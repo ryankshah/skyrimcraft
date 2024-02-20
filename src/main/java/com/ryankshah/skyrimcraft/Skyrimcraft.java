@@ -34,6 +34,12 @@ import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 /**
  * TODO:
+ *
+ * FIXES:
+ * - Fix spells not being able to cast if the player does not have the magicka to do so
+ * - Sync (using attachment sync events in PlayerAttachments) all the attachments
+ *
+ *
  * - Add necklaces and circlets to the corresponding tags...
  * - Add Circlet Jewellery (crowns - https://elderscrolls.fandom.com/wiki/Circlets)
  *   - Copper and Moonstone
@@ -123,7 +129,8 @@ public class Skyrimcraft
         SpellRegistry.SPELLS.register(bus);
 
         PlayerAttachments.ATTACHMENT_TYPES.register(bus);
-        SpellHandler.register(bus);
+        PlayerAttachments.registerSyncEvents(bus);
+//        SpellHandler.register(bus);
 
         StructureInit.STRUCTURES.register(bus);
 

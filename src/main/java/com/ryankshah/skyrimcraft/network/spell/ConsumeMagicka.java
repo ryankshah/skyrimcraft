@@ -32,12 +32,7 @@ public record ConsumeMagicka(float amount) implements CustomPacketPayload
 
     public static void handleServer(final ConsumeMagicka data, final PlayPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
-
-        float newMagicka = data.amount;
-
-        if(context.player().get().getData(PlayerAttachments.MAGICKA) - data.amount <= 0.0f)
-            newMagicka = 0.0f;
-        context.player().get().setData(PlayerAttachments.MAGICKA, newMagicka);
+        context.player().get().setData(PlayerAttachments.MAGICKA, data.amount);
 
         final ConsumeMagicka sendToClient = new ConsumeMagicka(data.amount);
         PacketDistributor.PLAYER.with(player).send(sendToClient);
@@ -47,11 +42,7 @@ public record ConsumeMagicka(float amount) implements CustomPacketPayload
         Minecraft minecraft = Minecraft.getInstance();
         minecraft.execute(() -> {
             Player player = Minecraft.getInstance().player;
-            float newMagicka = data.amount;
-
-            if (player.getData(PlayerAttachments.MAGICKA) - data.amount <= 0.0f)
-                newMagicka = 0.0f;
-            player.setData(PlayerAttachments.MAGICKA, newMagicka);
+            player.setData(PlayerAttachments.MAGICKA, data.amount);
         });
     }
 }

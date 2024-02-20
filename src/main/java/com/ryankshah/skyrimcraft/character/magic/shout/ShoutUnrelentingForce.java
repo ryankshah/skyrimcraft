@@ -75,7 +75,7 @@ public class ShoutUnrelentingForce extends Spell //implements IForgeRegistryEntr
     @Override
     public void onCast() {
         UnrelentingForceEntity entity = new UnrelentingForceEntity(getCaster().getCommandSenderWorld(), getCaster(), getCaster().getLookAngle().x * 1, getCaster().getLookAngle().y * 1, getCaster().getLookAngle().z * 1);
-        entity.setPos(entity.getX(), getCaster().getY() + getCaster().getEyeHeight(), entity.getZ());
+        entity.setPos(entity.getX(), getCaster().getY(), entity.getZ());
         getCaster().getCommandSenderWorld().addFreshEntity(entity);
 
         super.onCast();
