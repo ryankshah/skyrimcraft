@@ -1,10 +1,9 @@
 package com.ryankshah.skyrimcraft.network.spell;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,9 +31,12 @@ public record ReplenishMagicka(float amount) implements CustomPacketPayload
 
     public static void handleServer(final ReplenishMagicka data, final PlayPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
-        float newMagicka = player.getData(PlayerAttachments.MAGICKA) + player.getData(PlayerAttachments.MAX_MAGICKA);
-        newMagicka = newMagicka >= player.getData(PlayerAttachments.MAX_MAGICKA) ? player.getData(PlayerAttachments.MAX_MAGICKA) : newMagicka;
-        player.setData(PlayerAttachments.MAGICKA, newMagicka);
+        Character character = Character.get(player);
+
+        float newMagicka = character.getMagicka() + character.getMaxMagicka();
+        newMagicka = Math.min(newMagicka, character.getMaxMagicka());
+        character.setMagicka(newMagicka);
+
         final ReplenishMagicka sendToClient = new ReplenishMagicka(newMagicka);
         PacketDistributor.PLAYER.with(player).send(sendToClient);
     }
@@ -43,7 +45,8 @@ public record ReplenishMagicka(float amount) implements CustomPacketPayload
         Minecraft minecraft = Minecraft.getInstance();
         minecraft.execute(() -> {
             Player player = Minecraft.getInstance().player;
-            player.setData(PlayerAttachments.MAGICKA, data.amount);
+            Character character = Character.get(player);
+            character.setMagicka(data.amount);
         });
     }
 }

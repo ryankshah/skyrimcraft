@@ -1,5 +1,6 @@
 package com.ryankshah.skyrimcraft.block;
 
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
@@ -71,8 +72,10 @@ public class ShoutBlock extends Block {
                     }
                 }
 
+                Character character = Character.get(pPlayer);
+
                 //TODO: Later on we will make use of dragon souls to unlock shouts...
-                List<Spell> knownSpells = pPlayer.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
+                List<Spell> knownSpells = character.getKnownSpells();
 //                System.out.println("Current Known Spells: " + knownSpells);
                 if (knownSpells.contains(SpellRegistry.UNRELENTING_FORCE.get())) {
                     List<Spell> shouts = SpellRegistry.SPELLS.getEntries().stream().filter(spell -> spell.get().getType() == Spell.SpellType.SHOUT && spell != SpellRegistry.UNRELENTING_FORCE && !knownSpells.contains(spell.get())).map(Holder::value).toList();

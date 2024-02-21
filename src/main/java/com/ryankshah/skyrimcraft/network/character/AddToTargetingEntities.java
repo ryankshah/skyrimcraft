@@ -1,18 +1,15 @@
 package com.ryankshah.skyrimcraft.network.character;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerTargetsHandler;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
-
-import java.util.List;
 
 public record AddToTargetingEntities(int entityId) implements CustomPacketPayload
 {
@@ -34,19 +31,21 @@ public record AddToTargetingEntities(int entityId) implements CustomPacketPayloa
 
     public static void handleServer(final AddToTargetingEntities data, final PlayPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
-        List<Integer> targets = player.getData(PlayerAttachments.PLAYER_TARGETS).getTargets();
-        targets.add(data.entityId());
-        player.setData(PlayerAttachments.PLAYER_TARGETS, new PlayerTargetsHandler(targets, player.getData(PlayerAttachments.PLAYER_TARGETS).getCurrentTarget()));
+        Character character = Character.get(player);
+
+        character.addTarget(data.entityId);
 
         final AddToTargetingEntities sendToClient = new AddToTargetingEntities(data.entityId);
         PacketDistributor.PLAYER.with(player).send(sendToClient);
     }
 
     public static void handleClient(final AddToTargetingEntities data, final PlayPayloadContext context) {
-        Player player = context.player().orElseThrow();
-        List<Integer> targets = player.getData(PlayerAttachments.PLAYER_TARGETS).getTargets();
-        targets.add(data.entityId());
-        player.setData(PlayerAttachments.PLAYER_TARGETS, new PlayerTargetsHandler(targets, player.getData(PlayerAttachments.PLAYER_TARGETS).getCurrentTarget()));
+        Minecraft minecraft = Minecraft.getInstance();
+        minecraft.execute(() -> {
+            Player player = Minecraft.getInstance().player;
+            Character character = Character.get(player);
+            character.addTarget(data.entityId);
+        });
     }
 }
 

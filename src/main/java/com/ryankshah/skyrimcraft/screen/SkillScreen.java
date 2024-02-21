@@ -5,6 +5,7 @@ import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
@@ -44,6 +45,7 @@ public class SkillScreen extends Screen
     private Skill selectedSkillObject;
     private Minecraft minecraft;
     private LocalPlayer player;
+    private Character character;
     private float cubeMapPosition = 0.0f;
     private int currentSkill = 0;
     private int currentUpdateSelection = 0; // 0 = magicka, 1 = health, 2 = stamina
@@ -56,7 +58,8 @@ public class SkillScreen extends Screen
 
         this.minecraft = Minecraft.getInstance();
         this.player = Minecraft.getInstance().player;
-        this.skillsList = player.getData(PlayerAttachments.SKILLS).getSkills();
+        this.character = Character.get(player);
+        this.skillsList = character.getSkills();
         this.levelUpdates = SkyrimGuiOverlay.SkyrimLevelUpdates.LEVEL_UPDATES.size(); // todo: check this and update, perhaps add to attachment
         this.selectedSkillObject = null;
     }
@@ -251,7 +254,7 @@ public class SkillScreen extends Screen
     }
 
     private void renderMagicka(PoseStack matrixStack, int width, int height) {
-        float magickaPercentage = player.getData(PlayerAttachments.MAGICKA) / player.getData(PlayerAttachments.MAX_MAGICKA);
+        float magickaPercentage = character.getMagicka() / character.getMaxMagicka();
         float magickaBarWidth = PLAYER_BAR_MAX_WIDTH * magickaPercentage;
         RenderUtil.blitWithBlend(matrixStack, 20, height - 35, 0, 226, 102, 10, 256, 256, 3, 1);
         RenderUtil.blitWithBlend(matrixStack, 32, height - 33, 12 + ((PLAYER_BAR_MAX_WIDTH - magickaBarWidth) / 2.0f), 239, (int)(78 * magickaPercentage), 6, 256, 256, 3, 1);

@@ -1,29 +1,13 @@
 package com.ryankshah.skyrimcraft.event;
 
-import com.google.common.collect.Maps;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
-import com.ryankshah.skyrimcraft.character.feature.Race;
-import com.ryankshah.skyrimcraft.character.feature.model.AbstractSkyrimPlayerModel;
-import com.ryankshah.skyrimcraft.character.feature.model.KhajiitFullModel;
 import com.ryankshah.skyrimcraft.init.ItemInit;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.RenderHandEvent;
-
-import java.lang.reflect.Constructor;
-import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = Skyrimcraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientEvents

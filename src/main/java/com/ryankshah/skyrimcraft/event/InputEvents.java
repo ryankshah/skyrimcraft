@@ -1,6 +1,7 @@
 package com.ryankshah.skyrimcraft.event;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
@@ -24,27 +25,34 @@ public class InputEvents
             Minecraft mc = Minecraft.getInstance();
 
             while (KeyEvents.MENU_KEY.get().consumeClick()) {
-                mc.setScreen(new SkyrimMenuScreen());
-                return;
+                if(mc.player != null) {
+                    mc.setScreen(new SkyrimMenuScreen());
+                    return;
+                }
             }
             while (KeyEvents.SPELL_SLOT_1_KEY.get().consumeClick()) {
-                Spell spell = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
-                float magicka = mc.player.getData(PlayerAttachments.MAGICKA);
-                if(spell != null) {
-                    final CastSpell castSpell = new CastSpell(SpellRegistry.SPELLS_REGISTRY.getResourceKey(spell).get());
-                    PacketDistributor.SERVER.noArg().send(castSpell);
-                } else
-                    mc.player.displayClientMessage(Component.translatable("skyrimcraft.spell.noselect"), false);
-                return;
+                if(mc.player != null) {
+                    Character character = Character.get(mc.player);
+                    Spell spell = character.getSelectedSpell1();
+                    if (spell != null) {
+                        final CastSpell castSpell = new CastSpell(SpellRegistry.SPELLS_REGISTRY.getResourceKey(spell).get());
+                        PacketDistributor.SERVER.noArg().send(castSpell);
+                    } else
+                        mc.player.displayClientMessage(Component.translatable("skyrimcraft.spell.noselect"), false);
+                    return;
+                }
             }
             while (KeyEvents.SPELL_SLOT_2_KEY.get().consumeClick()) {
-                Spell spell = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
-                if(spell != null) {
-                    final CastSpell castSpell = new CastSpell(SpellRegistry.SPELLS_REGISTRY.getResourceKey(spell).get());
-                    PacketDistributor.SERVER.noArg().send(castSpell);
-                } else
-                    mc.player.displayClientMessage(Component.translatable("skyrimcraft.spell.noselect"), false);
-                return;
+                if(mc.player != null) {
+                    Character character = Character.get(mc.player);
+                    Spell spell = character.getSelectedSpell2();
+                    if (spell != null) {
+                        final CastSpell castSpell = new CastSpell(SpellRegistry.SPELLS_REGISTRY.getResourceKey(spell).get());
+                        PacketDistributor.SERVER.noArg().send(castSpell);
+                    } else
+                        mc.player.displayClientMessage(Component.translatable("skyrimcraft.spell.noselect"), false);
+                    return;
+                }
             }
             while (KeyEvents.PICKPOCKET_KEY.get().consumeClick()) {
 //                if (mc.crosshairPickEntity instanceof LivingEntity && mc.player.isCrouching()) {

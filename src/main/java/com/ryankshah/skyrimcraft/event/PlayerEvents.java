@@ -1,9 +1,7 @@
 package com.ryankshah.skyrimcraft.event;
 
-import com.mojang.datafixers.util.Pair;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.attachment.CompassFeatureHandler;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
@@ -12,11 +10,7 @@ import com.ryankshah.skyrimcraft.init.TagsInit;
 import com.ryankshah.skyrimcraft.network.character.AddToCompassFeatures;
 import com.ryankshah.skyrimcraft.network.character.OpenCharacterCreationScreen;
 import com.ryankshah.skyrimcraft.network.spell.UpdateShoutCooldown;
-import com.ryankshah.skyrimcraft.network.spell.UpdateSpellHandlerOnClient;
-import com.ryankshah.skyrimcraft.screen.CharacterCreationScreen;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -54,15 +48,16 @@ public class PlayerEvents
 //            Minecraft.getInstance().getConnection().registryAccess().registry(QuestRegistry.QUESTS_REGISTRY_KEY).ifPresent(
 //                    registry -> System.out.println(registry.stream().toList())
 //            );
+            Character character = Character.get(playerEntity);
             if(playerEntity.level().isClientSide) {
-                if (!playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown().isEmpty()) {
-                    for (Map.Entry<Spell, Float> entry : playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown().entrySet()) {
+                if (!character.getSpellsOnCooldown().isEmpty()) {
+                    for (Map.Entry<Spell, Float> entry : character.getSpellsOnCooldown().entrySet()) {
                         if (entry.getValue() <= 0f) {
                             final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(SpellRegistry.SPELLS_REGISTRY.getResourceKey(entry.getKey()).get(), 0f);
                             PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
                         }
                         if (entry.getValue() > 0f) {
-                            float cooldown = playerEntity.getData(PlayerAttachments.KNOWN_SPELLS).getSpellCooldown(entry.getKey());
+                            float cooldown = character.getSpellCooldown(entry.getKey());
                             final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(SpellRegistry.SPELLS_REGISTRY.getResourceKey(entry.getKey()).get(), cooldown - 0.05f);
                             PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
                         }
@@ -81,8 +76,8 @@ public class PlayerEvents
             if (!playerEntity.hasEffect(ModEffects.MAGICKA_REGEN.get()))
                 playerEntity.getAttribute(AttributeInit.MAGICKA_REGEN.value()).removeModifiers();
 
-            if (playerEntity.getData(PlayerAttachments.MAGICKA) < playerEntity.getData(PlayerAttachments.MAX_MAGICKA))
-                playerEntity.setData(PlayerAttachments.MAGICKA, playerEntity.getData(PlayerAttachments.MAGICKA) + (0.005f * playerEntity.getData(PlayerAttachments.MAGICKA_REGEN_MODIFIER)));
+            if (character.getMagicka() < character.getMaxMagicka())
+                character.setMagicka(character.getMagicka() + (0.005f * character.getMagickaRegenModifier()));
 
             if (playerEntity instanceof ServerPlayer && playerEntity.level().isLoaded(playerEntity.blockPosition()) && event.side == LogicalSide.SERVER) {
                 ServerPlayer player = (ServerPlayer) playerEntity;
@@ -110,14 +105,14 @@ public class PlayerEvents
                     BlockPos featureStartPos = locateFeatureStartChunkFromPlayerBlockPos(level, player.blockPosition(), structure);
                     if (featureStartPos != null) {
                         System.out.println("Found Structure: " + structure.toString());
-                        List<CompassFeature> playerCompassFeatures = player.getData(PlayerAttachments.COMPASS_FEATURES).getCompassFeatures();
+                        List<CompassFeature> playerCompassFeatures = character.getCompassFeatures();
                         CompassFeature compassFeature = new CompassFeature(UUID.randomUUID().toString(), structure, featureStartPos);
                         if (playerCompassFeatures.stream().noneMatch(feature -> feature.equals(compassFeature))) {
 //                                System.out.println(playerCompassFeatures);
 
                             playerCompassFeatures.add(compassFeature);
                             final AddToCompassFeatures features = new AddToCompassFeatures(compassFeature.getId(), compassFeature.getFeature().location(), compassFeature.getBlockPos());
-                            player.setData(PlayerAttachments.COMPASS_FEATURES, new CompassFeatureHandler(playerCompassFeatures));
+                            character.setCompassFeatures(playerCompassFeatures);
                             PacketDistributor.PLAYER.with(player).send(features);
 
 //                                System.out.println(playerCompassFeatures);
@@ -155,8 +150,9 @@ public class PlayerEvents
 //        }
         if(player instanceof ServerPlayer) {
             ServerPlayer serverPlayer = (ServerPlayer) player;
-            if (!serverPlayer.getData(PlayerAttachments.HAS_SETUP)) {
-                final OpenCharacterCreationScreen packet = new OpenCharacterCreationScreen(serverPlayer.getData(PlayerAttachments.HAS_SETUP));
+            Character character = Character.get(serverPlayer);
+            if (!character.getHasSetup()) {
+                final OpenCharacterCreationScreen packet = new OpenCharacterCreationScreen(character.getHasSetup());
                 PacketDistributor.PLAYER.with(serverPlayer).send(packet);
             }
         }

@@ -1,14 +1,11 @@
 package com.ryankshah.skyrimcraft.network.spell;
 
-import com.mojang.datafixers.util.Pair;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
-import com.ryankshah.skyrimcraft.character.attachment.SpellHandler;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -16,9 +13,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public record UpdateShoutCooldown(ResourceKey<Spell> spell, float cooldown) implements CustomPacketPayload
 {
@@ -44,20 +38,21 @@ public record UpdateShoutCooldown(ResourceKey<Spell> spell, float cooldown) impl
 
         if (player instanceof ServerPlayer) {
             ServerPlayer serverPlayer = (ServerPlayer) player;
-            serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS).addSpellAndCooldown(SpellRegistry.SPELLS_REGISTRY.get(data.spell), data.cooldown);
+            Character character = Character.get(serverPlayer);
 
-//            final UpdateShoutCooldown sendToClient = new UpdateShoutCooldown(data.spell, data.cooldown);
-//            PacketDistributor.PLAYER.with(serverPlayer).send(sendToClient);
+            character.addSpellAndCooldown(SpellRegistry.SPELLS_REGISTRY.get(data.spell), data.cooldown);
 
-            final UpdateSpellHandlerOnClient sendToClient = new UpdateSpellHandlerOnClient(serverPlayer.getData(PlayerAttachments.KNOWN_SPELLS));
+            final UpdateShoutCooldown sendToClient = new UpdateShoutCooldown(data.spell, data.cooldown);
             PacketDistributor.PLAYER.with(serverPlayer).send(sendToClient);
         }
     }
 
     public static void handleClient(final UpdateShoutCooldown data, final PlayPayloadContext context) {
-//        Minecraft minecraft = Minecraft.getInstance();
-//        minecraft.execute(() -> {
-//            Minecraft.getInstance().player.getData(PlayerAttachments.KNOWN_SPELLS).addSpellAndCooldown(SpellRegistry.SPELLS_REGISTRY.get(data.spell), data.cooldown);
-//        });
+        Minecraft minecraft = Minecraft.getInstance();
+        minecraft.execute(() -> {
+            Player player = Minecraft.getInstance().player;
+            Character character = Character.get(player);
+            character.addSpellAndCooldown(SpellRegistry.SPELLS_REGISTRY.get(data.spell), data.cooldown);
+        });
     }
 }

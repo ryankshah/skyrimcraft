@@ -1,10 +1,10 @@
 package com.ryankshah.skyrimcraft.network.skill;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
-import com.ryankshah.skyrimcraft.character.attachment.SkillsHandler;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.network.character.AddToLevelUpdates;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -40,16 +40,15 @@ public record AddXpToSkill(int skillID, int baseXp) implements CustomPacketPaylo
                     Player player = context.player().orElseThrow();
                     if (player instanceof ServerPlayer) {
                         ServerPlayer serverPlayer = (ServerPlayer) player;
-                        Map<Integer, Skill> skillsList = serverPlayer.getData(PlayerAttachments.SKILLS).getSkills();
+                        Character character = Character.get(serverPlayer);
+                        Map<Integer, Skill> skillsList = character.getSkills();
                         Skill skill = skillsList.get(data.skillID);
                         Skill skillOld = new Skill(skill);
 
                         int oldSkillLevel = skillOld.getLevel();
                         skill.giveExperiencePoints(data.baseXp);
 
-                        skillsList.put(data.skillID, skill);
-
-                        serverPlayer.setData(PlayerAttachments.SKILLS, new SkillsHandler(skillsList, serverPlayer.getData(PlayerAttachments.SKILLS).getRace()));
+                        character.addSkill(data.skillID, skill);
 
                         final AddXpToSkill sendToClient = new AddXpToSkill(data.skillID, data.baseXp);
                         PacketDistributor.PLAYER.with(serverPlayer).send(sendToClient);
@@ -60,14 +59,14 @@ public record AddXpToSkill(int skillID, int baseXp) implements CustomPacketPaylo
 //                            player.setData(PlayerAttachments.XP, new CompassFeatureHandler(playerCompassFeatures));
                             PacketDistributor.PLAYER.with(serverPlayer).send(levelUpdates);
 
-                            int level = serverPlayer.getData(PlayerAttachments.CHARACTER_LEVEL);
-                            int totalXp = serverPlayer.getData(PlayerAttachments.CHARACTER_TOTAL_XP);
+                            int level = character.getCharacterLevel();
+                            int totalXp = character.getCharacterTotalXp();
                             int newLevel = (int)Math.floor(-2.5 + Math.sqrt(8 * totalXp + 1225) / 10);
 
-                            serverPlayer.setData(PlayerAttachments.CHARACTER_TOTAL_XP, totalXp + skill.getLevel());
+                            character.setCharacterTotalXp(totalXp + skill.getLevel());
                             if(newLevel > level) {
-                                serverPlayer.setData(PlayerAttachments.CHARACTER_LEVEL, newLevel);
-                                final AddToLevelUpdates charLevelUpdates = new AddToLevelUpdates("characterLevel", serverPlayer.getData(PlayerAttachments.CHARACTER_LEVEL), 200);
+                                character.setCharacterLevel(newLevel);
+                                final AddToLevelUpdates charLevelUpdates = new AddToLevelUpdates("characterLevel", character.getCharacterLevel(), 200);
                                 PacketDistributor.PLAYER.with(serverPlayer).send(charLevelUpdates);
                             }
                         }
@@ -81,34 +80,30 @@ public record AddXpToSkill(int skillID, int baseXp) implements CustomPacketPaylo
     }
 
     public static void handleClient(final AddXpToSkill data, final PlayPayloadContext context) {
-        context.workHandler().submitAsync(() -> {
-                    Player player = context.player().orElseThrow();
-                    Map<Integer, Skill> skillsList = player.getData(PlayerAttachments.SKILLS).getSkills();
-                    Skill skill = skillsList.get(data.skillID);
-                    Skill skillOld = new Skill(skill);
+        Minecraft minecraft = Minecraft.getInstance();
+        minecraft.execute(() -> {
+            Player player = Minecraft.getInstance().player;
+            Character character = Character.get(player);
 
-                    int oldSkillLevel = skillOld.getLevel();
-                    skill.giveExperiencePoints(data.baseXp);
+            Map<Integer, Skill> skillsList = character.getSkills();
+            Skill skill = skillsList.get(data.skillID);
+            Skill skillOld = new Skill(skill);
 
-                    skillsList.put(data.skillID, skill);
+            int oldSkillLevel = skillOld.getLevel();
+            skill.giveExperiencePoints(data.baseXp);
 
-                    player.setData(PlayerAttachments.SKILLS, new SkillsHandler(skillsList, player.getData(PlayerAttachments.SKILLS).getRace()));
+            character.addSkill(data.skillID, skill);
 
-                    if(skill.getLevel() > oldSkillLevel) {
-                        int level = player.getData(PlayerAttachments.CHARACTER_LEVEL);
-                        int totalXp = player.getData(PlayerAttachments.CHARACTER_TOTAL_XP);
-                        int newLevel = (int)Math.floor(-2.5 + Math.sqrt(8 * totalXp + 1225) / 10);
+            if(skill.getLevel() > oldSkillLevel) {
+                int level = character.getCharacterLevel();
+                int totalXp = character.getCharacterTotalXp();
+                int newLevel = (int)Math.floor(-2.5 + Math.sqrt(8 * totalXp + 1225) / 10);
 
-                        player.setData(PlayerAttachments.CHARACTER_TOTAL_XP, totalXp + skill.getLevel());
-                        if(newLevel > level) {
-                            player.setData(PlayerAttachments.CHARACTER_LEVEL, newLevel);
-                        }
-                    }
-                })
-                .exceptionally(e -> {
-                    // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
-                    return null;
-                });
+                character.setCharacterTotalXp(totalXp + skill.getLevel());
+                if(newLevel > level) {
+                    character.setCharacterLevel(newLevel);
+                }
+            }
+        });
     }
 }

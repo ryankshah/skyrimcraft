@@ -1,10 +1,10 @@
 package com.ryankshah.skyrimcraft.network.spell;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,20 +34,20 @@ public record UpdateMagicka(float magicka, float maxMagicka, float magickaRegenM
 
     public static void handleServer(final UpdateMagicka data, final PlayPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
+        Character character = Character.get(player);
 
-        player.setData(PlayerAttachments.MAX_MAGICKA, data.maxMagicka);
+        character.setMaxMagicka(data.maxMagicka);
 
         float curMagicka = data.magicka;
-        float maxMagicka = player.getData(PlayerAttachments.MAX_MAGICKA);
+        float maxMagicka = character.getMaxMagicka();
 
         if(curMagicka <= 0.0f)
             curMagicka = 0.0f;
         if(curMagicka >= maxMagicka)
             curMagicka = maxMagicka;
 
-        player.setData(PlayerAttachments.MAGICKA, curMagicka);
-
-        player.setData(PlayerAttachments.MAGICKA_REGEN_MODIFIER, data.magickaRegenModifier);
+        character.setMagicka(curMagicka);
+        character.setMagickaRegenModifier(data.magickaRegenModifier);
 
         final UpdateMagicka sendToClient = new UpdateMagicka(curMagicka, data.maxMagicka, data.magickaRegenModifier);
         PacketDistributor.PLAYER.with(player).send(sendToClient);
@@ -57,9 +57,11 @@ public record UpdateMagicka(float magicka, float maxMagicka, float magickaRegenM
         Minecraft minecraft = Minecraft.getInstance();
         minecraft.execute(() -> {
             Player player = Minecraft.getInstance().player;
-            player.setData(PlayerAttachments.MAGICKA, data.magicka);
-            player.setData(PlayerAttachments.MAX_MAGICKA, data.maxMagicka);
-            player.setData(PlayerAttachments.MAGICKA_REGEN_MODIFIER, data.magickaRegenModifier);
+            Character character = Character.get(player);
+
+            character.setMagicka(data.magicka);
+            character.setMaxMagicka(data.maxMagicka);
+            character.setMagickaRegenModifier(data.magickaRegenModifier);
         });
     }
 }

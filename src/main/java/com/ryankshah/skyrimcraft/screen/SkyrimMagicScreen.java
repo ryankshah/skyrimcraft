@@ -5,7 +5,7 @@ import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.magic.EmptySpell;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
@@ -38,6 +38,7 @@ public class SkyrimMagicScreen extends Screen
     private int currentSpell;
     private Spell currentSpellObject;
     private Spell.SpellType currentSpellTypeObject;
+    private Character character;
 
     private float currentTick, lastTick;
     private int currentSpellFrame;
@@ -56,6 +57,8 @@ public class SkyrimMagicScreen extends Screen
                 spellsAndTypes.put(spell.getType(), temp);
             }
             spellsAndTypes.get(Spell.SpellType.ALL).add(spell);
+
+            this.character = Character.get(Minecraft.getInstance().player);
         }
 
         spellsAndTypes = spellsAndTypes.entrySet().stream().sorted(Comparator.comparingInt(e -> e.getKey().getTypeID())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
@@ -142,8 +145,8 @@ public class SkyrimMagicScreen extends Screen
             AtomicInteger color = new AtomicInteger(0x00C0C0C0);
 
             int finalJ = j;
-            Spell selectedSpell1 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
-            Spell selectedSpell2 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
+            Spell selectedSpell1 = character.getSelectedSpell1();
+            Spell selectedSpell2 = character.getSelectedSpell2();
             if(!(selectedSpell1 instanceof EmptySpell) && selectedSpell1 == spell) color.set(0x0000FF00);
             else if(!(selectedSpell2 instanceof EmptySpell) && selectedSpell2 == spell) color.set(0x0000FFFF);
             else if(finalJ == this.currentSpell) {
@@ -215,8 +218,8 @@ public class SkyrimMagicScreen extends Screen
     private void renderMagicka(GuiGraphics graphics, PoseStack matrixStack, int width, int height) {
 //        minecraft.getTextureManager().bind(OVERLAY_ICONS);
         RenderUtil.bind(OVERLAY_ICONS);
-        float magicka = minecraft.player.getData(PlayerAttachments.MAGICKA);
-        float maxMagicka = minecraft.player.getData(PlayerAttachments.MAX_MAGICKA);
+        float magicka = character.getMagicka();
+        float maxMagicka = character.getMaxMagicka();
         float magickaPercentage = magicka / maxMagicka;
         float magickaBarWidth = 80.0f * magickaPercentage;
         float magickaBarStartX = (float)(width - 109) + (80.0f - magickaBarWidth);
@@ -302,15 +305,15 @@ public class SkyrimMagicScreen extends Screen
         }
 
         if(KeyEvents.SPELL_SLOT_1_KEY.get().isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
-            Spell selectedSpell1 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
-            Spell selectedSpell2 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
+            Spell selectedSpell1 = character.getSelectedSpell1();
+            Spell selectedSpell2 = character.getSelectedSpell2();
 
             if(!selectedSpell1.equals(currentSpellObject)) {
                 if (!(selectedSpell2.equals(currentSpellObject))) {
                     final UpdateSelectedSpell updatedSpells0 = new UpdateSelectedSpell(1, SpellRegistry.SPELLS_REGISTRY.getResourceKey(currentSpellObject).get());
                     PacketDistributor.SERVER.noArg().send(updatedSpells0);
                 } else {
-                    final UpdateSelectedSpell updatedSpells0 = new UpdateSelectedSpell(2, SpellRegistry.SPELLS_REGISTRY.getResourceKey(minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1()).get());
+                    final UpdateSelectedSpell updatedSpells0 = new UpdateSelectedSpell(2, SpellRegistry.SPELLS_REGISTRY.getResourceKey(character.getSelectedSpell1()).get());
                     PacketDistributor.SERVER.noArg().send(updatedSpells0);
                     final UpdateSelectedSpell updatedSpells1 = new UpdateSelectedSpell(1, SpellRegistry.SPELLS_REGISTRY.getResourceKey(currentSpellObject).get());
                     PacketDistributor.SERVER.noArg().send(updatedSpells1);
@@ -320,19 +323,19 @@ public class SkyrimMagicScreen extends Screen
                 PacketDistributor.SERVER.noArg().send(updatedSpells0);
             }
 
-            System.out.println(minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).toString());
+            System.out.println(character.toString());
         }
 
         if(KeyEvents.SPELL_SLOT_2_KEY.get().isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
-            Spell selectedSpell1 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
-            Spell selectedSpell2 = minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
+            Spell selectedSpell1 = character.getSelectedSpell1();
+            Spell selectedSpell2 = character.getSelectedSpell2();
 
             if(!selectedSpell2.equals(currentSpellObject)) {
                 if (!selectedSpell1.equals(currentSpellObject)) {
                     final UpdateSelectedSpell updatedSpells0 = new UpdateSelectedSpell(2, SpellRegistry.SPELLS_REGISTRY.getResourceKey(currentSpellObject).get());
                     PacketDistributor.SERVER.noArg().send(updatedSpells0);
                 } else {
-                    final UpdateSelectedSpell updatedSpells0 = new UpdateSelectedSpell(1, SpellRegistry.SPELLS_REGISTRY.getResourceKey(minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2()).get());
+                    final UpdateSelectedSpell updatedSpells0 = new UpdateSelectedSpell(1, SpellRegistry.SPELLS_REGISTRY.getResourceKey(character.getSelectedSpell2()).get());
                     PacketDistributor.SERVER.noArg().send(updatedSpells0);
                     final UpdateSelectedSpell updatedSpells1 = new UpdateSelectedSpell(2, SpellRegistry.SPELLS_REGISTRY.getResourceKey(currentSpellObject).get());
                     PacketDistributor.SERVER.noArg().send(updatedSpells1);

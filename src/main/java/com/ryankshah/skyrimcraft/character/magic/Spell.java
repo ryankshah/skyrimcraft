@@ -1,7 +1,7 @@
 package com.ryankshah.skyrimcraft.character.magic;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
@@ -144,10 +144,11 @@ public abstract class Spell //extends ForgeRegistryEntry<ISpell>
     }
 
     private CastResult canCast() {
+        Character character = Character.get(getCaster());
         if(getType() == SpellType.SHOUT) {
-            return caster.getData(PlayerAttachments.KNOWN_SPELLS).getSpellCooldown(this) <= 0f ? CastResult.SUCCESS : CastResult.COOLDOWN;
+            return character.getSpellCooldown(this) <= 0f ? CastResult.SUCCESS : CastResult.COOLDOWN;
         } else {
-            return (caster.getData(PlayerAttachments.MAGICKA) >= getCost() || getCooldown() == 0f) ? CastResult.SUCCESS : CastResult.MAGICKA;
+            return (character.getMagicka() >= getCost() || getCooldown() == 0f) ? CastResult.SUCCESS : CastResult.MAGICKA;
         }
     }
 

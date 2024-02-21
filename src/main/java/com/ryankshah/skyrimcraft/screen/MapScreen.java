@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -54,7 +54,7 @@ public class MapScreen extends Screen
 //        ).map(
 //                chunkRender -> minecraft.levelRenderer.new RenderChunkInfo(chunkRender, (Direction)null, 0)
 //        ).collect(Collectors.toList()));
-        this.features = player.getData(PlayerAttachments.COMPASS_FEATURES).getCompassFeatures();
+        this.features = Character.get(player).getCompassFeatures();
 
         // Filter for features found within the map's chunks, and only for features that appear on the surface
 //        this.features = features.stream().filter(feature -> Arrays.stream(renderChunksChunkers).anyMatch(chunkRender -> chunkRender.getOrigin().getX() == feature.getBlockPos().getX() && chunkRender.getOrigin().getZ() == feature.getBlockPos().getZ()) && !feature.equals(StructureFeature.MINESHAFT.getRegistryName())).collect(Collectors.toList());

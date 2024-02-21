@@ -5,6 +5,7 @@ import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.event.KeyEvents;
@@ -15,6 +16,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -24,6 +26,8 @@ public class SkyrimMenuScreen extends Screen
 
     private Direction currentDirection;
 
+    private Character character;
+
     Component SKILLS = Component.translatable("skyrimcraft.menu.skills");
     Component MAP = Component.translatable("skyrimcraft.menu.map");
     Component QUESTS = Component.translatable("skyrimcraft.menu.quests");
@@ -32,7 +36,8 @@ public class SkyrimMenuScreen extends Screen
     public SkyrimMenuScreen() {
         super(Component.translatable(Skyrimcraft.MODID + ".menu.title"));
 
-        currentDirection = Direction.NONE;
+        this.currentDirection = Direction.NONE;
+        this.character = Character.get(Minecraft.getInstance().player);
     }
 
     @Override
@@ -116,7 +121,11 @@ public class SkyrimMenuScreen extends Screen
 //                minecraft.setScreen(new QuestScreen());
 //                minecraft.setScreen(new InventoryScreen(minecraft.player));
             } else if(currentDirection == Direction.EAST) {
-                AtomicReference<List<Spell>> knownSpells = new AtomicReference<>(minecraft.player.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells());
+                AtomicReference<List<Spell>> knownSpells;
+                if(minecraft.player != null)
+                    knownSpells = new AtomicReference<>(character.getKnownSpells());
+                else
+                    knownSpells = new AtomicReference<>(new ArrayList<>());
 
                 if(knownSpells.get().isEmpty()) {
                     minecraft.setScreen(null);

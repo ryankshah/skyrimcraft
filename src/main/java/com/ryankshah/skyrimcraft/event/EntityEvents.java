@@ -1,8 +1,8 @@
 package com.ryankshah.skyrimcraft.event;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerTargetsHandler;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.goal.UndeadFleeGoal;
@@ -35,12 +35,13 @@ public class EntityEvents
     public static void entitySetAttackTarget(LivingAttackEvent event) {
         if(event.getSource().getDirectEntity() instanceof ServerPlayer) {
             ServerPlayer player = (ServerPlayer) event.getSource().getDirectEntity();
-            List<Integer> targetingEntities = player.getData(PlayerAttachments.PLAYER_TARGETS).getTargets();
+            Character character = Character.get(player);
+            List<Integer> targetingEntities = character.getTargets();
             if (!targetingEntities.contains(event.getEntity().getId()) //&& cap.getTargetingEntities().size() <= 10
                     && event.getEntity().isAlive()) {
                 targetingEntities.add(event.getEntity().getId());
                 final AddToTargetingEntities targets = new AddToTargetingEntities(event.getEntity().getId());
-                player.setData(PlayerAttachments.PLAYER_TARGETS, new PlayerTargetsHandler(targetingEntities, event.getEntity().getId()));
+                character.addTarget(event.getEntity().getId());
                 PacketDistributor.PLAYER.with(player).send(targets);
             }
         }

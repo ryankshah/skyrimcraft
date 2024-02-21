@@ -2,8 +2,6 @@ package com.ryankshah.skyrimcraft.util;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ryankshah.skyrimcraft.character.attachment.CompassFeatureHandler;
-import com.ryankshah.skyrimcraft.character.feature.Race;
 import com.ryankshah.skyrimcraft.init.TagsInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -14,7 +12,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
 import java.util.AbstractMap;
-import java.util.UUID;
 
 public class CompassFeature
 {

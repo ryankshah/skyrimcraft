@@ -29,17 +29,12 @@ public class Networking
         registrar.play(UpdateSelectedSpell.ID, UpdateSelectedSpell::new, payload -> payload.server(UpdateSelectedSpell::handleServer).client(UpdateSelectedSpell::handleClient));
         registrar.play(UpdateShoutCooldown.ID, UpdateShoutCooldown::new, payload -> payload.server(UpdateShoutCooldown::handleServer).client(UpdateShoutCooldown::handleClient));
         registrar.play(CastSpell.ID, CastSpell::new, payload -> payload.server(CastSpell::handle));
-        registrar.play(UpdateSpellHandlerOnClient.ID, UpdateSpellHandlerOnClient::new, payload -> payload.client(UpdateSpellHandlerOnClient::handleClient));
-
-        registrar.play(OpenCharacterCreationScreen.ID, OpenCharacterCreationScreen::new, payload -> payload.server(OpenCharacterCreationScreen::handleServer).client(OpenCharacterCreationScreen::handleClient));
-        registrar.play(CreateCharacter.ID, CreateCharacter::new, payload -> payload.server(CreateCharacter::handleServer).client(CreateCharacter::handleClient));
 
         registrar.play(ReplenishMagicka.ID, ReplenishMagicka::new, payload -> payload.server(ReplenishMagicka::handleServer).client(ReplenishMagicka::handleClient));
         registrar.play(ConsumeMagicka.ID, ConsumeMagicka::new, payload -> payload.server(ConsumeMagicka::handleServer).client(ConsumeMagicka::handleClient));
 
-        registrar.play(UpdateMagicka.ID, UpdateMagicka::new, payload -> payload.server(UpdateMagicka::handleServer).client(UpdateMagicka::handleClient));
-        registrar.play(UpdateCharacter.ID, UpdateCharacter::new, payload -> payload.server(UpdateCharacter::handleServer).client(UpdateCharacter::handleClient));
-        registrar.play(UpdateSkillHandlerOnClient.ID, UpdateSkillHandlerOnClient::new, payload -> payload.client(UpdateSkillHandlerOnClient::handleClient));
-        registrar.play(UpdateCompassFeatureHandlerOnClient.ID, UpdateCompassFeatureHandlerOnClient::new, payload -> payload.client(UpdateCompassFeatureHandlerOnClient::handleClient));
+        registrar.play(OpenCharacterCreationScreen.ID, OpenCharacterCreationScreen::new, payload -> payload.server(OpenCharacterCreationScreen::handleServer).client(OpenCharacterCreationScreen::handleClient));
+        registrar.play(CreateCharacter.ID, CreateCharacter::new, payload -> payload.server(CreateCharacter::handleServer).client(CreateCharacter::handleClient));
+        registrar.play(UpdateCharacter.ID, UpdateCharacter::new, payload -> payload.client(UpdateCharacter::handleClient)); //.server(UpdateCharacter::handleServer)
     }
 }

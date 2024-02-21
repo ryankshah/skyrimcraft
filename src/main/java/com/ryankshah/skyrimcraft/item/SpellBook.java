@@ -1,5 +1,6 @@
 package com.ryankshah.skyrimcraft.item;
 
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
@@ -37,7 +38,8 @@ public class SpellBook extends Item
         if (!worldIn.isClientSide) {
             return InteractionResultHolder.pass(itemstack);
         }
-        List<Spell> knownSpells = playerIn.getData(PlayerAttachments.KNOWN_SPELLS).getKnownSpells();
+        Character character = Character.get(playerIn);
+        List<Spell> knownSpells = character.getKnownSpells();
         if (this.spell != null && !knownSpells.contains(spell.get())) {
             final AddToKnownSpells addSpell = new AddToKnownSpells(SpellRegistry.SPELLS_REGISTRY.getResourceKey(spell.get()).get());
             PacketDistributor.SERVER.noArg().send(addSpell);

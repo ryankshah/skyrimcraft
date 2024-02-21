@@ -8,10 +8,6 @@ import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.network.character.UpdateCharacter;
-import com.ryankshah.skyrimcraft.network.character.UpdateCompassFeatureHandlerOnClient;
-import com.ryankshah.skyrimcraft.network.character.UpdateSkillHandlerOnClient;
-import com.ryankshah.skyrimcraft.network.spell.UpdateMagicka;
-import com.ryankshah.skyrimcraft.network.spell.UpdateSpellHandlerOnClient;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -32,11 +28,12 @@ import java.util.Map;
 public class Character
 {
     public static Codec<Character> CODEC = RecordCodecBuilder.create(characterInstance -> characterInstance.group(
-            Codec.FLOAT.fieldOf("magicka").forGetter(Character::getMagicka()),
-            Codec.FLOAT.fieldOf("maxMagicka").forGetter(Character::getMaxMagicka()),
-            Codec.FLOAT.fieldOf("magickaRegenModifier").forGetter(Character::getMagickaRegenModifier()),
-            Codec.INT.fieldOf("characterLevel").forGetter(Character::getCharacterLevel()),
-            Codec.INT.fieldOf("characterTotalXp").forGetter(Character::getCharacterTotalXp()),
+            Codec.BOOL.fieldOf("hasSetup").forGetter(Character::getHasSetup),
+            Codec.FLOAT.fieldOf("magicka").forGetter(Character::getMagicka),
+            Codec.FLOAT.fieldOf("maxMagicka").forGetter(Character::getMaxMagicka),
+            Codec.FLOAT.fieldOf("magickaRegenModifier").forGetter(Character::getMagickaRegenModifier),
+            Codec.INT.fieldOf("characterLevel").forGetter(Character::getCharacterLevel),
+            Codec.INT.fieldOf("characterTotalXp").forGetter(Character::getCharacterTotalXp),
             Codec.unboundedMap(Codec.INT, Skill.SKILL_CODEC).fieldOf("skills").forGetter(Character::getSkills),
             Race.RACE_CODEC.fieldOf("race").forGetter(Character::getRace),
             SpellRegistry.SPELLS_REGISTRY.byNameCodec().listOf().fieldOf("knownSpells").forGetter(Character::getKnownSpells),
@@ -49,6 +46,7 @@ public class Character
     ).apply(characterInstance, Character::new));
 
 
+    private boolean hasSetup;
     private float magicka, maxMagicka, magickaRegenModifier;
     private int characterLevel, characterTotalXp;
 
@@ -67,6 +65,7 @@ public class Character
 
     public Character() {
         this(
+                false,
                 20.0f,
                 20.0f,
                 1.0f,
@@ -85,6 +84,7 @@ public class Character
     }
 
     public Character(
+            boolean hasSetup,
             float magicka, float maxMagicka, float magickaRegenModifier,
             int characterLevel, int characterTotalXp,
             Map<Integer, Skill> skills, Race race,
@@ -92,6 +92,7 @@ public class Character
             List<CompassFeature> features,
             List<Integer> targets, int current
             ) {
+        this.hasSetup = hasSetup;
         this.magicka = magicka;
         this.maxMagicka = maxMagicka;
         this.magickaRegenModifier = magickaRegenModifier;
@@ -107,6 +108,13 @@ public class Character
         this.compassFeatures = features;
         this.targetingEntities = targets;
         this.currentTarget = current;
+    }
+
+    public void setHasSetup(boolean hasSetup) {
+        this.hasSetup = hasSetup;
+    }
+    public boolean getHasSetup() {
+        return this.hasSetup;
     }
 
     public float getMagicka() {
@@ -225,10 +233,19 @@ public class Character
         return skills;
     }
 
+    public void setSkills(Map<Integer, Skill> skills) {
+        this.skills = skills;
+    }
     public Map<Integer, Skill> getSkills() {
         return skills;
     }
+    public void addSkill(int key, Skill value) {
+        this.skills.put(key, value);
+    }
 
+    public void setRace(Race race) {
+        this.race = race;
+    }
     public Race getRace() {
         return race;
     }
@@ -277,15 +294,34 @@ public class Character
     public List<CompassFeature> getCompassFeatures() {
         return compassFeatures;
     }
+    public void setCompassFeatures(List<CompassFeature> features) {
+        this.compassFeatures = features;
+    }
+    public void addCompassFeature(CompassFeature feature) {
+        this.compassFeatures.add(feature);
+    }
 
+    public void addTarget(int id) {
+        this.targetingEntities.add(id);
+    }
+    public void removeTarget(int id) {
+        this.targetingEntities.remove(id);
+    }
+    public void setTargets(List<Integer> ids) {
+        this.targetingEntities = ids;
+    }
     public List<Integer> getTargets() {
         return targetingEntities;
     }
 
     public int getCurrentTarget() { return currentTarget; }
 
+    public void setCurrentTarget(int id) { this.currentTarget = id; }
+
     public static Character get(LivingEntity player) {
-        return player.getData(PlayerAttachments.CHARACTER);
+        if(player != null)
+            return player.getData(PlayerAttachments.CHARACTER);
+        return null;
     }
 
 
@@ -303,22 +339,7 @@ public class Character
     }
 
     protected void syncTo(Player player) {
-        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateMagicka(
-                player.getData(PlayerAttachments.MAGICKA),
-                player.getData(PlayerAttachments.MAX_MAGICKA),
-                player.getData(PlayerAttachments.MAGICKA_REGEN_MODIFIER)
-        ));
-
-        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateCharacter(
-                player.getData(PlayerAttachments.HAS_SETUP),
-                player.getData(PlayerAttachments.CHARACTER_LEVEL),
-                player.getData(PlayerAttachments.CHARACTER_TOTAL_XP)
-        ));
-
-        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateSpellHandlerOnClient(this));
-
-        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateSkillHandlerOnClient(this));
-        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateCompassFeatureHandlerOnClient(this));
+        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateCharacter(this));
     }
 
     private static class CharacterEvents
@@ -365,38 +386,8 @@ public class Character
             var oldHandler = get(oldPlayer);
             var newHandler = get(newPlayer);
 
-            newHandler.compassFeatures = oldHandler.compassFeatures;
-
-            newPlayer.setData(PlayerAttachments.MAGICKA, oldPlayer.getData(PlayerAttachments.MAGICKA));
-            newPlayer.setData(PlayerAttachments.MAX_MAGICKA, oldPlayer.getData(PlayerAttachments.MAX_MAGICKA));
-            newPlayer.setData(PlayerAttachments.MAGICKA_REGEN_MODIFIER, oldPlayer.getData(PlayerAttachments.MAGICKA_REGEN_MODIFIER));
-            newPlayer.setData(PlayerAttachments.COMPASS_FEATURES, oldPlayer.getData(PlayerAttachments.COMPASS_FEATURES));
-
-            PacketDistributor.PLAYER.with((ServerPlayer) newPlayer).send(new UpdateMagicka(
-                    newPlayer.getData(PlayerAttachments.MAGICKA),
-                    newPlayer.getData(PlayerAttachments.MAX_MAGICKA),
-                    newPlayer.getData(PlayerAttachments.MAGICKA_REGEN_MODIFIER)
-            ));
-
-            List<Spell> oldKnownSpells = oldHandler.getKnownSpells();
-            Spell selected1 = oldHandler.getSelectedSpell1();
-            Spell selected2 = oldHandler.getSelectedSpell2();
-            Map<Spell, Float> oldCooldowns = oldHandler.getSpellsOnCooldown();
-
-            newHandler.knownSpells = oldKnownSpells;
-            newHandler.selectedSpell1 = selected1;
-            newHandler.selectedSpell2 = selected2;
-            newHandler.spellsOnCooldown = oldCooldowns;
-
-            newPlayer.setData(PlayerAttachments.KNOWN_SPELLS, newHandler);
-            PacketDistributor.PLAYER.with((ServerPlayer) newPlayer).send(new UpdateSpellHandlerOnClient(newHandler));
-
-            PacketDistributor.PLAYER.with((ServerPlayer) newPlayer).send(new UpdateCharacter(
-                    newPlayer.getData(PlayerAttachments.HAS_SETUP),
-                    newPlayer.getData(PlayerAttachments.CHARACTER_LEVEL),
-                    newPlayer.getData(PlayerAttachments.CHARACTER_TOTAL_XP)
-            ));
-            PacketDistributor.PLAYER.with((ServerPlayer) newPlayer).send(new UpdateCompassFeatureHandlerOnClient(newHandler));
+            newPlayer.setData(PlayerAttachments.CHARACTER, oldPlayer.getData(PlayerAttachments.CHARACTER));
+            PacketDistributor.PLAYER.with((ServerPlayer) newPlayer).send(new UpdateCharacter(newHandler));
         }
     }
 }

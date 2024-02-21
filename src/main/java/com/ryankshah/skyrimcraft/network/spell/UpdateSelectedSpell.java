@@ -1,9 +1,10 @@
 package com.ryankshah.skyrimcraft.network.spell;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
@@ -34,19 +35,32 @@ public record UpdateSelectedSpell(int position, ResourceKey<Spell> spell) implem
 
     public static void handleServer(final UpdateSelectedSpell data, final PlayPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
+        Character character = Character.get(player);
         if(!data.spell.equals(SpellRegistry.EMPTY_SPELL)) {
             Spell spell = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
             if(data.position == 1)
-                player.getData(PlayerAttachments.KNOWN_SPELLS).setSelectedSpell1(spell);
+                character.setSelectedSpell1(spell);
             else if(data.position == 2)
-                player.getData(PlayerAttachments.KNOWN_SPELLS).setSelectedSpell2(spell);
+                character.setSelectedSpell2(spell);
 
-            final UpdateSpellHandlerOnClient sendToClient = new UpdateSpellHandlerOnClient(player.getData(PlayerAttachments.KNOWN_SPELLS));
+            final UpdateSelectedSpell sendToClient = new UpdateSelectedSpell(data.position, data.spell);
             PacketDistributor.PLAYER.with(player).send(sendToClient);
         }
     }
 
     public static void handleClient(final UpdateSelectedSpell data, final PlayPayloadContext context) {
+        Minecraft minecraft = Minecraft.getInstance();
+        minecraft.execute(() -> {
+            Player player = Minecraft.getInstance().player;
+            Character character = Character.get(player);
+            if (!data.spell.equals(SpellRegistry.EMPTY_SPELL)) {
+                Spell spell = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
+                if (data.position == 1)
+                    character.setSelectedSpell1(spell);
+                else if (data.position == 2)
+                    character.setSelectedSpell2(spell);
+            }
+        });
     }
 }
 

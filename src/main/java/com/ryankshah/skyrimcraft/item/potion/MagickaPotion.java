@@ -1,5 +1,6 @@
 package com.ryankshah.skyrimcraft.item.potion;
 
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.init.BlockInit;
 import com.ryankshah.skyrimcraft.init.ItemInit;
@@ -34,7 +35,8 @@ public class MagickaPotion extends SkyrimPotion
 
         if(!worldIn.isClientSide) {
             ServerPlayer player = (ServerPlayer) playerEntity;
-            if(player.getData(PlayerAttachments.MAGICKA) != player.getData(PlayerAttachments.MAX_MAGICKA)) {
+            Character character = Character.get(player);
+            if(character.getMagicka() != character.getMaxMagicka()) {
                 final ReplenishMagicka replenishMagicka = new ReplenishMagicka((int) replenishValue);
                 PacketDistributor.SERVER.noArg().send(replenishMagicka);
             }

@@ -3,28 +3,20 @@ package com.ryankshah.skyrimcraft.character.feature.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.feature.Race;
-import com.ryankshah.skyrimcraft.character.feature.model.*;
+import com.ryankshah.skyrimcraft.character.feature.model.DunmerEarModel;
+import com.ryankshah.skyrimcraft.character.feature.model.HighElfEarModel;
+import com.ryankshah.skyrimcraft.character.feature.model.KhajiitHeadModel;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.player.Player;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.event.RenderPlayerEvent;
 
 public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>
 {
@@ -53,7 +45,7 @@ public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
 
     @Override
     public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, AbstractClientPlayer pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
-        Race race = pLivingEntity.getData(PlayerAttachments.SKILLS).getRace();
+        Race race = Character.get(pLivingEntity).getRace();
         if (race.getId() == Race.ALTMER.getId() || race.getId() == Race.BOSMER.getId())
             renderAltmer(pPoseStack, pBuffer, pPackedLight, pLivingEntity, pLimbSwing, pLimbSwingAmount, pPartialTick, pAgeInTicks, pNetHeadYaw, pHeadPitch);
         else if (race.getId() == Race.DUNMER.getId())

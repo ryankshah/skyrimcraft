@@ -1,13 +1,10 @@
 package com.ryankshah.skyrimcraft.character.feature.model;
 
-import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.HeadedModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.HumanoidModel.ArmPose;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 
 public abstract class AbstractSkyrimPlayerModel<T extends Entity> extends EntityModel<T> implements IArmorModel
 {

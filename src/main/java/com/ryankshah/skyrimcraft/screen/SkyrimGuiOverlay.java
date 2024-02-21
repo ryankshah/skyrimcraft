@@ -4,10 +4,8 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.datafixers.util.Pair;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
-import com.ryankshah.skyrimcraft.character.attachment.SpellHandler;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.magic.EmptySpell;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.event.KeyEvents;
@@ -135,8 +133,9 @@ public class SkyrimGuiOverlay
         }
 
         private void renderLevelUpdate(GuiGraphics graphics, PoseStack poseStack, Font fontRenderer, Player player, int width, int height, float elapsed, String updateName, int level, int levelUpRenderTime) {
-            String nextCharacterLevel = ""+(player.getData(PlayerAttachments.CHARACTER_LEVEL)+1);
-            float characterProgress = player.getData(PlayerAttachments.CHARACTER_TOTAL_XP) / (float)getXpNeededForNextCharacterLevel(player.getData(PlayerAttachments.CHARACTER_LEVEL)+1);
+            Character character = Character.get(player);
+            String nextCharacterLevel = ""+(character.getCharacterLevel()+1);
+            float characterProgress = character.getCharacterTotalXp() / (float)getXpNeededForNextCharacterLevel(character.getCharacterLevel()+1);
             float characterProgressBarWidth = PLAYER_BAR_MAX_WIDTH * characterProgress;
             String levelProgressString = "Progress"; //"Level Progress";
 
@@ -183,8 +182,8 @@ public class SkyrimGuiOverlay
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
-
-            Entity currentTarget = mc.player.level().getEntity(mc.player.getData(PlayerAttachments.PLAYER_TARGETS).getCurrentTarget());
+            Character character = Character.get(mc.player);
+            Entity currentTarget = mc.player.level().getEntity(character.getCurrentTarget());
             if(currentTarget instanceof LivingEntity && currentTarget.isAlive()) {
 //            if(targets.contains(mc.player.getLastHurtMob().getId()) && mc.player.getLastHurtMob() != null && mc.player.getLastHurtMob().isAlive()) {
                 LivingEntity target = (LivingEntity)currentTarget;
@@ -302,10 +301,12 @@ public class SkyrimGuiOverlay
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
+
+            Character character = Character.get(mc.player);
             
-            Spell selectedSpell1 = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell1();
-            Spell selectedSpell2 = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSelectedSpell2();
-            Map<Spell, Float> spellCooldowns = mc.player.getData(PlayerAttachments.KNOWN_SPELLS).getSpellsOnCooldown();
+            Spell selectedSpell1 = character.getSelectedSpell1();
+            Spell selectedSpell2 = character.getSelectedSpell2();
+            Map<Spell, Float> spellCooldowns = character.getSpellsOnCooldown();
 
             poseStack.pushPose();
             RenderUtil.bind(OVERLAY_ICONS);
@@ -541,8 +542,8 @@ public class SkyrimGuiOverlay
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
-
-            float magickaPercentage = mc.player.getData(PlayerAttachments.MAGICKA) / mc.player.getData(PlayerAttachments.MAX_MAGICKA.get());
+            Character character = Character.get(mc.player);
+            float magickaPercentage = character.getMagicka() / character.getMaxMagicka();
             float magickaBarWidth = PLAYER_BAR_MAX_WIDTH * magickaPercentage;
 
             poseStack.pushPose();
@@ -593,6 +594,7 @@ public class SkyrimGuiOverlay
             Minecraft mc = gui.getMinecraft();
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
+            Character character = Character.get(mc.player);
 
             poseStack.pushPose();
             RenderUtil.bind(OVERLAY_ICONS);
@@ -618,7 +620,7 @@ public class SkyrimGuiOverlay
             double playerPosZ = Mth.lerp(mc.getFrameTime(), mc.player.zo, mc.player.getZ());
             final float finalYaw = yaw;
 
-            List<CompassFeature> compassFeatures = mc.player.getData(PlayerAttachments.COMPASS_FEATURES).getCompassFeatures();
+            List<CompassFeature> compassFeatures = character.getCompassFeatures();
             if (compassFeatures.size() > 0) {
                 List<CompassFeature> sortedFeatures = Lists.newArrayList(compassFeatures);
                 sortedFeatures.sort((a, b) -> {
@@ -637,7 +639,7 @@ public class SkyrimGuiOverlay
                     }
                 }
             }
-            List<Integer> targetingEntities = mc.player.getData(PlayerAttachments.PLAYER_TARGETS).getTargets();
+            List<Integer> targetingEntities = character.getTargets();
             if (targetingEntities != null) {
                 for (int entityID : targetingEntities) {
                     if (mc.player.level().getEntity(entityID) == null)
