@@ -42,7 +42,7 @@ public class DataGenerators
             PackOutput output = event.getGenerator().getPackOutput();
             ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-            generator.addProvider(true, new SkyrimAdvancementProvider(output, event.getLookupProvider(), existingFileHelper, List.of(new SkyrimAdvancementProvider.QuestAdvancementProvider())));
+            generator.addProvider(true, new SkyrimAdvancementProvider(output, event.getLookupProvider(), existingFileHelper, List.of(new SkyrimAdvancementProvider.SkyrimAdvancements())));
             generator.addProvider(true, new SkyrimcraftLanguageProvider(output, Skyrimcraft.MODID, "en_us"));
             generator.addProvider(true, new SkyrimBiomeTagsProvider(output, event.getLookupProvider(), Skyrimcraft.MODID, existingFileHelper));
             generator.addProvider(true, new SkyrimcraftItemStateProvider(output, existingFileHelper));

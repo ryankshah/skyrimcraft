@@ -2,7 +2,9 @@ package com.ryankshah.skyrimcraft.network.skill;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
+import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
+import com.ryankshah.skyrimcraft.init.AdvancementTriggersInit;
 import com.ryankshah.skyrimcraft.network.character.AddToLevelUpdates;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -62,6 +64,9 @@ public record AddXpToSkill(int skillID, int baseXp) implements CustomPacketPaylo
                             int level = character.getCharacterLevel();
                             int totalXp = character.getCharacterTotalXp();
                             int newLevel = (int)Math.floor(-2.5 + Math.sqrt(8 * totalXp + 1225) / 10);
+
+                            if(newLevel == 10)
+                                AdvancementTriggersInit.LEVEL_UP.get().trigger(serverPlayer, skill, 10);
 
                             character.setCharacterTotalXp(totalXp + skill.getLevel());
                             if(newLevel > level) {

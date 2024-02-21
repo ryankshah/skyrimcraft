@@ -135,6 +135,8 @@ public class Skyrimcraft
         BlockInit.BLOCKS.register(bus);
         CreativeTabInit.CREATIVE_MODE_TABS.register(bus);
 
+        AdvancementTriggersInit.TRIGGERS.register(bus);
+
         RecipeTypeInit.RECIPE_TYPES.register(bus);
         SerializerInit.SERIALIZERS.register(bus);
 

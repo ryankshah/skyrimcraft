@@ -17,20 +17,18 @@ import java.util.List;
 public class ShoutDragonAspect extends Spell //implements IForgeRegistryEntry<ISpell>
 {
     public ShoutDragonAspect(int identifier) {
-        super(identifier, "dragonrend");
+        super(identifier, "dragon_aspect");
     }
 
     @Override
     public String getName() {
-        return "Dragonrend";
+        return "Dragon Aspect";
     }
 
     @Override
     public List<String> getDescription() {
         List<String> desc = new ArrayList<>();
-        desc.add("Your voice lashes out at a");
-        desc.add("dragon's very soul, forcing");
-        desc.add("the beast to land");
+        desc.add("Desc please...");
         return desc;
     }
 

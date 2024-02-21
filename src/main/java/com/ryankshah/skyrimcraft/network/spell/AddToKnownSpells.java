@@ -4,6 +4,7 @@ import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
+import com.ryankshah.skyrimcraft.init.AdvancementTriggersInit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -36,6 +37,8 @@ public record AddToKnownSpells(ResourceKey<Spell> spell) implements CustomPacket
         ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
         Character character = Character.get(player);
         character.addNewSpell(SpellRegistry.SPELLS_REGISTRY.get(data.spell));
+
+        AdvancementTriggersInit.LEARN_SPELL.get().trigger(player, SpellRegistry.SPELLS_REGISTRY.get(data.spell));
 
         final AddToKnownSpells sendToClient = new AddToKnownSpells(data.spell);
         PacketDistributor.PLAYER.with(player).send(sendToClient);

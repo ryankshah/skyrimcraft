@@ -11,7 +11,7 @@ public class EmptySpell extends Spell
 
     @Override
     public String getName() {
-        return "Conjure Familiar";
+        return "Empty Spell";
     }
 
     @Override

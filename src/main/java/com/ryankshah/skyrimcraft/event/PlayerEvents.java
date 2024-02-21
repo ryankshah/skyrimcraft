@@ -109,11 +109,11 @@ public class PlayerEvents
                         CompassFeature compassFeature = new CompassFeature(UUID.randomUUID().toString(), structure, featureStartPos);
                         if (playerCompassFeatures.stream().noneMatch(feature -> feature.equals(compassFeature))) {
 //                                System.out.println(playerCompassFeatures);
-
-                            playerCompassFeatures.add(compassFeature);
+//                            character.addCompassFeature(compassFeature);
+//                            playerCompassFeatures.add(compassFeature);
                             final AddToCompassFeatures features = new AddToCompassFeatures(compassFeature.getId(), compassFeature.getFeature().location(), compassFeature.getBlockPos());
-                            character.setCompassFeatures(playerCompassFeatures);
-                            PacketDistributor.PLAYER.with(player).send(features);
+//                            character.setCompassFeatures(playerCompassFeatures);
+                            PacketDistributor.SERVER.noArg().send(features);
 
 //                                System.out.println(playerCompassFeatures);
                         }

@@ -13,7 +13,7 @@ public class PlayerAttachments
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Skyrimcraft.MODID);
 
     public static final Supplier<AttachmentType<Character>> CHARACTER = ATTACHMENT_TYPES.register(
-            "character", () -> AttachmentType.builder(() -> new Character()).serialize(Character.CODEC).copyOnDeath().build());
+            "character", () -> AttachmentType.builder(Character::new).serialize(Character.CODEC).copyOnDeath().build());
 
 
     public static void registerSyncEvents() {

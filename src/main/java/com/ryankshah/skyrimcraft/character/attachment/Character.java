@@ -17,11 +17,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class Character
@@ -47,7 +49,6 @@ public class Character
             Codec.INT.fieldOf("currentTarget").forGetter(Character::getCurrentTarget)
     ).apply(characterInstance, Character::new));
 
-
     private boolean hasSetup;
     private float magicka, maxMagicka, magickaRegenModifier;
     private int characterLevel, characterTotalXp;
@@ -65,7 +66,7 @@ public class Character
     private List<Integer> targetingEntities;
     private int currentTarget;
 
-    public Character() {
+    public Character(IAttachmentHolder p) {
         this(
                 false,
                 20.0f,
@@ -342,6 +343,11 @@ public class Character
         PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateCharacter(this));
     }
 
+    protected void syncTo(PacketDistributor.PacketTarget target)
+    {
+        target.send(new UpdateCharacter(this));
+    }
+
     private static class CharacterEvents
     {
         @SubscribeEvent
@@ -373,9 +379,9 @@ public class Character
             Entity target = event.getTarget();
             if (target.level().isClientSide)
                 return;
-            if (target instanceof Player)
+            if (target instanceof Player player)
             {
-                get((Player)target).syncToSelf((Player)target);
+                get(player).syncToSelf(player);
             }
         }
 

@@ -1,44 +1,52 @@
 package com.ryankshah.skyrimcraft.advancement;
 
-public class LearnSpellTrigger //extends SimpleCriterionTrigger<LearnSpellTrigger.TriggerInstance>
-{
-//    @Override
-//    public Codec<LearnSpellTrigger.TriggerInstance> codec() {
-//        return LearnSpellTrigger.TriggerInstance.CODEC;
-//    }
-//
-//    public void trigger(ServerPlayer pPlayer, ISpell spell) {
-//        this.trigger(pPlayer, p_43676_ -> p_43676_.matches(spell));
-//    }
-//
-//    public static record TriggerInstance(
-//            Optional<ContextAwarePredicate> player, Optional<ISpell> spell
-//    ) implements SimpleCriterionTrigger.SimpleInstance {
-//        public static final Codec<LearnSpellTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(
-//                p_311425_ -> p_311425_.group(
-//                                ExtraCodecs.strictOptionalField(EntityPredicate.ADVANCEMENT_CODEC, "player").forGetter(LearnSpellTrigger.TriggerInstance::player),
-//                                ExtraCodecs.strictOptionalField(SpellPredicate.CODEC, "spell").forGetter(LearnSpellTrigger.TriggerInstance::spell)
-//                        )
-//                        .apply(p_311425_, LearnSpellTrigger.TriggerInstance::new)
-//        );
-//
-//        public static Criterion<LearnSpellTrigger.TriggerInstance> changedDurability(Optional<SpellPredicate> pItem) {
-//            return learnedSpell(Optional.empty(), pItem);
-//        }
-//
-//        public static Criterion<LearnSpellTrigger.TriggerInstance> learnedSpell(
-//                Optional<ContextAwarePredicate> pPlayer, Optional<ItemPredicate> pItem
-//        ) {
-//            return CriteriaTriggers.ITEM_DURABILITY_CHANGED // change to mod trigger for spell
-//                    .createCriterion(new LearnSpellTrigger.TriggerInstance(pPlayer, pItem, pDurability, MinMaxBounds.Ints.ANY));
-//        }
-//
-//        public boolean matches(ISpell spell) {
-//            if (!this.spell.isPresent() || !this.spell.get().equals(spell)) {
-//                return false;
-//            } else {
-//                return this.spell.get().equals(spell);
-//            }
-//        }
-//    }
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
+import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
+import com.ryankshah.skyrimcraft.init.AdvancementTriggersInit;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.Criterion;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
+import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.ExtraCodecs;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
+
+public final class LearnSpellTrigger extends SimpleCriterionTrigger<LearnSpellTrigger.Instance> {
+    @Override
+    public Codec<Instance> codec() {
+        return Instance.CODEC;
+    }
+
+    public void trigger(ServerPlayer player, Spell spell) {
+        trigger(player, instance -> instance.test(spell));
+    }
+
+    public static Criterion<Instance> onLearn(@Nullable ContextAwarePredicate conditions, @Nullable Spell spell) {
+        return AdvancementTriggersInit.LEARN_SPELL.get().createCriterion(new Instance(Optional.ofNullable(conditions), spell != null ? Optional.of(spell) : Optional.empty()));
+    }
+
+    public static Criterion<Instance> onLearn(@Nullable Spell spell) {
+        return onLearn(null, spell);
+    }
+
+    public record Instance(Optional<ContextAwarePredicate> player, Optional<Spell> spell) implements SimpleCriterionTrigger.SimpleInstance {
+        private static final Codec<Instance> CODEC = RecordCodecBuilder.create(codec -> codec.group(
+                ExtraCodecs.strictOptionalField(EntityPredicate.ADVANCEMENT_CODEC, "player").forGetter(Instance::player),
+                ExtraCodecs.strictOptionalField(SpellRegistry.SPELLS_REGISTRY.byNameCodec(), "skill").forGetter(Instance::spell)
+        ).apply(codec, Instance::new));
+
+        public boolean test(Spell spell) {
+            return spell().isEmpty() || spell().get() == spell;
+        }
+
+        @Override
+        public Optional<ContextAwarePredicate> player() {
+            return player;
+        }
+    }
 }

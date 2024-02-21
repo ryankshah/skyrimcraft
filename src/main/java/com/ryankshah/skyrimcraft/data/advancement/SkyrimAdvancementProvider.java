@@ -1,27 +1,38 @@
 package com.ryankshah.skyrimcraft.data.advancement;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.advancement.LearnSpellTrigger;
+import com.ryankshah.skyrimcraft.advancement.LevelUpTrigger;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
+import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
+import com.ryankshah.skyrimcraft.init.AdvancementTriggersInit;
+import com.ryankshah.skyrimcraft.init.BlockInit;
 import com.ryankshah.skyrimcraft.init.EntityInit;
 import com.ryankshah.skyrimcraft.init.ItemInit;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.KilledTrigger;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
+import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class SkyrimAdvancementProvider extends AdvancementProvider {
     /**
@@ -37,82 +48,50 @@ public class SkyrimAdvancementProvider extends AdvancementProvider {
         super(output, registries, existingFileHelper, subProviders);
     }
 
-    class SpellAdvancementProvider implements AdvancementGenerator
+    public static class SkyrimAdvancements implements AdvancementGenerator
     {
         @Override
         public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
-//            Advancement example = Advancement.Builder.advancement()
-//                    .addCriterion("learn_unrelenting_force", LearnSpellTrigger.TriggerInstance.learnedSpell(SpellRegistry.UNRELENTING_FORCE.value())) // How the advancement is unlocked
-//                    .save(saver, Skyrimcraft.MODID + "learned_first_shout", existingFileHelper); // Add data to builder
 
-        }
-    }
+            AdvancementHolder skyrimcraft = Advancement.Builder.advancement()
+                    .display(ItemInit.SWEET_ROLL.get(),
+                            Component.literal("Skyrimcraft"),
+                            Component.literal("Your adventure begins here..."),
+                            new ResourceLocation("textures/gui/advancements/backgrounds/stone.png"),
+                            AdvancementType.TASK, false, false, false)
+                    .addCriterion("skyrimcraft_login", PlayerTrigger.TriggerInstance.located(LocationPredicate.Builder.location().setX(MinMaxBounds.Doubles.ANY)))
+                    .save(saver, new ResourceLocation(Skyrimcraft.MODID, "root"), existingFileHelper);
 
-    public static class QuestAdvancementProvider implements AdvancementGenerator
-    {
-        @Override
-        public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
-            AdvancementHolder questAdvancementHolder = Advancement.Builder.advancement()
-                    .display(
-                            ItemInit.IRON_HELMET.get(),
-                            Component.translatable("advancements.skyrimcraft.quest.root.title"),
-                            Component.translatable("advancements.skyrimcraft.quest.root.description"),
-                            new ResourceLocation("textures/gui/advancements/backgrounds/end.png"),
-                            AdvancementType.CHALLENGE,
-                            false,
-                            false,
-                            false
-                    )
-                    .addCriterion("crafting_table", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.CRAFTING_TABLE))
-                    .save(saver, new ResourceLocation(Skyrimcraft.MODID, "quest/root"), existingFileHelper);
+            AdvancementHolder spells = Advancement.Builder.advancement().parent(skyrimcraft)
+                    .display(ItemInit.FIREBALL_SPELLBOOK.get(), Component.literal("Spells"), Component.literal("Learned spells"), (ResourceLocation)null, AdvancementType.CHALLENGE, true, true, true)
+                    .addCriterion("spells_list", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance())).save(saver, new ResourceLocation(Skyrimcraft.MODID, "spell/root"), existingFileHelper);
+            AdvancementHolder shouts = Advancement.Builder.advancement().parent(skyrimcraft)
+                    .display(BlockInit.SHOUT_BLOCK.get(), Component.literal("Shouts"), Component.literal("Learnt shouts"), (ResourceLocation)null, AdvancementType.CHALLENGE, true, true, true)
+                    .addCriterion("shouts_list", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance())).save(saver, new ResourceLocation(Skyrimcraft.MODID, "shout/root"), existingFileHelper);
 
-            AdvancementHolder DRAGON_SLAYER = Advancement.Builder.advancement()
-                    .parent(questAdvancementHolder)
-                    .display(
-                            ItemInit.DRAGONBONE_SWORD.get(),
-                            Component.translatable("advancements.skyrimcraft.quest.dragon_slayer.title"),
-                            Component.translatable("advancements.skyrimcraft.quest.dragon_slayer.description"),
-                            null,
-                            AdvancementType.CHALLENGE,
-                            true,
-                            false,
-                            false
-                    )
-//                    .rewards(AdvancementRewards.Builder.loot(new ResourceLocation(Skyrimcraft.MODID, "quests/")))
-                    .addCriterion("kill_dragon", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(EntityInit.DRAGON.get()))) // How the advancement is unlocked
-                    .save(saver, new ResourceLocation(Skyrimcraft.MODID, "quest/dragon_slayer"), existingFileHelper);
+            for(DeferredHolder<Spell, ? extends Spell> spell : SpellRegistry.SPELLS.getEntries()) {
+                if(spell.get().equals(SpellRegistry.EMPTY_SPELL.get()))
+                    continue;
 
-            AdvancementHolder EBONY_DREAMS = Advancement.Builder.advancement()
-                    .parent(questAdvancementHolder)
-                    .display(
-                            ItemInit.EBONY_INGOT.get(),
-                            Component.translatable("advancements.skyrimcraft.quest.ebony_dreams.title"),
-                            Component.translatable("advancements.skyrimcraft.quest.ebony_dreams.description"),
-                            null,
-                            AdvancementType.TASK,
-                            true,
-                            false,
-                            false
-                    )
-//                    .rewards(AdvancementRewards.Builder.loot(new ResourceLocation(Skyrimcraft.MODID, "quests/")))
-                    .addCriterion("smelt_ebony", InventoryChangeTrigger.TriggerInstance.hasItems(ItemInit.EBONY_INGOT))
-                    .save(saver, new ResourceLocation(Skyrimcraft.MODID, "quest/ebony_dreams"), existingFileHelper);
+                ItemLike provider = spell.get().getType() == Spell.SpellType.SHOUT ? BlockInit.SHOUT_BLOCK.get() : ItemInit.FIREBALL_SPELLBOOK.get();
+                AdvancementHolder adv = Advancement.Builder.advancement().parent(spell.get().getType() == Spell.SpellType.SHOUT ? shouts : spells)
+                        .display(provider, Component.literal(spell.get().getName()),
+                                Component.literal("Learn the " + spell.get().getName() + " " + (spell.get().getType() == Spell.SpellType.SHOUT ? "shout" : "spell")),
+                                (ResourceLocation)null, AdvancementType.CHALLENGE, true, true, true)
+                        .addCriterion("spell_learned_" + spell.get().getName().toLowerCase(Locale.ENGLISH).replace(" ", "_"), LearnSpellTrigger.onLearn(spell.get()))
+                        .save(saver, new ResourceLocation(Skyrimcraft.MODID, (spell.get().getType() == Spell.SpellType.SHOUT ? "shout" : "spell") + "/" + spell.get().getName().toLowerCase(Locale.ENGLISH).replace(" ", "_")), existingFileHelper);
+            }
 
-            AdvancementHolder GOODBYE_WEBS = Advancement.Builder.advancement()
-                    .parent(questAdvancementHolder)
-                    .display(
-                            Items.COBWEB,
-                            Component.translatable("advancements.skyrimcraft.quest.goodbye_webs.title"),
-                            Component.translatable("advancements.skyrimcraft.quest.goodbye_webs.description"),
-                            null,
-                            AdvancementType.TASK,
-                            true,
-                            false,
-                            false
-                    )
-//                    .rewards(AdvancementRewards.Builder.loot(new ResourceLocation(Skyrimcraft.MODID, "quests/")))
-                    .addCriterion("kill_spider", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(EntityType.SPIDER))) // How the advancement is unlocked
-                    .save(saver, new ResourceLocation(Skyrimcraft.MODID, "quest/goodbye_webs"), existingFileHelper);
+
+            // Level-Based
+            AdvancementHolder combat = Advancement.Builder.advancement().parent(skyrimcraft)
+                    .display(ItemInit.DAEDRIC_SWORD.get(), Component.literal("Combat"), Component.literal("Skyrimcraft Combat Achievements"), (ResourceLocation)null, AdvancementType.CHALLENGE, false, false, false)
+                    .addCriterion("deal_damage", PlayerHurtEntityTrigger.TriggerInstance.playerHurtEntity()).save(saver, new ResourceLocation(Skyrimcraft.MODID, "combat/root"), existingFileHelper);
+
+            AdvancementHolder reach_level_10 = Advancement.Builder.advancement().parent(combat)
+                    .display(ItemInit.IRON_SWORD.get(), Component.literal("Level 10"), Component.literal("Reach Combat Level 10"), (ResourceLocation)null, AdvancementType.TASK, true, true, false)
+                    .addCriterion("level_10", LevelUpTrigger.onLevelUp(Optional.of(10))).save(saver, new ResourceLocation(Skyrimcraft.MODID, "combat/reach_level_10"), existingFileHelper);
+
         }
     }
 }
