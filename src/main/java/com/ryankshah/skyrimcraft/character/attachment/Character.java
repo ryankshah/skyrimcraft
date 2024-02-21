@@ -318,10 +318,8 @@ public class Character
 
     public void setCurrentTarget(int id) { this.currentTarget = id; }
 
-    public static Character get(LivingEntity player) {
-        if(player != null)
-            return player.getData(PlayerAttachments.CHARACTER);
-        return null;
+    public static Character get(Player player) {
+        return player.getData(PlayerAttachments.CHARACTER);
     }
 
 

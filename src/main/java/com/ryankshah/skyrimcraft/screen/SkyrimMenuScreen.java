@@ -26,8 +26,6 @@ public class SkyrimMenuScreen extends Screen
 
     private Direction currentDirection;
 
-    private Character character;
-
     Component SKILLS = Component.translatable("skyrimcraft.menu.skills");
     Component MAP = Component.translatable("skyrimcraft.menu.map");
     Component QUESTS = Component.translatable("skyrimcraft.menu.quests");
@@ -37,7 +35,6 @@ public class SkyrimMenuScreen extends Screen
         super(Component.translatable(Skyrimcraft.MODID + ".menu.title"));
 
         this.currentDirection = Direction.NONE;
-        this.character = Character.get(Minecraft.getInstance().player);
     }
 
     @Override
@@ -47,6 +44,8 @@ public class SkyrimMenuScreen extends Screen
         Window window = mc.getWindow();
         int scaledWidth = window.getGuiScaledWidth();
         int scaledHeight = window.getGuiScaledHeight();
+
+        Character character = mc.player.getData(PlayerAttachments.CHARACTER);
 
         poseStack.pushPose();
         RenderUtil.bind(MENU_ICONS);
@@ -123,7 +122,7 @@ public class SkyrimMenuScreen extends Screen
             } else if(currentDirection == Direction.EAST) {
                 AtomicReference<List<Spell>> knownSpells;
                 if(minecraft.player != null)
-                    knownSpells = new AtomicReference<>(character.getKnownSpells());
+                    knownSpells = new AtomicReference<>(Minecraft.getInstance().player.getData(PlayerAttachments.CHARACTER).getKnownSpells());
                 else
                     knownSpells = new AtomicReference<>(new ArrayList<>());
 

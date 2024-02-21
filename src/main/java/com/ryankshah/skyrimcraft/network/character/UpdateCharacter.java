@@ -42,8 +42,7 @@ public record UpdateCharacter(Character character) implements CustomPacketPayloa
     public static void handleClient(final UpdateCharacter data, final PlayPayloadContext context) {
         Minecraft minecraft = Minecraft.getInstance();
         minecraft.execute(() -> {
-            Player player = Minecraft.getInstance().player;
-            player.setData(PlayerAttachments.CHARACTER, data.character);
+            Minecraft.getInstance().player.setData(PlayerAttachments.CHARACTER, data.character);
 //            player.setData(PlayerAttachments.CHARACTER_LEVEL, data.level);
 //            player.setData(PlayerAttachments.CHARACTER_TOTAL_XP, data.xp);
         });
