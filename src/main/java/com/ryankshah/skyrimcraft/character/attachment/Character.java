@@ -1,6 +1,7 @@
 package com.ryankshah.skyrimcraft.character.attachment;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ryankshah.skyrimcraft.character.feature.Race;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
@@ -9,6 +10,7 @@ import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.network.character.UpdateCharacter;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,10 +22,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Character
 {
@@ -34,7 +33,10 @@ public class Character
             Codec.FLOAT.fieldOf("magickaRegenModifier").forGetter(Character::getMagickaRegenModifier),
             Codec.INT.fieldOf("characterLevel").forGetter(Character::getCharacterLevel),
             Codec.INT.fieldOf("characterTotalXp").forGetter(Character::getCharacterTotalXp),
-            Codec.unboundedMap(Codec.INT, Skill.SKILL_CODEC).fieldOf("skills").forGetter(Character::getSkills),
+            Codec.unboundedMap(Codec.STRING.comapFlatMap(
+                    s -> s.matches("-?\\d+") ? DataResult.success(Integer.parseInt(s)) : DataResult.error(() -> "Key is not an integer"),
+                    i -> Integer.toString(i)
+                ), Skill.SKILL_CODEC).fieldOf("skills").forGetter(Character::getSkills),
             Race.RACE_CODEC.fieldOf("race").forGetter(Character::getRace),
             SpellRegistry.SPELLS_REGISTRY.byNameCodec().listOf().fieldOf("knownSpells").forGetter(Character::getKnownSpells),
             SpellRegistry.SPELLS_REGISTRY.byNameCodec().fieldOf("selectedSpell1").forGetter(Character::getSelectedSpell1),
@@ -328,7 +330,7 @@ public class Character
     /**
      * EVENT RELATED BS
      **/
-    public static void register(IEventBus modEventBus) {
+    public static void register() {
         NeoForge.EVENT_BUS.register(new CharacterEvents());
     }
 

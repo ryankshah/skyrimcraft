@@ -126,7 +126,7 @@ public class Skyrimcraft
         SpellRegistry.SPELLS.register(bus);
 
         PlayerAttachments.ATTACHMENT_TYPES.register(bus);
-        PlayerAttachments.registerSyncEvents(bus);
+        PlayerAttachments.registerSyncEvents();
 //        SpellHandler.register(bus);
 
         StructureInit.STRUCTURES.register(bus);

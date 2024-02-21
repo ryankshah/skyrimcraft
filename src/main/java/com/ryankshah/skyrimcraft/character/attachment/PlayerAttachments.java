@@ -16,7 +16,7 @@ public class PlayerAttachments
             "character", () -> AttachmentType.builder(() -> new Character()).serialize(Character.CODEC).copyOnDeath().build());
 
 
-    public static void registerSyncEvents(IEventBus modEventBus) {
-        Character.register(modEventBus);
+    public static void registerSyncEvents() {
+        Character.register();
     }
 }
