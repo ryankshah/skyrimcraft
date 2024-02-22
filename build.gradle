@@ -23,10 +23,6 @@ repositories {
         name = 'Illusive Soulworks maven'
         url = "https://maven.theillusivec4.top/"
     }
-    maven {
-        name "KosmX's maven"
-        url 'https://maven.kosmx.dev/'
-    }
 }
 
 base {

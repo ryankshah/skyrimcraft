@@ -22,6 +22,7 @@ public class SkyrimcraftItemStateProvider extends ItemModelProvider
         item(ItemInit.GARLIC_BREAD.get());
         item(ItemInit.POTATO_BREAD.get());
         item(ItemInit.TOMATO.get());
+        item(ItemInit.GARLIC.get());
         item(ItemInit.APPLE_PIE.get());
         item(ItemInit.MAMMOTH_SNOUT.get());
         item(ItemInit.MAMMOTH_STEAK.get());
@@ -46,6 +47,8 @@ public class SkyrimcraftItemStateProvider extends ItemModelProvider
         item(ItemInit.HORSE_MEAT.get());
         item(ItemInit.HORSE_HAUNCH.get());
         item(ItemInit.VEGETABLE_SOUP.get());
+
+        item(ItemInit.TOMATO_SEEDS.get());
 
         item(ItemInit.ALE.get());
         item(ItemInit.ALTO_WINE.get());

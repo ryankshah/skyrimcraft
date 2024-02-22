@@ -269,6 +269,9 @@ public class ItemInit
     public static final DeferredItem<Item> FLOUR = ITEMS.register("flour", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> BUTTER = ITEMS.register("butter", () -> new Item(new Item.Properties()));
 
+    public static final DeferredItem<Item> GARLIC = ITEMS.register("garlic", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> TOMATO_SEEDS = ITEMS.register("tomato_seeds", () -> new Item(new Item.Properties()));
+
     public static final DeferredItem<Item> CORUNDUM_INGOT = ITEMS.register("corundum_ingot", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> DWARVEN_METAL_INGOT = ITEMS.register("dwarven_metal_ingot", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> EBONY_INGOT = ITEMS.register("ebony_ingot", () -> new Item(new Item.Properties()));
@@ -563,7 +566,6 @@ public class ItemInit
     public static final DeferredItem<Item> EXTREME_MAGICKA_POTION = ITEMS.register("extreme_magicka_potion", () -> new MagickaPotion(new Item.Properties(), 12.0f));
     public static final DeferredItem<Item> ULTIMATE_MAGICKA_POTION = ITEMS.register("ultimate_magicka_potion", () -> new MagickaPotion(new Item.Properties(), 20.0f));
 
-
     public static final DeferredItem<Item> SABRE_CAT_SPAWN_EGG = ITEMS.register("sabre_cat_spawn_egg", () -> new DeferredSpawnEggItem(EntityInit.SABRE_CAT, 0x505050, 0x606060, new Item.Properties()));
     public static final DeferredItem<Item> GIANT_SPAWN_EGG = ITEMS.register("giant_spawn_egg", () -> new DeferredSpawnEggItem(EntityInit.GIANT, 0x505050, 0x606060, new Item.Properties()));
     public static final DeferredItem<Item> DRAGON_SPAWN_EGG = ITEMS.register("dragon_spawn_egg", () -> new DeferredSpawnEggItem(EntityInit.DRAGON, 0x505050, 0x606060, new Item.Properties()));
@@ -579,6 +581,7 @@ public class ItemInit
         provider.addItem(GARLIC_BREAD, "Garlic Bread");
         provider.addItem(POTATO_BREAD, "Potato Bread");
         provider.addItem(TOMATO, "Tomato");
+        provider.addItem(GARLIC, "Garlic");
         provider.addItem(APPLE_PIE, "Apple Pie");
         provider.addItem(MAMMOTH_SNOUT, "Mammoth Snout");
         provider.addItem(MAMMOTH_STEAK, "Mammoth Steak");
@@ -617,6 +620,8 @@ public class ItemInit
         provider.addItem(SKOOMA, "Skooma");
         provider.addItem(SPICED_WINE, "Spiced Wine");
         provider.addItem(WINE, "Wine");
+
+        provider.addItem(TOMATO_SEEDS, "Tomato Seeds");
 
         provider.addItem(SALT_PILE, "Salt Pile");
         provider.addItem(CREEP_CLUSTER, "Creep Cluster");

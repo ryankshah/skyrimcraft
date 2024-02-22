@@ -1,4 +1,4 @@
-// 1.20.4	2024-02-14T04:43:18.9569007	Item Models: skyrimcraft
+// 1.20.4	2024-02-21T17:04:35.163458	Item Models: skyrimcraft
 24679915ce5b2b3a4fcb00fd4f1c08bdec28e5fc assets/skyrimcraft/models/item/abecean_longfin.json
 0759cc0f9da10e5faf7d443061d7da3c39c6857a assets/skyrimcraft/models/item/ahzidals_ring_of_arcana.json
 cd731e99488e888a81caebe94869d602509a94ba assets/skyrimcraft/models/item/ale.json
@@ -172,6 +172,7 @@ c97fff4c46cb8be5993d707cb5a83c1ee83ed27c assets/skyrimcraft/models/item/flawless
 c3c645f1530d70e70c17417f2097f29fec6f474f assets/skyrimcraft/models/item/flawless_ruby.json
 6a48b1ac64025dd755021538345bf8752c6b4c9e assets/skyrimcraft/models/item/flour.json
 4ab1dde0f36b56415a92ba839df84ee86190f28d assets/skyrimcraft/models/item/fly_amanita.json
+c7e8bc96212100364bdab665a76c45ffcbd0aaea assets/skyrimcraft/models/item/garlic.json
 4714c5859e10614819800826cda024691dcb05dd assets/skyrimcraft/models/item/garlic_bread.json
 5453a6dfcec69bed67588bc9b11790d668716b02 assets/skyrimcraft/models/item/giants_toe.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/skyrimcraft/models/item/giant_spawn_egg.json
@@ -329,6 +330,7 @@ bf6d1985bb8128b55bdd3ec6fce4033e31f97b42 assets/skyrimcraft/models/item/steel_da
 550651fb95857fa203cb3c4aa52e96db30d17fe2 assets/skyrimcraft/models/item/sweet_roll.json
 1b6625f038e96b5fcbf5415be4c6a416c6d85d94 assets/skyrimcraft/models/item/taproot.json
 416e0d88898f1460dcc116272d411c903c7a8f0f assets/skyrimcraft/models/item/tomato.json
+c476f294ebe2c376af8decce6766b22a6d08521a assets/skyrimcraft/models/item/tomato_seeds.json
 71ef3e1104c7799e97d95ca8b565626ab6ad4bca assets/skyrimcraft/models/item/tomato_soup.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/skyrimcraft/models/item/torchbug_spawn_egg.json
 06341699cc1f87380c5f54dfc6f9687918f98c6a assets/skyrimcraft/models/item/treoys_ornamental_ring.json

@@ -4,6 +4,7 @@ import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.init.BlockInit;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.NoiseProvider;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
@@ -34,6 +36,7 @@ public class SkyrimcraftConfiguredFeatures
     public static final ResourceKey<ConfiguredFeature<?, ?>> SILVER_ORE_KEY = registerKey("silver_ore");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> MOUNTAIN_FLOWER_KEY = registerKey("mountain_flower");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> DESERT_PLANTS_KEY = registerKey("desert_plants");
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
         RuleTest stoneReplaceable = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
@@ -92,6 +95,18 @@ public class SkyrimcraftConfiguredFeatures
                                         )
                                 )
                         ))));
+
+//        register(context, DESERT_PLANTS_KEY, Feature.RANDOM_PATCH,FeatureUtils.simpleRandomPatchConfiguration(
+//                4, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+//                        new NoiseProvider(
+//                                2345L,
+//                                new NormalNoise.NoiseParameters(0, 1.0),
+//                                0.020833334F,
+//                                List.of(
+//                                        BlockInit.CANIS_ROOT.get().defaultBlockState()
+//                                )
+//                        ))
+//                )));
     }
 
 

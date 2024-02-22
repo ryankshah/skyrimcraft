@@ -15,6 +15,7 @@ import com.ryankshah.skyrimcraft.entity.creature.DwarvenSpiderEntity;
 import com.ryankshah.skyrimcraft.entity.creature.GiantEntity;
 import com.ryankshah.skyrimcraft.entity.creature.MammothEntity;
 import com.ryankshah.skyrimcraft.entity.creature.SabreCatEntity;
+import com.ryankshah.skyrimcraft.entity.npc.Khajiit;
 import com.ryankshah.skyrimcraft.entity.passive.flying.*;
 import com.ryankshah.skyrimcraft.init.*;
 import net.minecraft.world.entity.EntityType;
@@ -168,8 +169,7 @@ public class Skyrimcraft
         event.put(EntityInit.BLUE_DARTWING.get(), BlueDartwing.createAttributes().build());
         event.put(EntityInit.LUNAR_MOTH.get(), LunarMoth.createAttributes().build());
         event.put(EntityInit.TORCHBUG.get(), TorchBug.createAttributes().build());
-
-//        event.put(EntityInit.KHAJIIT.get(), KhajiitEntity.createMobAttributes().build());
+        event.put(EntityInit.KHAJIIT.get(), Khajiit.createMobAttributes().build());
     }
 
     public void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {

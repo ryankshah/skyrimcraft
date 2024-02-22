@@ -11,6 +11,7 @@ import net.minecraft.world.item.*;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+// TODO: For all tabs, manually add the items (issue with crop blocks etc.)
 public class CreativeTabInit
 {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Skyrimcraft.MODID);
@@ -82,13 +83,6 @@ public class CreativeTabInit
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> SKYRIMCRAFT_MAGIC_TAB = CREATIVE_MODE_TABS.register("skyrimcraft_magic_tab", () -> {
         CreativeModeTab.Builder builder = CreativeModeTab.builder();
-
-        builder.displayItems((itemDisplayParameters, output) -> {
-            BlockInit.BLOCKS.getEntries()
-                    .stream()
-                    .map(DeferredHolder::get)
-                    .forEach(output::accept);
-        });
 
         builder.displayItems((itemDisplayParameters, output) -> {
             ItemInit.ITEMS.getEntries()

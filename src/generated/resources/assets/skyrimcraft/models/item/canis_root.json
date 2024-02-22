@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "skyrimcraft:item/canis_root"
-  }
+  "parent": "skyrimcraft:block/canis_root"
 }

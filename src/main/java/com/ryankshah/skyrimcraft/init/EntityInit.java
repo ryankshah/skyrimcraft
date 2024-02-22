@@ -17,6 +17,8 @@ import com.ryankshah.skyrimcraft.entity.creature.render.DwarvenSpiderRenderer;
 import com.ryankshah.skyrimcraft.entity.creature.render.GiantRenderer;
 import com.ryankshah.skyrimcraft.entity.creature.render.MammothRenderer;
 import com.ryankshah.skyrimcraft.entity.creature.render.SabreCatRenderer;
+import com.ryankshah.skyrimcraft.entity.npc.Khajiit;
+import com.ryankshah.skyrimcraft.entity.npc.render.KhajiitRenderer;
 import com.ryankshah.skyrimcraft.entity.passive.flying.*;
 import com.ryankshah.skyrimcraft.entity.passive.flying.render.*;
 import net.minecraft.core.registries.Registries;
@@ -102,6 +104,10 @@ public class EntityInit
             () -> EntityType.Builder.of(TorchBug::new, MobCategory.AMBIENT)
                     .sized(1.0f, 3.0f) // Hitbox Size
                     .build(new ResourceLocation(Skyrimcraft.MODID, "torchbug").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<Khajiit>> KHAJIIT = ENTITY_TYPES.register("khajiit",
+            () -> EntityType.Builder.of(Khajiit::new, MobCategory.AMBIENT)
+                    .sized(1.0f, 2.0f) // Hitbox Size
+                    .build(new ResourceLocation(Skyrimcraft.MODID, "khajiit").toString()));
 
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
 //        RenderingRegistry.registerEntityRenderingHandler((EntityType<AncientNordArrowEntity>) ModEntityType.ANCIENT_NORD_ARROW_ENTITY.get(), AncientNordArrowRenderer::new);
@@ -132,6 +138,8 @@ public class EntityInit
         event.registerEntityRenderer(BLUE_DARTWING.get(), BlueDartwingRenderer::new);
         event.registerEntityRenderer(LUNAR_MOTH.get(), LunarMothRenderer::new);
         event.registerEntityRenderer(TORCHBUG.get(), TorchBugRenderer::new);
+
+        event.registerEntityRenderer(KHAJIIT.get(), KhajiitRenderer::new);
     }
 
 }

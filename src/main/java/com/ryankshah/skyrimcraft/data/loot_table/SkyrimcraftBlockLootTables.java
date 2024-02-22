@@ -1,11 +1,17 @@
 package com.ryankshah.skyrimcraft.data.loot_table;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.block.GarlicCrop;
+import com.ryankshah.skyrimcraft.block.TomatoCrop;
 import com.ryankshah.skyrimcraft.init.BlockInit;
+import com.ryankshah.skyrimcraft.init.ItemInit;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -49,6 +55,14 @@ public class SkyrimcraftBlockLootTables extends BlockLootSubProvider
         dropSelf(BlockInit.BLUE_MOUNTAIN_FLOWER.get());
         dropSelf(BlockInit.YELLOW_MOUNTAIN_FLOWER.get());
         dropSelf(BlockInit.PURPLE_MOUNTAIN_FLOWER.get());
+
+//        add(BlockInit.CANIS_ROOT.get(), createSingleItemTable(ItemInit.CANIS_ROOT.get()));
+
+//        LootItemCondition.Builder ilootcondition$tomatocrop = LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockInit.TOMATO_CROP.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(TomatoCrop.AGE, 7));
+//        add(BlockInit.TOMATO_CROP.get(), createCropDrops(BlockInit.TOMATO_CROP.get(), ItemInit.TOMATO.get(), ItemInit.TOMATO_SEEDS.get(), ilootcondition$tomatocrop));
+//        LootItemCondition.Builder ilootcondition$garliccrop = LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockInit.GARLIC_CROP.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(GarlicCrop.AGE, 7));
+//        add(BlockInit.GARLIC_CROP.get(), createCropDrops(BlockInit.GARLIC_CROP.get(), ItemInit.GARLIC.get(), ItemInit.GARLIC.get(), ilootcondition$garliccrop));
+
     }
 
     @Override

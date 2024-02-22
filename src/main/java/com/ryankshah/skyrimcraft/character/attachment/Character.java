@@ -101,15 +101,15 @@ public class Character
         this.magickaRegenModifier = magickaRegenModifier;
         this.characterLevel = characterLevel;
         this.characterTotalXp = characterTotalXp;
-        this.knownSpells = spells;
+        this.knownSpells = new ArrayList<>(spells);
         this.selectedSpell1 = selectedSpell1;
         this.selectedSpell2 = selectedSpell2;
-        this.spellsOnCooldown = cooldowns;
-        this.skills = skills;
+        this.spellsOnCooldown = new HashMap<>(cooldowns);
+        this.skills = new HashMap<>(skills);
         this.race = race;
-        this.skills = getStartingSkills(race);
-        this.compassFeatures = features;
-        this.targetingEntities = targets;
+//        this.skills = getStartingSkills(race);
+        this.compassFeatures = new ArrayList<>(features);
+        this.targetingEntities = new ArrayList<>(targets);
         this.currentTarget = current;
     }
 
