@@ -4,17 +4,18 @@ import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.feature.model.DunmerEarModel;
 import com.ryankshah.skyrimcraft.character.feature.model.HighElfEarModel;
 import com.ryankshah.skyrimcraft.character.feature.model.KhajiitHeadModel;
+import com.ryankshah.skyrimcraft.character.feature.model.KhajiitTailModel;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.curios.render.NecklaceRenderer;
 import com.ryankshah.skyrimcraft.curios.render.RingRenderer;
 import com.ryankshah.skyrimcraft.data.DataGenerators;
 import com.ryankshah.skyrimcraft.data.loot_table.SkyrimLootModifiers;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
-import com.ryankshah.skyrimcraft.entity.boss.dragon.SkyrimDragonEntity;
-import com.ryankshah.skyrimcraft.entity.creature.DwarvenSpiderEntity;
-import com.ryankshah.skyrimcraft.entity.creature.GiantEntity;
-import com.ryankshah.skyrimcraft.entity.creature.MammothEntity;
-import com.ryankshah.skyrimcraft.entity.creature.SabreCatEntity;
+import com.ryankshah.skyrimcraft.entity.boss.dragon.SkyrimDragon;
+import com.ryankshah.skyrimcraft.entity.creature.DwarvenSpider;
+import com.ryankshah.skyrimcraft.entity.creature.Giant;
+import com.ryankshah.skyrimcraft.entity.creature.Mammoth;
+import com.ryankshah.skyrimcraft.entity.creature.SabreCat;
 import com.ryankshah.skyrimcraft.entity.npc.Falmer;
 import com.ryankshah.skyrimcraft.entity.npc.Khajiit;
 import com.ryankshah.skyrimcraft.entity.npc.model.FalmerModel;
@@ -161,11 +162,11 @@ public class Skyrimcraft
 //    }
 
     public void createEntityAttributes(EntityAttributeCreationEvent event) {
-        event.put(EntityInit.SABRE_CAT.get(), SabreCatEntity.createAttributes().build());
-        event.put(EntityInit.GIANT.get(), GiantEntity.createAttributes().build());
-        event.put(EntityInit.MAMMOTH.get(), MammothEntity.createAttributes().build());
-        event.put(EntityInit.DRAGON.get(), SkyrimDragonEntity.createAttributes().build());
-        event.put(EntityInit.DWARVEN_SPIDER.get(), DwarvenSpiderEntity.createAttributes().build());
+        event.put(EntityInit.SABRE_CAT.get(), SabreCat.createAttributes().build());
+        event.put(EntityInit.GIANT.get(), Giant.createAttributes().build());
+        event.put(EntityInit.MAMMOTH.get(), Mammoth.createAttributes().build());
+        event.put(EntityInit.DRAGON.get(), SkyrimDragon.createAttributes().build());
+        event.put(EntityInit.DWARVEN_SPIDER.get(), DwarvenSpider.createAttributes().build());
         event.put(EntityInit.BLUE_BUTTERFLY.get(), BlueButterfly.createAttributes().build());
         event.put(EntityInit.MONARCH_BUTTERFLY.get(), MonarchButterfly.createAttributes().build());
         event.put(EntityInit.ORANGE_DARTWING.get(), OrangeDartwing.createAttributes().build());
@@ -180,7 +181,7 @@ public class Skyrimcraft
         event.registerLayerDefinition(DunmerEarModel.LAYER_LOCATION, DunmerEarModel::createBodyLayer);
         event.registerLayerDefinition(HighElfEarModel.LAYER_LOCATION, HighElfEarModel::createBodyLayer);
         event.registerLayerDefinition(KhajiitHeadModel.LAYER_LOCATION, KhajiitHeadModel::createBodyLayer);
-//        event.registerLayerDefinition(KhajiitModel.LAYER_LOCATION, KhajiitModel::createBodyLayer);
+        event.registerLayerDefinition(KhajiitTailModel.LAYER_LOCATION, KhajiitTailModel::createBodyLayer);
 
         //Mobs
         event.registerLayerDefinition(KhajiitModel.LAYER_LOCATION, KhajiitModel::createBodyLayer);

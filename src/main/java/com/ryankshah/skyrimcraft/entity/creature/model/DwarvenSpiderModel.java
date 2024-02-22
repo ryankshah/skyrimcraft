@@ -1,25 +1,25 @@
 package com.ryankshah.skyrimcraft.entity.creature.model;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.entity.creature.DwarvenSpiderEntity;
+import com.ryankshah.skyrimcraft.entity.creature.DwarvenSpider;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
 
-public class DwarvenSpiderModel extends GeoModel<DwarvenSpiderEntity>
+public class DwarvenSpiderModel extends GeoModel<DwarvenSpider>
 {
     @Override
-    public ResourceLocation getModelResource(DwarvenSpiderEntity object)
+    public ResourceLocation getModelResource(DwarvenSpider object)
     {
         return new ResourceLocation(Skyrimcraft.MODID, "geo/dwarven_spider.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(DwarvenSpiderEntity object) {
+    public ResourceLocation getTextureResource(DwarvenSpider object) {
         return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/dwarven_spider.png");
     }
 
     @Override
-    public ResourceLocation getAnimationResource(DwarvenSpiderEntity object)
+    public ResourceLocation getAnimationResource(DwarvenSpider object)
     {
         return new ResourceLocation(Skyrimcraft.MODID, "animations/dwarven_spider.animation.json");
     }

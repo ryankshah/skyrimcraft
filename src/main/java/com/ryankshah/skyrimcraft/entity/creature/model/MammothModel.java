@@ -1,25 +1,25 @@
 package com.ryankshah.skyrimcraft.entity.creature.model;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.entity.creature.MammothEntity;
+import com.ryankshah.skyrimcraft.entity.creature.Mammoth;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
 
-public class MammothModel extends GeoModel<MammothEntity>
+public class MammothModel extends GeoModel<Mammoth>
 {
     @Override
-    public ResourceLocation getModelResource(MammothEntity object)
+    public ResourceLocation getModelResource(Mammoth object)
     {
         return new ResourceLocation(Skyrimcraft.MODID, "geo/mammoth.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(MammothEntity object) {
+    public ResourceLocation getTextureResource(Mammoth object) {
         return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/mammoth.png");
     }
 
     @Override
-    public ResourceLocation getAnimationResource(MammothEntity object)
+    public ResourceLocation getAnimationResource(Mammoth object)
     {
         return new ResourceLocation(Skyrimcraft.MODID, "animations/mammoth.animation.json");
     }

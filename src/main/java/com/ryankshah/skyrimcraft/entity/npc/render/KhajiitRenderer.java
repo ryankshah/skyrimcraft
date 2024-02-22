@@ -26,21 +26,8 @@ public class KhajiitRenderer extends HumanoidMobRenderer<Khajiit, KhajiitModel<K
 //        );
     }
 
-//    @Override
-//    protected RenderType getRenderType(Khajiit pLivingEntity, boolean pBodyVisible, boolean pTranslucent, boolean pGlowing) {
-//        ResourceLocation resourcelocation = this.getTextureLocation(pLivingEntity);
-//        return RenderType.entityCutoutNoCull(resourcelocation);
-//////        if (pTranslucent) {
-//////            return RenderType.itemEntityTranslucentCull(resourcelocation);
-//////        } else if (pBodyVisible) {
-//////            return this.model.renderType(resourcelocation);
-//////        } else {
-//////            return pGlowing ? RenderType.outline(resourcelocation) : null;
-//////        }
-//    }
-
     @Override
     public ResourceLocation getTextureLocation(Khajiit pEntity) {
-        return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/khajiit_male.png");
+        return pEntity.getSex() ? new ResourceLocation(Skyrimcraft.MODID, "textures/entity/khajiit_male.png") : new ResourceLocation(Skyrimcraft.MODID, "textures/entity/khajiit_female.png");
     }
 }

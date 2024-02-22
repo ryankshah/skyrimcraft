@@ -1,5 +1,6 @@
 package com.ryankshah.skyrimcraft.data.lang;
 
+import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.init.BlockInit;
 import com.ryankshah.skyrimcraft.init.CreativeTabInit;
 import com.ryankshah.skyrimcraft.init.ItemInit;
@@ -86,5 +87,13 @@ public class SkyrimcraftLanguageProvider extends LanguageProvider
         add("advancements.skyrimcraft.quest.ebony_dreams.description", "Smelt an Ebony Ingot");
         add("advancements.skyrimcraft.quest.goodbye_webs.title", "Goodbye, Webs");
         add("advancements.skyrimcraft.quest.goodbye_webs.description", "Kill a Spider");
+
+        add("sound." + Skyrimcraft.MODID + ".swamp_ambient", "Skyrim Swamp Ambience");
+        add("sound." + Skyrimcraft.MODID + ".skyrim_caves", "Skyrim Caves Ambience");
+        add("sound." + Skyrimcraft.MODID + ".fire_spell_cast", "Fire Spell Cast");
+        add("sound." + Skyrimcraft.MODID + ".unrelenting_force_cast", "Unrelenting Force");
+        add("sound." + Skyrimcraft.MODID + ".freeze_spell_hit", "Freeze Spell Hit");
+        add("sound." + Skyrimcraft.MODID + ".draugr_grunt", "Draugr Grunts");
+        add("sound." + Skyrimcraft.MODID + ".draugr_attack", "Draugr Attacks");
     }
 }

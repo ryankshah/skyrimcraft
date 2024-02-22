@@ -3,7 +3,7 @@ package com.ryankshah.skyrimcraft.entity.creature.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.entity.creature.SabreCatEntity;
+import com.ryankshah.skyrimcraft.entity.creature.SabreCat;
 import com.ryankshah.skyrimcraft.entity.creature.model.SabreCatModel;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
@@ -24,7 +24,7 @@ import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 import java.util.Arrays;
 import java.util.List;
 
-public class SabreCatRenderer extends GeoEntityRenderer<SabreCatEntity>
+public class SabreCatRenderer extends GeoEntityRenderer<SabreCat>
 {
     public SabreCatRenderer(EntityRendererProvider.Context ctx)
     {
@@ -33,7 +33,7 @@ public class SabreCatRenderer extends GeoEntityRenderer<SabreCatEntity>
         this.addRenderLayer(new SabreCatEyesLayer(this));
     }
 
-    class SabreCatEyesLayer extends GeoRenderLayer<SabreCatEntity>
+    class SabreCatEyesLayer extends GeoRenderLayer<SabreCat>
     {
         private final Int2ObjectMap<ResourceLocation> EYES_MAP = Util.make(new Int2ObjectOpenHashMap<>(), (p_215348_0_) -> {
             p_215348_0_.put(1, new ResourceLocation(Skyrimcraft.MODID, "textures/entity/sabre_cat_e.png"));
@@ -46,19 +46,19 @@ public class SabreCatRenderer extends GeoEntityRenderer<SabreCatEntity>
                         Biomes.ICE_SPIKES, Biomes.GROVE,
                         Biomes.JAGGED_PEAKS
         );
-        private GeoRenderer<SabreCatEntity> entityIGeoRenderer;
+        private GeoRenderer<SabreCat> entityIGeoRenderer;
 
-        public SabreCatEyesLayer(GeoRenderer<SabreCatEntity> entityRendererIn) {
+        public SabreCatEyesLayer(GeoRenderer<SabreCat> entityRendererIn) {
             super(entityRendererIn);
             this.entityIGeoRenderer = entityRendererIn;
         }
 
-        protected ResourceLocation getTextureResource(SabreCatEntity animatable) {
+        protected ResourceLocation getTextureResource(SabreCat animatable) {
             return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/sabre_cat_e.png");
         }
 
         @Override
-        public void render(PoseStack poseStack, SabreCatEntity animatable, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
+        public void render(PoseStack poseStack, SabreCat animatable, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
 //            ResourceLocation eyes = new ResourceLocation(Skyrimcraft.MODID, "textures/entity/sabre_cat_e.png");
             ResourceLocation eyes = EYES_MAP.getOrDefault(SNOWY_BIOMES.contains(animatable.getBiomeType()) ? 2 : 1, new ResourceLocation(Skyrimcraft.MODID, "textures/entity/sabre_cat_e.png"));
             if(animatable.level().getDayTime() > 12542) {

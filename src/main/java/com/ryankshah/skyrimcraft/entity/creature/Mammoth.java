@@ -32,10 +32,10 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nullable;
 
-public class MammothEntity extends PathfinderMob implements GeoEntity
+public class Mammoth extends PathfinderMob implements GeoEntity
 {
-    private static final EntityDataAccessor<Integer> PREV_ANIMATION_STATE = SynchedEntityData.defineId(MammothEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> ANIMATION_STATE = SynchedEntityData.defineId(MammothEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> PREV_ANIMATION_STATE = SynchedEntityData.defineId(Mammoth.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> ANIMATION_STATE = SynchedEntityData.defineId(Mammoth.class, EntityDataSerializers.INT);
 
     private MeleeAttackGoal meleeGoal;
     private WaterAvoidingRandomStrollGoal walkingGoal;
@@ -49,7 +49,7 @@ public class MammothEntity extends PathfinderMob implements GeoEntity
     protected static final RawAnimation ATTACK_RIGHT = RawAnimation.begin().thenLoop("attack_right");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
-    public MammothEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
+    public Mammoth(EntityType<? extends PathfinderMob> type, Level worldIn) {
         super(type, worldIn);
         this.noCulling = true;
         this.xpReward = 5;
@@ -65,7 +65,7 @@ public class MammothEntity extends PathfinderMob implements GeoEntity
             @Override
             public void stop() {
                 super.stop();
-                MammothEntity.this.setAnimationState(0);
+                Mammoth.this.setAnimationState(0);
             }
 
             @Override
@@ -74,8 +74,8 @@ public class MammothEntity extends PathfinderMob implements GeoEntity
                     if (getTicksUntilNextAttack() <= 0) {
                         this.resetAttackCooldown();
                         this.mob.swing(InteractionHand.MAIN_HAND);
-                        if (MammothEntity.this.getAnimationState() != 3)
-                            MammothEntity.this.setAnimationState(3);
+                        if (Mammoth.this.getAnimationState() != 3)
+                            Mammoth.this.setAnimationState(3);
                         this.mob.doHurtTarget(pTarget);
                     }
                 }
@@ -86,14 +86,14 @@ public class MammothEntity extends PathfinderMob implements GeoEntity
             @Override
             public void stop() {
                 super.stop();
-                MammothEntity.this.setAnimationState(MammothEntity.this.getPrevAnimationState());
+                Mammoth.this.setAnimationState(Mammoth.this.getPrevAnimationState());
             }
 
             @Override
             public void tick() {
                 super.tick();
-                if(MammothEntity.this.getAnimationState() != 1)
-                    MammothEntity.this.setAnimationState(1);
+                if(Mammoth.this.getAnimationState() != 1)
+                    Mammoth.this.setAnimationState(1);
             }
         };
 
@@ -195,8 +195,8 @@ public class MammothEntity extends PathfinderMob implements GeoEntity
         return this.geoCache;
     }
 
-    private <E extends MammothEntity> PlayState mammothController(final software.bernie.geckolib.core.animation.AnimationState<MammothEntity> event) {
-        AnimationController<MammothEntity> controller = event.getController();
+    private <E extends Mammoth> PlayState mammothController(final software.bernie.geckolib.core.animation.AnimationState<Mammoth> event) {
+        AnimationController<Mammoth> controller = event.getController();
         controller.transitionLength(0);
 
         if(this.getAnimationState() == 0) {

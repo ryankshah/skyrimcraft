@@ -37,10 +37,10 @@ import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.List;
 
-public class SkyrimDragonEntity extends FlyingMob implements GeoEntity, Enemy
+public class SkyrimDragon extends FlyingMob implements GeoEntity, Enemy
 {
-    private static final EntityDataAccessor<Integer> PREV_ANIMATION_STATE = SynchedEntityData.defineId(SkyrimDragonEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> ANIMATION_STATE = SynchedEntityData.defineId(SkyrimDragonEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> PREV_ANIMATION_STATE = SynchedEntityData.defineId(SkyrimDragon.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> ANIMATION_STATE = SynchedEntityData.defineId(SkyrimDragon.class, EntityDataSerializers.INT);
 
     public static final float FLAP_DEGREES_PER_TICK = 7.448451F;
     public static final int TICKS_PER_FLAP = Mth.ceil(24.166098F);
@@ -59,17 +59,17 @@ public class SkyrimDragonEntity extends FlyingMob implements GeoEntity, Enemy
     protected static final RawAnimation DEATH = RawAnimation.begin().thenPlay("animation.dragon.death");
     protected static final RawAnimation DEAD = RawAnimation.begin().thenLoop("animation.dragon.dead");
 
-    private SkyrimDragonEntity.Phase PHASE = Phase.FLY_IDLE;
+    private SkyrimDragon.Phase PHASE = Phase.FLY_IDLE;
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
-    public SkyrimDragonEntity(EntityType<? extends FlyingMob> type, Level worldIn) {
+    public SkyrimDragon(EntityType<? extends FlyingMob> type, Level worldIn) {
         super(type, worldIn);
         this.noCulling = true;
         this.xpReward = XP_REWARD_BOSS;
 
-        this.moveControl = new SkyrimDragonEntity.DragonMoveControl(this);
-        this.lookControl = new SkyrimDragonEntity.DragonLookControl(this);
+        this.moveControl = new SkyrimDragon.DragonMoveControl(this);
+        this.lookControl = new SkyrimDragon.DragonLookControl(this);
 
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
         this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 16.0F);
@@ -92,7 +92,7 @@ public class SkyrimDragonEntity extends FlyingMob implements GeoEntity, Enemy
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new SkyrimDragonEntity.CircleAroundAnchorGoal());
+        this.goalSelector.addGoal(1, new SkyrimDragon.CircleAroundAnchorGoal());
 //        this.goalSelector.addGoal(1, new Goal);
 //        this.goalSelector.addGoal(1, new FloatGoal(this));
 //        //this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
@@ -315,8 +315,8 @@ public class SkyrimDragonEntity extends FlyingMob implements GeoEntity, Enemy
         return this.geoCache;
     }
 
-    private <E extends SkyrimDragonEntity> PlayState dragonController(final software.bernie.geckolib.core.animation.AnimationState<SkyrimDragonEntity> event) {
-        AnimationController<SkyrimDragonEntity> controller = event.getController();
+    private <E extends SkyrimDragon> PlayState dragonController(final software.bernie.geckolib.core.animation.AnimationState<SkyrimDragon> event) {
+        AnimationController<SkyrimDragon> controller = event.getController();
         controller.transitionLength(0);
 
         if(event.isMoving() && isFlapping()) //isFlying
@@ -358,14 +358,14 @@ public class SkyrimDragonEntity extends FlyingMob implements GeoEntity, Enemy
 
         @Override
         public void tick() {
-            if (SkyrimDragonEntity.this.horizontalCollision) {
-                SkyrimDragonEntity.this.setYRot(SkyrimDragonEntity.this.getYRot() + 180.0F);
+            if (SkyrimDragon.this.horizontalCollision) {
+                SkyrimDragon.this.setYRot(SkyrimDragon.this.getYRot() + 180.0F);
                 this.speed = 0.1F;
             }
 
-            double d0 = SkyrimDragonEntity.this.moveTargetPoint.x - SkyrimDragonEntity.this.getX();
-            double d1 = SkyrimDragonEntity.this.moveTargetPoint.y - SkyrimDragonEntity.this.getY();
-            double d2 = SkyrimDragonEntity.this.moveTargetPoint.z - SkyrimDragonEntity.this.getZ();
+            double d0 = SkyrimDragon.this.moveTargetPoint.x - SkyrimDragon.this.getX();
+            double d1 = SkyrimDragon.this.moveTargetPoint.y - SkyrimDragon.this.getY();
+            double d2 = SkyrimDragon.this.moveTargetPoint.z - SkyrimDragon.this.getZ();
             double d3 = Math.sqrt(d0 * d0 + d2 * d2);
             if (Math.abs(d3) > 1.0E-5F) {
                 double d4 = 1.0 - Math.abs(d1 * 0.7F) / d3;
@@ -373,26 +373,26 @@ public class SkyrimDragonEntity extends FlyingMob implements GeoEntity, Enemy
                 d2 *= d4;
                 d3 = Math.sqrt(d0 * d0 + d2 * d2);
                 double d5 = Math.sqrt(d0 * d0 + d2 * d2 + d1 * d1);
-                float f = SkyrimDragonEntity.this.getYRot();
+                float f = SkyrimDragon.this.getYRot();
                 float f1 = (float)Mth.atan2(d2, d0);
-                float f2 = Mth.wrapDegrees(SkyrimDragonEntity.this.getYRot() + 90.0F);
+                float f2 = Mth.wrapDegrees(SkyrimDragon.this.getYRot() + 90.0F);
                 float f3 = Mth.wrapDegrees(f1 * (180.0F / (float)Math.PI));
-                SkyrimDragonEntity.this.setYRot(Mth.approachDegrees(f2, f3, 4.0F) - 90.0F);
-                SkyrimDragonEntity.this.yBodyRot = SkyrimDragonEntity.this.getYRot();
-                if (Mth.degreesDifferenceAbs(f, SkyrimDragonEntity.this.getYRot()) < 3.0F) {
+                SkyrimDragon.this.setYRot(Mth.approachDegrees(f2, f3, 4.0F) - 90.0F);
+                SkyrimDragon.this.yBodyRot = SkyrimDragon.this.getYRot();
+                if (Mth.degreesDifferenceAbs(f, SkyrimDragon.this.getYRot()) < 3.0F) {
                     this.speed = Mth.approach(this.speed, 1.8F, 0.005F * (1.8F / this.speed));
                 } else {
                     this.speed = Mth.approach(this.speed, 0.2F, 0.025F);
                 }
 
                 float f4 = (float)(-(Mth.atan2(-d1, d3) * 180.0F / (float)Math.PI));
-                SkyrimDragonEntity.this.setXRot(f4);
-                float f5 = SkyrimDragonEntity.this.getYRot() + 90.0F;
+                SkyrimDragon.this.setXRot(f4);
+                float f5 = SkyrimDragon.this.getYRot() + 90.0F;
                 double d6 = (double)(this.speed * Mth.cos(f5 * (float) (Math.PI / 180.0))) * Math.abs(d0 / d5);
                 double d7 = (double)(this.speed * Mth.sin(f5 * (float) (Math.PI / 180.0))) * Math.abs(d2 / d5);
                 double d8 = (double)(this.speed * Mth.sin(f4 * (float) (Math.PI / 180.0))) * Math.abs(d1 / d5);
-                Vec3 vec3 = SkyrimDragonEntity.this.getDeltaMovement();
-                SkyrimDragonEntity.this.setDeltaMovement(vec3.add(new Vec3(d6, d8, d7).subtract(vec3).scale(0.2)));
+                Vec3 vec3 = SkyrimDragon.this.getDeltaMovement();
+                SkyrimDragon.this.setDeltaMovement(vec3.add(new Vec3(d6, d8, d7).subtract(vec3).scale(0.2)));
             }
         }
     }
@@ -403,11 +403,11 @@ public class SkyrimDragonEntity extends FlyingMob implements GeoEntity, Enemy
         }
 
         protected boolean touchingTarget() {
-            return SkyrimDragonEntity.this.moveTargetPoint.distanceToSqr(SkyrimDragonEntity.this.getX(), SkyrimDragonEntity.this.getY(), SkyrimDragonEntity.this.getZ()) < 4.0;
+            return SkyrimDragon.this.moveTargetPoint.distanceToSqr(SkyrimDragon.this.getX(), SkyrimDragon.this.getY(), SkyrimDragon.this.getZ()) < 4.0;
         }
     }
 
-    class CircleAroundAnchorGoal extends SkyrimDragonEntity.DragonMoveTargetGoal {
+    class CircleAroundAnchorGoal extends SkyrimDragon.DragonMoveTargetGoal {
         private float angle;
         private float distance;
         private float height;
@@ -418,7 +418,7 @@ public class SkyrimDragonEntity extends FlyingMob implements GeoEntity, Enemy
          */
         @Override
         public boolean canUse() {
-            return SkyrimDragonEntity.this.getTarget() == null; //|| SkyrimDragonEntity.this.attackPhase == SkyrimDragonEntity.AttackPhase.CIRCLE;
+            return SkyrimDragon.this.getTarget() == null; //|| SkyrimDragonEntity.this.attackPhase == SkyrimDragonEntity.AttackPhase.CIRCLE;
         }
 
         /**
@@ -426,9 +426,9 @@ public class SkyrimDragonEntity extends FlyingMob implements GeoEntity, Enemy
          */
         @Override
         public void start() {
-            this.distance = 5.0F + SkyrimDragonEntity.this.random.nextFloat() * 10.0F;
-            this.height = -4.0F + SkyrimDragonEntity.this.random.nextFloat() * 9.0F;
-            this.clockwise = SkyrimDragonEntity.this.random.nextBoolean() ? 1.0F : -1.0F;
+            this.distance = 5.0F + SkyrimDragon.this.random.nextFloat() * 10.0F;
+            this.height = -4.0F + SkyrimDragon.this.random.nextFloat() * 9.0F;
+            this.clockwise = SkyrimDragon.this.random.nextBoolean() ? 1.0F : -1.0F;
             this.selectNext();
         }
 
@@ -437,11 +437,11 @@ public class SkyrimDragonEntity extends FlyingMob implements GeoEntity, Enemy
          */
         @Override
         public void tick() {
-            if (SkyrimDragonEntity.this.random.nextInt(this.adjustedTickDelay(350)) == 0) {
-                this.height = -4.0F + SkyrimDragonEntity.this.random.nextFloat() * 9.0F;
+            if (SkyrimDragon.this.random.nextInt(this.adjustedTickDelay(350)) == 0) {
+                this.height = -4.0F + SkyrimDragon.this.random.nextFloat() * 9.0F;
             }
 
-            if (SkyrimDragonEntity.this.random.nextInt(this.adjustedTickDelay(250)) == 0) {
+            if (SkyrimDragon.this.random.nextInt(this.adjustedTickDelay(250)) == 0) {
                 ++this.distance;
                 if (this.distance > 15.0F) {
                     this.distance = 5.0F;
@@ -449,8 +449,8 @@ public class SkyrimDragonEntity extends FlyingMob implements GeoEntity, Enemy
                 }
             }
 
-            if (SkyrimDragonEntity.this.random.nextInt(this.adjustedTickDelay(450)) == 0) {
-                this.angle = SkyrimDragonEntity.this.random.nextFloat() * 2.0F * (float) Math.PI;
+            if (SkyrimDragon.this.random.nextInt(this.adjustedTickDelay(450)) == 0) {
+                this.angle = SkyrimDragon.this.random.nextFloat() * 2.0F * (float) Math.PI;
                 this.selectNext();
             }
 
@@ -458,24 +458,24 @@ public class SkyrimDragonEntity extends FlyingMob implements GeoEntity, Enemy
                 this.selectNext();
             }
 
-            if (SkyrimDragonEntity.this.moveTargetPoint.y < SkyrimDragonEntity.this.getY() && !SkyrimDragonEntity.this.level().isEmptyBlock(SkyrimDragonEntity.this.blockPosition().below(1))) {
+            if (SkyrimDragon.this.moveTargetPoint.y < SkyrimDragon.this.getY() && !SkyrimDragon.this.level().isEmptyBlock(SkyrimDragon.this.blockPosition().below(1))) {
                 this.height = Math.max(1.0F, this.height);
                 this.selectNext();
             }
 
-            if (SkyrimDragonEntity.this.moveTargetPoint.y > SkyrimDragonEntity.this.getY() && !SkyrimDragonEntity.this.level().isEmptyBlock(SkyrimDragonEntity.this.blockPosition().above(1))) {
+            if (SkyrimDragon.this.moveTargetPoint.y > SkyrimDragon.this.getY() && !SkyrimDragon.this.level().isEmptyBlock(SkyrimDragon.this.blockPosition().above(1))) {
                 this.height = Math.min(-1.0F, this.height);
                 this.selectNext();
             }
         }
 
         private void selectNext() {
-            if (BlockPos.ZERO.equals(SkyrimDragonEntity.this.anchorPoint)) {
-                SkyrimDragonEntity.this.anchorPoint = SkyrimDragonEntity.this.blockPosition();
+            if (BlockPos.ZERO.equals(SkyrimDragon.this.anchorPoint)) {
+                SkyrimDragon.this.anchorPoint = SkyrimDragon.this.blockPosition();
             }
 
             this.angle += this.clockwise * 15.0F * (float) (Math.PI / 180.0);
-            SkyrimDragonEntity.this.moveTargetPoint = Vec3.atLowerCornerOf(SkyrimDragonEntity.this.anchorPoint)
+            SkyrimDragon.this.moveTargetPoint = Vec3.atLowerCornerOf(SkyrimDragon.this.anchorPoint)
                     .add((double)(this.distance * Mth.cos(this.angle)), (double)(-4.0F + this.height), (double)(this.distance * Mth.sin(this.angle)));
         }
     }

@@ -4,11 +4,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.feature.Race;
 import com.ryankshah.skyrimcraft.character.feature.model.DunmerEarModel;
 import com.ryankshah.skyrimcraft.character.feature.model.HighElfEarModel;
 import com.ryankshah.skyrimcraft.character.feature.model.KhajiitHeadModel;
+import com.ryankshah.skyrimcraft.character.feature.model.KhajiitTailModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -23,9 +23,7 @@ public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
     private final HighElfEarModel highElfEarModel;
     private final DunmerEarModel dunmerEarModel;
     private final KhajiitHeadModel khajiitHeadModel;
-//    private final KhajiitFullModel<AbstractClientPlayer> khajiitFullModel;
-
-    private final ResourceLocation fullModelTexture = new ResourceLocation(Skyrimcraft.MODID, "textures/entity/khajiit_male.png");
+    private final KhajiitTailModel khajiitTailModel;
 
     public RenderRaceLayer(PlayerRenderer entityRenderer) {
         super(entityRenderer);
@@ -33,14 +31,7 @@ public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
         highElfEarModel = new HighElfEarModel(Minecraft.getInstance().getEntityModels().bakeLayer(HighElfEarModel.LAYER_LOCATION));
         dunmerEarModel = new DunmerEarModel(Minecraft.getInstance().getEntityModels().bakeLayer(DunmerEarModel.LAYER_LOCATION));
         khajiitHeadModel = new KhajiitHeadModel(Minecraft.getInstance().getEntityModels().bakeLayer(KhajiitHeadModel.LAYER_LOCATION));
-//        khajiitFullModel = new KhajiitFullModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(KhajiitFullModel.LAYER_LOCATION));
-
-//        getParentModel().setAllVisible(false);
-
-//        entityRenderer.getModel().copyPropertiesTo(highElfEarModel);
-//        entityRenderer.getModel().copyPropertiesTo(dunmerEarModel);
-//        entityRenderer.getModel().copyPropertiesTo(khajiitHeadModel);
-//        entityRenderer.getModel().copyPropertiesTo(khajiitFullModel);
+        khajiitTailModel = new KhajiitTailModel(Minecraft.getInstance().getEntityModels().bakeLayer(KhajiitTailModel.LAYER_LOCATION));
     }
 
     @Override
@@ -80,27 +71,19 @@ public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
     }
 
     private void renderKhajiit(PoseStack poseStack, MultiBufferSource renderBuffer, int packedLight, AbstractClientPlayer playerEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-//        poseStack.pushPose();
-//        getParentModel().setAllVisible(false);
-//        coloredCutoutModelCopyLayerRender(getParentModel(), khajiitFullModel, new ResourceLocation(Skyrimcraft.MODID, "textures/entity/khajiit_male.png"), poseStack, renderBuffer, packedLight, playerEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, 1, 1, 1);
-//        poseStack.popPose();
-//        getParentModel().setAllVisible(false);
-//        poseStack.pushPose();
-//        VertexConsumer ivertexbuilder = renderBuffer.getBuffer(RenderType.entityTranslucent(fullModelTexture));
-////        int overlayCoords = PlayerRenderer.getOverlayCoords(playerEntity, 0.0F);
-////        this.getParentModel().copyPropertiesTo(this.khajiitFullModel);
-//        this.khajiitFullModel.setupAnim(playerEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-////        this.khajiitFullModel.renderToBuffer(poseStack, ivertexbuilder, packedLight, overlayCoords, 1.0F, 1.0F, 1.0F, 1.0F);
-//        poseStack.popPose();
 
         VertexConsumer ivertexbuilder = renderBuffer.getBuffer(RenderType.entitySolid(playerEntity.getSkin().texture()));
         int overlayCoords = PlayerRenderer.getOverlayCoords(playerEntity, 0.0F);
 
         poseStack.pushPose();
         this.getParentModel().getHead().translateAndRotate(poseStack);
-        //matrixStack.mulPose(YP.rotationDegrees(180F));
-        getParentModel().copyPropertiesTo(dunmerEarModel);
+        getParentModel().copyPropertiesTo(khajiitHeadModel);
         khajiitHeadModel.renderToBuffer(poseStack, ivertexbuilder, packedLight, overlayCoords, 1.0F, 1.0F, 1.0F, 1.0F);
+        poseStack.popPose();
+
+        poseStack.pushPose();
+        getParentModel().copyPropertiesTo(khajiitTailModel);
+        khajiitTailModel.renderToBuffer(poseStack, ivertexbuilder, packedLight, overlayCoords, 1.0F, 1.0F, 1.0F, 1.0F);
         poseStack.popPose();
     }
 }

@@ -1,5 +1,6 @@
 package com.ryankshah.skyrimcraft.entity.creature;
 
+import com.ryankshah.skyrimcraft.entity.ai.goal.SpiderSprintToNearestAttackableTargetGoal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -30,27 +31,26 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nullable;
 
-public class GiantEntity extends PathfinderMob implements GeoEntity
+public class DwarvenSpider extends PathfinderMob implements GeoEntity
 {
-    private static final EntityDataAccessor<Integer> PREV_ANIMATION_STATE = SynchedEntityData.defineId(GiantEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> ANIMATION_STATE = SynchedEntityData.defineId(GiantEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> PREV_ANIMATION_STATE = SynchedEntityData.defineId(DwarvenSpider.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> ANIMATION_STATE = SynchedEntityData.defineId(DwarvenSpider.class, EntityDataSerializers.INT);
 
     private MeleeAttackGoal meleeGoal;
     private WaterAvoidingRandomStrollGoal walkingGoal;
     private NearestAttackableTargetGoal<? extends LivingEntity> sprintToNearestPlayerGoal;
-    private NearestAttackableTargetGoal<? extends LivingEntity> sprintToNearestAnimalGoal;
+//    private NearestAttackableTargetGoal<? extends LivingEntity> sprintToNearestAnimalGoal;
 
-    protected static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.giant.idle");
-    protected static final RawAnimation IDLE_AGGRESSIVE = RawAnimation.begin().thenLoop("animation.giant.idle.aggresive");
-    protected static final RawAnimation LIFT_CLUB = RawAnimation.begin().thenLoop("animation.giant.lift_club");
-    protected static final RawAnimation LOWER_CLUB = RawAnimation.begin().thenLoop("animation.giant.lower_club");
-    protected static final RawAnimation WALK_CLUB = RawAnimation.begin().thenLoop("animation.giant.walk_club");
-    protected static final RawAnimation GUARD = RawAnimation.begin().thenLoop("animation.giant.guard");
-    protected static final RawAnimation RUN = RawAnimation.begin().thenLoop("animation.giant.run");
-
+    protected static final RawAnimation SLEEP = RawAnimation.begin().thenLoop("SLEEP");
+    protected static final RawAnimation IDLE_SCAN = RawAnimation.begin().thenLoop("IdleSCAN");
+    protected static final RawAnimation BOOTUP = RawAnimation.begin().thenLoop("BOOTUP");
+    protected static final RawAnimation IDLE = RawAnimation.begin().thenLoop("Idle");
+    protected static final RawAnimation WALKBETTER = RawAnimation.begin().thenLoop("WALKBETTER");
+    protected static final RawAnimation ATTACK = RawAnimation.begin().thenLoop("ATTACK");
+    protected static final RawAnimation ATTACK2 = RawAnimation.begin().thenLoop("ATTACK2");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
-    public GiantEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
+    public DwarvenSpider(EntityType<? extends PathfinderMob> type, Level worldIn) {
         super(type, worldIn);
         this.noCulling = true;
         this.xpReward = 5;
@@ -59,7 +59,6 @@ public class GiantEntity extends PathfinderMob implements GeoEntity
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
         this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 16.0F);
         this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, -1.0F);
-//        this.setBiomeType(Biomes.PLAINS);
     }
 
     protected void registerGoals() {
@@ -67,7 +66,7 @@ public class GiantEntity extends PathfinderMob implements GeoEntity
             @Override
             public void stop() {
                 super.stop();
-                GiantEntity.this.setAnimationState(0);
+                DwarvenSpider.this.setAnimationState(0);
             }
 
             @Override
@@ -76,8 +75,8 @@ public class GiantEntity extends PathfinderMob implements GeoEntity
                     if (getTicksUntilNextAttack() <= 0) {
                         this.resetAttackCooldown();
                         this.mob.swing(InteractionHand.MAIN_HAND);
-                        if (GiantEntity.this.getAnimationState() != 3)
-                            GiantEntity.this.setAnimationState(3);
+                        if (DwarvenSpider.this.getAnimationState() != 3 || DwarvenSpider.this.getAnimationState() != 4)
+                            DwarvenSpider.this.setAnimationState(random.nextBoolean() ? 3 : 4);
                         this.mob.doHurtTarget(pTarget);
                     }
                 }
@@ -88,14 +87,14 @@ public class GiantEntity extends PathfinderMob implements GeoEntity
             @Override
             public void stop() {
                 super.stop();
-                GiantEntity.this.setAnimationState(GiantEntity.this.getPrevAnimationState());
+                DwarvenSpider.this.setAnimationState(DwarvenSpider.this.getPrevAnimationState());
             }
 
             @Override
             public void tick() {
                 super.tick();
-                if(GiantEntity.this.getAnimationState() != 1)
-                    GiantEntity.this.setAnimationState(3);
+                if(DwarvenSpider.this.getAnimationState() != 2)
+                    DwarvenSpider.this.setAnimationState(2);
             }
         };
 
@@ -103,37 +102,35 @@ public class GiantEntity extends PathfinderMob implements GeoEntity
             @Override
             public void stop() {
                 super.stop();
-                GiantEntity.this.setAnimationState(GiantEntity.this.getPrevAnimationState());
+                DwarvenSpider.this.setAnimationState(DwarvenSpider.this.getPrevAnimationState());
             }
 
             @Override
             public void tick() {
                 super.tick();
-                if(GiantEntity.this.getAnimationState() != 2)
-                    GiantEntity.this.setAnimationState(2);
+                if(DwarvenSpider.this.getAnimationState() != 2)
+                    DwarvenSpider.this.setAnimationState(2);
             }
         };
 
-        this.goalSelector.addGoal(1, new FloatGoal(this));
-        //this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
-        this.goalSelector.addGoal(5, meleeGoal); //new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(5, walkingGoal);
-        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
-        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
-//        this.targetSelector.addGoal(2, new SprintToNearestAttackableTargetGoal<>(this, Player.class, true));
+//        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
+        this.goalSelector.addGoal(1, walkingGoal);
+        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(3, meleeGoal); //new MeleeAttackGoal(this, 1.0D, true));
+        this.targetSelector.addGoal(2, new SpiderSprintToNearestAttackableTargetGoal<>(this, Player.class, true));
 //        this.targetSelector.addGoal(2, new SprintToNearestAttackableTargetGoal<>(this, Animal.class, true));
     }
 
     @Nullable
     @Override
     public Component getCustomName() {
-//        if(SNOWY_BIOMES.contains(this.getBiomeType()))
-//            return Component.translatable("entity.skyrimcraft.snowy_sabre_cat");
         return super.getCustomName();
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.JUMP_STRENGTH, 0.5D).add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.MAX_HEALTH, 60.0D).add(Attributes.ATTACK_DAMAGE, 10.0D).add(Attributes.FOLLOW_RANGE, 20.0D);
+        return Mob.createMobAttributes().add(Attributes.JUMP_STRENGTH, 1D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.MAX_HEALTH, 40.0D).add(Attributes.ATTACK_DAMAGE, 6.0D).add(Attributes.FOLLOW_RANGE, 18.0D);
     }
 
     @Override
@@ -199,24 +196,20 @@ public class GiantEntity extends PathfinderMob implements GeoEntity
         return this.geoCache;
     }
 
-    private <E extends GiantEntity> PlayState giantController(final software.bernie.geckolib.core.animation.AnimationState<GiantEntity> event) {
-        AnimationController<GiantEntity> controller = event.getController();
+    private <E extends DwarvenSpider> PlayState spiderController(final software.bernie.geckolib.core.animation.AnimationState<DwarvenSpider> event) {
+        AnimationController<DwarvenSpider> controller = event.getController();
         controller.transitionLength(0);
 
-        if (this.getAnimationState() == 0) {
-            return event.setAndContinue(IDLE);
-        } else if (this.getAnimationState() == 1) {
-            return event.setAndContinue(LIFT_CLUB);
+        if(this.getAnimationState() == 0) {
+            return event.setAndContinue(IDLE_SCAN);
         } else if (this.getAnimationState() == 2) {
-            return event.setAndContinue(LOWER_CLUB);
-        } else if (this.getAnimationState() == 3 && event.isMoving()) {
-            return event.setAndContinue(WALK_CLUB);
-        } else if (this.getAnimationState() == 4) {
-            return event.setAndContinue(GUARD);
-        } else if (this.getAnimationState() == 5 && event.isMoving()) {
-            return event.setAndContinue(RUN);
-        } else if (this.getAnimationState() == 6) {
-            return event.setAndContinue(IDLE_AGGRESSIVE);
+            return event.setAndContinue(WALKBETTER);
+        } else if(this.getAnimationState() == 3) {
+            return event.setAndContinue(ATTACK);
+        } else if(this.getAnimationState() == 4) {
+            return event.setAndContinue(ATTACK2);
+        } else if(this.getAnimationState() == 5) {
+            return event.setAndContinue(BOOTUP);
         } else {
             return event.setAndContinue(IDLE);
         }
@@ -224,6 +217,6 @@ public class GiantEntity extends PathfinderMob implements GeoEntity
 
     @Override
     public void registerControllers(final AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "giant_controller", 0, this::giantController));
+        controllers.add(new AnimationController<>(this, "dwarven_spider_controller", 0, this::spiderController));
     }
 }

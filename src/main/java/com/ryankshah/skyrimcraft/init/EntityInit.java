@@ -7,12 +7,12 @@ import com.ryankshah.skyrimcraft.character.magic.entity.UnrelentingForceEntity;
 import com.ryankshah.skyrimcraft.character.magic.entity.render.DisarmRenderer;
 import com.ryankshah.skyrimcraft.character.magic.entity.render.FireballRenderer;
 import com.ryankshah.skyrimcraft.character.magic.entity.render.UnrelentingForceRenderer;
-import com.ryankshah.skyrimcraft.entity.boss.dragon.SkyrimDragonEntity;
+import com.ryankshah.skyrimcraft.entity.boss.dragon.SkyrimDragon;
 import com.ryankshah.skyrimcraft.entity.boss.dragon.render.SkyrimDragonRenderer;
-import com.ryankshah.skyrimcraft.entity.creature.DwarvenSpiderEntity;
-import com.ryankshah.skyrimcraft.entity.creature.GiantEntity;
-import com.ryankshah.skyrimcraft.entity.creature.MammothEntity;
-import com.ryankshah.skyrimcraft.entity.creature.SabreCatEntity;
+import com.ryankshah.skyrimcraft.entity.creature.DwarvenSpider;
+import com.ryankshah.skyrimcraft.entity.creature.Giant;
+import com.ryankshah.skyrimcraft.entity.creature.Mammoth;
+import com.ryankshah.skyrimcraft.entity.creature.SabreCat;
 import com.ryankshah.skyrimcraft.entity.creature.render.DwarvenSpiderRenderer;
 import com.ryankshah.skyrimcraft.entity.creature.render.GiantRenderer;
 import com.ryankshah.skyrimcraft.entity.creature.render.MammothRenderer;
@@ -62,24 +62,24 @@ public class EntityInit
                     .setUpdateInterval(2).build(new ResourceLocation(Skyrimcraft.MODID, "shout_disarm").toString()));
 
     // Mobs
-    public static final DeferredHolder<EntityType<?>, EntityType<SabreCatEntity>> SABRE_CAT = ENTITY_TYPES.register("sabre_cat",
-            () -> EntityType.Builder.of(SabreCatEntity::new, MobCategory.MONSTER)
+    public static final DeferredHolder<EntityType<?>, EntityType<SabreCat>> SABRE_CAT = ENTITY_TYPES.register("sabre_cat",
+            () -> EntityType.Builder.of(SabreCat::new, MobCategory.MONSTER)
                     .sized(1.0f, 1.0f) // Hitbox Size
                     .build(new ResourceLocation(Skyrimcraft.MODID, "sabre_cat").toString()));
-    public static final DeferredHolder<EntityType<?>, EntityType<GiantEntity>> GIANT = ENTITY_TYPES.register("giant",
-            () -> EntityType.Builder.of(GiantEntity::new, MobCategory.MONSTER)
+    public static final DeferredHolder<EntityType<?>, EntityType<Giant>> GIANT = ENTITY_TYPES.register("giant",
+            () -> EntityType.Builder.of(Giant::new, MobCategory.MONSTER)
                     .sized(1.0f, 3.0f) // Hitbox Size
                     .build(new ResourceLocation(Skyrimcraft.MODID, "giant").toString()));
-    public static final DeferredHolder<EntityType<?>, EntityType<MammothEntity>> MAMMOTH = ENTITY_TYPES.register("mammoth",
-            () -> EntityType.Builder.of(MammothEntity::new, MobCategory.MONSTER)
+    public static final DeferredHolder<EntityType<?>, EntityType<Mammoth>> MAMMOTH = ENTITY_TYPES.register("mammoth",
+            () -> EntityType.Builder.of(Mammoth::new, MobCategory.MONSTER)
                     .sized(2.0f, 4.0f) // Hitbox Size
                     .build(new ResourceLocation(Skyrimcraft.MODID, "mammoth").toString()));
-    public static final DeferredHolder<EntityType<?>, EntityType<SkyrimDragonEntity>> DRAGON = ENTITY_TYPES.register("dragon",
-            () -> EntityType.Builder.of(SkyrimDragonEntity::new, MobCategory.MONSTER)
+    public static final DeferredHolder<EntityType<?>, EntityType<SkyrimDragon>> DRAGON = ENTITY_TYPES.register("dragon",
+            () -> EntityType.Builder.of(SkyrimDragon::new, MobCategory.MONSTER)
                     .sized(4.0f, 2.0f) // Hitbox Size
                     .build(new ResourceLocation(Skyrimcraft.MODID, "dragon").toString()));
-    public static final DeferredHolder<EntityType<?>, EntityType<DwarvenSpiderEntity>> DWARVEN_SPIDER = ENTITY_TYPES.register("dwarven_spider",
-            () -> EntityType.Builder.of(DwarvenSpiderEntity::new, MobCategory.MONSTER)
+    public static final DeferredHolder<EntityType<?>, EntityType<DwarvenSpider>> DWARVEN_SPIDER = ENTITY_TYPES.register("dwarven_spider",
+            () -> EntityType.Builder.of(DwarvenSpider::new, MobCategory.MONSTER)
                     .sized(2.0f, 4.0f) // Hitbox Size
                     .build(new ResourceLocation(Skyrimcraft.MODID, "dwarven_spider").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<BlueButterfly>> BLUE_BUTTERFLY = ENTITY_TYPES.register("blue_butterfly",

@@ -1,25 +1,25 @@
 package com.ryankshah.skyrimcraft.entity.boss.dragon.model;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.entity.boss.dragon.SkyrimDragonEntity;
+import com.ryankshah.skyrimcraft.entity.boss.dragon.SkyrimDragon;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
 
-public class SkyrimDragonModel extends GeoModel<SkyrimDragonEntity>
+public class SkyrimDragonModel extends GeoModel<SkyrimDragon>
 {
     @Override
-    public ResourceLocation getModelResource(SkyrimDragonEntity object)
+    public ResourceLocation getModelResource(SkyrimDragon object)
     {
         return new ResourceLocation(Skyrimcraft.MODID, "geo/dragon.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(SkyrimDragonEntity object) {
+    public ResourceLocation getTextureResource(SkyrimDragon object) {
         return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/normal_dragon.png");
     }
 
     @Override
-    public ResourceLocation getAnimationResource(SkyrimDragonEntity object)
+    public ResourceLocation getAnimationResource(SkyrimDragon object)
     {
         return new ResourceLocation(Skyrimcraft.MODID, "animations/dragon.animation.json");
     }
