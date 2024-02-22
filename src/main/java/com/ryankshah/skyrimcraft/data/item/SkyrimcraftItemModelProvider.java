@@ -1,6 +1,7 @@
 package com.ryankshah.skyrimcraft.data.item;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.init.BlockInit;
 import com.ryankshah.skyrimcraft.init.ItemInit;
 import com.ryankshah.skyrimcraft.util.NameUtils;
 import net.minecraft.data.PackOutput;
@@ -10,9 +11,9 @@ import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-public class SkyrimcraftItemStateProvider extends ItemModelProvider
+public class SkyrimcraftItemModelProvider extends ItemModelProvider
 {
-    public SkyrimcraftItemStateProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
+    public SkyrimcraftItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, Skyrimcraft.MODID, existingFileHelper);
     }
 
@@ -117,11 +118,11 @@ public class SkyrimcraftItemStateProvider extends ItemModelProvider
         item(ItemInit.BEAR_CLAWS.get());
         item(ItemInit.BEEHIVE_HUSK.get());
         item(ItemInit.BERITS_ASHES.get());
-        item(ItemInit.BLEEDING_CROWN.get());
+//        item(ItemInit.BLEEDING_CROWN.get());
         item(ItemInit.BLISTERWORT.get());
         item(ItemInit.BLUE_BUTTERFLY_WING.get());
         item(ItemInit.BUTTERFLY_WING.get());
-        item(ItemInit.CANIS_ROOT.get());
+//        item(ItemInit.CANIS_ROOT.get());
         item(ItemInit.CHARRED_SKEEVER_HIDE.get());
         item(ItemInit.CRIMSON_NIRNROOT.get());
         item(ItemInit.DEATHBELL.get());
@@ -338,6 +339,8 @@ public class SkyrimcraftItemStateProvider extends ItemModelProvider
         item(ItemInit.VIGOROUS_MAGICKA_POTION.get());
         item(ItemInit.EXTREME_MAGICKA_POTION.get());
         item(ItemInit.ULTIMATE_MAGICKA_POTION.get());
+
+        BlockInit.addBlockItemModels(this);
     }
 
 

@@ -66,17 +66,10 @@ public class AlchemyRecipeProvider implements DataProvider, IConditionBuilder
                 public void accept(ResourceLocation p_312039_, Recipe<?> p_312254_, @Nullable AdvancementHolder p_311794_, ICondition... conditions) {
                     if (!set.add(p_312039_)) {
                         throw new IllegalStateException("Duplicate recipe " + p_312039_);
-                    } else { // AlchemyRecipe.CONDITIONAL_CODEC
+                    } else {
                         list.add(DataProvider.saveStable(pOutput, Recipe.CONDITIONAL_CODEC, Optional.of(new WithConditions(p_312254_, conditions)), AlchemyRecipeProvider.this.recipePathProvider.json(p_312039_)));
-//                        if (p_311794_ != null) {
-//                            list.add(DataProvider.saveStable(pOutput, Advancement.CONDITIONAL_CODEC, Optional.of(new WithConditions(p_311794_.value(), conditions)), AlchemyRecipeProvider.this.advancementPathProvider.json(p_311794_.id())));
-//                        }
-
                     }
                 }
-//                public Advancement.Builder advancement() {
-//                    return Advancement.Builder.recipeAdvancement().parent(RecipeBuilder.ROOT_RECIPE_ADVANCEMENT);
-//                }
             });
             return CompletableFuture.allOf(list.toArray(CompletableFuture[]::new));
         });

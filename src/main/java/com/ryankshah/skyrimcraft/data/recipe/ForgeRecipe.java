@@ -2,7 +2,9 @@ package com.ryankshah.skyrimcraft.data.recipe;
 
 import com.mojang.serialization.Codec;
 import com.ryankshah.skyrimcraft.block.inventory.IAlchemyInventory;
+import com.ryankshah.skyrimcraft.block.inventory.IForgeInventory;
 import com.ryankshah.skyrimcraft.data.recipe.serial.AlchemyRecipeSerializer;
+import com.ryankshah.skyrimcraft.data.recipe.serial.ForgeRecipeSerializer;
 import com.ryankshah.skyrimcraft.init.RecipeTypeInit;
 import com.ryankshah.skyrimcraft.init.SerializerInit;
 import net.minecraft.core.NonNullList;
@@ -19,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class AlchemyRecipe implements Recipe<IAlchemyInventory>
+public class ForgeRecipe implements Recipe<IForgeInventory>
 {
     protected final String category;
     protected final ItemStack stackToCreate;
@@ -27,9 +29,9 @@ public class AlchemyRecipe implements Recipe<IAlchemyInventory>
     protected final int level;
     protected final int xp;
 
-    public static Codec<Optional<WithConditions<AlchemyRecipe>>> CONDITIONAL_CODEC = ConditionalOps.createConditionalCodecWithConditions(AlchemyRecipeSerializer.CODEC);
+    public static Codec<Optional<WithConditions<ForgeRecipe>>> CONDITIONAL_CODEC = ConditionalOps.createConditionalCodecWithConditions(ForgeRecipeSerializer.CODEC);
 
-    public AlchemyRecipe(String category, ItemStack stackToCreate, int level, int xp, NonNullList<Ingredient> recipeItems) {
+    public ForgeRecipe(String category, ItemStack stackToCreate, int level, int xp, NonNullList<Ingredient> recipeItems) {
         this.category = category;
         this.stackToCreate = stackToCreate;
         this.recipeItems = recipeItems;
@@ -42,17 +44,17 @@ public class AlchemyRecipe implements Recipe<IAlchemyInventory>
 //        this(id, category, stackToCreate, level, xp, Arrays.asList(recipeItems));
 //    }
 
-    public AlchemyRecipe(String category, ItemStack itemStack, NonNullList<Ingredient> itemStacks, int level, int xp) {
+    public ForgeRecipe(String category, ItemStack itemStack, NonNullList<Ingredient> itemStacks, int level, int xp) {
         this(category, itemStack, level, xp, itemStacks);
     }
 
     @Override
-    public boolean matches(IAlchemyInventory p_77569_1_, Level p_77569_2_) {
+    public boolean matches(IForgeInventory p_77569_1_, Level p_77569_2_) {
         return this.recipeItems.stream().allMatch(item -> item.test(p_77569_1_.getItem(0))); // todo: check this?
     }
 
     @Override
-    public @NotNull ItemStack assemble(IAlchemyInventory pContainer, RegistryAccess pRegistryAccess) {
+    public @NotNull ItemStack assemble(IForgeInventory pContainer, RegistryAccess pRegistryAccess) {
         return this.stackToCreate.copy();
     }
 
@@ -71,13 +73,13 @@ public class AlchemyRecipe implements Recipe<IAlchemyInventory>
 //    }
 
     @Override
-    public @NotNull RecipeSerializer<AlchemyRecipe> getSerializer() {
-        return SerializerInit.ALCHEMY_RECIPE_SERIALIZER.get();
+    public @NotNull RecipeSerializer<ForgeRecipe> getSerializer() {
+        return SerializerInit.FORGE_RECIPE_SERIALIZER.get();
     }
 
     @Override
-    public @NotNull RecipeType<AlchemyRecipe> getType() {
-        return RecipeTypeInit.ALCHEMY.get();
+    public @NotNull RecipeType<ForgeRecipe> getType() {
+        return RecipeTypeInit.FORGE.get();
     }
 
     @Override
@@ -110,8 +112,8 @@ public class AlchemyRecipe implements Recipe<IAlchemyInventory>
         return this.xp;
     }
 
-    public AlchemyRecipe.Builder deconstruct() {
-        return new AlchemyRecipe.Builder(this.category, this.stackToCreate, this.level, this.xp, this.recipeItems);
+    public ForgeRecipe.Builder deconstruct() {
+        return new ForgeRecipe.Builder(this.category, this.stackToCreate, this.level, this.xp, this.recipeItems);
     }
 
 //    public boolean equals(Object obj) {
@@ -147,31 +149,31 @@ public class AlchemyRecipe implements Recipe<IAlchemyInventory>
         public Builder() {
         }
 
-        public static AlchemyRecipe.Builder recipe() {
-            return new AlchemyRecipe.Builder();
+        public static ForgeRecipe.Builder recipe() {
+            return new ForgeRecipe.Builder();
         }
 
-        public AlchemyRecipe.Builder output(ItemStack stack) {
+        public ForgeRecipe.Builder output(ItemStack stack) {
             this.stackToCreate = stack;
             return this;
         }
 
-        public AlchemyRecipe.Builder level(int level) {
+        public ForgeRecipe.Builder level(int level) {
             this.level = level;
             return this;
         }
 
-        public AlchemyRecipe.Builder category(String category) {
+        public ForgeRecipe.Builder category(String category) {
             this.category = category;
             return this;
         }
 
-        public AlchemyRecipe.Builder xp(int xp) {
+        public ForgeRecipe.Builder xp(int xp) {
             this.xp = xp;
             return this;
         }
 
-        public AlchemyRecipe.Builder addRecipeItem(ItemStack stack) {
+        public ForgeRecipe.Builder addRecipeItem(ItemStack stack) {
             if(this.recipeItems.contains(stack))
                 throw new IllegalArgumentException("Duplicate recipe Ingredient " + stack);
             else {
@@ -188,8 +190,8 @@ public class AlchemyRecipe implements Recipe<IAlchemyInventory>
 //            }
 //        }
 
-        public AlchemyRecipe build(String category, ItemStack create, int level, int xp, NonNullList<Ingredient> recipe) {
-            return new AlchemyRecipe(category, create, level, xp, recipe);
+        public ForgeRecipe build(String category, ItemStack create, int level, int xp, NonNullList<Ingredient> recipe) {
+            return new ForgeRecipe(category, create, level, xp, recipe);
         }
 
 //        public JsonObject serializeToJson() {

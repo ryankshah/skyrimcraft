@@ -1,10 +1,10 @@
-package com.ryankshah.skyrimcraft.block;
+package com.ryankshah.skyrimcraft.block.inventory;
 
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class IAlchemyInventory implements Container {
+public class IForgeInventory implements Container {
     /**
      * Returns the number of slots in the inventory.
      */

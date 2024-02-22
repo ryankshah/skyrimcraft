@@ -50,13 +50,18 @@ public class SkyrimcraftBlockLootTables extends BlockLootSubProvider
         dropSelf(BlockInit.DEEPSLATE_SILVER_ORE.get());
         dropSelf(BlockInit.SHOUT_BLOCK.get());
         dropSelf(BlockInit.ALCHEMY_TABLE.get());
+        dropSelf(BlockInit.OVEN.get());
+        dropSelf(BlockInit.BLACKSMITH_FORGE.get());
 
         dropSelf(BlockInit.RED_MOUNTAIN_FLOWER.get());
         dropSelf(BlockInit.BLUE_MOUNTAIN_FLOWER.get());
         dropSelf(BlockInit.YELLOW_MOUNTAIN_FLOWER.get());
         dropSelf(BlockInit.PURPLE_MOUNTAIN_FLOWER.get());
-
 //        add(BlockInit.CANIS_ROOT.get(), createSingleItemTable(ItemInit.CANIS_ROOT.get()));
+
+        dropSelf(BlockInit.CANIS_ROOT_BLOCK.get());
+        dropSelf(BlockInit.BLEEDING_CROWN_BLOCK.get());
+//        add(BlockInit.BLEEDING_CROWN_BLOCK.get(), createSingleItemTable(ItemInit.BLEEDING_CROWN.get()));
 
 //        LootItemCondition.Builder ilootcondition$tomatocrop = LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockInit.TOMATO_CROP.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(TomatoCrop.AGE, 7));
 //        add(BlockInit.TOMATO_CROP.get(), createCropDrops(BlockInit.TOMATO_CROP.get(), ItemInit.TOMATO.get(), ItemInit.TOMATO_SEEDS.get(), ilootcondition$tomatocrop));

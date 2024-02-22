@@ -3,6 +3,8 @@ package com.ryankshah.skyrimcraft.network;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.network.character.*;
 import com.ryankshah.skyrimcraft.network.recipe.FinishAlchemyRecipe;
+import com.ryankshah.skyrimcraft.network.recipe.FinishForgeRecipe;
+import com.ryankshah.skyrimcraft.network.recipe.FinishOvenRecipe;
 import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
 import com.ryankshah.skyrimcraft.network.spell.*;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -39,5 +41,7 @@ public class Networking
         registrar.play(UpdateCharacter.ID, UpdateCharacter::new, payload -> payload.client(UpdateCharacter::handleClient)); //.server(UpdateCharacter::handleServer)
 
         registrar.play(FinishAlchemyRecipe.ID, FinishAlchemyRecipe::new, payload -> payload.server(FinishAlchemyRecipe::handleServer));
+        registrar.play(FinishOvenRecipe.ID, FinishOvenRecipe::new, payload -> payload.server(FinishOvenRecipe::handleServer));
+        registrar.play(FinishForgeRecipe.ID, FinishForgeRecipe::new, payload -> payload.server(FinishForgeRecipe::handleServer));
     }
 }

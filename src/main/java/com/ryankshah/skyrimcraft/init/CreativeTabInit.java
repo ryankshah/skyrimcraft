@@ -29,8 +29,9 @@ public class CreativeTabInit
         CreativeModeTab.Builder builder = CreativeModeTab.builder();
 
         builder.displayItems((itemDisplayParameters, output) -> {
-            BlockInit.BLOCKS.getEntries()
+            ItemInit.ITEMS.getEntries()
                     .stream()
+                    .filter(i -> i.get() instanceof BlockItem)
                     .map(DeferredHolder::get)
                     .forEach(output::accept);
         });
@@ -61,12 +62,12 @@ public class CreativeTabInit
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> SKYRIMCRAFT_ALL_TAB = CREATIVE_MODE_TABS.register("skyrimcraft_all_tab", () -> {
         CreativeModeTab.Builder builder = CreativeModeTab.builder();
 
-        builder.displayItems((itemDisplayParameters, output) -> {
-            BlockInit.BLOCKS.getEntries()
-                    .stream()
-                    .map(DeferredHolder::get)
-                    .forEach(output::accept);
-        });
+//        builder.displayItems((itemDisplayParameters, output) -> {
+//            BlockInit.BLOCK_ITEMS.getEntries()
+//                    .stream()
+//                    .map(DeferredHolder::get)
+//                    .forEach(output::accept);
+//        });
 
         builder.displayItems((itemDisplayParameters, output) -> {
             ItemInit.ITEMS.getEntries()

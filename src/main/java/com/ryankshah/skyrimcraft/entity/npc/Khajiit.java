@@ -15,7 +15,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class Khajiit extends AgeableMob
 {
@@ -45,7 +46,7 @@ public class Khajiit extends AgeableMob
 
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(SEX, random.nextBoolean());
+        this.entityData.define(SEX, false);
     }
 
     public void addAdditionalSaveData(CompoundTag p_213281_1_) {
@@ -67,13 +68,11 @@ public class Khajiit extends AgeableMob
     }
 
     @Override
-    @javax.annotation.Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_213386_1_, DifficultyInstance p_213386_2_, MobSpawnType p_213386_3_, @javax.annotation.Nullable SpawnGroupData p_213386_4_, @javax.annotation.Nullable CompoundTag p_213386_5_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_213386_1_, DifficultyInstance p_213386_2_, MobSpawnType p_213386_3_, SpawnGroupData p_213386_4_, CompoundTag p_213386_5_) {
         this.setSex(random.nextBoolean());
         return super.finalizeSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
     }
 
-    @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
         double d0 = this.random.nextDouble();

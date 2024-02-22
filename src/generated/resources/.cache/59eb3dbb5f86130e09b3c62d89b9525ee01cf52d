@@ -1,6 +1,9 @@
-// 1.20.4	2024-02-22T14:17:22.5666298	Loot Tables
+// 1.20.4	2024-02-22T20:55:43.8034726	Loot Tables
 5a57dfc5cbb79ed7fba149781f2d0dbd9c0bf271 data/skyrimcraft/loot_tables/blocks/alchemy_table.json
+1fe6a6656eb3ba0a3d17edf5b64f71ffbed55a15 data/skyrimcraft/loot_tables/blocks/blacksmith_forge.json
+c5ed5b621e96e83ee9a27bf863895f3378fb3abb data/skyrimcraft/loot_tables/blocks/bleeding_crown.json
 0386220a69c6a72cae897c0596c7537969b020f1 data/skyrimcraft/loot_tables/blocks/blue_mountain_flower.json
+4f4bb793df9076a1955825f0579c0aa408ec928f data/skyrimcraft/loot_tables/blocks/canis_root.json
 0a438ddafaa369568479e482603937f823086b3a data/skyrimcraft/loot_tables/blocks/corundum_ore.json
 fbeded979931ead2b318841f12702e07b697ddd2 data/skyrimcraft/loot_tables/blocks/deepslate_corundum_ore.json
 00dfe4744074228964effd2c662b64bf01810d11 data/skyrimcraft/loot_tables/blocks/deepslate_ebony_ore.json
@@ -13,6 +16,7 @@ b8cd691e5fb001e5d0c690109cd03e9166d0b3d9 data/skyrimcraft/loot_tables/blocks/ebo
 58ba428254142ff29bccbe995635202fc61fa459 data/skyrimcraft/loot_tables/blocks/malachite_ore.json
 874489e6cef816dc4b8ad253eee056e63f192116 data/skyrimcraft/loot_tables/blocks/moonstone_ore.json
 b56576c8917bc5602f73de1e80b3ced1da034513 data/skyrimcraft/loot_tables/blocks/orichalcum_ore.json
+f3fd7e2923dea68d02e174ae2c261f9c7c24d01d data/skyrimcraft/loot_tables/blocks/oven.json
 0d1f841a22a7ac995196841a41351f159ebd4a68 data/skyrimcraft/loot_tables/blocks/purple_mountain_flower.json
 3cb2cd50bc9cd49b826a9ff501ed6d7036eee613 data/skyrimcraft/loot_tables/blocks/quicksilver_ore.json
 b8c68de9ba8a79145152978ab5b8b48efd2da14a data/skyrimcraft/loot_tables/blocks/red_mountain_flower.json
@@ -32,4 +36,5 @@ eab99fb0e69460e09fb7b3cd538747dc9ab7bbcb data/skyrimcraft/loot_tables/entities/m
 e715763f3fa633705ba4d7fc25b64a53509dca50 data/skyrimcraft/loot_tables/entities/orange_dartwing.json
 6772bc00db70b953f03e8ad7a85ed19178b2930c data/skyrimcraft/loot_tables/entities/sabre_cat.json
 072d24ecfd29da389e63cdc7eef6ca6a6783034d data/skyrimcraft/loot_tables/entities/torchbug.json
+18600cd398e4f7577f145b90339f19331e39d3c6 data/skyrimcraft/loot_tables/goat.json
 fadd2ada3ede624e384bbe777a9b0ca0e958494d data/skyrimcraft/loot_tables/grasspod.json

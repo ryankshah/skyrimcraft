@@ -326,11 +326,11 @@ public class ItemInit
     public static final DeferredItem<Item> BEAR_CLAWS = ITEMS.register("bear_claws", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESTORE_STAMINA, IngredientEffect.FORTIFY_HEALTH, IngredientEffect.FORTIFY_ONE_HANDED, IngredientEffect.DAMAGE_MAGICKA_REGEN));
     public static final DeferredItem<Item> BEEHIVE_HUSK = ITEMS.register("beehive_husk", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESIST_POISON, IngredientEffect.FORTIFY_LIGHT_ARMOR, IngredientEffect.FORTIFY_SNEAK, IngredientEffect.FORTIFY_DESTRUCTION));
     public static final DeferredItem<Item> BERITS_ASHES = ITEMS.register("berits_ashes", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.DAMAGE_STAMINA, IngredientEffect.RESIST_FIRE, IngredientEffect.FORTIFY_CONJURATION, IngredientEffect.RAVAGE_STAMINA));
-    public static final DeferredItem<Item> BLEEDING_CROWN = ITEMS.register("bleeding_crown", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.WEAKNESS_TO_FIRE, IngredientEffect.FORTIFY_BLOCK, IngredientEffect.WEAKNESS_TO_POISON, IngredientEffect.RESIST_MAGIC));
+//    public static final DeferredItem<Item> BLEEDING_CROWN = ITEMS.register("bleeding_crown", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.WEAKNESS_TO_FIRE, IngredientEffect.FORTIFY_BLOCK, IngredientEffect.WEAKNESS_TO_POISON, IngredientEffect.RESIST_MAGIC));
     public static final DeferredItem<Item> BLISTERWORT = ITEMS.register("blisterwort", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.DAMAGE_STAMINA, IngredientEffect.FRENZY, IngredientEffect.RESTORE_HEALTH, IngredientEffect.FORTIFY_SMITHING));
     public static final DeferredItem<Item> BLUE_BUTTERFLY_WING = ITEMS.register("blue_butterfly_wing", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.DAMAGE_STAMINA, IngredientEffect.FORTIFY_CONJURATION, IngredientEffect.DAMAGE_MAGICKA_REGEN, IngredientEffect.FORTIFY_ENCHANTING));
     public static final DeferredItem<Item> BUTTERFLY_WING = ITEMS.register("butterfly_wing", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESTORE_HEALTH, IngredientEffect.FORTIFY_BARTER, IngredientEffect.LINGERING_DAMAGE_STAMINA, IngredientEffect.DAMAGE_MAGICKA));
-    public static final DeferredItem<Item> CANIS_ROOT = ITEMS.register("canis_root", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.DAMAGE_STAMINA, IngredientEffect.FORTIFY_ONE_HANDED, IngredientEffect.FORTIFY_MARKSMAN, IngredientEffect.PARALYSIS));
+//    public static final DeferredItem<Item> CANIS_ROOT = ITEMS.register("canis_root", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.DAMAGE_STAMINA, IngredientEffect.FORTIFY_ONE_HANDED, IngredientEffect.FORTIFY_MARKSMAN, IngredientEffect.PARALYSIS));
     public static final DeferredItem<Item> CHARRED_SKEEVER_HIDE = ITEMS.register("charred_skeever_hide", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESTORE_STAMINA, IngredientEffect.CURE_DISEASE, IngredientEffect.RESIST_POISON, IngredientEffect.RESTORE_HEALTH));
     public static final DeferredItem<Item> CRIMSON_NIRNROOT = ITEMS.register("crimson_nirnroot", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.DAMAGE_HEALTH, IngredientEffect.DAMAGE_STAMINA, IngredientEffect.INVISIBILITY, IngredientEffect.RESIST_MAGIC));
     public static final DeferredItem<Item> DEATHBELL = ITEMS.register("deathbell", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.DAMAGE_HEALTH, IngredientEffect.RAVAGE_STAMINA, IngredientEffect.SLOW, IngredientEffect.WEAKNESS_TO_POISON));
@@ -656,11 +656,11 @@ public class ItemInit
         provider.addItem(BEAR_CLAWS, "Bear Claws");
         provider.addItem(BEEHIVE_HUSK, "Beehive Husk");
         provider.addItem(BERITS_ASHES, "Berit's Ashes");
-        provider.addItem(BLEEDING_CROWN, "Bleeding Crown");
+//        provider.addItem(BLEEDING_CROWN, "Bleeding Crown");
         provider.addItem(BLISTERWORT, "Blisterwort");
         provider.addItem(BLUE_BUTTERFLY_WING, "Blue Butterfly Wing");
         provider.addItem(BUTTERFLY_WING, "Butterfly Wing");
-        provider.addItem(CANIS_ROOT, "Canis Root");
+//        provider.addItem(CANIS_ROOT, "Canis Root");
         provider.addItem(CHARRED_SKEEVER_HIDE, "Charred Skeever Hide");
         provider.addItem(CRIMSON_NIRNROOT, "Crimson Nirnroot");
         provider.addItem(DEATHBELL, "Deathbell");
@@ -677,6 +677,8 @@ public class ItemInit
         provider.addItem(QUICKSILVER_INGOT, "Quicksilver Ingot");
         provider.addItem(SILVER_INGOT, "Silver Ingot");
         provider.addItem(STEEL_INGOT, "Steel Ingot");
+        provider.addItem(DAEDRA_HEART, "Daedra Heart");
+        provider.addItem(LEATHER_STRIPS, "Leather Strips");
 
         provider.addItem(FLAWED_AMETHYST, "Flawed Amethyst");
         provider.addItem(FLAWED_DIAMOND, "Flawed Diamond");

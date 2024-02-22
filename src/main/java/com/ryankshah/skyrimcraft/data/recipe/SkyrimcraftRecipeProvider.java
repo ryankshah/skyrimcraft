@@ -5,12 +5,12 @@ import com.ryankshah.skyrimcraft.init.BlockInit;
 import com.ryankshah.skyrimcraft.init.ItemInit;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.recipes.*;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 
 import java.util.List;
@@ -54,17 +54,26 @@ public class SkyrimcraftRecipeProvider extends RecipeProvider implements ICondit
         oreSmelting(pWriter, SILVER_ORE_SMELTABLE, RecipeCategory.MISC, ItemInit.SILVER_INGOT.get(), 0.25f, 200, "silver_ingot");
         oreBlasting(pWriter, SILVER_ORE_SMELTABLE, RecipeCategory.MISC, ItemInit.SILVER_INGOT.get(), 0.25f, 100, "silver_ingot");
 
-//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.SAPPHIRE_BLOCK.get())
+//        ShapelessRecipeBuilder.shapeless(ItemInit.LEATHER_STRIPS.get()).requires(Items.LEATHER).requires(Items.LEATHER).unlockedBy("has_leather", has(Items.LEATHER)).save(consumer);
+//        ShapelessRecipeBuilder.shapeless(ItemInit.FLOUR.get()).requires(Items.WHEAT).requires(Items.BOWL).unlockedBy("has_wheat", has(Items.WHEAT)).save(consumer);
+//        ShapelessRecipeBuilder.shapeless(ItemInit.BUTTER.get()).requires(Items.MILK_BUCKET).requires(Items.MAGMA_CREAM).unlockedBy("has_milk_bucket", has(Items.MILK_BUCKET)).save(consumer);
+//
+//        // blocks
+//        ShapedRecipeBuilder.shaped(BlockInit.OVEN.get()).define('s', Blocks.STONE).define('b', Blocks.STONE_BRICKS).pattern(" b ").pattern("b b").pattern("sss").unlockedBy("has_stone_brick", has(Blocks.STONE_BRICKS)).save(consumer);
+//        ShapedRecipeBuilder.shaped(BlockInit.ALCHEMY_TABLE.get()).define('p', ItemTags.PLANKS).define('g', Items.GLASS_BOTTLE).pattern(" g ").pattern("ppp").pattern("p p").unlockedBy("has_planks", has(Items.OAK_PLANKS)).save(consumer);
+//        ShapedRecipeBuilder.shaped(BlockInit.BLACKSMITH_FORGE.get()).define('l', Items.LAVA_BUCKET).define('s', Blocks.STONE).define('c', Blocks.COBBLESTONE).pattern("c c").pattern("clc").pattern("sss").unlockedBy("has_cobble", has(Blocks.COBBLESTONE)).save(consumer);
+
+//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.SAPPHIRE_BLOCK.get())
 //                .pattern("SSS")
 //                .pattern("SSS")
 //                .pattern("SSS")
-//                .define('S', ModItems.SAPPHIRE.get())
-//                .unlockedBy(getHasName(ModItems.SAPPHIRE.get()), has(ModItems.SAPPHIRE.get()))
+//                .define('S', ItemInit.SAPPHIRE.get())
+//                .unlockedBy(getHasName(ItemInit.SAPPHIRE.get()), has(ItemInit.SAPPHIRE.get()))
 //                .save(pWriter);
 //
-//        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.SAPPHIRE.get(), 9)
-//                .requires(ModBlocks.SAPPHIRE_BLOCK.get())
-//                .unlockedBy(getHasName(ModBlocks.SAPPHIRE_BLOCK.get()), has(ModBlocks.SAPPHIRE_BLOCK.get()))
+//        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInit.SAPPHIRE.get(), 9)
+//                .requires(BlockInit.SAPPHIRE_BLOCK.get())
+//                .unlockedBy(getHasName(BlockInit.SAPPHIRE_BLOCK.get()), has(BlockInit.SAPPHIRE_BLOCK.get()))
 //                .save(pWriter);
     }
 

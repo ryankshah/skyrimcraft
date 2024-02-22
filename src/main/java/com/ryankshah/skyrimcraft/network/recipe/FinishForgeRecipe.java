@@ -2,11 +2,8 @@ package com.ryankshah.skyrimcraft.network.recipe;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
-import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
-import com.ryankshah.skyrimcraft.data.recipe.AlchemyRecipe;
-import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
-import com.ryankshah.skyrimcraft.screen.SkyrimGuiOverlay;
-import com.ryankshah.skyrimcraft.util.LevelUpdate;
+import com.ryankshah.skyrimcraft.data.recipe.ForgeRecipe;
+import com.ryankshah.skyrimcraft.data.recipe.OvenRecipe;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -17,22 +14,21 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
 import java.util.List;
 
-public record FinishAlchemyRecipe(Recipe<?> recipe) implements CustomPacketPayload
+public record FinishForgeRecipe(Recipe<?> recipe) implements CustomPacketPayload
 {
-    public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"finishalchemyrecipe");
+    public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"finishforgerecipe");
 
-    public FinishAlchemyRecipe(final FriendlyByteBuf buffer) {
-        this(buffer.readJsonWithCodec(AlchemyRecipe.CODEC));
+    public FinishForgeRecipe(final FriendlyByteBuf buffer) {
+        this(buffer.readJsonWithCodec(ForgeRecipe.CODEC));
     }
 
     @Override
     public void write(final FriendlyByteBuf buffer) {
-        buffer.writeJsonWithCodec(AlchemyRecipe.CODEC, recipe);
+        buffer.writeJsonWithCodec(ForgeRecipe.CODEC, recipe);
     }
 
     @Override
@@ -40,11 +36,11 @@ public record FinishAlchemyRecipe(Recipe<?> recipe) implements CustomPacketPaylo
         return ID;
     }
 
-    public static void handleServer(final FinishAlchemyRecipe data, final PlayPayloadContext context) {
+    public static void handleServer(final FinishForgeRecipe data, final PlayPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
         Character character = Character.get(player);
         // TODO: use character to add xp to alchemy skill?
-        if(data.recipe instanceof AlchemyRecipe currentRecipeObject) {
+        if(data.recipe instanceof ForgeRecipe currentRecipeObject) {
             List<Ingredient> recipe = currentRecipeObject.getRecipeItems();
             boolean hasAllItems = recipe.stream().allMatch(ingredient -> hasItem(player, ingredient.getItems()[0]));
 
@@ -56,11 +52,11 @@ public record FinishAlchemyRecipe(Recipe<?> recipe) implements CustomPacketPaylo
                 }
 
                 player.getInventory().add(currentRecipeObject.getResult().copy());
-                player.playSound(SoundEvents.BREWING_STAND_BREW, 1.0F, 1.0F);
+                player.playSound(SoundEvents.BLASTFURNACE_FIRE_CRACKLE, 1.0F, 1.0F);
                 player.giveExperiencePoints(currentRecipeObject.getXpGained());
 
-                final AddXpToSkill addAlchemyXp = new AddXpToSkill(SkillRegistry.ALCHEMY.getID(), SkillRegistry.BASE_ALCHEMY_XP);
-                PacketDistributor.SERVER.noArg().send(addAlchemyXp);
+//                final AddXpToSkill addAlchemyXp = new AddXpToSkill(SkillRegistry.ALCHEMY.getID(), SkillRegistry.BASE_ALCHEMY_XP);
+//                PacketDistributor.SERVER.noArg().send(addAlchemyXp);
             }
         }
     }

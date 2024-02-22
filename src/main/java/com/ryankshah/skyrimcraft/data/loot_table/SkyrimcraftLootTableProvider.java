@@ -28,5 +28,16 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
                         )
                 )
         );
+
+        pOutput.accept(
+                new ResourceLocation(Skyrimcraft.MODID, "goat"),
+                LootTable.lootTable().withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1))
+                        .add(LootItem.lootTableItem(ItemInit.LEG_OF_GOAT.get())
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.875F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                )
+        );
     }
 }
