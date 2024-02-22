@@ -38,7 +38,7 @@ public record AddToCompassFeatures(String uuid, ResourceLocation location, Block
     public static void handleServer(final AddToCompassFeatures data, final PlayPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
         Character character = Character.get(player);
-        character.getCompassFeatures().add(new CompassFeature(data.uuid, TagKey.create(Registries.STRUCTURE, data.location), data.blockPos));
+        character.addCompassFeature(new CompassFeature(data.uuid, TagKey.create(Registries.STRUCTURE, data.location), data.blockPos));
 
         final AddToCompassFeatures sendToClient = new AddToCompassFeatures(data.uuid, data.location, data.blockPos);
         PacketDistributor.PLAYER.with(player).send(sendToClient);
@@ -50,7 +50,7 @@ public record AddToCompassFeatures(String uuid, ResourceLocation location, Block
             if(Minecraft.getInstance().player != null) {
                 Player player = Minecraft.getInstance().player;
                 Character character = Character.get(player);
-                character.getCompassFeatures().add(new CompassFeature(data.uuid, TagKey.create(Registries.STRUCTURE, data.location), data.blockPos));
+                character.addCompassFeature(new CompassFeature(data.uuid, TagKey.create(Registries.STRUCTURE, data.location), data.blockPos));
             }
         });
     }

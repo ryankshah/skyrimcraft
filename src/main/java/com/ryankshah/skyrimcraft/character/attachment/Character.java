@@ -306,6 +306,7 @@ public class Character
 
     public void addTarget(int id) {
         this.targetingEntities.add(id);
+        setCurrentTarget(id);
     }
     public void removeTarget(int id) {
         this.targetingEntities.remove(id);

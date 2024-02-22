@@ -184,6 +184,7 @@ public class SkyrimGuiOverlay
             int scaledHeight = window.getGuiScaledHeight();
             Character character = Character.get(mc.player);
             Entity currentTarget = mc.player.level().getEntity(character.getCurrentTarget());
+
             if(currentTarget instanceof LivingEntity && currentTarget.isAlive()) {
 //            if(targets.contains(mc.player.getLastHurtMob().getId()) && mc.player.getLastHurtMob() != null && mc.player.getLastHurtMob().isAlive()) {
                 LivingEntity target = (LivingEntity)currentTarget;

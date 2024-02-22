@@ -16,6 +16,7 @@ import com.ryankshah.skyrimcraft.entity.creature.GiantEntity;
 import com.ryankshah.skyrimcraft.entity.creature.MammothEntity;
 import com.ryankshah.skyrimcraft.entity.creature.SabreCatEntity;
 import com.ryankshah.skyrimcraft.entity.npc.Khajiit;
+import com.ryankshah.skyrimcraft.entity.npc.model.KhajiitModel;
 import com.ryankshah.skyrimcraft.entity.passive.flying.*;
 import com.ryankshah.skyrimcraft.init.*;
 import net.minecraft.world.entity.EntityType;
@@ -177,6 +178,8 @@ public class Skyrimcraft
         event.registerLayerDefinition(HighElfEarModel.LAYER_LOCATION, HighElfEarModel::createBodyLayer);
         event.registerLayerDefinition(KhajiitHeadModel.LAYER_LOCATION, KhajiitHeadModel::createBodyLayer);
 //        event.registerLayerDefinition(KhajiitModel.LAYER_LOCATION, KhajiitModel::createBodyLayer);
+
+        event.registerLayerDefinition(KhajiitModel.LAYER_LOCATION, KhajiitModel::createBodyLayer);
     }
 
     public void addEntityAttributes(EntityAttributeModificationEvent event) {
