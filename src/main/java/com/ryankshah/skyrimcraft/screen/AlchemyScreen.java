@@ -10,6 +10,7 @@ import com.mojang.math.Axis;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.data.recipe.AlchemyRecipe;
 import com.ryankshah.skyrimcraft.event.KeyEvents;
+import com.ryankshah.skyrimcraft.network.recipe.FinishAlchemyRecipe;
 import com.ryankshah.skyrimcraft.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -25,6 +26,7 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -237,21 +239,8 @@ public class AlchemyScreen extends Screen
                 return false;
             }
 
-            List<Ingredient> recipe = this.currentRecipeObject.getRecipeItems();
-            boolean hasAllItems = recipe.stream().allMatch(ingredient -> hasItem(player, ingredient.getItems()[0]));
-
-            if(!hasAllItems) {
-                this.player.displayClientMessage(Component.translatable("[Skyrimcraft] - You don't have the required items!"), false);
-                return false;
-            }
-
-            for(Ingredient ing : currentRecipeObject.getRecipeItems()) {
-                hasAndRemoveItem(player, ing.getItems()[0].copy());
-            }
-
-            this.player.getInventory().add(this.currentRecipeObject.getResult().copy());
-            player.playSound(SoundEvents.BREWING_STAND_BREW, 1.0F, 1.0F);
-            this.player.giveExperiencePoints(currentRecipeObject.getXpGained());
+            final FinishAlchemyRecipe finishRecipe = new FinishAlchemyRecipe(currentRecipeObject);
+            PacketDistributor.SERVER.noArg().send(finishRecipe);
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);
@@ -313,10 +302,6 @@ public class AlchemyScreen extends Screen
         }
     }
 
-    private Object[] getCategories(Multimap<String, AlchemyRecipe> items) {
-        return items.keySet().toArray();
-    }
-
     public static boolean hasItem(Player player, ItemStack is) {
         if (is != null) {
             int count = 0;
@@ -333,36 +318,8 @@ public class AlchemyScreen extends Screen
         return false;
     }
 
-
-    //TODO: check why this doesnt actually change the player stacks (creates potion but items still there and potion eventually disappears)
-    public static void hasAndRemoveItem(Player player, ItemStack is) {
-        if (is != null) {
-            player.getInventory().clearOrCountMatchingItems(
-                    stack -> stack.is(is.getItem()),
-                    is.getCount(),
-                    player.getInventory()
-            );
-            player.getInventory().setChanged();
-        }
-    }
-
-    public static void hasAndRemoveItems(Player player, ItemStack is) {
-        if (is != null) {
-            int count = is.getCount();
-
-            for(int i = 0; i < player.inventoryMenu.slots.size(); ++i) {
-                ItemStack stack =  player.getInventory().getItem(i);
-                if(is.equals(stack) && ItemStack.matches(is, stack)) {
-                    if(stack.getCount() >= count) {
-                        player.getInventory().removeItem(i, count);
-                        break;
-                    } else {
-                        count -= stack.getCount();
-                        player.getInventory().removeItem(i, stack.getCount());
-                    }
-                }
-            }
-        }
+    private Object[] getCategories(Multimap<String, AlchemyRecipe> items) {
+        return items.keySet().toArray();
     }
 
     private void renderHealth(GuiGraphics graphics) {

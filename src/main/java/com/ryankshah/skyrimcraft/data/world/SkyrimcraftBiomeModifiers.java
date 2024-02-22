@@ -32,6 +32,7 @@ public class SkyrimcraftBiomeModifiers
     public static final ResourceKey<BiomeModifier> ADD_PLAINS_FLYING_MOBS = registerKey("add_plains_flying_mobs");
     public static final ResourceKey<BiomeModifier> ADD_DRIPSTONE_MOBS = registerKey("add_dripstone_mobs");
     public static final ResourceKey<BiomeModifier> ADD_SNOW_MOBS = registerKey("add_snow_mobs");
+    public static final ResourceKey<BiomeModifier> ADD_PLAINS_MOBS = registerKey("add_plains_mobs");
 
     public static void bootstrap(BootstapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
@@ -99,7 +100,15 @@ public class SkyrimcraftBiomeModifiers
                 ),
                 List.of(
                         new MobSpawnSettings.SpawnerData(EntityInit.SABRE_CAT.get(), 2, 1, 2),
-                        new MobSpawnSettings.SpawnerData(EntityInit.GIANT.get(), 1, 2, 4),
+                        new MobSpawnSettings.SpawnerData(EntityInit.GIANT.get(), 1, 2, 4)
+                )
+        ));
+        context.register(ADD_PLAINS_MOBS, new BiomeModifiers.AddSpawnsBiomeModifier(
+                HolderSet.direct(
+                        biomes.getOrThrow(Biomes.PLAINS), biomes.getOrThrow(Biomes.SAVANNA),
+                        biomes.getOrThrow(Biomes.SAVANNA_PLATEAU)
+                ),
+                List.of(
                         new MobSpawnSettings.SpawnerData(EntityInit.SABRE_CAT.get(), 2, 1, 2)
                 )
         ));

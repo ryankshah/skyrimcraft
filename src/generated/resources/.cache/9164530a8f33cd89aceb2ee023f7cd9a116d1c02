@@ -1,7 +1,6 @@
-// 1.20.4	2024-02-21T17:22:50.1313003	Block States: skyrimcraft
+// 1.20.4	2024-02-22T14:17:22.5838083	Block States: skyrimcraft
 62bac4ac647c5ba49a82730ff85a912bc1b23973 assets/skyrimcraft/blockstates/alchemy_table.json
 0ae72504ebc4e8ad23bfe30f1fcab021cbb3613b assets/skyrimcraft/blockstates/blue_mountain_flower.json
-539f97584c3762edcf639cd7d1a4138a7b174165 assets/skyrimcraft/blockstates/canis_root.json
 2a4b261b589b6fc5eb75b02f42cfad259c148438 assets/skyrimcraft/blockstates/corundum_ore.json
 f474840392a2d086db3dada7b8acad93edfeeab0 assets/skyrimcraft/blockstates/deepslate_corundum_ore.json
 f03a5806efc2ec3d87c83ba6a94fd99f12f56a16 assets/skyrimcraft/blockstates/deepslate_ebony_ore.json
@@ -21,7 +20,6 @@ ff816a8f3d9c5e2ef4d62e67c026fe6845b89091 assets/skyrimcraft/blockstates/shout_bl
 7fa04e0e0b2bc0c42566c288c4d468ad3fdbf5f6 assets/skyrimcraft/blockstates/silver_ore.json
 91969d078aa20ea6eeb78e1d1175b1ae582fc8be assets/skyrimcraft/blockstates/yellow_mountain_flower.json
 31e2bcc2793a73d7f3775b05f2b1899d3082b19f assets/skyrimcraft/models/block/blue_mountain_flower.json
-5655edf5d75615ab2528c4a097610a2566e8c758 assets/skyrimcraft/models/block/canis_root.json
 47c6c783d76c278d55cbd4b81fe8e4024953896c assets/skyrimcraft/models/block/corundum_ore.json
 773bc7956b0c0b248b12a5d539be98e9d0cd355e assets/skyrimcraft/models/block/deepslate_corundum_ore.json
 e68f2312bd463db4aaf088a57e6b51ee4cc06185 assets/skyrimcraft/models/block/deepslate_ebony_ore.json
@@ -42,7 +40,6 @@ becf1c5864c6915297364b594e510318c411ec90 assets/skyrimcraft/models/block/red_mou
 440dfa6ce3bdfe02f52086e967e0c197be4996bf assets/skyrimcraft/models/block/yellow_mountain_flower.json
 a05776035989a803b88299d04d534830b35d9e7f assets/skyrimcraft/models/item/alchemy_table.json
 dcccbece2c4e3a60f977e50b2a18bf70c52da7e8 assets/skyrimcraft/models/item/blue_mountain_flower.json
-fe47a3b504653ed4ba800f4bcfe699213ca10b23 assets/skyrimcraft/models/item/canis_root.json
 36788b2b13ac84053b91ccb0c52dcf4a6e6ab045 assets/skyrimcraft/models/item/corundum_ore.json
 9d8e4a7623e4f6c55edc57e45d8df9549ef3a20a assets/skyrimcraft/models/item/deepslate_corundum_ore.json
 9e421f84c57d0be892ef401a362c9d4fd6f2ed6c assets/skyrimcraft/models/item/deepslate_ebony_ore.json

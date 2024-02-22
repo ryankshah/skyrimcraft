@@ -16,6 +16,7 @@ public class SkillRegistry
     public static final int BASE_ARCHERY_XP = 4;
     public static final int BASE_BLOCK_XP = 4;
     public static final int BASE_PICKPOCKET_XP = 4;
+    public static final int BASE_ALCHEMY_XP = 4;
 
     public static Skill ALTERATION = new Skill(0, "Alteration", 15, 3f, 0, 2f, 0);
     public static Skill CONJURATION = new Skill(1, "Conjuration", 15, 2.1f, 0, 2f, 0);
