@@ -17,7 +17,9 @@ import com.ryankshah.skyrimcraft.entity.creature.render.DwarvenSpiderRenderer;
 import com.ryankshah.skyrimcraft.entity.creature.render.GiantRenderer;
 import com.ryankshah.skyrimcraft.entity.creature.render.MammothRenderer;
 import com.ryankshah.skyrimcraft.entity.creature.render.SabreCatRenderer;
+import com.ryankshah.skyrimcraft.entity.npc.Falmer;
 import com.ryankshah.skyrimcraft.entity.npc.Khajiit;
+import com.ryankshah.skyrimcraft.entity.npc.render.FalmerRenderer;
 import com.ryankshah.skyrimcraft.entity.npc.render.KhajiitRenderer;
 import com.ryankshah.skyrimcraft.entity.passive.flying.*;
 import com.ryankshah.skyrimcraft.entity.passive.flying.render.*;
@@ -108,6 +110,10 @@ public class EntityInit
             () -> EntityType.Builder.of(Khajiit::new, MobCategory.AMBIENT)
                     .sized(1.0f, 2.0f) // Hitbox Size
                     .build(new ResourceLocation(Skyrimcraft.MODID, "khajiit").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<Falmer>> FALMER = ENTITY_TYPES.register("falmer",
+            () -> EntityType.Builder.of(Falmer::new, MobCategory.AMBIENT)
+                    .sized(1.0f, 2.0f) // Hitbox Size
+                    .build(new ResourceLocation(Skyrimcraft.MODID, "falmer").toString()));
 
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
 //        RenderingRegistry.registerEntityRenderingHandler((EntityType<AncientNordArrowEntity>) ModEntityType.ANCIENT_NORD_ARROW_ENTITY.get(), AncientNordArrowRenderer::new);
@@ -140,6 +146,7 @@ public class EntityInit
         event.registerEntityRenderer(TORCHBUG.get(), TorchBugRenderer::new);
 
         event.registerEntityRenderer(KHAJIIT.get(), KhajiitRenderer::new);
+        event.registerEntityRenderer(FALMER.get(), FalmerRenderer::new);
     }
 
 }

@@ -16,20 +16,14 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class KhajiitModel<T extends LivingEntity> extends HumanoidModel<T>
 {
-    // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Skyrimcraft.MODID, "khajiit"), "main");
-//    private final ModelPart khajiit;
-
     public KhajiitModel(ModelPart root) {
         super(root);
-//        this.khajiit = root.getChild("khajiit");
     }
 
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = HumanoidModel.createMesh(CubeDeformation.NONE, 0.0F);
         PartDefinition partdefinition = meshdefinition.getRoot();
-
-//        PartDefinition khajiit = partdefinition.addOrReplaceChild("khajiit", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
         PartDefinition hat = partdefinition.addOrReplaceChild(
                 "hat",
@@ -77,13 +71,9 @@ public class KhajiitModel<T extends LivingEntity> extends HumanoidModel<T>
         return LayerDefinition.create(meshdefinition, 96, 96);
     }
 
+    // TODO: Animate tail with walk
 //    @Override
 //    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 //          // call super here.
-//    }
-
-//    @Override
-//    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-//        khajiit.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 //    }
 }

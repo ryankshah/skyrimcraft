@@ -8,18 +8,18 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ambient.AmbientCreature;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerType;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import org.jetbrains.annotations.Nullable;
 
-public class Khajiit extends AgeableMob
+public class Falmer extends AgeableMob
 {
-    public Khajiit(EntityType<? extends AgeableMob> pEntityType, Level pLevel) {
+    public Falmer(EntityType<? extends AgeableMob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
 
         this.getNavigation().setCanFloat(true);
@@ -46,8 +46,8 @@ public class Khajiit extends AgeableMob
     public AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
         double d0 = this.random.nextDouble();
 
-        Khajiit khajiit = new Khajiit(EntityInit.KHAJIIT.get(), pLevel);
-        khajiit.finalizeSpawn(pLevel, pLevel.getCurrentDifficultyAt(khajiit.blockPosition()), MobSpawnType.BREEDING, null, null);
-        return khajiit;
+        Falmer falmer = new Falmer(EntityInit.FALMER.get(), pLevel);
+        falmer.finalizeSpawn(pLevel, pLevel.getCurrentDifficultyAt(falmer.blockPosition()), MobSpawnType.BREEDING, null, null);
+        return falmer;
     }
 }

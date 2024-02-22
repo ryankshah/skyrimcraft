@@ -64,6 +64,8 @@ public class SkyrimcraftLanguageProvider extends LanguageProvider
         add("entity.skyrimcraft.dragon", "Dragon");
         add("entity.skyrimcraft.dwarven_spider", "Dwarven Spider");
 
+        add("entity.skyrimcraft.khajiit", "Khajiit");
+
         // Damage Source
         add("death.attack.death.skyrimcraft.conjuredfamiliar", "Your conjured %1$s familiar has vanished!");
 

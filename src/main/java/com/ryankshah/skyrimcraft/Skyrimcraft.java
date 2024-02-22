@@ -15,7 +15,9 @@ import com.ryankshah.skyrimcraft.entity.creature.DwarvenSpiderEntity;
 import com.ryankshah.skyrimcraft.entity.creature.GiantEntity;
 import com.ryankshah.skyrimcraft.entity.creature.MammothEntity;
 import com.ryankshah.skyrimcraft.entity.creature.SabreCatEntity;
+import com.ryankshah.skyrimcraft.entity.npc.Falmer;
 import com.ryankshah.skyrimcraft.entity.npc.Khajiit;
+import com.ryankshah.skyrimcraft.entity.npc.model.FalmerModel;
 import com.ryankshah.skyrimcraft.entity.npc.model.KhajiitModel;
 import com.ryankshah.skyrimcraft.entity.passive.flying.*;
 import com.ryankshah.skyrimcraft.init.*;
@@ -171,6 +173,7 @@ public class Skyrimcraft
         event.put(EntityInit.LUNAR_MOTH.get(), LunarMoth.createAttributes().build());
         event.put(EntityInit.TORCHBUG.get(), TorchBug.createAttributes().build());
         event.put(EntityInit.KHAJIIT.get(), Khajiit.createMobAttributes().build());
+        event.put(EntityInit.FALMER.get(), Falmer.createMobAttributes().build());
     }
 
     public void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -179,7 +182,9 @@ public class Skyrimcraft
         event.registerLayerDefinition(KhajiitHeadModel.LAYER_LOCATION, KhajiitHeadModel::createBodyLayer);
 //        event.registerLayerDefinition(KhajiitModel.LAYER_LOCATION, KhajiitModel::createBodyLayer);
 
+        //Mobs
         event.registerLayerDefinition(KhajiitModel.LAYER_LOCATION, KhajiitModel::createBodyLayer);
+        event.registerLayerDefinition(FalmerModel.LAYER_LOCATION, FalmerModel::createBodyLayer);
     }
 
     public void addEntityAttributes(EntityAttributeModificationEvent event) {
