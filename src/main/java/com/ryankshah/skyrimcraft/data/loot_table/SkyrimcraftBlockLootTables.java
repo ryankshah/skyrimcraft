@@ -2,6 +2,7 @@ package com.ryankshah.skyrimcraft.data.loot_table;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.block.GarlicCrop;
+import com.ryankshah.skyrimcraft.block.PearlOysterBlock;
 import com.ryankshah.skyrimcraft.block.TomatoCrop;
 import com.ryankshah.skyrimcraft.init.BlockInit;
 import com.ryankshah.skyrimcraft.init.ItemInit;
@@ -9,7 +10,17 @@ import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jetbrains.annotations.NotNull;
@@ -57,16 +68,22 @@ public class SkyrimcraftBlockLootTables extends BlockLootSubProvider
         dropSelf(BlockInit.BLUE_MOUNTAIN_FLOWER.get());
         dropSelf(BlockInit.YELLOW_MOUNTAIN_FLOWER.get());
         dropSelf(BlockInit.PURPLE_MOUNTAIN_FLOWER.get());
-//        add(BlockInit.CANIS_ROOT.get(), createSingleItemTable(ItemInit.CANIS_ROOT.get()));
 
         dropSelf(BlockInit.CANIS_ROOT_BLOCK.get());
         dropSelf(BlockInit.BLEEDING_CROWN_BLOCK.get());
-//        add(BlockInit.BLEEDING_CROWN_BLOCK.get(), createSingleItemTable(ItemInit.BLEEDING_CROWN.get()));
 
-//        LootItemCondition.Builder ilootcondition$tomatocrop = LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockInit.TOMATO_CROP.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(TomatoCrop.AGE, 7));
-//        add(BlockInit.TOMATO_CROP.get(), createCropDrops(BlockInit.TOMATO_CROP.get(), ItemInit.TOMATO.get(), ItemInit.TOMATO_SEEDS.get(), ilootcondition$tomatocrop));
-//        LootItemCondition.Builder ilootcondition$garliccrop = LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockInit.GARLIC_CROP.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(GarlicCrop.AGE, 7));
-//        add(BlockInit.GARLIC_CROP.get(), createCropDrops(BlockInit.GARLIC_CROP.get(), ItemInit.GARLIC.get(), ItemInit.GARLIC.get(), ilootcondition$garliccrop));
+        LootItemCondition.Builder lootitemcondition$pearloyster = LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockInit.PEARL_OYSTER_BLOCK.get())
+                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(PearlOysterBlock.IS_OPEN, true))
+                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(PearlOysterBlock.IS_EMPTY, false));
+        add(BlockInit.PEARL_OYSTER_BLOCK.get(), createCropDrops(BlockInit.PEARL_OYSTER_BLOCK.get(), ItemInit.PEARL.get(), BlockInit.PEARL_OYSTER.get(), lootitemcondition$pearloyster));
+
+        LootItemCondition.Builder lootitemcondition$builder1 = LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockInit.TOMATO_CROP.get())
+                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CropBlock.AGE, 7));
+        add(BlockInit.TOMATO_CROP.get(), createCropDrops(BlockInit.TOMATO_CROP.get(), ItemInit.TOMATO.get(), ItemInit.TOMATO_SEEDS.get(), lootitemcondition$builder1));
+
+        LootItemCondition.Builder ilootcondition$garliccrop = LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockInit.GARLIC_CROP.get())
+                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CropBlock.AGE, 7));
+        add(BlockInit.GARLIC_CROP.get(), createCropDrops(BlockInit.GARLIC_CROP.get(), ItemInit.GARLIC.get(), ItemInit.GARLIC.get(), ilootcondition$garliccrop));
 
     }
 

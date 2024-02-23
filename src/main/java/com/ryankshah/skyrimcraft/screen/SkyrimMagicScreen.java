@@ -191,7 +191,7 @@ public class SkyrimMagicScreen extends Screen
 
 
     private void drawSpellInformation(GuiGraphics graphics, PoseStack matrixStack, Spell spell, int width, int height, float partialTicks) {
-        drawGradientRect(graphics, matrixStack, 40, (this.height) / 2 - 20, 200, (this.height) / 2 + 60, 0xAA000000, 0xAA000000, 0xFF6E6B64);
+        drawGradientRect(graphics, matrixStack, 40, (height) / 2 - 20, 200, (height) / 2 + 60, 0xAA000000, 0xAA000000, 0xFF6E6B64);
         graphics.fillGradient(50, (this.height) / 2, 190, (this.height) / 2 + 1, 0xFF6E6B64, 0xFF6E6B64); // Line under spell name
 
         graphics.drawCenteredString(font, spell.getName(), 120, (this.height) / 2 - 10, 0x00FFFFFF); // Spell name

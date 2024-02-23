@@ -17,6 +17,7 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.List;
 
+//TODO: Add mushrooms, canis root, and pearl oysters
 public class SkyrimcraftBiomeModifiers
 {
     public static final ResourceKey<BiomeModifier> ADD_CORUNDUM_ORE = registerKey("add_corundum_ore");

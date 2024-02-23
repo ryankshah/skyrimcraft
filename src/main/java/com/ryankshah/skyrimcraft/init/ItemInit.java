@@ -269,8 +269,8 @@ public class ItemInit
     public static final DeferredItem<Item> FLOUR = ITEMS.register("flour", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> BUTTER = ITEMS.register("butter", () -> new Item(new Item.Properties()));
 
-    public static final DeferredItem<Item> GARLIC = ITEMS.register("garlic", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> TOMATO_SEEDS = ITEMS.register("tomato_seeds", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> GARLIC = ITEMS.register("garlic", () -> new ItemNameBlockItem(BlockInit.GARLIC_CROP.get(), new Item.Properties()));
+    public static final DeferredItem<Item> TOMATO_SEEDS = ITEMS.register("tomato_seeds", () -> new ItemNameBlockItem(BlockInit.TOMATO_CROP.get(), new Item.Properties()));
 
     public static final DeferredItem<Item> CORUNDUM_INGOT = ITEMS.register("corundum_ingot", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> DWARVEN_METAL_INGOT = ITEMS.register("dwarven_metal_ingot", () -> new Item(new Item.Properties()));
@@ -514,6 +514,11 @@ public class ItemInit
     public static final Supplier<SkyrimArmor> HIDE_CHESTPLATE = ITEMS.register("hide_chestplate", () -> new SkyrimArmor(ArmorMaterials.HIDE, SkyrimArmor.Type.CHESTPLATE, new Item.Properties(), false));
     public static final Supplier<SkyrimArmor> HIDE_LEGGINGS = ITEMS.register("hide_leggings", () -> new SkyrimArmor(ArmorMaterials.HIDE, SkyrimArmor.Type.LEGGINGS, new Item.Properties(), false));
     public static final Supplier<SkyrimArmor> HIDE_BOOTS = ITEMS.register("hide_boots", () -> new SkyrimArmor(ArmorMaterials.HIDE, SkyrimArmor.Type.BOOTS, new Item.Properties(), false));
+
+    // Swords
+    public static final Supplier<SwordItem> CHILLREND = ITEMS.register("chillrend", () -> new SwordItem(ItemTier.STEEL, 3, -2.4F, (new Item.Properties()).fireResistant()));
+    public static final Supplier<SwordItem> DAWNBREAKER = ITEMS.register("dawnbreaker", () -> new SwordItem(ItemTier.STEEL, 3, -2.4F, (new Item.Properties()).fireResistant()));
+
 
     //// MAGIC ////
     // Staff
@@ -843,6 +848,9 @@ public class ItemInit
         provider.addItem(HIDE_CHESTPLATE, "Hide Chestplate");
         provider.addItem(HIDE_LEGGINGS, "Hide Leggings");
         provider.addItem(HIDE_BOOTS, "Hide Boots");
+
+        provider.addItem(CHILLREND, "Chillrend");
+        provider.addItem(DAWNBREAKER, "Dawnbreaker");
 
         provider.addItem(STAFF, "Staff");
         provider.addItem(FIREBALL_SPELLBOOK, "Spellbook");

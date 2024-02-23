@@ -121,9 +121,9 @@ public class BlacksmithForgeScreen extends Screen
                         this.drawItemInformation(graphics, recipe);
                     }
 
-//                    int y = this.height / 2 + 14 * i - this.currentItem * 6;
-//                    if(y <= MIN_Y || y >= MAX_Y)
-//                        continue;
+                    int y = this.height / 2 + 14 * i - this.currentItem * 6;
+                    if(y <= MIN_Y || y >= MAX_Y)
+                        continue;
 
                     String name = recipe.getResult().getHoverName().getString();
                     if (name.length() >= 16)

@@ -1,4 +1,4 @@
-// 1.20.4	2024-02-22T21:10:25.5460924	Item Models: skyrimcraft
+// 1.20.4	2024-02-23T06:09:42.7384365	Item Models: skyrimcraft
 24679915ce5b2b3a4fcb00fd4f1c08bdec28e5fc assets/skyrimcraft/models/item/abecean_longfin.json
 0759cc0f9da10e5faf7d443061d7da3c39c6857a assets/skyrimcraft/models/item/ahzidals_ring_of_arcana.json
 cd731e99488e888a81caebe94869d602509a94ba assets/skyrimcraft/models/item/ale.json
@@ -48,6 +48,7 @@ be781919d3f262da0090ac4a4e755c3f7aa5de09 assets/skyrimcraft/models/item/canis_ro
 b7dd8942a5d18614a1a14b20251185be27b31aa1 assets/skyrimcraft/models/item/charred_skeever_hide.json
 c290992385277f111dcbe777d7be9a3a801f87b5 assets/skyrimcraft/models/item/chaurus_eggs.json
 15aa45ea11ca83044846df761d0b678de8462b40 assets/skyrimcraft/models/item/chicken_dumpling.json
+7300639b17a2ebd2d34c720c63574205b59d0748 assets/skyrimcraft/models/item/chillrend.json
 1db3be214a5280300ec14f2700b06e1d79d6ac93 assets/skyrimcraft/models/item/clam_meat.json
 8f8902ead63023a629ae4ef0abd58a79fea132d5 assets/skyrimcraft/models/item/conjure_familiar_spellbook.json
 264623ae30a16f041aba85be77c01d3d546066f3 assets/skyrimcraft/models/item/corundum_ingot.json
@@ -72,6 +73,7 @@ df6f5c1064bf5959e9f4ec5abaee40dcd477bf5e assets/skyrimcraft/models/item/daedric_
 aeed9b5a61381200a37bdf4cef1c2def00050dc1 assets/skyrimcraft/models/item/daedric_sword.json
 fb0d472f8b20bf4357b0bca8291d8cf98204e5f3 assets/skyrimcraft/models/item/daedric_warhammer.json
 2cfb23dd04acbbe06b24fd93f89d8f912758bb5d assets/skyrimcraft/models/item/daedric_war_axe.json
+d7d79613e2d909ac59267603c3295bc94759ac7d assets/skyrimcraft/models/item/dawnbreaker.json
 dfbd1e3c3621e09a9e7b57afb6d948082fe13d7f assets/skyrimcraft/models/item/deathbell.json
 9cbf4a2855f84a2c7a6e3778a20f3bb6c526ae6a assets/skyrimcraft/models/item/dragonbone_battleaxe.json
 f2959fb8cdd27fe0584279463ae730b6d98dbd83 assets/skyrimcraft/models/item/dragonbone_bow.json

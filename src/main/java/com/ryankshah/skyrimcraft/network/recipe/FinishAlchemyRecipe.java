@@ -59,7 +59,7 @@ public record FinishAlchemyRecipe(Recipe<?> recipe) implements CustomPacketPaylo
                 player.playSound(SoundEvents.BREWING_STAND_BREW, 1.0F, 1.0F);
                 player.giveExperiencePoints(currentRecipeObject.getXpGained());
 
-                final AddXpToSkill addAlchemyXp = new AddXpToSkill(SkillRegistry.ALCHEMY.getID(), SkillRegistry.BASE_ALCHEMY_XP);
+                final AddXpToSkill addAlchemyXp = new AddXpToSkill(SkillRegistry.ALCHEMY.getID(), currentRecipeObject.getXpGained());
                 PacketDistributor.SERVER.noArg().send(addAlchemyXp);
             }
         }

@@ -2,8 +2,10 @@ package com.ryankshah.skyrimcraft.network.recipe;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
+import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.data.recipe.ForgeRecipe;
 import com.ryankshah.skyrimcraft.data.recipe.OvenRecipe;
+import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -14,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
 import java.util.List;
@@ -55,8 +58,8 @@ public record FinishForgeRecipe(Recipe<?> recipe) implements CustomPacketPayload
                 player.playSound(SoundEvents.BLASTFURNACE_FIRE_CRACKLE, 1.0F, 1.0F);
                 player.giveExperiencePoints(currentRecipeObject.getXpGained());
 
-//                final AddXpToSkill addAlchemyXp = new AddXpToSkill(SkillRegistry.ALCHEMY.getID(), SkillRegistry.BASE_ALCHEMY_XP);
-//                PacketDistributor.SERVER.noArg().send(addAlchemyXp);
+                final AddXpToSkill addSmithingXp = new AddXpToSkill(SkillRegistry.SMITHING.getID(), currentRecipeObject.getXpGained());
+                PacketDistributor.SERVER.noArg().send(addSmithingXp);
             }
         }
     }

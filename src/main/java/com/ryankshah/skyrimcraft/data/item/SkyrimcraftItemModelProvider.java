@@ -293,6 +293,9 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         item(ItemInit.HIDE_LEGGINGS.get());
         item(ItemInit.HIDE_BOOTS.get());
 
+        item(ItemInit.CHILLREND.get());
+        item(ItemInit.DAWNBREAKER.get());
+
         item(ItemInit.GOLD_RING.get());
         item(ItemInit.GOLD_SAPPHIRE_RING.get());
         item(ItemInit.GOLD_EMERALD_RING.get());

@@ -6,6 +6,7 @@ import com.ryankshah.skyrimcraft.item.SkyrimBlockItemIngredient;
 import com.ryankshah.skyrimcraft.util.IngredientEffect;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.loot.packs.VanillaBlockLoot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffects;
@@ -14,9 +15,11 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -143,7 +146,8 @@ public class BlockInit
                             .offsetType(BlockBehaviour.OffsetType.XZ)
                             .pushReaction(PushReaction.DESTROY)
             ));
-    public static final DeferredItem<BlockItem> RED_MOUNTAIN_FLOWER_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(RED_MOUNTAIN_FLOWER);
+    public static final DeferredItem<BlockItem> RED_MOUNTAIN_FLOWER_ITEM = ItemInit.ITEMS.register("red_mountain_flower", () ->
+            new SkyrimBlockItemIngredient(RED_MOUNTAIN_FLOWER.get(), new Item.Properties(), IngredientEffect.RESTORE_MAGICKA, IngredientEffect.RAVAGE_MAGICKA, IngredientEffect.FORTIFY_MAGICKA, IngredientEffect.DAMAGE_HEALTH));
     public static final DeferredBlock<Block> BLUE_MOUNTAIN_FLOWER = BLOCKS.register("blue_mountain_flower",
             () -> new SkyrimFlower(
                     MobEffects.SATURATION,
@@ -156,7 +160,8 @@ public class BlockInit
                             .offsetType(BlockBehaviour.OffsetType.XZ)
                             .pushReaction(PushReaction.DESTROY)
             ));
-    public static final DeferredItem<BlockItem> BLUE_MOUNTAIN_FLOWER_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(BLUE_MOUNTAIN_FLOWER);
+    public static final DeferredItem<BlockItem> BLUE_MOUNTAIN_FLOWER_ITEM = ItemInit.ITEMS.register("blue_mountain_flower", () ->
+            new SkyrimBlockItemIngredient(BLUE_MOUNTAIN_FLOWER.get(), new Item.Properties(), IngredientEffect.RESTORE_HEALTH, IngredientEffect.FORTIFY_CONJURATION, IngredientEffect.FORTIFY_HEALTH, IngredientEffect.DAMAGE_MAGICKA_REGEN));
     public static final DeferredBlock<Block> YELLOW_MOUNTAIN_FLOWER = BLOCKS.register("yellow_mountain_flower",
             () -> new SkyrimFlower(
                     MobEffects.SATURATION,
@@ -169,7 +174,8 @@ public class BlockInit
                             .offsetType(BlockBehaviour.OffsetType.XZ)
                             .pushReaction(PushReaction.DESTROY)
             ));
-    public static final DeferredItem<BlockItem> YELLOW_MOUNTAIN_FLOWER_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(YELLOW_MOUNTAIN_FLOWER);
+    public static final DeferredItem<BlockItem> YELLOW_MOUNTAIN_FLOWER_ITEM = ItemInit.ITEMS.register("yellow_mountain_flower", () ->
+        new SkyrimBlockItemIngredient(YELLOW_MOUNTAIN_FLOWER.get(), new Item.Properties(), IngredientEffect.RESIST_POISON, IngredientEffect.FORTIFY_RESTORATION, IngredientEffect.FORTIFY_HEALTH, IngredientEffect.DAMAGE_STAMINA_REGEN));
     public static final DeferredBlock<Block> PURPLE_MOUNTAIN_FLOWER = BLOCKS.register("purple_mountain_flower",
             () -> new SkyrimFlower(
                     MobEffects.SATURATION,
@@ -182,7 +188,8 @@ public class BlockInit
                             .offsetType(BlockBehaviour.OffsetType.XZ)
                             .pushReaction(PushReaction.DESTROY)
             ));
-    public static final DeferredItem<BlockItem> PURPLE_MOUNTAIN_FLOWER_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(PURPLE_MOUNTAIN_FLOWER);
+    public static final DeferredItem<BlockItem> PURPLE_MOUNTAIN_FLOWER_ITEM = ItemInit.ITEMS.register("purple_mountain_flower", () ->
+            new SkyrimBlockItemIngredient(PURPLE_MOUNTAIN_FLOWER.get(), new Item.Properties(), IngredientEffect.RESTORE_STAMINA, IngredientEffect.FORTIFY_SNEAK, IngredientEffect.LINGERING_DAMAGE_MAGICKA, IngredientEffect.RESIST_FROST));
     public static final DeferredBlock<Block> CANIS_ROOT_BLOCK = BLOCKS.register("canis_root",
             () -> new CanisRoot(
                     BlockBehaviour.Properties.of()
@@ -193,35 +200,37 @@ public class BlockInit
                             .offsetType(BlockBehaviour.OffsetType.XZ)
                             .pushReaction(PushReaction.DESTROY)
             ));
-    public static final DeferredItem<BlockItem> CANIS_ROOT = ItemInit.ITEMS.register("canis_root", () -> new SkyrimBlockItemIngredient(CANIS_ROOT_BLOCK.get(), new Item.Properties(), IngredientEffect.DAMAGE_STAMINA, IngredientEffect.FORTIFY_ONE_HANDED, IngredientEffect.FORTIFY_MARKSMAN, IngredientEffect.PARALYSIS));
-//    public static final DeferredItem<BlockItem> CANIS_ROOT_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(CANIS_ROOT_BLOCK);
+    public static final DeferredItem<BlockItem> CANIS_ROOT = ItemInit.ITEMS.register("canis_root",
+            () -> new SkyrimBlockItemIngredient(CANIS_ROOT_BLOCK.get(), new Item.Properties(), IngredientEffect.DAMAGE_STAMINA, IngredientEffect.FORTIFY_ONE_HANDED, IngredientEffect.FORTIFY_MARKSMAN, IngredientEffect.PARALYSIS));
 
     public static final DeferredBlock<Block> BLEEDING_CROWN_BLOCK = BLOCKS.register("bleeding_crown",
             GenericTripleMushroom::new);
-    public static final DeferredItem<BlockItem> BLEEDING_CROWN = ItemInit.ITEMS.register("bleeding_crown", () -> new SkyrimBlockItemIngredient(BLEEDING_CROWN_BLOCK.get(), new Item.Properties(), IngredientEffect.WEAKNESS_TO_FIRE, IngredientEffect.FORTIFY_BLOCK, IngredientEffect.WEAKNESS_TO_POISON, IngredientEffect.RESIST_MAGIC));
-//    public static final DeferredItem<BlockItem> BLEEDING_CROWN_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(BLEEDING_CROWN_BLOCK);
+    public static final DeferredItem<BlockItem> BLEEDING_CROWN = ItemInit.ITEMS.register("bleeding_crown",
+            () -> new SkyrimBlockItemIngredient(BLEEDING_CROWN_BLOCK.get(), new Item.Properties(), IngredientEffect.WEAKNESS_TO_FIRE, IngredientEffect.FORTIFY_BLOCK, IngredientEffect.WEAKNESS_TO_POISON, IngredientEffect.RESIST_MAGIC));
 
-//    public static final DeferredBlock<Block> TOMATO_CROP = registerBlock("tomatoes", () -> new TomatoCrop(
-//            BlockBehaviour.Properties.of()
-//                    .mapColor(MapColor.PLANT)
-//                    .noCollission()
-//                    .randomTicks()
-//                    .instabreak()
-//                    .sound(SoundType.CROP)
-//                    .pushReaction(PushReaction.DESTROY)
-//    ));
-//    public static final DeferredBlock<Block> GARLIC_CROP = registerBlock("garlic", () -> new GarlicCrop(
-//            BlockBehaviour.Properties.of()
-//            .mapColor(MapColor.PLANT)
-//            .noCollission()
-//            .randomTicks()
-//            .instabreak()
-//            .sound(SoundType.CROP)
-//            .pushReaction(PushReaction.DESTROY)
-//
-//    ));
-//    public static final DeferredItem<Item> TOMATO_SEEDS = BLOCK_ITEMS.register("tomato_seeds", () -> new BlockItem(TOMATO_CROP.get(), new Item.Properties()));
-//    public static final DeferredItem<Item> GARLIC = BLOCK_ITEMS.register("garlic", () -> new Item( new Item.Properties()));
+    public static final DeferredBlock<Block> PEARL_OYSTER_BLOCK = BLOCKS.register("pearl_oyster",
+            PearlOysterBlock::new);
+    public static final DeferredItem<BlockItem> PEARL_OYSTER = ItemInit.ITEMS.register("pearl_oyster", () -> new BlockItem(PEARL_OYSTER_BLOCK.get(), new Item.Properties()));
+
+    public static final DeferredBlock<Block> TOMATO_CROP = BLOCKS.register("tomatoes", () -> new TomatoCrop(
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT)
+                    .noCollission()
+                    .randomTicks()
+                    .instabreak()
+                    .sound(SoundType.CROP)
+                    .pushReaction(PushReaction.DESTROY)
+    ));
+    public static final DeferredBlock<Block> GARLIC_CROP = BLOCKS.register("garlic", () -> new GarlicCrop(
+            BlockBehaviour.Properties.of()
+            .mapColor(MapColor.PLANT)
+            .noCollission()
+            .randomTicks()
+            .instabreak()
+            .sound(SoundType.CROP)
+            .pushReaction(PushReaction.DESTROY)
+
+    ));
 
     public static void addBlockTranslations(LanguageProvider provider) {
         provider.addBlock(CORUNDUM_ORE, "Corundum Ore");
@@ -249,12 +258,14 @@ public class BlockInit
         provider.addBlock(BLUE_MOUNTAIN_FLOWER, "Blue Mountain Flower");
         provider.addBlock(YELLOW_MOUNTAIN_FLOWER, "Yellow Mountain Flower");
         provider.addBlock(PURPLE_MOUNTAIN_FLOWER, "Purple Mountain Flower");
-//        provider.addBlock(CANIS_ROOT, "Canis Root");
 
         provider.addBlock(BLEEDING_CROWN_BLOCK, "Bleeding Crown");
+        provider.addBlock(CANIS_ROOT_BLOCK, "Canis Root");
 
-//        provider.addBlock(TOMATO_CROP, "Tomatoes");
-//        provider.addBlock(GARLIC_CROP, "Garlic");
+        provider.addBlock(PEARL_OYSTER_BLOCK, "Pearl Oyster");
+
+        provider.addBlock(TOMATO_CROP, "Tomatoes");
+        provider.addBlock(GARLIC_CROP, "Garlic");
     }
 
     public static void addBlockStateModels(BlockStateProvider provider) {
@@ -283,8 +294,20 @@ public class BlockInit
         crossBlock(provider, CANIS_ROOT_BLOCK.get());
 
         mushroomBlock(provider, BLEEDING_CROWN_BLOCK.get());
-//        provider.simpleBlock(BLEEDING_CROWN_BLOCK, provider.models().withExistingParent().getBuilder().toString())
-//                .parent(provider.models().getExistingFile(provider.modLoc("block/triple_mushroom_generic")));
+
+        provider.getVariantBuilder(PEARL_OYSTER_BLOCK.get()).forAllStates(state -> {
+            boolean open = state.getValue(PearlOysterBlock.IS_OPEN);
+            boolean empty = state.getValue(PearlOysterBlock.IS_EMPTY);
+            return ConfiguredModel.builder()
+                    .modelFile(open ?
+                            (empty ?
+                                provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_open")) :
+                                    provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_empty"))
+                            ) :
+                            provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster")))
+                    .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
+                    .build();
+        });
 
 
         provider.horizontalBlock(ALCHEMY_TABLE.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/alchemy_table")));
@@ -318,7 +341,6 @@ public class BlockInit
                 .texture("0", provider.modLoc("block/"+path)).renderType("cutout")
                 .texture("particle", provider.modLoc("block/"+path))
         );
-//        provider.simpleBlockItem(block, provider.models().getExistingFile(provider.modLoc("block/" + path)));
     }
 
     public static void crossBlock(BlockStateProvider provider, Block block) {

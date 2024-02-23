@@ -28,6 +28,9 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
+/**
+ * TODO: Fix the XP rates for forging!
+ */
 public class ForgeRecipeProvider implements DataProvider, IConditionBuilder
 {
     protected final PackOutput.PathProvider recipePathProvider;
@@ -44,6 +47,12 @@ public class ForgeRecipeProvider implements DataProvider, IConditionBuilder
     protected void buildRecipes(RecipeOutput pRecipeOutput) {
         daedricRecipes(pRecipeOutput);
         dwarvenRecipes(pRecipeOutput);
+        ebonyRecipes(pRecipeOutput);
+        //elvenRecipes(pRecipeOutput);
+        //glassRecipes(pRecipeOutput);
+        //ironRecipes(pRecipeOutput);
+        //orcishRecipes(pRecipeOutput);
+        //steelRecipes(pRecipeOutput);
     }
 
     @Override
@@ -221,7 +230,7 @@ public class ForgeRecipeProvider implements DataProvider, IConditionBuilder
 //                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.DWARVEN_ARROW.getId().getPath()));
         consumer.accept(
                 new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.DWARVEN_DAGGER.get()).getPath()),
-                new ForgeRecipe("dwarven", new ItemStack(ItemInit.DWARVEN_DAGGER.get(), 1), 90, 16,
+                new ForgeRecipe("dwarven", new ItemStack(ItemInit.DWARVEN_DAGGER.get(), 1), 30, 5,
                         NonNullList.of(
                                 Ingredient.of(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 1)),
                                 Ingredient.of(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 4)),
@@ -230,103 +239,153 @@ public class ForgeRecipeProvider implements DataProvider, IConditionBuilder
                         )),
                 null
         );
-//        RECIPES.put("dwarven", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.DWARVEN_DAGGER.get(), 1)).level(30).xp(5)
-//                .category("dwarven")
-//                .addRecipeItem(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 1))
-//                .addRecipeItem(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 1))
-//                .addRecipeItem(new ItemStack(Items.IRON_INGOT, 1))
-//                .addRecipeItem(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
-//                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.DWARVEN_DAGGER.getId().getPath()));
-//        RECIPES.put("dwarven", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.DWARVEN_BATTLEAXE.get(), 1)).level(30).xp(5)
-//                .category("dwarven")
-//                .addRecipeItem(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2))
-//                .addRecipeItem(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 2))
-//                .addRecipeItem(new ItemStack(Items.IRON_INGOT, 1))
-//                .addRecipeItem(new ItemStack(ItemInit.STEEL_INGOT.get(), 2))
-//                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.DWARVEN_BATTLEAXE.getId().getPath()));
-//        RECIPES.put("dwarven", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.DWARVEN_BOW.get(), 1)).level(30).xp(5)
-//                .category("dwarven")
-//                .addRecipeItem(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2))
-//                .addRecipeItem(new ItemStack(Items.IRON_INGOT, 1))
-//                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.DWARVEN_BOW.getId().getPath()));
-//        RECIPES.put("dwarven", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.DWARVEN_GREATSWORD.get(), 1)).level(30).xp(5)
-//                .category("dwarven")
-//                .addRecipeItem(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2))
-//                .addRecipeItem(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 3))
-//                .addRecipeItem(new ItemStack(Items.IRON_INGOT, 2))
-//                .addRecipeItem(new ItemStack(ItemInit.STEEL_INGOT.get(), 2))
-//                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.DWARVEN_GREATSWORD.getId().getPath()));
-//        RECIPES.put("dwarven", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.DWARVEN_MACE.get(), 1)).level(30).xp(5)
-//                .category("dwarven")
-//                .addRecipeItem(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2))
-//                .addRecipeItem(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 1))
-//                .addRecipeItem(new ItemStack(Items.IRON_INGOT, 1))
-//                .addRecipeItem(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
-//                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.DWARVEN_MACE.getId().getPath()));
-//        RECIPES.put("dwarven", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.DWARVEN_SWORD.get(), 1)).level(30).xp(5)
-//                .category("dwarven")
-//                .addRecipeItem(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 1))
-//                .addRecipeItem(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 1))
-//                .addRecipeItem(new ItemStack(Items.IRON_INGOT, 1))
-//                .addRecipeItem(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
-//                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.DWARVEN_SWORD.getId().getPath()));
-//        RECIPES.put("dwarven", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.DWARVEN_WAR_AXE.get(), 1)).level(30).xp(5)
-//                .category("dwarven")
-//                .addRecipeItem(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 1))
-//                .addRecipeItem(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 2))
-//                .addRecipeItem(new ItemStack(Items.IRON_INGOT, 1))
-//                .addRecipeItem(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
-//                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.DWARVEN_WAR_AXE.getId().getPath()));
-//        RECIPES.put("dwarven", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.DWARVEN_WARHAMMER.get(), 1)).level(30).xp(5)
-//                .category("dwarven")
-//                .addRecipeItem(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2))
-//                .addRecipeItem(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 3))
-//                .addRecipeItem(new ItemStack(Items.IRON_INGOT, 1))
-//                .addRecipeItem(new ItemStack(ItemInit.STEEL_INGOT.get(), 2))
-//                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.DWARVEN_WARHAMMER.getId().getPath()));
-//        RECIPES.put("dwarven", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.DWARVEN_HELMET.get(), 1)).level(30).xp(5)
-//                .category("dwarven")
-//                .addRecipeItem(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2))
-//                .addRecipeItem(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 2))
-//                .addRecipeItem(new ItemStack(Items.IRON_INGOT, 1))
-//                .addRecipeItem(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
-//                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.DWARVEN_HELMET.getId().getPath()));
-//        RECIPES.put("dwarven", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.DWARVEN_CHESTPLATE.get(), 1)).level(30).xp(5)
-//                .category("dwarven")
-//                .addRecipeItem(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 3))
-//                .addRecipeItem(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 3))
-//                .addRecipeItem(new ItemStack(Items.IRON_INGOT, 1))
-//                .addRecipeItem(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
-//                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.DWARVEN_CHESTPLATE.getId().getPath()));
-//        RECIPES.put("dwarven", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.DWARVEN_LEGGINGS.get(), 1)).level(30).xp(5)
-//                .category("dwarven")
-//                .addRecipeItem(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 3))
-//                .addRecipeItem(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 3))
-//                .addRecipeItem(new ItemStack(Items.IRON_INGOT, 1))
-//                .addRecipeItem(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
-//                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.DWARVEN_LEGGINGS.getId().getPath()));
-//        RECIPES.put("dwarven", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.DWARVEN_BOOTS.get(), 1)).level(30).xp(5)
-//                .category("dwarven")
-//                .addRecipeItem(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2))
-//                .addRecipeItem(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 2))
-//                .addRecipeItem(new ItemStack(Items.IRON_INGOT, 1))
-//                .addRecipeItem(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
-//                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.DWARVEN_BOOTS.getId().getPath()));
-//        RECIPES.put("dwarven", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.DWARVEN_SHIELD.get(), 1)).level(30).xp(5)
-//                .category("dwarven")
-//                .addRecipeItem(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2))
-//                .addRecipeItem(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 1))
-//                .addRecipeItem(new ItemStack(Items.IRON_INGOT, 1))
-//                .addRecipeItem(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
-//                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.DWARVEN_SHIELD.getId().getPath()));
+        consumer.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.DWARVEN_BATTLEAXE.get()).getPath()),
+                new ForgeRecipe("dwarven", new ItemStack(ItemInit.DWARVEN_BATTLEAXE.get(), 1), 30, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2)),
+                                Ingredient.of(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 2)),
+                                Ingredient.of(new ItemStack(Items.IRON_INGOT, 1)),
+                                Ingredient.of(new ItemStack(ItemInit.STEEL_INGOT.get(), 2))
+                        )),
+                null
+        );
+        consumer.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.DWARVEN_BOW.get()).getPath()),
+                new ForgeRecipe("dwarven", new ItemStack(ItemInit.DWARVEN_BOW.get(), 1), 30, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2)),
+                                Ingredient.of(new ItemStack(Items.IRON_INGOT, 1))
+                        )),
+                null
+        );
+        consumer.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.DWARVEN_GREATSWORD.get()).getPath()),
+                new ForgeRecipe("dwarven", new ItemStack(ItemInit.DWARVEN_GREATSWORD.get(), 1), 30, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2)),
+                                Ingredient.of(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 3)),
+                                Ingredient.of(new ItemStack(Items.IRON_INGOT, 2)),
+                                Ingredient.of(new ItemStack(ItemInit.STEEL_INGOT.get(), 2))
+                        )),
+                null
+        );
+        consumer.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.DWARVEN_MACE.get()).getPath()),
+                new ForgeRecipe("dwarven", new ItemStack(ItemInit.DWARVEN_MACE.get(), 1), 30, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2)),
+                                Ingredient.of(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 1)),
+                                Ingredient.of(new ItemStack(Items.IRON_INGOT, 1)),
+                                Ingredient.of(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
+                        )),
+                null
+        );
+        consumer.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.DWARVEN_SWORD.get()).getPath()),
+                new ForgeRecipe("dwarven", new ItemStack(ItemInit.DWARVEN_SWORD.get(), 1), 30, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 1)),
+                                Ingredient.of(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 1)),
+                                Ingredient.of(new ItemStack(Items.IRON_INGOT, 1)),
+                                Ingredient.of(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
+                        )),
+                null
+        );
+        consumer.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.DWARVEN_WAR_AXE.get()).getPath()),
+                new ForgeRecipe("dwarven", new ItemStack(ItemInit.DWARVEN_WAR_AXE.get(), 1), 30, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 1)),
+                                Ingredient.of(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 2)),
+                                Ingredient.of(new ItemStack(Items.IRON_INGOT, 1)),
+                                Ingredient.of(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
+                        )),
+                null
+        );
+        consumer.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.DWARVEN_WARHAMMER.get()).getPath()),
+                new ForgeRecipe("dwarven", new ItemStack(ItemInit.DWARVEN_WARHAMMER.get(), 1), 30, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2)),
+                                Ingredient.of(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 3)),
+                                Ingredient.of(new ItemStack(Items.IRON_INGOT, 1)),
+                                Ingredient.of(new ItemStack(ItemInit.STEEL_INGOT.get(), 2))
+                        )),
+                null
+        );
+        consumer.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.DWARVEN_HELMET.get()).getPath()),
+                new ForgeRecipe("dwarven", new ItemStack(ItemInit.DWARVEN_HELMET.get(), 1), 30, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2)),
+                                Ingredient.of(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 2)),
+                                Ingredient.of(new ItemStack(Items.IRON_INGOT, 1)),
+                                Ingredient.of(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
+                        )),
+                null
+        );
+        consumer.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.DWARVEN_CHESTPLATE.get()).getPath()),
+                new ForgeRecipe("dwarven", new ItemStack(ItemInit.DWARVEN_CHESTPLATE.get(), 1), 30, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 3)),
+                                Ingredient.of(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 3)),
+                                Ingredient.of(new ItemStack(Items.IRON_INGOT, 1)),
+                                Ingredient.of(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
+                        )),
+                null
+        );
+        consumer.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.DWARVEN_LEGGINGS.get()).getPath()),
+                new ForgeRecipe("dwarven", new ItemStack(ItemInit.DWARVEN_LEGGINGS.get(), 1), 30, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 3)),
+                                Ingredient.of(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 3)),
+                                Ingredient.of(new ItemStack(Items.IRON_INGOT, 1)),
+                                Ingredient.of(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
+                        )),
+                null
+        );
+        consumer.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.DWARVEN_BOOTS.get()).getPath()),
+                new ForgeRecipe("dwarven", new ItemStack(ItemInit.DWARVEN_BOOTS.get(), 1), 30, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2)),
+                                Ingredient.of(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 2)),
+                                Ingredient.of(new ItemStack(Items.IRON_INGOT, 1)),
+                                Ingredient.of(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
+                        )),
+                null
+        );
+        consumer.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.DWARVEN_SHIELD.get()).getPath()),
+                new ForgeRecipe("dwarven", new ItemStack(ItemInit.DWARVEN_SHIELD.get(), 1), 30, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.DWARVEN_METAL_INGOT.get(), 2)),
+                                Ingredient.of(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 1)),
+                                Ingredient.of(new ItemStack(Items.IRON_INGOT, 1)),
+                                Ingredient.of(new ItemStack(ItemInit.STEEL_INGOT.get(), 1))
+                        )),
+                null
+        );
     }
 
-//    private static void ebonyRecipes(Consumer<ForgeRecipe> consumer) {
+    private static void ebonyRecipes(RecipeOutput consumer) {
 //        RECIPES.put("ebony", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.EBONY_ARROW.get(), 24)).level(80).xp(5)
 //                .category("ebony")
 //                .addRecipeItem(new ItemStack(Items.STICK, 1))
 //                .addRecipeItem(new ItemStack(ItemInit.EBONY_INGOT.get(), 1))
 //                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.EBONY_ARROW.getId().getPath()));
+        consumer.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.EBONY_DAGGER.get()).getPath()),
+                new ForgeRecipe("ebony", new ItemStack(ItemInit.EBONY_DAGGER.get(), 1), 80, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 1)),
+                                Ingredient.of(new ItemStack(ItemInit.EBONY_INGOT.get(), 1))
+                        )),
+                null
+        );
 //        RECIPES.put("ebony", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.EBONY_DAGGER.get(), 1)).level(80).xp(5)
 //                .category("ebony")
 //                .addRecipeItem(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 1))
@@ -391,7 +450,8 @@ public class ForgeRecipeProvider implements DataProvider, IConditionBuilder
 //                .addRecipeItem(new ItemStack(ItemInit.EBONY_INGOT.get(), 4))
 //                .addRecipeItem(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 1))
 //                .save(consumer, Skyrimcraft.MODID + ":recipes/forge/" + ItemInit.EBONY_SHIELD.getId().getPath()));
-//    }
+    }
+
 //    private static void elvenRecipes(Consumer<ForgeRecipe> consumer) {
 //        RECIPES.put("elven", ForgeRecipe.Builder.recipe().output(new ItemStack(ItemInit.ELVEN_ARROW.get(), 24)).level(30).xp(5)
 //                .category("elven")
