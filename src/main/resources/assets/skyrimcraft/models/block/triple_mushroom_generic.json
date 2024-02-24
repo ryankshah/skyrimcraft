@@ -1,8 +1,8 @@
 {
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "triple_mushroom_generic",
-		"particle": "triple_mushroom_generic"
+		"0": "skyrimcraft:block/triple_mushroom_generic",
+		"particle": "skyrimcraft:block/triple_mushroom_generic"
 	},
 	"elements": [
 		{

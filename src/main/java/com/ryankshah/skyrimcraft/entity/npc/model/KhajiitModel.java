@@ -17,6 +17,9 @@ import net.minecraft.world.entity.LivingEntity;
 public class KhajiitModel<T extends LivingEntity> extends HumanoidModel<T>
 {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Skyrimcraft.MODID, "khajiit"), "main");
+    public static final ModelLayerLocation INNER_ARMOR_LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Skyrimcraft.MODID, "khajiit"), "inner_armor");
+    public static final ModelLayerLocation OUTER_ARMOR_LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Skyrimcraft.MODID, "khajiit"), "outer_armor");
+
     public KhajiitModel(ModelPart root) {
         super(root);
     }

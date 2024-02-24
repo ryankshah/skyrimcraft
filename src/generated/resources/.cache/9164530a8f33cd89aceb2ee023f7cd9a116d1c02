@@ -1,4 +1,4 @@
-// 1.20.4	2024-02-23T07:38:04.0309476	Block States: skyrimcraft
+// 1.20.4	2024-02-24T08:10:25.4481736	Block States: skyrimcraft
 62bac4ac647c5ba49a82730ff85a912bc1b23973 assets/skyrimcraft/blockstates/alchemy_table.json
 d81e56244699363f0475f536444e4365959057a9 assets/skyrimcraft/blockstates/blacksmith_forge.json
 08c2547596e421ab003f02775d7d87e395a1c70f assets/skyrimcraft/blockstates/bleeding_crown.json
@@ -17,7 +17,7 @@ be2821c62121c5ffc8937a2e4dd39cedb855e65c assets/skyrimcraft/blockstates/deepslat
 055ed922368c614da54cce28c6b59a00a5f8ff57 assets/skyrimcraft/blockstates/moonstone_ore.json
 047762bcddcaea4ce73b137056b05a4b964f7d72 assets/skyrimcraft/blockstates/orichalcum_ore.json
 674127aec5a012f742c9ec09ba2f9ed28526334f assets/skyrimcraft/blockstates/oven.json
-f5eafa0371e072cd40616462393c6f80a1ba7060 assets/skyrimcraft/blockstates/pearl_oyster.json
+ea5544719f5f02a5049ba42c0b3b51c5eccd7e53 assets/skyrimcraft/blockstates/pearl_oyster.json
 3daf9ab6870f4aa6b1f05ff8782d9ac21d3337cc assets/skyrimcraft/blockstates/purple_mountain_flower.json
 58dc956c3ff647992b75a3a992526bde8fd05f7a assets/skyrimcraft/blockstates/quicksilver_ore.json
 0f52c66b5b5bc6b6b09fd625395019fe5e2e473f assets/skyrimcraft/blockstates/red_mountain_flower.json
@@ -61,6 +61,7 @@ d54a7c8a48914d140bb4018b352a2c3d734288c5 assets/skyrimcraft/models/item/ebony_or
 5ef0d8eee306075d367bc08e862a5246bd839300 assets/skyrimcraft/models/item/moonstone_ore.json
 e7f13ccb95f08252e359002c0700458d2261a22a assets/skyrimcraft/models/item/orichalcum_ore.json
 adf446c16b5e4dcba40c67dc359ec4a09ad6b1dc assets/skyrimcraft/models/item/oven.json
+dd179f328bda73133e9f56f0b02805ad3ec26c76 assets/skyrimcraft/models/item/pearl_oyster.json
 0262700299f4f3d538da9af28bacb9fc37a578c9 assets/skyrimcraft/models/item/purple_mountain_flower.json
 e7f995de2042b5b6e95b697c88f6f92b09405db1 assets/skyrimcraft/models/item/quicksilver_ore.json
 a5fa17b2fbd8c60dcc5ad48486f143e079159559 assets/skyrimcraft/models/item/red_mountain_flower.json

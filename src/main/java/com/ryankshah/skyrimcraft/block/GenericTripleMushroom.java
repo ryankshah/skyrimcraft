@@ -21,7 +21,7 @@ public class GenericTripleMushroom extends Block
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     private VoxelShape shape = Shapes.or(
-            Block.box(0, 0, 3, 13, 12, 43)
+            Block.box(0, 0, 3, 13, 12, 13)
     );
 
     public GenericTripleMushroom() {

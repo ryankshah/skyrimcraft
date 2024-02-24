@@ -1,8 +1,11 @@
 package com.ryankshah.skyrimcraft.effect;
 
+import net.minecraft.util.datafix.fixes.StriderGravityFix;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.enchantment.FrostWalkerEnchantment;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 
@@ -15,12 +18,34 @@ public class EffectWaterwalking extends MobEffect
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
-        if (livingEntity.level().getBlockState(livingEntity.blockPosition().below()).getFluidState().is(Fluids.WATER)) {
-            Vec3 motion = livingEntity.getDeltaMovement().multiply(vec);
-            livingEntity.setDeltaMovement(motion);
-        }
+    public boolean shouldApplyEffectTickThisTick(int pDuration, int pAmplifier) {
+        return true;
+    }
 
-        super.applyEffectTick(livingEntity, p_76394_2_);
+    @Override
+    public void applyEffectTick(LivingEntity entity, int p_76394_2_) {
+        // we use the mixin from LivingEntityMixin now
+//        if (!entity.level().getBlockState(entity.blockPosition()).getFluidState().isEmpty()) {
+//            Vec3 movement = entity.getDeltaMovement();
+//
+//            if (movement.y < 0.0D) {
+//                entity.setDeltaMovement(movement.x, 0.01D, movement.z);
+//            }
+//            entity.setOnGround(true);
+//        }
+//
+//        if (entity instanceof Player player) {
+//            float f;
+//
+//            if (entity.onGround() && !entity.isDeadOrDying() && !entity.isSwimming()) {
+//                f = Math.min(0.1F, (float) entity.getDeltaMovement().horizontalDistance());
+//            } else {
+//                f = 0.0F;
+//            }
+//            player.bob += (f - player.bob) * 0.4F;
+//        }
+
+
+        super.applyEffectTick(entity, p_76394_2_);
     }
 }

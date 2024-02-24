@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -34,7 +35,7 @@ public class PearlOysterBlock extends Block
     public static final BooleanProperty IS_EMPTY = BooleanProperty.create("empty");
 
     private VoxelShape shape = Shapes.or(
-            Block.box(0, 0, 0, 16, 10, 16)
+            Block.box(5, 0, 3, 12, 7, 14)
     );
 
     public PearlOysterBlock() {
@@ -42,16 +43,27 @@ public class PearlOysterBlock extends Block
         this.registerDefaultState(
                 this.stateDefinition.any()
                         .setValue(FACING, Direction.NORTH)
-                        .setValue(IS_OPEN, Boolean.valueOf(false))
-                        .setValue(IS_EMPTY, Boolean.valueOf(false))
+                        .setValue(IS_OPEN, false)
+                        .setValue(IS_EMPTY, false)
         );
+    }
+
+    @Override
+    public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
+        if (!pEntity.isSteppingCarefully()) {
+            pLevel.destroyBlock(pPos, false);
+        }
+
+        super.stepOn(pLevel, pPos, pState, pEntity);
     }
 
     @Override
     public InteractionResult use(BlockState p_225533_1_, Level p_225533_2_, BlockPos p_225533_3_, Player p_225533_4_, InteractionHand p_225533_5_, BlockHitResult p_225533_6_) {
         if(!p_225533_1_.getValue(IS_OPEN)) {
-            p_225533_1_.setValue(IS_OPEN, Boolean.valueOf(true));
+            System.out.println("opening");
+            p_225533_1_.setValue(IS_OPEN, true);
         } else {
+            System.out.println("already open");
             // Give player the fucking oyster
         }
 

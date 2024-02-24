@@ -11,6 +11,7 @@ import com.ryankshah.skyrimcraft.network.character.AddToCompassFeatures;
 import com.ryankshah.skyrimcraft.network.character.OpenCharacterCreationScreen;
 import com.ryankshah.skyrimcraft.network.spell.UpdateShoutCooldown;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -18,12 +19,15 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.StructureTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.LogicalSide;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -36,6 +40,14 @@ import java.util.UUID;
 public class PlayerEvents
 {
     public static boolean flag = false;
+
+    @SubscribeEvent
+    public static void onKeyMappingTriggered(InputEvent.InteractionKeyMappingTriggered event) {
+        if(Minecraft.getInstance().player.hasEffect(ModEffects.PARALYSIS.get())) {
+            event.setSwingHand(false);
+            event.setCanceled(true);
+        }
+    }
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {

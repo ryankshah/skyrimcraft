@@ -22,6 +22,10 @@ import com.ryankshah.skyrimcraft.entity.npc.model.FalmerModel;
 import com.ryankshah.skyrimcraft.entity.npc.model.KhajiitModel;
 import com.ryankshah.skyrimcraft.entity.passive.flying.*;
 import com.ryankshah.skyrimcraft.init.*;
+import net.minecraft.client.model.HumanoidArmorModel;
+import net.minecraft.client.model.geom.LayerDefinitions;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
@@ -178,6 +182,11 @@ public class Skyrimcraft
     }
 
     public void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        final CubeDeformation OUTER_ARMOR_DEFORMATION = new CubeDeformation(1.0F);
+        final CubeDeformation INNER_ARMOR_DEFORMATION = new CubeDeformation(0.5F);
+        LayerDefinition outerArmor = LayerDefinition.create(HumanoidArmorModel.createBodyLayer(OUTER_ARMOR_DEFORMATION), 64, 32);
+        LayerDefinition innerArmor = LayerDefinition.create(HumanoidArmorModel.createBodyLayer(INNER_ARMOR_DEFORMATION), 64, 32);
+
         event.registerLayerDefinition(DunmerEarModel.LAYER_LOCATION, DunmerEarModel::createBodyLayer);
         event.registerLayerDefinition(HighElfEarModel.LAYER_LOCATION, HighElfEarModel::createBodyLayer);
         event.registerLayerDefinition(KhajiitHeadModel.LAYER_LOCATION, KhajiitHeadModel::createBodyLayer);
@@ -185,7 +194,11 @@ public class Skyrimcraft
 
         //Mobs
         event.registerLayerDefinition(KhajiitModel.LAYER_LOCATION, KhajiitModel::createBodyLayer);
+        event.registerLayerDefinition(KhajiitModel.OUTER_ARMOR_LAYER_LOCATION, () -> outerArmor);
+        event.registerLayerDefinition(KhajiitModel.INNER_ARMOR_LAYER_LOCATION, () -> innerArmor);
         event.registerLayerDefinition(FalmerModel.LAYER_LOCATION, FalmerModel::createBodyLayer);
+        event.registerLayerDefinition(FalmerModel.OUTER_ARMOR_LAYER_LOCATION, () -> outerArmor);
+        event.registerLayerDefinition(FalmerModel.INNER_ARMOR_LAYER_LOCATION, () -> innerArmor);
     }
 
     public void addEntityAttributes(EntityAttributeModificationEvent event) {

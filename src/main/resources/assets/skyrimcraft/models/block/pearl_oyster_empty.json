@@ -1,8 +1,8 @@
 {
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "pearl_oyster",
-		"particle": "pearl_oyster"
+		"0": "skyrimcraft:block/pearl_oyster_open",
+		"particle": "skyrimcraft:block/pearl_oyster_open"
 	},
 	"elements": [
 		{

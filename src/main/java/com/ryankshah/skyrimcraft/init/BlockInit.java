@@ -5,6 +5,7 @@ import com.ryankshah.skyrimcraft.block.*;
 import com.ryankshah.skyrimcraft.item.SkyrimBlockItemIngredient;
 import com.ryankshah.skyrimcraft.util.IngredientEffect;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.packs.VanillaBlockLoot;
 import net.minecraft.resources.ResourceLocation;
@@ -15,18 +16,21 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class BlockInit
@@ -298,17 +302,20 @@ public class BlockInit
         provider.getVariantBuilder(PEARL_OYSTER_BLOCK.get()).forAllStates(state -> {
             boolean open = state.getValue(PearlOysterBlock.IS_OPEN);
             boolean empty = state.getValue(PearlOysterBlock.IS_EMPTY);
+            Direction facing = state.getValue(PearlOysterBlock.FACING);
+
             return ConfiguredModel.builder()
                     .modelFile(open ?
                             (empty ?
-                                provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_open")) :
-                                    provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_empty"))
+                                    provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_empty")) :
+                                    provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_open"))
                             ) :
-                            provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster")))
-                    .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
+                            provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster"))
+                    )
+                    .rotationY(((int) facing.toYRot() + 180) % 360) // 180 is default angle offset
                     .build();
         });
-
+        provider.simpleBlockItem(PEARL_OYSTER_BLOCK.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster")));
 
         provider.horizontalBlock(ALCHEMY_TABLE.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/alchemy_table")));
         provider.simpleBlockItem(ALCHEMY_TABLE.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/alchemy_table")));

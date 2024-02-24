@@ -9,28 +9,31 @@ import net.minecraft.world.entity.ambient.AmbientCreature;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.client.event.InputEvent;
 
-public class EffectFrozen extends MobEffect
+public class EffectParalysis extends MobEffect
 {
-    protected EffectFrozen(MobEffectCategory pCategory, int pColor) {
+    protected EffectParalysis(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);
     }
 
-    // Whether the effect should apply this tick. Used e.g. by the Regeneration effect that only applies
-    // once every x ticks, depending on the tick count and amplifier.
     @Override
-    public boolean shouldApplyEffectTickThisTick(int tickCount, int amplifier) {
-        return true; //tickCount % 2 == 0; // replace this with whatever check you want
+    public boolean shouldApplyEffectTickThisTick(int pDuration, int pAmplifier) {
+        return true;
     }
 
     @Override
     public void applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
-        if(livingEntity instanceof Mob mob) {
+        if(livingEntity instanceof Player player) {
+            player.xxa = 0;
+            player.zza = 0;
+        } else if(livingEntity instanceof Mob mob) {
+            mob.getMoveControl().setWantedPosition(mob.getX(), mob.getY(), mob.getZ(), mob.getSpeed());
             mob.goalSelector.disableControlFlag(Goal.Flag.MOVE);
             mob.goalSelector.disableControlFlag(Goal.Flag.JUMP);
-        } else if(livingEntity instanceof Player player) {
+            mob.goalSelector.disableControlFlag(Goal.Flag.LOOK);
+            mob.goalSelector.disableControlFlag(Goal.Flag.TARGET);
         }
-
         super.applyEffectTick(livingEntity, p_76394_2_);
     }
 }
