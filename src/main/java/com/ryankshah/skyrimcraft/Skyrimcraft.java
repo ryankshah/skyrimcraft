@@ -12,10 +12,8 @@ import com.ryankshah.skyrimcraft.data.DataGenerators;
 import com.ryankshah.skyrimcraft.data.loot_table.SkyrimLootModifiers;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.entity.boss.dragon.SkyrimDragon;
-import com.ryankshah.skyrimcraft.entity.creature.DwarvenSpider;
-import com.ryankshah.skyrimcraft.entity.creature.Giant;
-import com.ryankshah.skyrimcraft.entity.creature.Mammoth;
-import com.ryankshah.skyrimcraft.entity.creature.SabreCat;
+import com.ryankshah.skyrimcraft.entity.creature.*;
+import com.ryankshah.skyrimcraft.entity.creature.model.DraugrModel;
 import com.ryankshah.skyrimcraft.entity.npc.Falmer;
 import com.ryankshah.skyrimcraft.entity.npc.Khajiit;
 import com.ryankshah.skyrimcraft.entity.npc.model.FalmerModel;
@@ -179,6 +177,7 @@ public class Skyrimcraft
         event.put(EntityInit.TORCHBUG.get(), TorchBug.createAttributes().build());
         event.put(EntityInit.KHAJIIT.get(), Khajiit.createMobAttributes().build());
         event.put(EntityInit.FALMER.get(), Falmer.createMobAttributes().build());
+        event.put(EntityInit.DRAUGR.get(), Draugr.createAttributes().build());
     }
 
     public void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -199,6 +198,9 @@ public class Skyrimcraft
         event.registerLayerDefinition(FalmerModel.LAYER_LOCATION, FalmerModel::createBodyLayer);
         event.registerLayerDefinition(FalmerModel.OUTER_ARMOR_LAYER_LOCATION, () -> outerArmor);
         event.registerLayerDefinition(FalmerModel.INNER_ARMOR_LAYER_LOCATION, () -> innerArmor);
+        event.registerLayerDefinition(DraugrModel.LAYER_LOCATION, DraugrModel::createBodyLayer);
+        event.registerLayerDefinition(DraugrModel.OUTER_ARMOR_LAYER_LOCATION, () -> outerArmor);
+        event.registerLayerDefinition(DraugrModel.INNER_ARMOR_LAYER_LOCATION, () -> innerArmor);
     }
 
     public void addEntityAttributes(EntityAttributeModificationEvent event) {

@@ -28,6 +28,7 @@ public class SpellRegistry
     public static Supplier<Spell> CLEAR_SKIES = SPELLS.register("clear_skies", () -> new ShoutClearSkies(8));
     public static Supplier<Spell> FROST_BREATH = SPELLS.register("frost_breath", () -> new ShoutFrostBreath(9));
     public static Supplier<Spell> DRAGON_ASPECT = SPELLS.register("dragon_aspect", () -> new ShoutDragonAspect(10));
+    public static Supplier<Spell> ELEMENTAL_FURY = SPELLS.register("elemental_fury", () -> new ShoutElementalFury(11));
 
     // Spells
     public static Supplier<Spell> FIREBALL = SPELLS.register("fireball", () -> new SpellFireball(20));

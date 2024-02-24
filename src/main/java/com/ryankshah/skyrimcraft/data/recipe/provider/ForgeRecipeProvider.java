@@ -442,6 +442,7 @@ public class ForgeRecipeProvider implements DataProvider, IConditionBuilder
                 new ResourceLocation(Skyrimcraft.MODID + ":forge/" + BuiltInRegistries.ITEM.getKey(ItemInit.EBONY_BOW.get()).getPath()),
                 new ForgeRecipe("ebony", new ItemStack(ItemInit.EBONY_BOW.get(), 1), 80, 5,
                         NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.LEATHER_STRIPS.get(), 1)),
                                 Ingredient.of(new ItemStack(ItemInit.EBONY_INGOT.get(), 3))
                         )),
                 null

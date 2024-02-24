@@ -75,21 +75,20 @@ public class UnrelentingForceEntity extends Projectile
 
     @Override
     public void tick() {
-        if(!this.level().isClientSide) {
+        if(!this.level().isClientSide && this.startingPosition != null) {
             if (startingPosition.distanceToSqr(getX(), getY(), getZ()) >= 64D)
                 this.remove(RemovalReason.DISCARDED);
 
             ServerLevel level = (ServerLevel) this.level();
 
-            float radius = 2f;
             // Get origins
-            Vec3 origin = new Vec3(getX(), getY() + getEyeHeight(), getZ());
-            Vec3 normal = getViewVector(ticksInAir);
-
+            Vec3 origin = new Vec3(getX(), getY(), getZ());
+            System.out.println(startingPosition.distanceToSqr(origin));
+            float radius = 2f * (1 + (float)(startingPosition.distanceToSqr(origin)/64));
+            Vec3 normal = getLookAngle();
             Set<Vec3> circlePoints = ClientUtil.circle(origin, normal, radius, 8);
             for(Vec3 point : circlePoints) {
-                level.sendParticles(ParticleTypes.CLOUD, point.x, point.y, point.z, 4, 0, 0, 0, 0);
-//                this.level().addParticle(ParticleTypes.CLOUD, getForward().x + point.x, getForward().y + point.y, getForward().z + point.z, 0, 0 ,0); //vec3d.x, vec3d.y, vec3d.z); // TODO: change last 3 params to 1.0f ??
+                level.sendParticles(ParticleTypes.CLOUD, getForward().x + point.x, getForward().y + point.y, getForward().z + point.z, 4, 0, 0, 0, 0);
             }
         }
 

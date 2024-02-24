@@ -1,5 +1,6 @@
 {
 	"texture_size": [32, 32],
+	"render_type": "minecraft:cutout",
 	"textures": {
 		"0": "skyrimcraft:block/pearl_oyster",
 		"particle": "skyrimcraft:block/pearl_oyster"

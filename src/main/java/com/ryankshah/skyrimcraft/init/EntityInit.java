@@ -9,14 +9,8 @@ import com.ryankshah.skyrimcraft.character.magic.entity.render.FireballRenderer;
 import com.ryankshah.skyrimcraft.character.magic.entity.render.UnrelentingForceRenderer;
 import com.ryankshah.skyrimcraft.entity.boss.dragon.SkyrimDragon;
 import com.ryankshah.skyrimcraft.entity.boss.dragon.render.SkyrimDragonRenderer;
-import com.ryankshah.skyrimcraft.entity.creature.DwarvenSpider;
-import com.ryankshah.skyrimcraft.entity.creature.Giant;
-import com.ryankshah.skyrimcraft.entity.creature.Mammoth;
-import com.ryankshah.skyrimcraft.entity.creature.SabreCat;
-import com.ryankshah.skyrimcraft.entity.creature.render.DwarvenSpiderRenderer;
-import com.ryankshah.skyrimcraft.entity.creature.render.GiantRenderer;
-import com.ryankshah.skyrimcraft.entity.creature.render.MammothRenderer;
-import com.ryankshah.skyrimcraft.entity.creature.render.SabreCatRenderer;
+import com.ryankshah.skyrimcraft.entity.creature.*;
+import com.ryankshah.skyrimcraft.entity.creature.render.*;
 import com.ryankshah.skyrimcraft.entity.npc.Falmer;
 import com.ryankshah.skyrimcraft.entity.npc.Khajiit;
 import com.ryankshah.skyrimcraft.entity.npc.render.FalmerRenderer;
@@ -114,6 +108,10 @@ public class EntityInit
             () -> EntityType.Builder.of(Falmer::new, MobCategory.AMBIENT)
                     .sized(1.0f, 2.0f) // Hitbox Size
                     .build(new ResourceLocation(Skyrimcraft.MODID, "falmer").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<Draugr>> DRAUGR = ENTITY_TYPES.register("draugr",
+            () -> EntityType.Builder.of(Draugr::new, MobCategory.MONSTER)
+                    .sized(1.0f, 2.0f) // Hitbox Size
+                    .build(new ResourceLocation(Skyrimcraft.MODID, "draugr").toString()));
 
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
 //        RenderingRegistry.registerEntityRenderingHandler((EntityType<AncientNordArrowEntity>) ModEntityType.ANCIENT_NORD_ARROW_ENTITY.get(), AncientNordArrowRenderer::new);
@@ -147,6 +145,7 @@ public class EntityInit
 
         event.registerEntityRenderer(KHAJIIT.get(), KhajiitRenderer::new);
         event.registerEntityRenderer(FALMER.get(), FalmerRenderer::new);
+        event.registerEntityRenderer(DRAUGR.get(), DraugrRenderer::new);
     }
 
 }

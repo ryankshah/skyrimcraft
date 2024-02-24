@@ -1,5 +1,4 @@
 {
-  "credit": "Made with Blockbench",
   "parent": "minecraft:block/cube",
   "textures": {
     "0": "skyrimcraft:block/oven",

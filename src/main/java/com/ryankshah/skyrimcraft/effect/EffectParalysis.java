@@ -24,10 +24,7 @@ public class EffectParalysis extends MobEffect
 
     @Override
     public void applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
-        if(livingEntity instanceof Player player) {
-            player.xxa = 0;
-            player.zza = 0;
-        } else if(livingEntity instanceof Mob mob) {
+        if(livingEntity instanceof Mob mob) {
             mob.getMoveControl().setWantedPosition(mob.getX(), mob.getY(), mob.getZ(), mob.getSpeed());
             mob.goalSelector.disableControlFlag(Goal.Flag.MOVE);
             mob.goalSelector.disableControlFlag(Goal.Flag.JUMP);

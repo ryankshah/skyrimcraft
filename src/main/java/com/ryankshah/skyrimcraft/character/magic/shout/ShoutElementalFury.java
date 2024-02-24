@@ -2,6 +2,8 @@ package com.ryankshah.skyrimcraft.character.magic.shout;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
+import com.ryankshah.skyrimcraft.effect.ModEffects;
+import com.ryankshah.skyrimcraft.init.AttributeInit;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -9,37 +11,36 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoutDragonAspect extends Spell //implements IForgeRegistryEntry<ISpell>
+public class ShoutElementalFury extends Spell //implements IForgeRegistryEntry<ISpell>
 {
-    public ShoutDragonAspect(int identifier) {
-        super(identifier, "dragon_aspect");
+    public ShoutElementalFury(int identifier) {
+        super(identifier, "elemental_fury");
     }
 
     @Override
     public String getName() {
-        return "Dragon Aspect";
+        return "Elemental Fury";
     }
 
     @Override
     public List<String> getDescription() {
         List<String> desc = new ArrayList<>();
-        desc.add("Take on the might aspect of a");
-        desc.add("dragon, delivering collosal blows,");
-        desc.add("with an armored hide and more");
-        desc.add("powerful shouts");
-
+        desc.add("The Thu'um imbues your arms");
+        desc.add("with the speed of wind, allowing");
+        desc.add("for faster weapon strikes");
         return desc;
     }
 
     @Override
     public SoundEvent getSound() {
-        //return ModSounds.UNRELENTING_FORCE.get();
-        return SoundEvents.ENDER_DRAGON_GROWL;
+        return SoundEvents.DRAGON_FIREBALL_EXPLODE;
     }
 
     @Override
@@ -81,15 +82,11 @@ public class ShoutDragonAspect extends Spell //implements IForgeRegistryEntry<IS
     public void onCast() {
         Level level = getCaster().level();
 
-        int dur = 300;
-        int power = 1;
+        //TODO: Enchant the held weapon (if exists) and increase attack speed of player while using the weapon temporarily.
+        //TODO: If its a pickaxe, enable faster mining with this item temporarily
 
-        getCaster().addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, dur * power, 3, false, true, true));
-        getCaster().addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, dur * power, 2, false, true, true));
-        getCaster().addEffect(new MobEffectInstance(MobEffects.ABSORPTION, dur * power, 1, false, true, true));
-
-        if(level instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.LAVA, getCaster().position().x, getCaster().position().y, getCaster().position().z, 100, 0 ,0, 0, 1.0f);
-        }
+//        getCaster().getAttribute(Attributes.ATTACK_SPEED).addTransientModifier(
+//                new AttributeModifier(AttributeInit.ELEMENTAL_FURY_SHOUT_ID, "Elemental Fury Shout Bonus", 2.0f, AttributeModifier.Operation.MULTIPLY_BASE)
+//        );
     }
 }

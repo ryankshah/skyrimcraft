@@ -64,6 +64,7 @@ public class SkyrimcraftLanguageProvider extends LanguageProvider
         add("entity.skyrimcraft.torchbug", "Torchbug");
         add("entity.skyrimcraft.dragon", "Dragon");
         add("entity.skyrimcraft.dwarven_spider", "Dwarven Spider");
+        add("entity.skyrimcraft.draugr", "Draugr");
 
         add("entity.skyrimcraft.khajiit", "Khajiit");
         add("entity.skyrimcraft.falmer", "Falmer");
