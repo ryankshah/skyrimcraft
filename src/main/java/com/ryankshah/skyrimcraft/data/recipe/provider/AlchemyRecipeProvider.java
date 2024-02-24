@@ -1,7 +1,8 @@
-package com.ryankshah.skyrimcraft.data.recipe;
+package com.ryankshah.skyrimcraft.data.recipe.provider;
 
 import com.google.common.collect.Sets;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.data.recipe.AlchemyRecipe;
 import com.ryankshah.skyrimcraft.init.ItemInit;
 import com.ryankshah.skyrimcraft.item.SkyrimPotion;
 import com.ryankshah.skyrimcraft.item.potion.IPotion;
