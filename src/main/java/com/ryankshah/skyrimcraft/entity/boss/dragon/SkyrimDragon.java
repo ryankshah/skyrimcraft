@@ -793,8 +793,6 @@ public class SkyrimDragon extends FlyingMob implements GeoEntity, Enemy
         this.setPrevAnimationState(0);
         this.setFightOrigin(this.blockPosition().above(20));
         this.getPhaseManager().setPhase(SkyrimDragonPhase.HOLDING_PATTERN);
-        BlockPos origin = this.blockPosition().above(20);
-        this.moveTo((double)origin.getX(), (double)(128 + origin.getY()), (double)origin.getZ(), p_213386_1_.getLevel().random.nextFloat() * 360.0F, 0.0F);
         return super.finalizeSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
     }
 

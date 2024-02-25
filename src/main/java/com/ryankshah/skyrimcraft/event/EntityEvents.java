@@ -46,6 +46,13 @@ public class EntityEvents
                 PacketDistributor.PLAYER.with(player).send(targets);
             }
         }
+
+        if(event.getEntity() instanceof ServerPlayer player) {
+            Character character = Character.get(player);
+            final UpdateCurrentTarget currentTarget = new UpdateCurrentTarget(event.getSource().getDirectEntity().getId());
+            character.addTarget(event.getSource().getDirectEntity().getId());
+            PacketDistributor.PLAYER.with(player).send(currentTarget);
+        }
     }
 
     /**
