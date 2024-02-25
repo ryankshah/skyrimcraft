@@ -1,7 +1,6 @@
 package com.ryankshah.skyrimcraft.character.attachment;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;

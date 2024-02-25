@@ -1,6 +1,5 @@
 package com.ryankshah.skyrimcraft.block;
 
-import com.ryankshah.skyrimcraft.init.BlockInit;
 import com.ryankshah.skyrimcraft.init.ItemInit;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.CropBlock;

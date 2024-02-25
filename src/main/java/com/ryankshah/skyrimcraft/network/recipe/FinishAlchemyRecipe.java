@@ -5,8 +5,6 @@ import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.data.recipe.AlchemyRecipe;
 import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
-import com.ryankshah.skyrimcraft.screen.SkyrimGuiOverlay;
-import com.ryankshah.skyrimcraft.util.LevelUpdate;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

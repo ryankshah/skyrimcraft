@@ -1,7 +1,6 @@
 package com.ryankshah.skyrimcraft.item.potion;
 
 import com.ryankshah.skyrimcraft.character.attachment.Character;
-import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.init.BlockInit;
 import com.ryankshah.skyrimcraft.init.ItemInit;
 import com.ryankshah.skyrimcraft.item.SkyrimPotion;

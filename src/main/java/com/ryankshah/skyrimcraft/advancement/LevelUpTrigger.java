@@ -2,8 +2,6 @@ package com.ryankshah.skyrimcraft.advancement;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ryankshah.skyrimcraft.character.magic.Spell;
-import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.init.AdvancementTriggersInit;
 import net.minecraft.advancements.Criterion;

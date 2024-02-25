@@ -4,7 +4,6 @@ import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.data.recipe.ForgeRecipe;
-import com.ryankshah.skyrimcraft.data.recipe.OvenRecipe;
 import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;

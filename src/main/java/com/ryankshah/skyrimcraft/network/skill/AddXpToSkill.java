@@ -2,7 +2,6 @@ package com.ryankshah.skyrimcraft.network.skill;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
-import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.init.AdvancementTriggersInit;
 import com.ryankshah.skyrimcraft.network.character.AddToLevelUpdates;

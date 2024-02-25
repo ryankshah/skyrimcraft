@@ -7,6 +7,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
@@ -28,7 +29,7 @@ public class SkyrimcraftRecipeProvider extends RecipeProvider implements ICondit
 
 
     public SkyrimcraftRecipeProvider(PackOutput p_248933_, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-        super(p_248933_, lookupProvider);
+        super(p_248933_); //, lookupProvider
     }
 
     @Override
@@ -54,14 +55,13 @@ public class SkyrimcraftRecipeProvider extends RecipeProvider implements ICondit
         oreSmelting(pWriter, SILVER_ORE_SMELTABLE, RecipeCategory.MISC, ItemInit.SILVER_INGOT.get(), 0.25f, 200, "silver_ingot");
         oreBlasting(pWriter, SILVER_ORE_SMELTABLE, RecipeCategory.MISC, ItemInit.SILVER_INGOT.get(), 0.25f, 100, "silver_ingot");
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInit.LEATHER_STRIPS.get()).requires(Items.LEATHER).requires(Items.LEATHER).unlockedBy("has_leather", has(Items.LEATHER)).save(pWriter);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, new ItemStack(ItemInit.LEATHER_STRIPS.get(), 2)).requires(Items.LEATHER).unlockedBy("has_leather", has(Items.LEATHER)).save(pWriter);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemInit.FLOUR.get()).requires(Items.WHEAT).requires(Items.BOWL).unlockedBy("has_wheat", has(Items.WHEAT)).save(pWriter);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ItemInit.BUTTER.get()).requires(Items.MILK_BUCKET).requires(Items.MAGMA_CREAM).unlockedBy("has_milk_bucket", has(Items.MILK_BUCKET)).save(pWriter);
         // blocks
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.OVEN.get()).define('s', Blocks.STONE).define('b', Blocks.STONE_BRICKS).pattern(" b ").pattern("b b").pattern("sss").unlockedBy("has_stone_brick", has(Blocks.STONE_BRICKS)).save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ALCHEMY_TABLE.get()).define('p', ItemTags.PLANKS).define('g', Items.GLASS_BOTTLE).pattern(" g ").pattern("ppp").pattern("p p").unlockedBy("has_planks", has(Items.OAK_PLANKS)).save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.BLACKSMITH_FORGE.get()).define('l', Items.LAVA_BUCKET).define('s', Blocks.STONE).define('c', Blocks.COBBLESTONE).pattern("c c").pattern("clc").pattern("sss").unlockedBy("has_cobble", has(Blocks.COBBLESTONE)).save(pWriter);
-
     }
 
     protected static void oreSmelting(

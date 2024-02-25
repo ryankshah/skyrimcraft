@@ -1,9 +1,7 @@
 package com.ryankshah.skyrimcraft.block;
 
-import com.ryankshah.skyrimcraft.data.recipe.AlchemyRecipe;
 import com.ryankshah.skyrimcraft.data.recipe.OvenRecipe;
 import com.ryankshah.skyrimcraft.init.RecipeTypeInit;
-import com.ryankshah.skyrimcraft.screen.AlchemyScreen;
 import com.ryankshah.skyrimcraft.screen.OvenScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;

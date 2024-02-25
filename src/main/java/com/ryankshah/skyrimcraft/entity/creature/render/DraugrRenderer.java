@@ -3,16 +3,11 @@ package com.ryankshah.skyrimcraft.entity.creature.render;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.entity.creature.Draugr;
 import com.ryankshah.skyrimcraft.entity.creature.model.DraugrModel;
-import com.ryankshah.skyrimcraft.entity.npc.Falmer;
-import com.ryankshah.skyrimcraft.entity.npc.model.FalmerModel;
-import net.minecraft.client.model.SkeletonModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
 
 public class DraugrRenderer extends HumanoidMobRenderer<Draugr, DraugrModel<Draugr>>
 {

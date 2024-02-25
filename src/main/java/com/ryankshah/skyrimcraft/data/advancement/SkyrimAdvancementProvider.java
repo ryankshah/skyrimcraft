@@ -5,9 +5,7 @@ import com.ryankshah.skyrimcraft.advancement.LearnSpellTrigger;
 import com.ryankshah.skyrimcraft.advancement.LevelUpTrigger;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
-import com.ryankshah.skyrimcraft.init.AdvancementTriggersInit;
 import com.ryankshah.skyrimcraft.init.BlockInit;
-import com.ryankshah.skyrimcraft.init.EntityInit;
 import com.ryankshah.skyrimcraft.init.ItemInit;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
@@ -18,21 +16,16 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class SkyrimAdvancementProvider extends AdvancementProvider {
     /**

@@ -74,7 +74,7 @@ public class EntityInit
                     .build(new ResourceLocation(Skyrimcraft.MODID, "mammoth").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<SkyrimDragon>> DRAGON = ENTITY_TYPES.register("dragon",
             () -> EntityType.Builder.of(SkyrimDragon::new, MobCategory.MONSTER)
-                    .sized(4.0f, 2.0f) // Hitbox Size
+                    .sized(4.0f, 4.0f) // Hitbox Size
                     .build(new ResourceLocation(Skyrimcraft.MODID, "dragon").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<DwarvenSpider>> DWARVEN_SPIDER = ENTITY_TYPES.register("dwarven_spider",
             () -> EntityType.Builder.of(DwarvenSpider::new, MobCategory.MONSTER)

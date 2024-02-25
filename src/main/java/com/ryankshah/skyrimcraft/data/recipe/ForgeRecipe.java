@@ -1,9 +1,7 @@
 package com.ryankshah.skyrimcraft.data.recipe;
 
 import com.mojang.serialization.Codec;
-import com.ryankshah.skyrimcraft.block.inventory.IAlchemyInventory;
 import com.ryankshah.skyrimcraft.block.inventory.IForgeInventory;
-import com.ryankshah.skyrimcraft.data.recipe.serial.AlchemyRecipeSerializer;
 import com.ryankshah.skyrimcraft.data.recipe.serial.ForgeRecipeSerializer;
 import com.ryankshah.skyrimcraft.init.RecipeTypeInit;
 import com.ryankshah.skyrimcraft.init.SerializerInit;

@@ -21,7 +21,6 @@ import com.ryankshah.skyrimcraft.entity.npc.model.KhajiitModel;
 import com.ryankshah.skyrimcraft.entity.passive.flying.*;
 import com.ryankshah.skyrimcraft.init.*;
 import net.minecraft.client.model.HumanoidArmorModel;
-import net.minecraft.client.model.geom.LayerDefinitions;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.world.entity.EntityType;

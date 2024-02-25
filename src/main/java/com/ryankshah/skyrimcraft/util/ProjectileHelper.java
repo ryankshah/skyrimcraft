@@ -19,7 +19,6 @@ import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
 import java.util.function.Predicate;
 
 public class ProjectileHelper
