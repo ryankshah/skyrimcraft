@@ -6,6 +6,8 @@ import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.init.DamageSourceInit;
 import com.ryankshah.skyrimcraft.init.ParticleInit;
 import com.ryankshah.skyrimcraft.particle.FireParticle;
+import com.ryankshah.skyrimcraft.particle.LightningParticle;
+import com.ryankshah.skyrimcraft.util.ParticleColors;
 import com.ryankshah.skyrimcraft.util.ProjectileHelper;
 import com.ryankshah.skyrimcraft.util.RayTraceUtil;
 import net.minecraft.core.BlockPos;
@@ -110,7 +112,8 @@ public class ShoutFrostBreath extends Spell //implements IForgeRegistryEntry<ISp
                 double z = r * Math.cos(phi);
                 Vec3 offset = end.add(x, y, z);
                 Vec3 speed = start.subtract(offset).scale(1.0D / 20).reverse();
-                level.sendParticles(ParticleInit.LIGHTNING.get(), start.x, start.y, start.z, 4, //new FireParticle.FireParticleOptions(scale, true, 20)
+                level.sendParticles(new LightningParticle.LightningParticleOptions(ParticleColors.PURPLE_LIGHTNING, 0.5F, 1),
+                        start.x, start.y, start.z, 4, //new FireParticle.FireParticleOptions(scale, true, 20)
                         speed.x, speed.y, speed.z, 0.5D);
                 level.sendParticles(ParticleTypes.CLOUD, start.x, start.y, start.z, 4, //new FireParticle.FireParticleOptions(scale, true, 20)
                         speed.x, speed.y, speed.z, 0.5D);

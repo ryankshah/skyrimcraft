@@ -28,7 +28,7 @@ public class InputEvents
                 mc.setScreen(new SkyrimMenuScreen());
                 return;
             }
-            while (KeyEvents.SPELL_SLOT_1_KEY.get().consumeClick()) {
+            while (KeyEvents.SPELL_SLOT_1_KEY.get().consumeClick()) { // TODO: Check if `isDown` for continuous cast?
                 Character character = Character.get(mc.player);
                 Spell spell = character.getSelectedSpell1();
                 if (spell != null) {

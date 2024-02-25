@@ -126,10 +126,13 @@ public class Skyrimcraft
         GeckoLib.initialize(bus);
 
         SkyrimLootModifiers.GLOBAL_LOOT_MODIFIER_SERIALIZERS.register(bus);
+
         ParticleInit.PARTICLE_TYPES.register(bus);
+
         ModEffects.MOB_EFFECTS.register(bus);
         AttributeInit.ATTRIBUTES.register(bus);
         EntityInit.ENTITY_TYPES.register(bus);
+
         SpellRegistry.SPELLS.register(bus);
 
         PlayerAttachments.ATTACHMENT_TYPES.register(bus);

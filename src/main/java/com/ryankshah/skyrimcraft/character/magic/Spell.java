@@ -23,7 +23,7 @@ import java.util.List;
  *   - Implement spell "stages" - specifically for shouts so that each
  *     individual part of the shout is learnable
  */
-public abstract class Spell //extends ForgeRegistryEntry<ISpell>
+public abstract class Spell
 {
     private int identifier;
     private Player caster;
@@ -31,8 +31,7 @@ public abstract class Spell //extends ForgeRegistryEntry<ISpell>
     private ResourceLocation location;
 
     public Spell() {
-        this.identifier = -1;
-        this.loc = "";
+        this(-1, "");
     }
 
     public Spell(int identifier, String location) {
@@ -83,8 +82,16 @@ public abstract class Spell //extends ForgeRegistryEntry<ISpell>
         return this.caster;
     }
 
+    /**
+     * Get the display animation for the spell (within the magic gui)
+     * @return display animation
+     */
     public ResourceLocation getDisplayAnimation() { return new ResourceLocation(""); }
 
+    /**
+     * Get the in-game overlay icon for the spell
+     * @return spell icon
+     */
     public ResourceLocation getIcon() { return new ResourceLocation(""); }
 
     /**
@@ -134,6 +141,31 @@ public abstract class Spell //extends ForgeRegistryEntry<ISpell>
      */
     public boolean canInterrupt() { return true; }
 
+    public boolean hasStages() {
+        return getNumStages() > 0;
+    }
+
+    public float getStageChargeTime() {
+        return 0.25f;
+    }
+
+    public float getChargeTime() {
+        return getStageChargeTime() * getNumStages();
+    }
+
+    public int getNumStages() {
+        return 0;
+    }
+
+    /**
+     * Returns whether the spell is a single cast or continually cast
+     * - For example, the spell may drain mana while the key is held down
+     * @return is continuous?
+     */
+    public boolean isContinuousCast() {
+        return false;
+    }
+
     /**
      * Get the spell difficulty {@link SpellDifficulty}
      *
@@ -143,6 +175,10 @@ public abstract class Spell //extends ForgeRegistryEntry<ISpell>
         return SpellDifficulty.NA;
     }
 
+    /**
+     * Determines whether the spell can be cast
+     * @return {@link CastResult}
+     */
     private CastResult canCast() {
         Character character = Character.get(getCaster());
         if(getType() == SpellType.SHOUT) {
@@ -152,6 +188,10 @@ public abstract class Spell //extends ForgeRegistryEntry<ISpell>
         }
     }
 
+    /**
+     * Get the base xp added to the character for casting this spell
+     * @return base xp
+     */
     public int getBaseXp() {
         return 0;
     }
@@ -186,6 +226,7 @@ public abstract class Spell //extends ForgeRegistryEntry<ISpell>
             final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.CONJURATION.getID(), getBaseXp());
             PacketDistributor.PLAYER.with((ServerPlayer) caster).send(xpToSkill);
         }
+
         if(caster.hasEffect(ModEffects.ETHEREAL.get()) && canInterrupt())
             caster.removeEffect(ModEffects.ETHEREAL.get());
 

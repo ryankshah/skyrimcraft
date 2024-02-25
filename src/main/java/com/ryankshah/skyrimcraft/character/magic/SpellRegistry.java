@@ -35,5 +35,5 @@ public class SpellRegistry
     public static Supplier<Spell> TURN_UNDEAD = SPELLS.register("turn_undead", () -> new SpellTurnUndead(21));
     public static Supplier<Spell> CONJURE_FAMILIAR = SPELLS.register("conjure_familiar", () -> new SpellConjureFamiliar(22));
     public static Supplier<Spell> HEALING = SPELLS.register("healing", () -> new SpellHealing(23));
-    public static Supplier<Spell> LIGHTNING = SPELLS.register("lightning", () -> new SpellLightning(24));
+    public static Supplier<Spell> LIGHTNING = SPELLS.register("lightning", () -> new SpellChainLightning(24));
 }

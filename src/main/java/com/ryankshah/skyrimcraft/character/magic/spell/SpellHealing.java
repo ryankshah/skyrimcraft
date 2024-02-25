@@ -14,6 +14,7 @@ public class SpellHealing extends Spell
         super(identifier, "healing");
     }
 
+
     @Override
     public String getName() {
         return "Healing";
@@ -25,6 +26,11 @@ public class SpellHealing extends Spell
         desc.add("Heals the caster half a");
         desc.add("heart point per second");
         return desc;
+    }
+
+    @Override
+    public boolean isContinuousCast() {
+        return true;
     }
 
     @Override

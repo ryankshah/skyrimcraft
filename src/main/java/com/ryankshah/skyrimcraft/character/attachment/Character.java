@@ -326,9 +326,6 @@ public class Character
         return player.getData(PlayerAttachments.CHARACTER);
     }
 
-
-
-
     /**
      * EVENT RELATED BS
      **/
