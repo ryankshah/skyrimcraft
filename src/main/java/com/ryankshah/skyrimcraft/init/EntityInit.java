@@ -3,6 +3,7 @@ package com.ryankshah.skyrimcraft.init;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.magic.entity.DisarmEntity;
 import com.ryankshah.skyrimcraft.character.magic.entity.FireballEntity;
+import com.ryankshah.skyrimcraft.character.magic.entity.LightningEntity;
 import com.ryankshah.skyrimcraft.character.magic.entity.UnrelentingForceEntity;
 import com.ryankshah.skyrimcraft.character.magic.entity.render.DisarmRenderer;
 import com.ryankshah.skyrimcraft.character.magic.entity.render.FireballRenderer;
@@ -38,6 +39,9 @@ public class EntityInit
                     .setShouldReceiveVelocityUpdates(true)
                     .setUpdateInterval(2)
                     .build(new ResourceLocation(Skyrimcraft.MODID, "spell_fireball").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<LightningEntity>> SKYRIM_LIGHTNING = ENTITY_TYPES.register("skyrim_lightning", () ->
+            EntityType.Builder.<LightningEntity>of(LightningEntity::new, MobCategory.MISC)
+                    .build(new ResourceLocation(Skyrimcraft.MODID, "skyrim_lightning").toString()));
 
     // Shout entity types
     public static final DeferredHolder<EntityType<?>, EntityType<UnrelentingForceEntity>> SHOUT_UNRELENTING_FORCE_ENTITY = ENTITY_TYPES.register(

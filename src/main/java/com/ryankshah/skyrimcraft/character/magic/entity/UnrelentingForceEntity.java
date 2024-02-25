@@ -22,6 +22,10 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.Set;
 
+/**
+ * TODO: Knockback multiple entities, perhaps also improve the shout particles!
+ * TODO: See what we can maybe do with a screenshake..?
+ */
 public class UnrelentingForceEntity extends Projectile
 {
     private LivingEntity shootingEntity;
@@ -83,8 +87,7 @@ public class UnrelentingForceEntity extends Projectile
 
             // Get origins
             Vec3 origin = new Vec3(getX(), getY(), getZ());
-            System.out.println(startingPosition.distanceToSqr(origin));
-            float radius = 2f * (1 + (float)(startingPosition.distanceToSqr(origin)/64));
+            float radius = 1.375f * (1f + ((float)(startingPosition.distanceToSqr(origin)/64f)));
             Vec3 normal = getLookAngle();
             Set<Vec3> circlePoints = ClientUtil.circle(origin, normal, radius, 8);
             for(Vec3 point : circlePoints) {

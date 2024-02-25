@@ -1,4 +1,4 @@
-// 1.20.4	2024-02-21T14:15:49.2615485	Advancements
+// 1.20.4	2024-02-24T16:33:16.5838671	Advancements
 8f0ec864bc7c0f19fac572cd8d6513399536675f data/skyrimcraft/advancements/combat/reach_level_10.json
 e1035328e3ce90487f685a4edd117544ae5f1d12 data/skyrimcraft/advancements/combat/root.json
 d844fa5286aca05ee593d37cf8f60032c32fe1b3 data/skyrimcraft/advancements/root.json
@@ -7,6 +7,7 @@ d844fa5286aca05ee593d37cf8f60032c32fe1b3 data/skyrimcraft/advancements/root.json
 8824333e79a5edb6f4db7363945a63a4c1a36147 data/skyrimcraft/advancements/shout/disarm.json
 b521af906c947e4711902c270cd33c271baa33dd data/skyrimcraft/advancements/shout/dragonrend.json
 8a23e20ee8510aa8c94a5200707fedf0fb716508 data/skyrimcraft/advancements/shout/dragon_aspect.json
+f962df4a3c35d7ff348922b1e9bc4581a7d06b3a data/skyrimcraft/advancements/shout/elemental_fury.json
 ced9b200b42c2717beaf5e5a4fd2774add9480ff data/skyrimcraft/advancements/shout/frost_breath.json
 4a1f08a3a375075114577502c0ee436b968b8430 data/skyrimcraft/advancements/shout/ice_form.json
 dbd487bb707a5cdb7537cb15c2f9b53eb1f87ffa data/skyrimcraft/advancements/shout/root.json

@@ -1,4 +1,4 @@
-// 1.20.4	2024-02-23T07:38:04.0284427	Loot Tables
+// 1.20.4	2024-02-24T16:33:16.5708697	Loot Tables
 5a57dfc5cbb79ed7fba149781f2d0dbd9c0bf271 data/skyrimcraft/loot_tables/blocks/alchemy_table.json
 1fe6a6656eb3ba0a3d17edf5b64f71ffbed55a15 data/skyrimcraft/loot_tables/blocks/blacksmith_forge.json
 c5ed5b621e96e83ee9a27bf863895f3378fb3abb data/skyrimcraft/loot_tables/blocks/bleeding_crown.json
@@ -29,6 +29,7 @@ ac909c3956115424b9f0cc7316540f334d036a04 data/skyrimcraft/loot_tables/blocks/yel
 d1a2d3d4521f1ad707bbd4b4b6469d0099e5c67c data/skyrimcraft/loot_tables/entities/blue_butterfly.json
 69828249b94bf53808c42131645005bb346b22a2 data/skyrimcraft/loot_tables/entities/blue_dartwing.json
 3d6da88439dabd20d6ba142bd0d400a1dbb8bee6 data/skyrimcraft/loot_tables/entities/dragon.json
+7558c3d551f1353d10c44452bd89a9301c9da7be data/skyrimcraft/loot_tables/entities/draugr.json
 e8260f5f23727d16fa86562772859555b8396271 data/skyrimcraft/loot_tables/entities/dwarven_spider.json
 d270262137dae752b9d3b9628beb4d7da30c5270 data/skyrimcraft/loot_tables/entities/falmer.json
 22a4f295c11ff1896905d8da9e62e1afe4a2edff data/skyrimcraft/loot_tables/entities/giant.json

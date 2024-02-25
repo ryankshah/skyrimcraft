@@ -3,18 +3,23 @@ package com.ryankshah.skyrimcraft.character.magic.spell;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
-import com.ryankshah.skyrimcraft.particle.ZapParticleOption;
-import com.ryankshah.skyrimcraft.util.RayTraceUtil;
+import com.ryankshah.skyrimcraft.character.magic.entity.LightningEntity;
+import com.ryankshah.skyrimcraft.init.DamageSourceInit;
+import com.ryankshah.skyrimcraft.particle.EmittingLightningParticle;
+import com.ryankshah.skyrimcraft.particle.LightningParticle;
+import com.ryankshah.skyrimcraft.util.ParticleColors;
+import com.ryankshah.skyrimcraft.util.ProjectileHelper;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.commands.arguments.EntityAnchorArgument;
-import net.minecraft.network.chat.Component;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -24,9 +29,6 @@ import java.util.List;
 
 public class SpellLightning extends Spell
 {
-    public static final ResourceLocation LIGHTNING = new ResourceLocation(Skyrimcraft.MODID,"lightning");
-    public static final ResourceLocation SPARK = new ResourceLocation(Skyrimcraft.MODID,"spark");
-
     public SpellLightning(int identifier) {
         super(identifier, "lightning");
     }
@@ -84,50 +86,21 @@ public class SpellLightning extends Spell
 
     @Override
     public void onCast() {
-//        super.onCast();
-        Level level = getCaster().level();
-        Entity rayTracedEntity = RayTraceUtil.rayTrace(level, getCaster(), 20D);
-        if(rayTracedEntity instanceof LivingEntity && level instanceof ServerLevel) {
-            ServerLevel serverLevel = (ServerLevel) level;
-            double x = rayTracedEntity.getX();
-            double y = rayTracedEntity.getY();
-            double z = rayTracedEntity.getZ();
-            LivingEntity livingEntity = (LivingEntity)rayTracedEntity;
-            // freeze player for 8s (160 ticks = 8 * 20)
+        HitResult result = ProjectileHelper.getLookAtHit(getCaster(), 16D);
+        if(result.getType() == HitResult.Type.ENTITY) {
+            Vec3 target = result.getLocation();
+            getCaster().level().playSound(null, target.x, target.y, target.z,
+                    SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.MASTER, 1.0F, 0.5F + ProjectileHelper.RANDOM.nextFloat() * 0.2F);
 
-//            ((LivingEntity) rayTracedEntity).addEffect(new MobEffectInstance(ModEffects.FROZEN.get(), 160, 0, false, true, true));
-
-
-//            ChainLightning chainLightning = new ChainLightning(serverLevel, getCaster(), livingEntity);
-//            chainLightning.setDamage(100);
-//            chainLightning.range = 100;
-//            chainLightning.maxConnections = 1;
-//            serverLevel.addFreshEntity(chainLightning);
-
-            Vec3 playerPos = getCaster().getEyePosition().subtract(new Vec3(0, 0.5f, 0));
-            livingEntity.lookAt(EntityAnchorArgument.Anchor.EYES, playerPos);
-            Vec3 enemyPos = livingEntity.position();
-
-            Vec3 dist = playerPos.subtract(enemyPos);
-            double distance = dist.length();
-            double particleIntervalInBlocks = 0.5f; // every X blocks spawn a particle
-            Vec3 unitVector = dist.normalize().multiply(-particleIntervalInBlocks , -particleIntervalInBlocks , -particleIntervalInBlocks );
-
-            Vec3 startPos = playerPos;
-
-            Vec3 start = getCaster().position().add(0, getCaster().getBbHeight() / 2, 0);
-            var dest = livingEntity.position().add(0, livingEntity.getBbHeight() / 2, 0);
-            serverLevel.sendParticles(new ZapParticleOption(dest), start.x, start.y, start.z, 1, 0, 0, 0, 0);
-
-            // keep stepping forward until we go the whole distance
-//            for(double step = 0; step < distance; step += particleIntervalInBlocks) {
-//                startPos = startPos.add(unitVector);
-//                serverLevel.sendParticles(ParticleInit.ELECTRICITY_PARTICLE.get(), startPos.x, startPos.y, startPos.z, 1, 0, 0, 0, 0);
-//            }
-
+            for (int i = 0; i < 32; i++) {
+                double offsetX = ProjectileHelper.RANDOM.nextGaussian() * 1.5D;
+                double offsetY = ProjectileHelper.RANDOM.nextGaussian() * 1.5D;
+                double offsetZ = ProjectileHelper.RANDOM.nextGaussian() * 1.5D;
+                ((ServerLevel) getCaster().level()).sendParticles(new LightningParticle.LightningParticleOptions(ParticleColors.PURPLE_LIGHTNING, 0.5F, 1),
+                        target.x + offsetX, target.y + offsetY, target.z + offsetZ,
+                        0, 0.0D, 0.0D, 0.0D, 0.0D);
+            }
             super.onCast();
-        } else {
-            getCaster().displayClientMessage(Component.translatable("skyrimcraft.shout.notarget"), false);
         }
     }
 

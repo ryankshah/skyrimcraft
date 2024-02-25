@@ -3,7 +3,12 @@ package com.ryankshah.skyrimcraft.character.magic.shout;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
+import com.ryankshah.skyrimcraft.init.DamageSourceInit;
+import com.ryankshah.skyrimcraft.init.ParticleInit;
+import com.ryankshah.skyrimcraft.particle.FireParticle;
+import com.ryankshah.skyrimcraft.util.ProjectileHelper;
 import com.ryankshah.skyrimcraft.util.RayTraceUtil;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +20,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseFireBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -23,6 +30,9 @@ import java.util.List;
 
 public class ShoutFrostBreath extends Spell //implements IForgeRegistryEntry<ISpell>
 {
+    private static final float DAMAGE = 7.5F;
+    private static final double RANGE = 10.0D;
+
     public ShoutFrostBreath(int identifier) {
         super(identifier, "frost_breath");
     }
@@ -35,8 +45,8 @@ public class ShoutFrostBreath extends Spell //implements IForgeRegistryEntry<ISp
     @Override
     public List<String> getDescription() {
         List<String> desc = new ArrayList<>();
-        desc.add("Add a description");
-        desc.add("...");
+        desc.add("Your breath is winter, you");
+        desc.add("Thu'um a blizzard");
         return desc;
     }
 
@@ -82,29 +92,51 @@ public class ShoutFrostBreath extends Spell //implements IForgeRegistryEntry<ISp
 
     @Override
     public void onCast() {
-        Level level = getCaster().level();
+        Vec3 look = ProjectileHelper.getTargetAdjustedLookAngle(getCaster());
 
-        Entity rayTracedEntity = RayTraceUtil.rayTrace(level, getCaster(), 20D);
-        if(rayTracedEntity instanceof LivingEntity livingEntity && level instanceof ServerLevel serverLevel) {
-            Vec3 vec3 = getCaster().position();
-            Vec3 vec31 = livingEntity.position();
-            int i = 0;
-            int maxDist = 128;
-            List<LivingEntity> nearbyEntities = serverLevel.getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, getCaster(), AABB.ofSize(getCaster().position(), 15, 15, 15));
+        if (getCaster().level() instanceof ServerLevel level) {
+            float scale = 1.0F;
 
-            for(LivingEntity entity : nearbyEntities) {
-                entity.addEffect(new MobEffectInstance(ModEffects.FROZEN.get(), 160, 0, false, true, true));
+            Vec3 start = getCaster().getEyePosition().subtract(0.0D, scale / 2, 0.0D).add(look);
+
+            Vec3 end = ProjectileHelper.getHitResult(getCaster(), start, start.add(look.scale(RANGE))).getLocation();
+
+            for (int i = 0; i < 32; i++) {
+                double theta = ProjectileHelper.RANDOM.nextDouble() * 2 * Math.PI;
+                double phi = ProjectileHelper.RANDOM.nextDouble() * Math.PI;
+                double r = ProjectileHelper.RANDOM.nextDouble() * RANGE * 0.75D;
+                double x = r * Math.sin(phi) * Math.cos(theta);
+                double y = r * Math.sin(phi) * Math.sin(theta);
+                double z = r * Math.cos(phi);
+                Vec3 offset = end.add(x, y, z);
+                Vec3 speed = start.subtract(offset).scale(1.0D / 20).reverse();
+                level.sendParticles(ParticleInit.LIGHTNING.get(), start.x, start.y, start.z, 4, //new FireParticle.FireParticleOptions(scale, true, 20)
+                        speed.x, speed.y, speed.z, 0.5D);
+                level.sendParticles(ParticleTypes.CLOUD, start.x, start.y, start.z, 4, //new FireParticle.FireParticleOptions(scale, true, 20)
+                        speed.x, speed.y, speed.z, 0.5D);
             }
 
-            if (vec31.distanceTo(vec3) <= maxDist) {
-                serverLevel.addParticle(ParticleTypes.INSTANT_EFFECT, vec3.x + i, vec3.y + i, vec3.z + i, 1.0f, 1.0f, 1.0f);
-            }
+//            AABB bounds = AABB.ofSize(end, 1.0D, 1.0D, 1.0D).inflate(1.0D);
 
-            // freeze player for 8s (160 ticks = 8 * 20)
-//            ((LivingEntity) rayTracedEntity).addEffect(new MobEffectInstance(ModEffects.FROZEN.get(), 160, 0, false, true, true));
-            super.onCast();
-        } else {
-            getCaster().displayClientMessage(Component.translatable("skyrimcraft.shout.notarget"), false);
+//            for (Entity entity : getCaster().level().getEntitiesOfClass(LivingEntity.class, bounds, entity -> entity != getCaster())) {
+////                if (!entity.hurt(DamageSourceInit.directSpellAttack(getCaster(), this), DAMAGE)) continue;
+//                entity.setSecondsOnFire(5);
+//            }
+
+//            BlockPos.betweenClosedStream(bounds).forEach(pos -> {
+//                if (ProjectileHelper.RANDOM.nextInt(3) != 0) return;
+//
+//                BlockState state = getCaster().level().getBlockState(pos);
+//
+//                if (state.isFlammable(getCaster().level(), pos, getCaster().getDirection())) {
+//                    getCaster().level().setBlockAndUpdate(pos, BaseFireBlock.getState(getCaster().level(), pos));
+//                }
+//            });
         }
+
+        super.onCast();
+//        } else {
+//            getCaster().displayClientMessage(Component.translatable("skyrimcraft.shout.notarget"), false);
+//        }
     }
 }

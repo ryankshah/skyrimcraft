@@ -5,6 +5,7 @@ import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
+import com.ryankshah.skyrimcraft.goal.DismayGoal;
 import com.ryankshah.skyrimcraft.goal.UndeadFleeGoal;
 import com.ryankshah.skyrimcraft.item.SkyrimArmor;
 import com.ryankshah.skyrimcraft.network.character.AddToTargetingEntities;
@@ -12,7 +13,9 @@ import com.ryankshah.skyrimcraft.network.character.UpdateCurrentTarget;
 import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -58,6 +61,10 @@ public class EntityEvents
 //        if(pickPocketableEntities.contains(event.getEntity().getType())) {
 //            event.getEntity().addTag(ModEntityType.PICKPOCKET_TAG);
 //        }
+
+        if(event.getEntity() instanceof PathfinderMob mob) {
+            mob.goalSelector.addGoal(0, new DismayGoal(mob, 16.0F, 0.8D, 1.33D));
+        }
 
         if(event.getEntity() instanceof Monster) {
             Monster monsterEntity = (Monster) event.getEntity();

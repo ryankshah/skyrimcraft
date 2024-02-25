@@ -41,6 +41,7 @@ public class SkyrimcraftEntityLootProvider extends EntityLootSubProvider
 
         this.add(EntityInit.KHAJIIT.get(), LootTable.lootTable());
         this.add(EntityInit.FALMER.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(ItemInit.FALMER_EAR.get()))));
+        this.add(EntityInit.DRAUGR.get(), LootTable.lootTable());
     }
 
     @Override

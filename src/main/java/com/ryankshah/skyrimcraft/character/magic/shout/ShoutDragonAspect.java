@@ -29,9 +29,9 @@ public class ShoutDragonAspect extends Spell //implements IForgeRegistryEntry<IS
     public List<String> getDescription() {
         List<String> desc = new ArrayList<>();
         desc.add("Take on the might aspect of a");
-        desc.add("dragon, delivering collosal blows,");
-        desc.add("with an armored hide and more");
-        desc.add("powerful shouts");
+        desc.add("dragon, delivering collosal");
+        desc.add("blows, with an armored hide");
+        desc.add("and more powerful shouts");
 
         return desc;
     }

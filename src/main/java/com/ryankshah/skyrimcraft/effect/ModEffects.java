@@ -32,6 +32,10 @@ public class ModEffects
             MobEffectCategory.BENEFICIAL,
             0xAA222222
     ));
+    public static final Supplier<EffectDismay> DISMAY = MOB_EFFECTS.register("dismay", () -> new EffectDismay(
+            MobEffectCategory.BENEFICIAL,
+            0xAA222222
+    ));
     public static final Supplier<EffectWaterwalking> WATER_WALKING = MOB_EFFECTS.register("water_walking", () -> new EffectWaterwalking(
             MobEffectCategory.NEUTRAL,
             0x0F5E9C
