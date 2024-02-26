@@ -2,6 +2,7 @@ package com.ryankshah.skyrimcraft.event;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
+import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.goal.DismayGoal;
@@ -81,18 +82,21 @@ public class EntityEvents
     @SubscribeEvent
     public static void onEntityHit(LivingHurtEvent event) {
         if(event.getSource().getEntity() instanceof Player) {
-            Player playerEntity = (Player) event.getSource().getEntity();
+            ServerPlayer playerEntity = (ServerPlayer) event.getSource().getEntity();
+            Character character = Character.get(playerEntity);
 
             if (event.getEntity() != null) {
                 if (playerEntity.hasEffect(ModEffects.ETHEREAL.get()))
                     playerEntity.removeEffect(ModEffects.ETHEREAL.get());
 
                 if (playerEntity.getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
-                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ARCHERY.get()).get(), (int)event.getAmount());
-                    PacketDistributor.SERVER.noArg().send(xpToSkill);
+                    character.addXpToSkill(playerEntity, SkillRegistry.ARCHERY.get().getID(), (int)event.getAmount() * SkillRegistry.BASE_ARCHERY_XP);
+//                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ARCHERY.get()).get(), (int)event.getAmount());
+//                    PacketDistributor.SERVER.noArg().send(xpToSkill);
                 } else if(playerEntity.getMainHandItem().getItem() instanceof SwordItem) {
-                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ONE_HANDED.get()).get(), (int)event.getAmount());
-                    PacketDistributor.SERVER.noArg().send(xpToSkill);
+                    character.addXpToSkill(playerEntity, SkillRegistry.ONE_HANDED.get().getID(), (int)event.getAmount());
+//                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ONE_HANDED.get()).get(), (int)event.getAmount());
+//                    PacketDistributor.SERVER.noArg().send(xpToSkill);
                 }
 
 //                } else if(playerEntity.getMainHandItem().getItem() instanceof SkyrimTwoHandedWeapon) {

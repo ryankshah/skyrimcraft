@@ -1,14 +1,16 @@
 package com.ryankshah.skyrimcraft.character.attachment;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ryankshah.skyrimcraft.character.feature.Race;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
+import com.ryankshah.skyrimcraft.init.AdvancementTriggersInit;
+import com.ryankshah.skyrimcraft.network.character.AddToLevelUpdates;
 import com.ryankshah.skyrimcraft.network.character.UpdateCharacter;
+import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -228,6 +230,37 @@ public class Character
 
     public Skill getSkill(int id) {
         return this.skills.get(id);
+    }
+
+    public void addXpToSkill(ServerPlayer serverPlayer, int id, int xp) {
+        Skill skill = this.skills.get(id);
+        int oldSkillLevel = skill.getLevel();
+        System.out.println(skills.get(id));
+        this.skills.get(id).giveExperiencePoints(xp);
+        System.out.println(skills.get(id));
+
+        final AddXpToSkill sendToClient = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(skill).get(), xp);
+        PacketDistributor.PLAYER.with(serverPlayer).send(sendToClient);
+
+        if(skill.getLevel() > oldSkillLevel) {
+            // The skill has leveled up, so send packet to client to add to the skyrim ingame gui levelUpdates list.
+            final AddToLevelUpdates levelUpdates = new AddToLevelUpdates(skill.getName(), skill.getLevel(), 200);
+            PacketDistributor.PLAYER.with(serverPlayer).send(levelUpdates);
+
+            int level = getCharacterLevel();
+            int totalXp = getCharacterTotalXp();
+            int newLevel = (int) Math.floor(-2.5 + Math.sqrt(8 * totalXp + 1225) / 10);
+
+            if (newLevel == 10)
+                AdvancementTriggersInit.LEVEL_UP.get().trigger(serverPlayer, skill, 10);
+
+            setCharacterTotalXp(totalXp + skill.getLevel());
+            if (newLevel > level) {
+                setCharacterLevel(newLevel);
+                final AddToLevelUpdates charLevelUpdates = new AddToLevelUpdates("characterLevel", getCharacterLevel(), 200);
+                PacketDistributor.PLAYER.with(serverPlayer).send(charLevelUpdates);
+            }
+        }
     }
 
     //TODO: FIX THIS!

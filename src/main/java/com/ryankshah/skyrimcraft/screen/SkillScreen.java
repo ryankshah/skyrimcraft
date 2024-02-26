@@ -88,11 +88,10 @@ public class SkillScreen extends Screen
         RenderUtil.blitWithBlend(poseStack, width / 2 - 47, 32, 0, 264, 94, 11, 512, 512, 1, 1);
         poseStack.popPose();
 
+
         // Render bottom bars
         graphics.fillGradient(0, this.height * 3 / 4 + 20, this.width, this.height, 0xAA000000, 0xAA000000);
         graphics.fillGradient(0, this.height * 3 / 4 + 22, this.width, this.height * 3 / 4 + 23, 0xFF6E6B64, 0xFF6E6B64);
-
-        drawScaledCenteredString(graphics, "Perks to increase: " + SkyrimGuiOverlay.SkyrimLevelUpdates.LEVEL_UPDATES.size(), width / 2, 37, 0x00FFFFFF, 0.5f);
 
         poseStack.pushPose();
         RenderUtil.bind(SKILL_ICONS);
@@ -120,6 +119,11 @@ public class SkillScreen extends Screen
         if(shouldFocusLevelUpdates) {
 
         }
+
+        drawScaledCenteredString(graphics, "NAME", width / 2 - 110 + 22, 17, 0xFF00CC00, 0.5f);
+        graphics.drawCenteredString(font, player.getDisplayName().getString(), width / 2 - 110 + 22 + 4 + font.width("NAME"), 17, 0xFF00CC00);
+
+        drawScaledCenteredString(graphics, "Perks to increase: " + SkyrimGuiOverlay.SkyrimLevelUpdates.LEVEL_UPDATES.size(), width / 2, 37, 0x00FFFFFF, 0.5f);
 
         poseStack.popPose();
     }
@@ -231,7 +235,7 @@ public class SkillScreen extends Screen
         graphics.drawCenteredString(font, skill.getName() + " " + skill.getLevel(), x, y + 38, 0x00FFFFFF);
 
         if(skillsList.get(currentSkill).getID() == skill.getID()) {
-            drawScaledCenteredStringWithSplit(graphics, skill.getDescription(), x, y + 65, 0x00FFFFFF, 0.5f, 108);
+            drawScaledCenteredStringWithSplit(graphics, skill.getDescription(), x, y + 85, 0x00FFFFFF, 0.75f, 108);
 //            poseStack.pushPose();
 //            poseStack.scale(0.5f, 0.5f, 0.5f);
 //            graphics.drawCenteredString(font, skill.getDescription(), x, y + 65, 0x00FFFFFF);
