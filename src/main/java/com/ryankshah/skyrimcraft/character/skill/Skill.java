@@ -5,11 +5,14 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 
-public class Skill //implements Registry<ISkill>
+import java.util.AbstractMap;
+
+public abstract class Skill //implements Registry<ISkill>
 {
     private Player player;
     private int identifier;
     private String name;
+    private String description;
     private int level;
     private int totalXp;
     private float xpProgress;
@@ -19,24 +22,34 @@ public class Skill //implements Registry<ISkill>
     public float skillImproveMultiplier;
     public int skillImproveOffset;
 
-    public static Codec<Skill> SKILL_CODEC = RecordCodecBuilder.create(skill -> skill.group(
-            Codec.INT.fieldOf("identifier").forGetter(Skill::getIdentifier),
-            Codec.STRING.fieldOf("name").forGetter(Skill::getName),
-            Codec.INT.fieldOf("level").forGetter(Skill::getLevel),
-            Codec.FLOAT.fieldOf("skillUseMultiplier").forGetter(Skill::getSkillUseMultiplier),
-            Codec.INT.fieldOf("skillUseOffset").forGetter(Skill::getSkillUseOffset),
-            Codec.FLOAT.fieldOf("skillImproveMultiplier").forGetter(Skill::getSkillImproveMultiplier),
-            Codec.INT.fieldOf("skillImproveOffset").forGetter(Skill::getSkillImproveOffset)
-    ).apply(skill, Skill::new));
+//    public static Codec<Skill> SKILL_CODEC = RecordCodecBuilder.create(skill -> skill.group(
+//            Codec.INT.fieldOf("identifier").forGetter(Skill::getIdentifier),
+//            Codec.STRING.fieldOf("name").forGetter(Skill::getName),
+//            Codec.STRING.fieldOf("description").forGetter(Skill::getDescription),
+//            Codec.INT.fieldOf("level").forGetter(Skill::getLevel),
+//            Codec.FLOAT.fieldOf("skillUseMultiplier").forGetter(Skill::getSkillUseMultiplier),
+//            Codec.INT.fieldOf("skillUseOffset").forGetter(Skill::getSkillUseOffset),
+//            Codec.FLOAT.fieldOf("skillImproveMultiplier").forGetter(Skill::getSkillImproveMultiplier),
+//            Codec.INT.fieldOf("skillImproveOffset").forGetter(Skill::getSkillImproveOffset)
+//    ).apply(skill, Skill::new));
 
     // Main constructor to use
-    public Skill(int identifier, String name, int baseLevel, float skillUseMultiplier, int skillUseOffset, float skillImproveMultiplier, int skillImproveOffset) {
-        this(identifier, name, baseLevel, 0, 0, skillUseMultiplier, skillUseOffset, skillImproveMultiplier, skillImproveOffset);
+
+    public Skill(int id, String name) {
+        this.identifier = id;
+        this.name = name;
     }
 
-    public Skill(int identifier, String name, int level, int totalXp, float xpProgress, float skillUseMultiplier, int skillUseOffset, float skillImproveMultiplier, int skillImproveOffset) {
+    public abstract AbstractMap.SimpleEntry<Integer, Integer> getIconUV();
+
+    public Skill(int identifier, String name, String description, int baseLevel, float skillUseMultiplier, int skillUseOffset, float skillImproveMultiplier, int skillImproveOffset) {
+        this(identifier, name, description, baseLevel, 0, 0, skillUseMultiplier, skillUseOffset, skillImproveMultiplier, skillImproveOffset);
+    }
+
+    public Skill(int identifier, String name, String description, int level, int totalXp, float xpProgress, float skillUseMultiplier, int skillUseOffset, float skillImproveMultiplier, int skillImproveOffset) {
         this.identifier = identifier;
         this.name = name;
+        this.description = description;
         this.level = level;
         this.totalXp = totalXp;
         this.xpProgress = xpProgress;
@@ -48,7 +61,11 @@ public class Skill //implements Registry<ISkill>
 
     // Dummy constructor
     public Skill(Skill skill) {
-        this(skill.identifier, skill.name, skill.level, skill.totalXp, skill.xpProgress, skill.skillUseMultiplier, skill.skillUseOffset, skill.skillImproveMultiplier, skill.skillImproveOffset);
+        this(skill.identifier, skill.name, skill.description, skill.level, skill.totalXp, skill.xpProgress, skill.skillUseMultiplier, skill.skillUseOffset, skill.skillImproveMultiplier, skill.skillImproveOffset);
+    }
+
+    public int getDefaultLevel() {
+        return 15;
     }
 
     /**
@@ -79,6 +96,13 @@ public class Skill //implements Registry<ISkill>
     }
 
     /**
+     * Get the description of the skill
+     *
+     * @return name
+     */
+    public abstract String getDescription();
+
+    /**
      * Set the player who the skill instance belongs to
      *
      * @param playerEntity
@@ -95,25 +119,17 @@ public class Skill //implements Registry<ISkill>
         return this.player;
     }
 
-    public float getSkillImproveMultiplier() {
-        return skillImproveMultiplier;
-    }
+    public abstract float getSkillImproveMultiplier();
 
-    public float getSkillUseMultiplier() {
-        return skillUseMultiplier;
-    }
+    public abstract float getSkillUseMultiplier();
 
     public int getIdentifier() {
         return identifier;
     }
 
-    public int getSkillImproveOffset() {
-        return skillImproveOffset;
-    }
+    public abstract int getSkillImproveOffset();
 
-    public int getSkillUseOffset() {
-        return skillUseOffset;
-    }
+    public abstract int getSkillUseOffset();
 
     ///
     /// EXPERIENCE-RELATED FIELDS
@@ -172,40 +188,12 @@ public class Skill //implements Registry<ISkill>
         return Math.max(min, Math.min(max, val));
     }
 
-    public CompoundTag serialise() {
-        CompoundTag nbt = new CompoundTag();
-
-        nbt.putInt("id", identifier);
-        nbt.putString("name", name);
-        nbt.putInt("level", level);
-        nbt.putInt("totalXp", totalXp);
-        nbt.putFloat("xpProgress", xpProgress);
-        nbt.putFloat("skillUseMultiplier", skillUseMultiplier);
-        nbt.putInt("skillUseOffset", skillUseOffset);
-        nbt.putFloat("skillImproveMultiplier", skillImproveMultiplier);
-        nbt.putInt("skillImproveOffset", skillImproveOffset);
-
-        return nbt;
-    }
-
-    public static Skill deserialise(CompoundTag nbt) {
-        int p1 = nbt.getInt("id");
-        String p2 = nbt.getString("name");
-        int p3 = nbt.getInt("level");
-        int p4 = nbt.getInt("totalXp");
-        float p5 = nbt.getInt("xpProgress");
-        float p6 = nbt.getFloat("skillUseMultiplier");
-        int p7 = nbt.getInt("skillUseOffset");
-        float p8 = nbt.getFloat("skillImproveMultiplier");
-        int p9 = nbt.getInt("skillImproveOffset");
-        return new Skill(p1, p2, p3, p4, p5, p6, p7, p8, p9);
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
         sb.append("id: ").append(identifier).append(", ");
         sb.append("name: ").append(name).append(", ");
+        sb.append("description: ").append(description).append(", ");
         sb.append("level: ").append(level).append(", ");
         sb.append("totalXp: ").append(totalXp).append(", ");
         sb.append("xpProgress: ").append(xpProgress).append(", ");

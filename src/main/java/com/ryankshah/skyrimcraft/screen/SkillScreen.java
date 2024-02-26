@@ -9,26 +9,30 @@ import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.event.KeyEvents;
+import com.ryankshah.skyrimcraft.screen.components.SkillWidget;
 import com.ryankshah.skyrimcraft.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.CreditsAndAttributionScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.CubeMap;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 
 import java.util.AbstractMap;
+import java.util.List;
 import java.util.Map;
 
 public class SkillScreen extends Screen
 {
     // Skill Nebula Cube Map
-    public static final CubeMap SKILL_NEBULA_CUBE_MAP = new CubeMap(new ResourceLocation(Skyrimcraft.MODID, "textures/gui/panorama/nebula"));
+    public static final CubeMap SKILL_NEBULA_CUBE_MAP = new CubeMap(new ResourceLocation(Skyrimcraft.MODID, "textures/gui/panorama/magic_end"));
     protected static final ResourceLocation SKILL_ICONS = new ResourceLocation(Skyrimcraft.MODID, "textures/gui/skill_icons.png");
-    protected static final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID + ":textures/gui/overlay_icons.png");
 
     private final int PLAYER_BAR_MAX_WIDTH = 78,
             SKILL_BAR_CONTAINER_U = 1,
@@ -40,7 +44,7 @@ public class SkillScreen extends Screen
             SKILL_BAR_WIDTH = 67,
             SKILL_BAR_HEIGHT = 2;
 
-    private Map<Integer, Skill> skillsList;
+    private List<Skill> skillsList;
     private Skill selectedSkillObject;
     private Minecraft minecraft;
     private LocalPlayer player;
@@ -59,42 +63,54 @@ public class SkillScreen extends Screen
         this.player = Minecraft.getInstance().player;
         this.character = Character.get(player);
         this.skillsList = character.getSkills();
-        this.levelUpdates = SkyrimGuiOverlay.SkyrimLevelUpdates.LEVEL_UPDATES.size(); // todo: check this and update, perhaps add to attachment
+        this.levelUpdates = SkyrimGuiOverlay.SkyrimLevelUpdates.LEVEL_UPDATES.size();
         this.selectedSkillObject = null;
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        PoseStack matrixStack = graphics.pose();
+        PoseStack poseStack = graphics.pose();
         Minecraft mc = this.minecraft;
         Window window = mc.getWindow();
         int scaledWidth = window.getGuiScaledWidth();
         int scaledHeight = window.getGuiScaledHeight();
 
-        matrixStack.pushPose();
+        poseStack.pushPose();
         RenderSystem.clearColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         SKILL_NEBULA_CUBE_MAP.render(this.minecraft, Mth.sin(cubeMapPosition * 0.001F) * 5.0F + 25.0F, -cubeMapPosition * 0.1F, 1.0f);
+        poseStack.popPose();
 
-        RenderSystem.setShaderTexture(0, SKILL_ICONS);
+        poseStack.pushPose();
+        RenderUtil.bind(SKILL_ICONS);
 
-        RenderUtil.blitWithBlend(matrixStack, width / 2 - 110, 10, 0, 209, 221, 14, 256, 256, 1, 1);
+        RenderUtil.blitWithBlend(poseStack, width / 2 - 110, 10, 0, 209, 221, 14, 512, 512, 1, 1);
+        RenderUtil.blitWithBlend(poseStack, width / 2 - 47, 32, 0, 264, 94, 11, 512, 512, 1, 1);
+        poseStack.popPose();
 
         // Render bottom bars
         graphics.fillGradient(0, this.height * 3 / 4 + 20, this.width, this.height, 0xAA000000, 0xAA000000);
         graphics.fillGradient(0, this.height * 3 / 4 + 22, this.width, this.height * 3 / 4 + 23, 0xFF6E6B64, 0xFF6E6B64);
 
-        renderHealth(matrixStack, width, height);
-        renderStamina(matrixStack, width, height);
-        renderMagicka(matrixStack, width, height);
-        matrixStack.popPose();
+        drawScaledCenteredString(graphics, "Perks to increase: " + SkyrimGuiOverlay.SkyrimLevelUpdates.LEVEL_UPDATES.size(), width / 2, 37, 0x00FFFFFF, 0.5f);
+
+        poseStack.pushPose();
+        RenderUtil.bind(SKILL_ICONS);
+        renderHealth(poseStack, width, height);
+        renderStamina(poseStack, width, height);
+        renderMagicka(poseStack, width, height);
+
+        poseStack.popPose();
 
 //        RenderSystem.setShaderTexture(0, GuiComponent.GUI_ICONS_LOCATION);
         // If no skill is selected, show skill icons etc.
         if(!skillSelected) {
-            for (Map.Entry<Integer, Skill> skillEntry : skillsList.entrySet()) {
-                int x = this.width / 2 + 128 * (skillEntry.getKey() + 1) - (this.currentSkill + 1) * 128; //(width / 2) - ((SKILL_BAR_CONTAINER_WIDTH / 2) + (24 * currentSkill+1))
-                drawSkill(skillEntry.getValue(), graphics, matrixStack, x, height / 2);
+            for (Skill skillEntry : skillsList) {
+                int x = this.width / 2 + 128 * (skillEntry.getID() + 1) - (this.currentSkill + 1) * 128; //(width / 2) - ((SKILL_BAR_CONTAINER_WIDTH / 2) + (24 * currentSkill+1))
+//                this.addRenderableWidget(new SkillWidget(
+//                        font, x, height / 2 - 32, 64, 128, Component.empty(), skillsList, skillEntry, currentSkill, onPress -> this.skillSelected = true
+//                ));
+                drawSkill(skillEntry, graphics, poseStack, x, height / 2 - 20);
             }
         } else {
             // If skill selected, show perks for selection etc.
@@ -105,7 +121,28 @@ public class SkillScreen extends Screen
 
         }
 
-        matrixStack.popPose();
+        poseStack.popPose();
+    }
+    
+    public void drawScaledCenteredString(GuiGraphics graphics, String str, int x, int y, int color, float scale) {
+        graphics.pose().pushPose();
+        graphics.pose().scale(scale, scale, scale);
+        graphics.drawCenteredString(font, str, x * (int)(1 / scale), y * (int)(1 / scale), color);
+        graphics.pose().popPose();
+    }
+    public void drawScaledCenteredStringWithSplit(GuiGraphics graphics, String str, int x, int y, int color, float scale, int split) {
+        graphics.pose().pushPose();
+        graphics.pose().scale(scale, scale, scale);
+        if (str.length() >= split) {
+            String[] parts = str.split("\\.");
+//            String[] parts = {str.substring(0, split),str.substring(split)};
+            for(int i = 0; i < parts.length; i++)
+                graphics.drawCenteredString(font, parts[i], x * (int)(1 / scale), (y + (i * 6)) * (int)(1 / scale), color);
+//            graphics.drawCenteredString(font, parts[1], x * (int)(1 / scale), (y+6) * (int)(1 / scale), color);
+        } else {
+            graphics.drawCenteredString(font, str, x * (int) (1 / scale), y * (int) (1 / scale), color);
+        }
+        graphics.pose().popPose();
     }
 
     @Override
@@ -176,86 +213,60 @@ public class SkillScreen extends Screen
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
-    public static AbstractMap.SimpleEntry<Integer, Integer> getIconUV(Skill skill) {
-        if(skill.getID() == SkillRegistry.ALTERATION.getID()) {
-            return new AbstractMap.SimpleEntry<>(0, 0);
-        } else if(skill.getID() == SkillRegistry.CONJURATION.getID()) {
-            return new AbstractMap.SimpleEntry<>(64, 0);
-        } else if(skill.getID() == SkillRegistry.DESTRUCTION.getID()) {
-            return new AbstractMap.SimpleEntry<>(128, 0);
-        } else if(skill.getID() == SkillRegistry.ILLUSION.getID()) {
-            return new AbstractMap.SimpleEntry<>(192, 0);
-        } else if(skill.getID() == SkillRegistry.RESTORATION.getID()) {
-            return new AbstractMap.SimpleEntry<>(256, 0);
-        } else if(skill.getID() == SkillRegistry.ENCHANTING.getID()) {
-            return new AbstractMap.SimpleEntry<>(320, 0);
-        } else if(skill.getID() == SkillRegistry.BLOCK.getID()) {
-            return new AbstractMap.SimpleEntry<>(384, 0);
-        } else if(skill.getID() == SkillRegistry.SMITHING.getID()) {
-            return new AbstractMap.SimpleEntry<>(448, 0);
-        } else if(skill.getID() == SkillRegistry.TWO_HANDED.getID()) {
-            return new AbstractMap.SimpleEntry<>(0, 64);
-        } else if(skill.getID() == SkillRegistry.ONE_HANDED.getID()) {
-            return new AbstractMap.SimpleEntry<>(64, 64);
-        } else if(skill.getID() == SkillRegistry.HEAVY_ARMOR.getID()) {
-            return new AbstractMap.SimpleEntry<>(128, 64);
-        } else if(skill.getID() == SkillRegistry.ARCHERY.getID()) {
-            return new AbstractMap.SimpleEntry<>(192, 64);
-        } else if(skill.getID() == SkillRegistry.PICKPOCKET.getID()) {
-            return new AbstractMap.SimpleEntry<>(256, 64);
-        } else if(skill.getID() == SkillRegistry.LIGHT_ARMOR.getID()) {
-            return new AbstractMap.SimpleEntry<>(320, 64);
-        } else if(skill.getID() == SkillRegistry.LOCKPICKING.getID()) {
-            return new AbstractMap.SimpleEntry<>(384, 64);
-        }
-        return new AbstractMap.SimpleEntry<>(384, 0); // return null or perhaps a default no-icon tex when we have all icons?
+    public static AbstractMap.SimpleEntry<Integer, Integer> getIconUV(ResourceKey<Skill> skill) {
+        return SkillRegistry.SKILLS_REGISTRY.get(skill).getIconUV();
     }
 
-    private void drawSkill(Skill skill, GuiGraphics graphics, PoseStack matrixStack, int x, int y) {
+    private void drawSkill(Skill skill, GuiGraphics graphics, PoseStack poseStack, int x, int y) {
         float skillProgress = skill.getXpProgress();
         //float skillBarWidth = SKILL_BAR_WIDTH * skillProgress;
+        poseStack.pushPose();
+        RenderUtil.bind(SKILL_ICONS);
+        RenderUtil.blitWithBlend(poseStack, x - (SKILL_BAR_CONTAINER_WIDTH / 2), y + 48 + (SKILL_BAR_CONTAINER_HEIGHT / 2), SKILL_BAR_CONTAINER_U, SKILL_BAR_CONTAINER_V, SKILL_BAR_CONTAINER_WIDTH, SKILL_BAR_CONTAINER_HEIGHT, 512, 512, 2, 1);
+        RenderUtil.blitWithBlend(poseStack, x - (SKILL_BAR_CONTAINER_WIDTH / 2) + 7, y + 49 + (SKILL_BAR_CONTAINER_HEIGHT / 2) + SKILL_BAR_HEIGHT, SKILL_BAR_U, SKILL_BAR_V, (int)(SKILL_BAR_WIDTH * skillProgress), SKILL_BAR_HEIGHT, 512, 512, 2, 1);
 
-        matrixStack.pushPose();
-        RenderSystem.setShaderTexture(0, SKILL_ICONS);
-
-        RenderUtil.blitWithBlend(matrixStack, x - (SKILL_BAR_CONTAINER_WIDTH / 2), y + 48 + (SKILL_BAR_CONTAINER_HEIGHT / 2), SKILL_BAR_CONTAINER_U, SKILL_BAR_CONTAINER_V, SKILL_BAR_CONTAINER_WIDTH, SKILL_BAR_CONTAINER_HEIGHT, 512, 512, 2, 1);
-        RenderUtil.blitWithBlend(matrixStack, x - (SKILL_BAR_CONTAINER_WIDTH / 2) + 7, y + 49 + (SKILL_BAR_CONTAINER_HEIGHT / 2) + SKILL_BAR_HEIGHT, SKILL_BAR_U, SKILL_BAR_V, (int)(SKILL_BAR_WIDTH * skillProgress), SKILL_BAR_HEIGHT, 512, 512, 2, 1);
-
-        AbstractMap.SimpleEntry<Integer, Integer> iconUV = getIconUV(skill);
-        RenderUtil.blitWithBlend(matrixStack, x - 32, y + 18 - 64, iconUV.getKey(), iconUV.getValue(), 64, 64, 512, 512, 2, 1);
-
+        AbstractMap.SimpleEntry<Integer, Integer> iconUV = getIconUV(SkillRegistry.SKILLS_REGISTRY.getResourceKey(skill).get());
+        RenderUtil.blitWithBlend(poseStack, x - 32, y + 18 - 64, iconUV.getKey(), iconUV.getValue(), 64, 64, 512, 512, 2, 1);
+        poseStack.popPose();
         graphics.drawCenteredString(font, skill.getName() + " " + skill.getLevel(), x, y + 38, 0x00FFFFFF);
-        matrixStack.popPose();
+
+        if(skillsList.get(currentSkill).getID() == skill.getID()) {
+            drawScaledCenteredStringWithSplit(graphics, skill.getDescription(), x, y + 65, 0x00FFFFFF, 0.5f, 108);
+//            poseStack.pushPose();
+//            poseStack.scale(0.5f, 0.5f, 0.5f);
+//            graphics.drawCenteredString(font, skill.getDescription(), x, y + 65, 0x00FFFFFF);
+//            poseStack.popPose();
+        }
     }
 
-    private void renderHealth(PoseStack matrixStack, int width, int height) {
+    private void renderHealth(PoseStack poseStack, int width, int height) {
         float healthPercentage = player.getHealth() / player.getMaxHealth();
         float healthBarWidth = PLAYER_BAR_MAX_WIDTH * healthPercentage;
         float healthBarStartX;
 
         if(player.level().getDifficulty() == Difficulty.HARD) {
             healthBarStartX = (width / 2 - 40) + (PLAYER_BAR_MAX_WIDTH - healthBarWidth) / 2.0f;
-            RenderUtil.blitWithBlend(matrixStack, width / 2 - 51, height - 41, 96, 246, 100, 16, 256, 256, 3, 1);
+            RenderUtil.blitWithBlend(poseStack, width / 2 - 51, height - 36, 96, 246, 100, 16, 512, 512, 3, 1);
         } else {
             healthBarStartX = (width / 2 - 39) + (PLAYER_BAR_MAX_WIDTH - healthBarWidth) / 2.0f;
-            RenderUtil.blitWithBlend(matrixStack, width / 2 - 51, height - 35, 0, 226, 102, 10, 256, 256, 3, 1);
+            RenderUtil.blitWithBlend(poseStack, width / 2 - 51, height - 30, 0, 226, 102, 10, 512, 512, 3, 1);
         }
-        RenderUtil.blitWithBlend(matrixStack, (int)healthBarStartX, height - 33, 12 + ((PLAYER_BAR_MAX_WIDTH - healthBarWidth) / 2.0f), 247, healthBarWidth, 6, 256, 256, 3, 1);
+        RenderUtil.blitWithBlend(poseStack, (int)healthBarStartX, height - 28, 12 + ((PLAYER_BAR_MAX_WIDTH - healthBarWidth) / 2.0f), 247, healthBarWidth, 6, 512, 512, 3, 1);
     }
 
-    private void renderStamina(PoseStack matrixStack, int width, int height) {
+    private void renderStamina(PoseStack poseStack, int width, int height) {
         float staminaPercentage = player.getFoodData().getFoodLevel() / 20.0f; // 20.0f is the max food value (this is apparently hardcoded...)
         float staminaBarWidth = PLAYER_BAR_MAX_WIDTH * staminaPercentage;
         float staminaBarStartX = (float)(width - 108) + (PLAYER_BAR_MAX_WIDTH - staminaBarWidth);
 
-        RenderUtil.blitWithBlend(matrixStack, width - 120, height - 35, 0, 226, 102, 10, 256, 256, 3, 1);
-        RenderUtil.blitWithBlend(matrixStack, (int)staminaBarStartX, height - 33, 12 + ((PLAYER_BAR_MAX_WIDTH - staminaBarWidth) / 2.0f), 255, staminaBarWidth, 6, 256, 256, 3, 1);
+        RenderUtil.blitWithBlend(poseStack, width - 120, height - 30, 0, 226, 102, 10, 512, 512, 3, 1);
+        RenderUtil.blitWithBlend(poseStack, (int)staminaBarStartX, height - 28, 12 + ((PLAYER_BAR_MAX_WIDTH - staminaBarWidth) / 2.0f), 255, staminaBarWidth, 6, 512, 512, 3, 1);
     }
 
-    private void renderMagicka(PoseStack matrixStack, int width, int height) {
+    private void renderMagicka(PoseStack poseStack, int width, int height) {
         float magickaPercentage = character.getMagicka() / character.getMaxMagicka();
         float magickaBarWidth = PLAYER_BAR_MAX_WIDTH * magickaPercentage;
-        RenderUtil.blitWithBlend(matrixStack, 20, height - 35, 0, 226, 102, 10, 256, 256, 3, 1);
-        RenderUtil.blitWithBlend(matrixStack, 32, height - 33, 12 + ((PLAYER_BAR_MAX_WIDTH - magickaBarWidth) / 2.0f), 239, (int)(78 * magickaPercentage), 6, 256, 256, 3, 1);
+        RenderUtil.blitWithBlend(poseStack, 20, height - 30, 0, 226, 102, 10, 512, 512, 3, 1);
+        RenderUtil.blitWithBlend(poseStack, 32, height - 28, 12 + ((PLAYER_BAR_MAX_WIDTH - magickaBarWidth) / 2.0f), 239, (int)(78 * magickaPercentage), 6, 512, 512, 3, 1);
     }
 }

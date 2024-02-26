@@ -96,10 +96,12 @@ public class SkyrimDragon extends FlyingMob implements GeoEntity, Enemy
     public SkyrimDragon(EntityType<? extends FlyingMob> type, Level worldIn) {
         super(type, worldIn);
         this.setHealth(this.getMaxHealth());
+        this.noPhysics = true;
         this.noCulling = true;
         this.xpReward = XP_REWARD_BOSS;
 
         this.phaseManager = new SkyrimDragonPhaseManager(this);
+        this.phaseManager.setPhase(SkyrimDragonPhase.HOLDING_PATTERN);
 
 //        this.moveControl = new SkyrimDragon.DragonMoveControl(this);
 //        this.lookControl = new SkyrimDragon.DragonLookControl(this);
@@ -254,6 +256,99 @@ public class SkyrimDragon extends FlyingMob implements GeoEntity, Enemy
             double[] adouble1 = this.getLatencyPos(0, 1.0F);
             return (float)(adouble[1] - adouble1[1]);
         }
+    }
+
+    @Nullable
+    public Path findPath(int pStartIndex, int pFinishIndex, @Nullable Node pAndThen) {
+        for(int i = 0; i < 24; ++i) {
+            Node node = this.nodes[i];
+            node.closed = false;
+            node.f = 0.0F;
+            node.g = 0.0F;
+            node.h = 0.0F;
+            node.cameFrom = null;
+            node.heapIdx = -1;
+        }
+
+        Node node4 = this.nodes[pStartIndex];
+        Node node5 = this.nodes[pFinishIndex];
+        node4.g = 0.0F;
+        node4.h = node4.distanceTo(node5);
+        node4.f = node4.h;
+        this.openSet.clear();
+        this.openSet.insert(node4);
+        Node node1 = node4;
+        int j = 0;
+
+        while(!this.openSet.isEmpty()) {
+            Node node2 = this.openSet.pop();
+            if (node2.equals(node5)) {
+                if (pAndThen != null) {
+                    pAndThen.cameFrom = node5;
+                    node5 = pAndThen;
+                }
+
+                return this.reconstructPath(node4, node5);
+            }
+
+            if (node2.distanceTo(node5) < node1.distanceTo(node5)) {
+                node1 = node2;
+            }
+
+            node2.closed = true;
+            int k = 0;
+
+            for(int l = 0; l < 24; ++l) {
+                if (this.nodes[l] == node2) {
+                    k = l;
+                    break;
+                }
+            }
+
+            for(int i1 = j; i1 < 24; ++i1) {
+                if ((this.nodeAdjacency[k] & 1 << i1) > 0) {
+                    Node node3 = this.nodes[i1];
+                    if (!node3.closed) {
+                        float f = node2.g + node2.distanceTo(node3);
+                        if (!node3.inOpenSet() || f < node3.g) {
+                            node3.cameFrom = node2;
+                            node3.g = f;
+                            node3.h = node3.distanceTo(node5);
+                            if (node3.inOpenSet()) {
+                                this.openSet.changeCost(node3, node3.g + node3.h);
+                            } else {
+                                node3.f = node3.g + node3.h;
+                                this.openSet.insert(node3);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (node1 == node4) {
+            return null;
+        } else {
+            if (pAndThen != null) {
+                pAndThen.cameFrom = node1;
+                node1 = pAndThen;
+            }
+
+            return this.reconstructPath(node4, node1);
+        }
+    }
+
+    private Path reconstructPath(Node pStart, Node pFinish) {
+        List<Node> list = Lists.newArrayList();
+        Node node = pFinish;
+        list.add(0, pFinish);
+
+        while(node.cameFrom != null) {
+            node = node.cameFrom;
+            list.add(0, node);
+        }
+
+        return new Path(list, new BlockPos(pFinish.x, pFinish.y, pFinish.z), true);
     }
 
     @Override
@@ -494,10 +589,10 @@ public class SkyrimDragon extends FlyingMob implements GeoEntity, Enemy
         return true;
     }
 
-    @Override
-    protected void customServerAiStep() {
-        super.customServerAiStep();
-    }
+//    @Override
+//    protected void customServerAiStep() {
+//        super.customServerAiStep();
+//    }
 
     @Nullable
     @Override
@@ -506,7 +601,7 @@ public class SkyrimDragon extends FlyingMob implements GeoEntity, Enemy
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 200.0f).add(Attributes.JUMP_STRENGTH, 0.5D).add(Attributes.FLYING_SPEED, 1.0D).add(Attributes.MOVEMENT_SPEED, 1.0D).add(Attributes.MAX_HEALTH, 200.0D).add(Attributes.ATTACK_DAMAGE, 9.0D).add(Attributes.FOLLOW_RANGE, 18.0D);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 200.0f).add(Attributes.JUMP_STRENGTH, 0.5D).add(Attributes.ATTACK_DAMAGE, 9.0D);
     }
 
     @Override
@@ -587,99 +682,6 @@ public class SkyrimDragon extends FlyingMob implements GeoEntity, Enemy
 
     public SkyrimDragonPhaseManager getPhaseManager() {
         return this.phaseManager;
-    }
-
-    @Nullable
-    public Path findPath(int pStartIndex, int pFinishIndex, @Nullable Node pAndThen) {
-        for(int i = 0; i < 24; ++i) {
-            Node node = this.nodes[i];
-            node.closed = false;
-            node.f = 0.0F;
-            node.g = 0.0F;
-            node.h = 0.0F;
-            node.cameFrom = null;
-            node.heapIdx = -1;
-        }
-
-        Node node4 = this.nodes[pStartIndex];
-        Node node5 = this.nodes[pFinishIndex];
-        node4.g = 0.0F;
-        node4.h = node4.distanceTo(node5);
-        node4.f = node4.h;
-        this.openSet.clear();
-        this.openSet.insert(node4);
-        Node node1 = node4;
-        int j = 0;
-
-        while(!this.openSet.isEmpty()) {
-            Node node2 = this.openSet.pop();
-            if (node2.equals(node5)) {
-                if (pAndThen != null) {
-                    pAndThen.cameFrom = node5;
-                    node5 = pAndThen;
-                }
-
-                return this.reconstructPath(node4, node5);
-            }
-
-            if (node2.distanceTo(node5) < node1.distanceTo(node5)) {
-                node1 = node2;
-            }
-
-            node2.closed = true;
-            int k = 0;
-
-            for(int l = 0; l < 24; ++l) {
-                if (this.nodes[l] == node2) {
-                    k = l;
-                    break;
-                }
-            }
-
-            for(int i1 = j; i1 < 24; ++i1) {
-                if ((this.nodeAdjacency[k] & 1 << i1) > 0) {
-                    Node node3 = this.nodes[i1];
-                    if (!node3.closed) {
-                        float f = node2.g + node2.distanceTo(node3);
-                        if (!node3.inOpenSet() || f < node3.g) {
-                            node3.cameFrom = node2;
-                            node3.g = f;
-                            node3.h = node3.distanceTo(node5);
-                            if (node3.inOpenSet()) {
-                                this.openSet.changeCost(node3, node3.g + node3.h);
-                            } else {
-                                node3.f = node3.g + node3.h;
-                                this.openSet.insert(node3);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if (node1 == node4) {
-            return null;
-        } else {
-            if (pAndThen != null) {
-                pAndThen.cameFrom = node1;
-                node1 = pAndThen;
-            }
-
-            return this.reconstructPath(node4, node1);
-        }
-    }
-
-    private Path reconstructPath(Node pStart, Node pFinish) {
-        List<Node> list = Lists.newArrayList();
-        Node node = pFinish;
-        list.add(0, pFinish);
-
-        while(node.cameFrom != null) {
-            node = node.cameFrom;
-            list.add(0, node);
-        }
-
-        return new Path(list, new BlockPos(pFinish.x, pFinish.y, pFinish.z), true);
     }
 
 
@@ -789,10 +791,12 @@ public class SkyrimDragon extends FlyingMob implements GeoEntity, Enemy
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_213386_1_, DifficultyInstance p_213386_2_, MobSpawnType p_213386_3_, @Nullable SpawnGroupData p_213386_4_, @Nullable CompoundTag p_213386_5_) {
 //        this.anchorPoint = this.blockPosition().above(20);
+
         this.setAnimationState(0);
         this.setPrevAnimationState(0);
         this.setFightOrigin(this.blockPosition().above(20));
-        this.getPhaseManager().setPhase(SkyrimDragonPhase.HOLDING_PATTERN);
+        this.findClosestNode();
+//        this.getPhaseManager().setPhase(SkyrimDragonPhase.HOLDING_PATTERN);
         return super.finalizeSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
     }
 

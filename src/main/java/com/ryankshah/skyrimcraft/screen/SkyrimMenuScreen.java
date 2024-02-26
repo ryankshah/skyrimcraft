@@ -110,8 +110,6 @@ public class SkyrimMenuScreen extends Screen
                 // minecraft.setScreen(null);
 //                 minecraft.player.displayClientMessage(Component.translatable("skyrimcraft.menu.option.unavailable"), false);
             } else if(currentDirection == Direction.SOUTH) {
-//                minecraft.setScreen(null);
-//                minecraft.setScreen(new CharacterCreationScreen());
                  minecraft.setScreen(null);
                  minecraft.player.displayClientMessage(Component.translatable("skyrimcraft.menu.option.unavailable"), false);
             } else if(currentDirection == Direction.WEST) {

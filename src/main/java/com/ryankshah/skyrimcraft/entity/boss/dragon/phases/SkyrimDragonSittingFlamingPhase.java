@@ -120,6 +120,11 @@ public class SkyrimDragonSittingFlamingPhase extends AbstractSkyrimDragonPhaseIn
     }
 
     @Override
+    public boolean isSitting() {
+        return true;
+    }
+
+    @Override
     public SkyrimDragonPhase<SkyrimDragonSittingFlamingPhase> getPhase() {
         return SkyrimDragonPhase.SITTING_FLAMING;
     }

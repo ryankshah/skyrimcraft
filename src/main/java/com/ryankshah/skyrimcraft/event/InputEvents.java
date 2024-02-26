@@ -30,7 +30,7 @@ public class InputEvents
             while (KeyEvents.SPELL_SLOT_1_KEY.get().consumeClick()) { // TODO: Check if `isDown` for continuous cast?
                 Character character = Character.get(mc.player);
                 Spell spell = character.getSelectedSpell1();
-                if (spell != null) {
+                if (spell != null && spell.getID() != SpellRegistry.EMPTY_SPELL.get().getID()) {
                     final CastSpell castSpell = new CastSpell(SpellRegistry.SPELLS_REGISTRY.getResourceKey(spell).get());
                     PacketDistributor.SERVER.noArg().send(castSpell);
                 } else
@@ -40,7 +40,7 @@ public class InputEvents
             while (KeyEvents.SPELL_SLOT_2_KEY.get().consumeClick()) {
                 Character character = Character.get(mc.player);
                 Spell spell = character.getSelectedSpell2();
-                if (spell != null) {
+                if (spell != null && spell.getID() != SpellRegistry.EMPTY_SPELL.get().getID()) {
                     final CastSpell castSpell = new CastSpell(SpellRegistry.SPELLS_REGISTRY.getResourceKey(spell).get());
                     PacketDistributor.SERVER.noArg().send(castSpell);
                 } else

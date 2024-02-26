@@ -38,6 +38,7 @@ import java.util.UUID;
 public class PlayerEvents
 {
     public static boolean flag = false;
+    private static int magickaTickCounter = 0;
 
     @SubscribeEvent
     public static void onKeyMappingTriggered(InputEvent.InteractionKeyMappingTriggered event) {
@@ -86,8 +87,15 @@ public class PlayerEvents
             if (!playerEntity.hasEffect(ModEffects.MAGICKA_REGEN.get()))
                 playerEntity.getAttribute(AttributeInit.MAGICKA_REGEN.value()).removeModifiers();
 
-            if (character.getMagicka() < character.getMaxMagicka())
-                character.setMagicka(character.getMagicka() + (0.005f * character.getMagickaRegenModifier()));
+            if (character.getMagicka() < character.getMaxMagicka()) {
+                if (playerEntity.tickCount % 20 == 0) {
+                    // If in combat, regenerate 1% of max magicka, else 3%
+                    if (character.getCurrentTarget() != -1)
+                        character.setMagicka(character.getMagicka() + ((0.01f * character.getMaxMagicka()) * character.getMagickaRegenModifier()));
+                    else
+                        character.setMagicka(character.getMagicka() + ((0.03f * character.getMaxMagicka()) * character.getMagickaRegenModifier()));
+                }
+            }
 
             if (playerEntity instanceof ServerPlayer && playerEntity.level().isLoaded(playerEntity.blockPosition()) && event.side == LogicalSide.SERVER) {
                 ServerPlayer player = (ServerPlayer) playerEntity;

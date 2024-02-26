@@ -64,7 +64,7 @@ public class SkyrimDragonHoldingPatternPhase extends AbstractSkyrimDragonPhaseIn
             BlockPos blockpos = this.dragon
                     .level()
                     .getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new BlockPos(EndPodiumFeature.getLocation(this.dragon.getFightOrigin())));
-            int i = 1;
+            int i = 0;
             if (this.dragon.getRandom().nextInt(i + 3) == 0) {
                 this.dragon.getPhaseManager().setPhase(SkyrimDragonPhase.LANDING_APPROACH);
                 return;

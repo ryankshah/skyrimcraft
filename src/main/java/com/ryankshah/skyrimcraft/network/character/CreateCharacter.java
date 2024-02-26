@@ -36,7 +36,9 @@ public record CreateCharacter(int raceID) implements CustomPacketPayload //(int 
         Character character = Character.get(player);
 
         character.setRace(race);
+        System.out.println("Before : " + character.getSkills());
         character.setSkills(character.getStartingSkills(race));
+        System.out.println("After : " + character.getSkills());
         character.setHasSetup(true);
 
         final UpdateCharacter sendToClient = new UpdateCharacter(character);

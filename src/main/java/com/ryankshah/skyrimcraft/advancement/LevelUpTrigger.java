@@ -2,7 +2,10 @@ package com.ryankshah.skyrimcraft.advancement;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ryankshah.skyrimcraft.character.attachment.Character;
+import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
+import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.init.AdvancementTriggersInit;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
@@ -43,7 +46,7 @@ public final class LevelUpTrigger extends SimpleCriterionTrigger<LevelUpTrigger.
     public record Instance(Optional<ContextAwarePredicate> player, Optional<Skill> skill, Optional<Integer> levelReq) implements SimpleCriterionTrigger.SimpleInstance {
         private static final Codec<Instance> CODEC = RecordCodecBuilder.create(codec -> codec.group(
                 ExtraCodecs.strictOptionalField(EntityPredicate.ADVANCEMENT_CODEC, "player").forGetter(Instance::player),
-                ExtraCodecs.strictOptionalField(Skill.SKILL_CODEC, "skill").forGetter(Instance::skill),
+                ExtraCodecs.strictOptionalField(SkillRegistry.SKILLS_REGISTRY.byNameCodec(), "skill").forGetter(Instance::skill),
                 ExtraCodecs.strictOptionalField(Codec.INT, "level").forGetter(Instance::levelReq)
         ).apply(codec, Instance::new));
 

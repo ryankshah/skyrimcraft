@@ -6,6 +6,7 @@ import com.ryankshah.skyrimcraft.character.feature.model.HighElfEarModel;
 import com.ryankshah.skyrimcraft.character.feature.model.KhajiitHeadModel;
 import com.ryankshah.skyrimcraft.character.feature.model.KhajiitTailModel;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
+import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.curios.render.NecklaceRenderer;
 import com.ryankshah.skyrimcraft.curios.render.RingRenderer;
 import com.ryankshah.skyrimcraft.data.DataGenerators;
@@ -132,6 +133,7 @@ public class Skyrimcraft
         AttributeInit.ATTRIBUTES.register(bus);
         EntityInit.ENTITY_TYPES.register(bus);
 
+        SkillRegistry.SKILLS.register(bus);
         SpellRegistry.SPELLS.register(bus);
 
         PlayerAttachments.ATTACHMENT_TYPES.register(bus);

@@ -12,6 +12,11 @@ public class SkyrimDragonSittingAttackingPhase extends AbstractSkyrimDragonPhase
         super(pDragon);
     }
 
+    @Override
+    public boolean isSitting() {
+        return true;
+    }
+
     /**
      * Generates particle effects appropriate to the phase (or sometimes sounds).
      * Called by dragon's onLivingUpdate. Only used when worldObj.isRemote.

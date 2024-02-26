@@ -21,6 +21,11 @@ public class SkyrimDragonSittingScanningPhase extends AbstractSkyrimDragonPhaseI
         this.scanTargeting = TargetingConditions.forCombat().range(20.0).selector(p_311680_ -> Math.abs(p_311680_.getY() - pDragon.getY()) <= 10.0);
     }
 
+    @Override
+    public boolean isSitting() {
+        return true;
+    }
+
     /**
      * Gives the phase a chance to update its status.
      * Called by dragon's onLivingUpdate. Only used when !worldObj.isRemote.

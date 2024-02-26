@@ -57,7 +57,7 @@ public record FinishForgeRecipe(Recipe<?> recipe) implements CustomPacketPayload
                 player.playSound(SoundEvents.BLASTFURNACE_FIRE_CRACKLE, 1.0F, 1.0F);
                 player.giveExperiencePoints(currentRecipeObject.getXpGained());
 
-                final AddXpToSkill addSmithingXp = new AddXpToSkill(SkillRegistry.SMITHING.getID(), currentRecipeObject.getXpGained());
+                final AddXpToSkill addSmithingXp = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.SMITHING.get()).get(), currentRecipeObject.getXpGained());
                 PacketDistributor.SERVER.noArg().send(addSmithingXp);
             }
         }

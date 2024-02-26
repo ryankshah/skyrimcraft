@@ -1,7 +1,6 @@
 package com.ryankshah.skyrimcraft.entity.boss.dragon.phases;
 
 import com.ryankshah.skyrimcraft.entity.boss.dragon.SkyrimDragon;
-import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhaseManager;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;

@@ -11,6 +11,8 @@ import com.ryankshah.skyrimcraft.network.character.AddToTargetingEntities;
 import com.ryankshah.skyrimcraft.network.character.UpdateCurrentTarget;
 import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.monster.Monster;
@@ -86,10 +88,10 @@ public class EntityEvents
                     playerEntity.removeEffect(ModEffects.ETHEREAL.get());
 
                 if (playerEntity.getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
-                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.ARCHERY.getID(), (int)event.getAmount());
+                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ARCHERY.get()).get(), (int)event.getAmount());
                     PacketDistributor.SERVER.noArg().send(xpToSkill);
                 } else if(playerEntity.getMainHandItem().getItem() instanceof SwordItem) {
-                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.ONE_HANDED.getID(), (int)event.getAmount());
+                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ONE_HANDED.get()).get(), (int)event.getAmount());
                     PacketDistributor.SERVER.noArg().send(xpToSkill);
                 }
 
@@ -108,7 +110,7 @@ public class EntityEvents
         } else if(event.getEntity() instanceof Player) {
             Player playerEntity = (Player) event.getEntity();
             if(playerEntity.isDamageSourceBlocked(event.getSource())) {
-                final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.BLOCK.getID(), SkillRegistry.BASE_BLOCK_XP);
+                final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.BLOCK.get()).get(), SkillRegistry.BASE_BLOCK_XP);
                 PacketDistributor.SERVER.noArg().send(xpToSkill);
             }
 
@@ -129,10 +131,10 @@ public class EntityEvents
                 }
 
                 if(heavySlots.get() >= 3) {
-                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.HEAVY_ARMOR.getID(), (int) (playerEntity.getArmorValue() * playerEntity.getArmorCoverPercentage()));
+                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.HEAVY_ARMOR.get()).get(), (int) (playerEntity.getArmorValue() * playerEntity.getArmorCoverPercentage()));
                     PacketDistributor.SERVER.noArg().send(xpToSkill);
                 } else {
-                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.LIGHT_ARMOR.getID(), (int) (playerEntity.getArmorValue() * playerEntity.getArmorCoverPercentage()));
+                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.LIGHT_ARMOR.get()).get(), (int) (playerEntity.getArmorValue() * playerEntity.getArmorCoverPercentage()));
                     PacketDistributor.SERVER.noArg().send(xpToSkill);
                 }
             }
