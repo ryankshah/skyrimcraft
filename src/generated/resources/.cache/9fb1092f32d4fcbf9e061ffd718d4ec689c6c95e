@@ -1,4 +1,4 @@
-// 1.20.4	2024-02-23T06:12:40.6432159	Recipes
+// 1.20.4	2024-02-27T14:13:41.5845286	Recipes
 29fb76f52a3a9b667a4a5ca4e3510f5844f8d5e3 data/skyrimcraft/advancements/recipes/food/butter.json
 bce3f8b86e9b751fbf5fe28982db6e303853a49c data/skyrimcraft/advancements/recipes/food/flour.json
 eea12cf1f8cdfb909b1c985eb4e6ed6179bb8454 data/skyrimcraft/advancements/recipes/misc/alchemy_table.json
@@ -45,7 +45,7 @@ a159090be247dc10a493c63f16361aded30bedf1 data/skyrimcraft/recipes/ebony_ingot_fr
 18a20c71d7072c00306fd4096731525bbc38db2f data/skyrimcraft/recipes/ebony_ingot_from_smelting_deepslate_ebony_ore.json
 0eb8af398a28ed723f421a39bec6c63300d7ff34 data/skyrimcraft/recipes/ebony_ingot_from_smelting_ebony_ore.json
 25d8fb0fedf445a3f8fd11a41124e2f5a531c1e0 data/skyrimcraft/recipes/flour.json
-d784fa899093c940e3fe7e1b280265f88d9ba858 data/skyrimcraft/recipes/leather_strips.json
+dc83c8be49433d66bafc834cd5025c52dcef36ef data/skyrimcraft/recipes/leather_strips.json
 aaf1b918d0ddca96152c308ff22378f0cf50a968 data/skyrimcraft/recipes/malachite_ingot_from_blasting_deepslate_malachite_ore.json
 1f20b5e82d0c57680e8b15c1dc5a3ed6283132ff data/skyrimcraft/recipes/malachite_ingot_from_blasting_malachite_ore.json
 5cb41a71a9f77460e10db1b069ce023f2c4025d8 data/skyrimcraft/recipes/malachite_ingot_from_smelting_deepslate_malachite_ore.json

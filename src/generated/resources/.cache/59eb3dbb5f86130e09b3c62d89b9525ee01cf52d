@@ -1,4 +1,4 @@
-// 1.20.4	2024-02-24T16:33:16.5708697	Loot Tables
+// 1.20.4	2024-02-27T14:33:48.32166	Loot Tables
 5a57dfc5cbb79ed7fba149781f2d0dbd9c0bf271 data/skyrimcraft/loot_tables/blocks/alchemy_table.json
 1fe6a6656eb3ba0a3d17edf5b64f71ffbed55a15 data/skyrimcraft/loot_tables/blocks/blacksmith_forge.json
 c5ed5b621e96e83ee9a27bf863895f3378fb3abb data/skyrimcraft/loot_tables/blocks/bleeding_crown.json
@@ -42,3 +42,4 @@ e715763f3fa633705ba4d7fc25b64a53509dca50 data/skyrimcraft/loot_tables/entities/o
 072d24ecfd29da389e63cdc7eef6ca6a6783034d data/skyrimcraft/loot_tables/entities/torchbug.json
 18600cd398e4f7577f145b90339f19331e39d3c6 data/skyrimcraft/loot_tables/goat.json
 fadd2ada3ede624e384bbe777a9b0ca0e958494d data/skyrimcraft/loot_tables/grasspod.json
+94e159a47d4bc36eeecdf2238de4bc572a284a98 data/skyrimcraft/loot_tables/horse.json

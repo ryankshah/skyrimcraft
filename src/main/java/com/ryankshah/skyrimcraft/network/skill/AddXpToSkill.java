@@ -46,11 +46,9 @@ public record AddXpToSkill(ResourceKey<Skill> skill, int baseXp) implements Cust
                         ServerPlayer serverPlayer = (ServerPlayer) player;
                         Character character = Character.get(serverPlayer);
                         Skill skill = character.getSkill(SkillRegistry.SKILLS_REGISTRY.get(data.skill).getID());
-                        System.out.println(skill);
 
-                        int oldSkillLevel = skill.getLevel();
+                        int oldSkillLevel = Integer.valueOf(skill.getLevel());
                         character.giveExperiencePoints(skill.getID(), data.baseXp);
-                        System.out.println(skill);
 //                        skill.giveExperiencePoints(data.baseXp);
 
                         final AddXpToSkill sendToClient = new AddXpToSkill(data.skill, data.baseXp);
@@ -59,7 +57,6 @@ public record AddXpToSkill(ResourceKey<Skill> skill, int baseXp) implements Cust
                         if(skill.getLevel() > oldSkillLevel) {
                             // The skill has leveled up, so send packet to client to add to the skyrim ingame gui levelUpdates list.
                             final AddToLevelUpdates levelUpdates = new AddToLevelUpdates(skill.getName(), skill.getLevel(), 200);
-//                            player.setData(PlayerAttachments.XP, new CompassFeatureHandler(playerCompassFeatures));
                             PacketDistributor.PLAYER.with(serverPlayer).send(levelUpdates);
 
                             int level = character.getCharacterLevel();
@@ -72,6 +69,7 @@ public record AddXpToSkill(ResourceKey<Skill> skill, int baseXp) implements Cust
                             character.setCharacterTotalXp(totalXp + skill.getLevel());
                             if(newLevel > level) {
                                 character.setCharacterLevel(newLevel);
+                                character.addLevelPerkPoint();
                                 final AddToLevelUpdates charLevelUpdates = new AddToLevelUpdates("characterLevel", character.getCharacterLevel(), 200);
                                 PacketDistributor.PLAYER.with(serverPlayer).send(charLevelUpdates);
                             }
@@ -103,6 +101,7 @@ public record AddXpToSkill(ResourceKey<Skill> skill, int baseXp) implements Cust
                 character.setCharacterTotalXp(totalXp + skill.getLevel());
                 if(newLevel > level) {
                     character.setCharacterLevel(newLevel);
+                    character.addLevelPerkPoint();
                 }
             }
         });

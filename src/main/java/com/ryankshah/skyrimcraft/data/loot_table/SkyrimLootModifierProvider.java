@@ -42,5 +42,17 @@ public class SkyrimLootModifierProvider extends GlobalLootModifierProvider
                         new ResourceLocation(Skyrimcraft.MODID, "goat")
                 )
         );
+
+        this.add("horse",
+                new AddTableLootModifier(
+                        new LootItemCondition[] {
+                                LootItemKilledByPlayerCondition.killedByPlayer()
+                                        .and(LootItemEntityPropertyCondition.hasProperties(
+                                                LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(EntityType.HORSE)
+                                        )).build()
+                        },
+                        new ResourceLocation(Skyrimcraft.MODID, "horse")
+                )
+        );
     }
 }

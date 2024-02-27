@@ -1,6 +1,7 @@
 package com.ryankshah.skyrimcraft.init;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.advancement.BodyPartShotByArrowTrigger;
 import com.ryankshah.skyrimcraft.advancement.LearnSpellTrigger;
 import com.ryankshah.skyrimcraft.advancement.LevelUpTrigger;
 import net.minecraft.advancements.CriterionTrigger;
@@ -13,4 +14,5 @@ public class AdvancementTriggersInit
     public static final DeferredRegister<CriterionTrigger<?>> TRIGGERS = DeferredRegister.create(Registries.TRIGGER_TYPE, Skyrimcraft.MODID);
     public static final DeferredHolder<CriterionTrigger<?>, LearnSpellTrigger> LEARN_SPELL = TRIGGERS.register("learn_spell", LearnSpellTrigger::new);
     public static final DeferredHolder<CriterionTrigger<?>, LevelUpTrigger> LEVEL_UP = TRIGGERS.register("level_up", LevelUpTrigger::new);
+    public static final DeferredHolder<CriterionTrigger<?>, BodyPartShotByArrowTrigger> BODY_PART_SHOT_BY_ARROW = TRIGGERS.register("body_part_shot_by_arrow", BodyPartShotByArrowTrigger::new);
 }

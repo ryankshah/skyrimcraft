@@ -48,6 +48,7 @@ import static org.lwjgl.glfw.GLFW.glfwGetKeyName;
 public class SkyrimGuiOverlay
 {
     public static final int PLAYER_BAR_MAX_WIDTH = 78;
+    public static List<LevelUpdate> LEVEL_UPDATES = new ArrayList<>();
 
     @SubscribeEvent
     public static void registerOverlays(RegisterGuiOverlaysEvent event){
@@ -62,14 +63,12 @@ public class SkyrimGuiOverlay
         event.registerAbove(VanillaGuiOverlay.AIR_LEVEL.id(), new ResourceLocation(Skyrimcraft.MODID, "skyrim_air"), new SkyrimAir());
         event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), new ResourceLocation(Skyrimcraft.MODID, "skyrim_crosshair"), new SkyrimCrosshair());
         // TODO: Fix
-//        event.registerAbove(VanillaGuiOverlay.EXPERIENCE_BAR.id(), new ResourceLocation(Skyrimcraft.MODID, "skyrim_xpbar"), new SkyrimXPBar());
+        event.registerAbove(VanillaGuiOverlay.EXPERIENCE_BAR.id(), new ResourceLocation(Skyrimcraft.MODID, "skyrim_xpbar"), new SkyrimXPBar());
     }
 
     public static class SkyrimLevelUpdates implements IGuiOverlay
     {
         private final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID + ":textures/gui/overlay_icons.png");
-
-        public static List<LevelUpdate> LEVEL_UPDATES = new ArrayList<>();
 
         @Override
         public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
@@ -155,8 +154,8 @@ public class SkyrimGuiOverlay
 
 //            mc.getTextureManager().bind(OVERLAY_ICONS);
             RenderUtil.bind(OVERLAY_ICONS);
-            RenderUtil.blitWithBlend(poseStack, width / 2 - 51, height / 2 - 30, 0, 51, 102, 10, 256, 256, 10, 1);
-            RenderUtil.blitWithBlend(poseStack, width / 2 - 39, height / 2 - 28, 96 + ((PLAYER_BAR_MAX_WIDTH - characterProgressBarWidth) / 2.0f), 64, (int)(78 * characterProgress), 6, 256, 256, 11, 1);
+            RenderUtil.blitWithBlend(poseStack, width / 2 - 51, height / 2 - 30, 0, 51, 102, 10, 256, 256, 10, opacity / 255f);
+            RenderUtil.blitWithBlend(poseStack, width / 2 - 39, height / 2 - 28, 96 + ((PLAYER_BAR_MAX_WIDTH - characterProgressBarWidth) / 2.0f), 64, (int)(78 * characterProgress), 6, 256, 256, 11, opacity/255f);
 
             if (opacity > 8) {
                 graphics.drawCenteredString(fontRenderer, (updateName + " Increased To " + level).toUpperCase(), width / 2, height / 2 - 45, 0x00FFFFFF | (opacity << 24));
@@ -399,12 +398,12 @@ public class SkyrimGuiOverlay
 
             float staminaPercentage = mc.player.getFoodData().getFoodLevel() / 20.0f; // 20.0f is the max food value (this is apparently hardcoded...)
             float staminaBarWidth = PLAYER_BAR_MAX_WIDTH * staminaPercentage;
-            float staminaBarStartX = (float)(scaledWidth - 109) + (PLAYER_BAR_MAX_WIDTH - staminaBarWidth);
+            float staminaBarStartX = (float)(scaledWidth - 108) + (PLAYER_BAR_MAX_WIDTH - staminaBarWidth);
 
             poseStack.pushPose();
             RenderUtil.bind(OVERLAY_ICONS);
-            RenderUtil.blitWithBlend(poseStack, scaledWidth - 120, scaledHeight - 35, 0, 51, 102, 10, 256, 256, 1, 1);
-            RenderUtil.blitWithBlend(poseStack, (int)staminaBarStartX, scaledHeight - 33, 12 + ((PLAYER_BAR_MAX_WIDTH - staminaBarWidth) / 2.0f), 80, (int)staminaBarWidth, 6, 256, 256, 1, 1);
+            RenderUtil.blitWithBlend(poseStack, scaledWidth - 120, scaledHeight - 40, 0, 51, 102, 10, 256, 256, 1, 1);
+            RenderUtil.blitWithBlend(poseStack, (int)staminaBarStartX, scaledHeight - 38, 12 + ((PLAYER_BAR_MAX_WIDTH - staminaBarWidth) / 2.0f), 80, (int)staminaBarWidth, 6, 256, 256, 1, 1);
             poseStack.popPose();
         }
     }
@@ -428,9 +427,9 @@ public class SkyrimGuiOverlay
             int left = screenWidth - 20;
             int top;
             if(mc.player.getArmorValue() > 0)
-                top = screenHeight - 60;
+                top = screenHeight - 65;
             else
-                top = screenHeight - 48;
+                top = screenHeight - 53;
             int air = player.getAirSupply();
 
             if (player.isEyeInFluidType((FluidType) NeoForgeMod.WATER_TYPE.value()) || air < 300) {
@@ -455,7 +454,6 @@ public class SkyrimGuiOverlay
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
-
             final ResourceLocation EXPERIENCE_BAR_BACKGROUND_SPRITE = new ResourceLocation("hud/experience_bar_background");
             final ResourceLocation EXPERIENCE_BAR_PROGRESS_SPRITE = new ResourceLocation("hud/experience_bar_progress");
 
@@ -464,31 +462,30 @@ public class SkyrimGuiOverlay
 
             if (mc.gameMode.hasExperience()) {
                 int pX = screenWidth / 2 - 91;
-                int k, l;
 
                 mc.getProfiler().push("expBar");
                 int i = mc.player.getXpNeededForNextLevel();
                 if (i > 0) {
                     int j = 182;
-                    k = (int)(mc.player.experienceProgress * 183.0F);
-                    l = screenHeight - 32 + 3;
+                    int k = (int)(mc.player.experienceProgress * 183.0F);
+                    int l = screenHeight - 32 + 3;
                     guiGraphics.blitSprite(EXPERIENCE_BAR_BACKGROUND_SPRITE, pX, l, 182, 5);
                     if (k > 0) {
-                        guiGraphics.blitSprite(EXPERIENCE_BAR_PROGRESS_SPRITE, 182, 182, 5, 0, 0, pX, k, l, 5);
+                        guiGraphics.blitSprite(EXPERIENCE_BAR_PROGRESS_SPRITE, 182, 5, 0, 0, pX, l, k, 5);
                     }
                 }
 
                 mc.getProfiler().pop();
                 if (mc.player.experienceLevel > 0) {
                     mc.getProfiler().push("expLevel");
-                    String s = "" + mc.player.experienceLevel;
-                    k = (screenWidth - mc.font.width(s)) / 2;
-                    l = screenHeight - 31 - 4;
-                    guiGraphics.drawString(mc.font, s, k + 1, l, 0, false);
-                    guiGraphics.drawString(mc.font, s, k - 1, l, 0, false);
-                    guiGraphics.drawString(mc.font, s, k, l + 1, 0, false);
-                    guiGraphics.drawString(mc.font, s, k, l - 1, 0, false);
-                    guiGraphics.drawString(mc.font, s, k, l, 8453920, false);
+                    String s = mc.player.experienceLevel + "";
+                    int i1 = (screenWidth - mc.font.width(s)) / 2;
+                    int j1 = screenHeight - 31 - 4;
+                    guiGraphics.drawString(mc.font, s, i1 + 1, j1, 0, false);
+                    guiGraphics.drawString(mc.font, s, i1 - 1, j1, 0, false);
+                    guiGraphics.drawString(mc.font, s, i1, j1 + 1, 0, false);
+                    guiGraphics.drawString(mc.font, s, i1, j1 - 1, 0, false);
+                    guiGraphics.drawString(mc.font, s, i1, j1, 8453920, false);
                     mc.getProfiler().pop();
                 }
             }
@@ -514,13 +511,14 @@ public class SkyrimGuiOverlay
             mc.getProfiler().push("armor");
             RenderSystem.enableBlend();
             int left = screenWidth - 20 - 8;
-            int top = screenHeight - 48;
+            int top = screenHeight - 53;
 
             int level = mc.player.getArmorValue();
             for (int i = 1; level > 0 && i < 20; i += 2) {
                 if (i < level) {
                     guiGraphics.blitSprite(ARMOR_FULL_SPRITE, left, top, 9, 9);
                 } else if (i == level) {
+                    //TODO: rotate 180 horizontally?
                     guiGraphics.blitSprite(ARMOR_HALF_SPRITE, left, top, 9, 9);
                 } else {
                     guiGraphics.blitSprite(ARMOR_EMPTY_SPRITE, left, top, 9, 9);
@@ -550,8 +548,8 @@ public class SkyrimGuiOverlay
 
             poseStack.pushPose();
             RenderUtil.bind(OVERLAY_ICONS);
-            RenderUtil.blitWithBlend(poseStack, 20, scaledHeight - 35, 0, 51, 102, 10, 256, 256, 1, 1);
-            RenderUtil.blitWithBlend(poseStack, 32, scaledHeight - 33, 12 + ((PLAYER_BAR_MAX_WIDTH - magickaBarWidth) / 2.0f), 64, (int)(78 * magickaPercentage), 6, 256, 256, 1, 1);
+            RenderUtil.blitWithBlend(poseStack, 20, scaledHeight - 40, 0, 51, 102, 10, 256, 256, 1, 1);
+            RenderUtil.blitWithBlend(poseStack, 32, scaledHeight - 38, 12 + ((PLAYER_BAR_MAX_WIDTH - magickaBarWidth) / 2.0f), 64, (int)(78 * magickaPercentage), 6, 256, 256, 1, 1);
             poseStack.popPose();
         }
     }
@@ -576,12 +574,12 @@ public class SkyrimGuiOverlay
             RenderUtil.bind(OVERLAY_ICONS);
             if(mc.player.level().getDifficulty() == Difficulty.HARD) {
                 healthBarStartX = (scaledWidth / 2 - 40) + (PLAYER_BAR_MAX_WIDTH - healthBarWidth) / 2.0f;
-                RenderUtil.blitWithBlend(poseStack, scaledWidth / 2 - 51, scaledHeight - 41, 96, 71, 100, 16, 256, 256, 1, 1);
+                RenderUtil.blitWithBlend(poseStack, scaledWidth / 2 - 51, scaledHeight - 46, 96, 71, 100, 16, 256, 256, 1, 1);
             } else {
                 healthBarStartX = (scaledWidth / 2 - 39) + (PLAYER_BAR_MAX_WIDTH - healthBarWidth) / 2.0f;
-                RenderUtil.blitWithBlend(poseStack, scaledWidth / 2 - 51, scaledHeight - 35, 0, 51, 102, 10, 256, 256, 1, 1);
+                RenderUtil.blitWithBlend(poseStack, scaledWidth / 2 - 51, scaledHeight - 40, 0, 51, 102, 10, 256, 256, 1, 1);
             }
-            RenderUtil.blitWithBlend(poseStack, (int)healthBarStartX, scaledHeight - 33, 12 + ((PLAYER_BAR_MAX_WIDTH - healthBarWidth) / 2.0f), 72, healthBarWidth, 6, 256, 256, 1, 1);
+            RenderUtil.blitWithBlend(poseStack, (int)healthBarStartX, scaledHeight - 38, 12 + ((PLAYER_BAR_MAX_WIDTH - healthBarWidth) / 2.0f), 72, healthBarWidth, 6, 256, 256, 1, 1);
             poseStack.popPose();
         }
     }
@@ -600,7 +598,7 @@ public class SkyrimGuiOverlay
 
             poseStack.pushPose();
             RenderUtil.bind(OVERLAY_ICONS);
-            RenderUtil.blitWithBlend(poseStack, scaledWidth / 2 - 110, 10, 0, 37, 221, 14, 256, 256, 1, 1.0f);
+            RenderUtil.blitWithBlend(poseStack, scaledWidth / 2 - 110, 10, 0, 37, 221, 14, 256, 256, 0, 1.0f);
             poseStack.popPose();
 //            guiGraphics.blitSprite(compassBackground, scaledWidth / 2 - 110, 10, 1, 221, 14);
 //        guiGraphics.blit(scaledWidth / 2 - 110, 10, 0, 37, 221, compassBackground);
@@ -647,9 +645,10 @@ public class SkyrimGuiOverlay
                     if (mc.player.level().getEntity(entityID) == null)
                         return;
 
-                    LivingEntity targetingEntity = (LivingEntity) mc.player.level().getEntity(entityID);
+                    if(!(mc.player.level().getEntity(entityID) instanceof LivingEntity targetingEntity))
+                        return;
+
                     // Check player is out of target range
-                    assert targetingEntity != null;
                     if (!mc.player.closerThan(targetingEntity, 16.0D))
                         return;
 
@@ -708,7 +707,7 @@ public class SkyrimGuiOverlay
                 //fill(matrixStack, (int)(nPos-0.5f), 10, (int)(nPos+0.5f), 18, 0x7FFFFFFF);
                 poseStack.pushPose();
                 RenderUtil.bind(OVERLAY_ICONS);
-                RenderUtil.blitWithBlend(poseStack, nPos-2, 17 - (CompassFeature.ICON_HEIGHT / 2), u, v, CompassFeature.ICON_WIDTH, CompassFeature.ICON_HEIGHT, 256, 256, 3, 1.0f);
+                RenderUtil.blitWithBlend(poseStack, nPos-2, 17 - (CompassFeature.ICON_HEIGHT / 2), u, v, CompassFeature.ICON_WIDTH, CompassFeature.ICON_HEIGHT, 256, 256, 2, 1.0f);
                 poseStack.popPose();
             }
         }

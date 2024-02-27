@@ -40,17 +40,6 @@ public class OvenRecipeProvider implements DataProvider, IConditionBuilder
     }
 
     protected void buildRecipes(RecipeOutput pRecipeOutput) {
-//        List<SkyrimPotion> potions = ItemInit.ITEMS.getEntries().stream().filter(item -> item.get() instanceof SkyrimPotion).map(item -> (SkyrimPotion)item.get()).toList();
-//        for(SkyrimPotion potion : potions) {
-//            if(potion.getCategory() == IPotion.PotionCategory.UNIQUE || potion.getIngredients().isEmpty())
-//                continue;
-//
-//            NonNullList<Ingredient> ings = potion.getIngredients();
-//            AlchemyRecipe recipe = new AlchemyRecipe(potion.getCategory().toString(), new ItemStack(potion, 1), 2, 1, ings);
-//
-//            pRecipeOutput.accept(new ResourceLocation(Skyrimcraft.MODID + ":alchemy/" + BuiltInRegistries.ITEM.getKey(potion).getPath()), recipe, null);
-//        }
-
         pRecipeOutput.accept(
                 new ResourceLocation(Skyrimcraft.MODID + ":oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.SWEET_ROLL.get()).getPath()),
                 new OvenRecipe("food", new ItemStack(ItemInit.SWEET_ROLL.get(), 1), 1, 5,
@@ -94,6 +83,22 @@ public class OvenRecipeProvider implements DataProvider, IConditionBuilder
                                 Ingredient.of(new ItemStack(Items.MILK_BUCKET, 1)),
                                 Ingredient.of(new ItemStack(Items.EGG, 1)),
                                 Ingredient.of(new ItemStack(Items.POTATO, 1))
+                        )),
+                null
+        );
+        pRecipeOutput.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.HORSE_HAUNCH.get()).getPath()),
+                new OvenRecipe("food", new ItemStack(ItemInit.HORSE_HAUNCH.get(), 1), 1, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.HORSE_MEAT.get(), 1))
+                        )),
+                null
+        );
+        pRecipeOutput.accept(
+                new ResourceLocation(Skyrimcraft.MODID + ":oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.LEG_OF_GOAT_ROAST.get()).getPath()),
+                new OvenRecipe("food", new ItemStack(ItemInit.LEG_OF_GOAT_ROAST.get(), 1), 1, 5,
+                        NonNullList.of(
+                                Ingredient.of(new ItemStack(ItemInit.LEG_OF_GOAT.get(), 1))
                         )),
                 null
         );

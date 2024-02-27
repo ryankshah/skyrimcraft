@@ -16,6 +16,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -54,6 +56,28 @@ public class SkyrimAdvancementProvider extends AdvancementProvider {
                             AdvancementType.TASK, false, false, false)
                     .addCriterion("skyrimcraft_login", PlayerTrigger.TriggerInstance.located(LocationPredicate.Builder.location().setX(MinMaxBounds.Doubles.ANY)))
                     .save(saver, new ResourceLocation(Skyrimcraft.MODID, "root"), existingFileHelper);
+
+            Advancement.Builder.advancement()
+                    .parent(skyrimcraft)
+                    .display(
+                            Items.ARROW,
+                            Component.translatable("Take An Arrow To The Knee"),
+                            Component.translatable("I used to be an adventurer like you. Then I took an arrow in the knee..."),
+                            null,
+                            AdvancementType.TASK,
+                            true,
+                            true,
+                            false
+                    )
+                    // TODO: create a new predicate for checking the body part!
+                    .addCriterion(
+                            "take_arrow_to_knee",
+                            EntityHurtPlayerTrigger.TriggerInstance.entityHurtPlayer(
+                                    DamagePredicate.Builder.damageInstance()
+                                            .type(DamageSourcePredicate.Builder.damageType().tag(TagPredicate.is(DamageTypeTags.IS_PROJECTILE)))
+                            )
+                    )
+                    .save(saver, Skyrimcraft.MODID + "/arrow_to_knee");
 
             AdvancementHolder spells = Advancement.Builder.advancement().parent(skyrimcraft)
                     .display(ItemInit.FIREBALL_SPELLBOOK.get(), Component.literal("Spells"), Component.literal("Learned spells"), (ResourceLocation)null, AdvancementType.CHALLENGE, true, true, true)

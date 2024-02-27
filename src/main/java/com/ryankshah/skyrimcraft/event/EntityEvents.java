@@ -4,16 +4,20 @@ import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
+import com.ryankshah.skyrimcraft.data.loot_table.PickpocketLootTables;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.goal.DismayGoal;
 import com.ryankshah.skyrimcraft.goal.UndeadFleeGoal;
+import com.ryankshah.skyrimcraft.init.EntityInit;
 import com.ryankshah.skyrimcraft.item.SkyrimArmor;
+import com.ryankshah.skyrimcraft.item.SkyrimTwoHandedSword;
 import com.ryankshah.skyrimcraft.network.character.AddToTargetingEntities;
 import com.ryankshah.skyrimcraft.network.character.UpdateCurrentTarget;
 import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.monster.Monster;
@@ -29,11 +33,13 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Mod.EventBusSubscriber(modid = Skyrimcraft.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EntityEvents
 {
-//    private static List<EntityType<?>> pickPocketableEntities = StreamSupport.stream(PickpocketLootTables.getPickpocketableEntities().spliterator(), false).collect(Collectors.toList());
+    private static List<EntityType<?>> pickPocketableEntities = StreamSupport.stream(PickpocketLootTables.getPickpocketableEntities().spliterator(), false).toList();
 
     @SubscribeEvent
     public static void entitySetAttackTarget(LivingAttackEvent event) {
@@ -63,9 +69,9 @@ public class EntityEvents
      */
     @SubscribeEvent
     public static void entityJoin(EntityJoinLevelEvent event) {
-//        if(pickPocketableEntities.contains(event.getEntity().getType())) {
-//            event.getEntity().addTag(ModEntityType.PICKPOCKET_TAG);
-//        }
+        if(pickPocketableEntities.contains(event.getEntity().getType())) {
+            event.getEntity().addTag(EntityInit.PICKPOCKET_TAG);
+        }
 
         if(event.getEntity() instanceof PathfinderMob mob) {
             mob.goalSelector.addGoal(0, new DismayGoal(mob, 16.0F, 0.8D, 1.33D));
@@ -82,7 +88,7 @@ public class EntityEvents
     @SubscribeEvent
     public static void onEntityHit(LivingHurtEvent event) {
         if(event.getSource().getEntity() instanceof Player) {
-            ServerPlayer playerEntity = (ServerPlayer) event.getSource().getEntity();
+            Player playerEntity = (Player) event.getSource().getEntity();
             Character character = Character.get(playerEntity);
 
             if (event.getEntity() != null) {
@@ -90,13 +96,16 @@ public class EntityEvents
                     playerEntity.removeEffect(ModEffects.ETHEREAL.get());
 
                 if (playerEntity.getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
-                    character.addXpToSkill(playerEntity, SkillRegistry.ARCHERY.get().getID(), (int)event.getAmount() * SkillRegistry.BASE_ARCHERY_XP);
-//                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ARCHERY.get()).get(), (int)event.getAmount());
-//                    PacketDistributor.SERVER.noArg().send(xpToSkill);
+                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ARCHERY.get()).get(), (int)event.getAmount());
+                    PacketDistributor.SERVER.noArg().send(xpToSkill);
                 } else if(playerEntity.getMainHandItem().getItem() instanceof SwordItem) {
-                    character.addXpToSkill(playerEntity, SkillRegistry.ONE_HANDED.get().getID(), (int)event.getAmount());
-//                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ONE_HANDED.get()).get(), (int)event.getAmount());
-//                    PacketDistributor.SERVER.noArg().send(xpToSkill);
+                    if(playerEntity.getMainHandItem().getItem() instanceof SkyrimTwoHandedSword) {
+                        final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.TWO_HANDED.get()).get(), (int) event.getAmount());
+                        PacketDistributor.SERVER.noArg().send(xpToSkill);
+                    } else {
+                        final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ONE_HANDED.get()).get(), (int) event.getAmount());
+                        PacketDistributor.SERVER.noArg().send(xpToSkill);
+                    }
                 }
 
 //                } else if(playerEntity.getMainHandItem().getItem() instanceof SkyrimTwoHandedWeapon) {

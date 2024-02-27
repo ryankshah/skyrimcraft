@@ -29,6 +29,9 @@ public class SkyrimcraftBiomeModifiers
     public static final ResourceKey<BiomeModifier> ADD_SILVER_ORE = registerKey("add_silver_ore");
 
     public static final ResourceKey<BiomeModifier> ADD_MOUNTAIN_FLOWERS = registerKey("add_mountain_flowers");
+    public static final ResourceKey<BiomeModifier> ADD_MUSHROOMS = registerKey("add_mushrooms");
+    public static final ResourceKey<BiomeModifier> ADD_DESERT_PLANTS = registerKey("add_desert_plants");
+    public static final ResourceKey<BiomeModifier> ADD_OYSTERS = registerKey("add_oysters");
 
     public static final ResourceKey<BiomeModifier> ADD_PLAINS_FLYING_MOBS = registerKey("add_plains_flying_mobs");
     public static final ResourceKey<BiomeModifier> ADD_DRIPSTONE_MOBS = registerKey("add_dripstone_mobs");
@@ -71,6 +74,21 @@ public class SkyrimcraftBiomeModifiers
         context.register(ADD_MOUNTAIN_FLOWERS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
                 HolderSet.direct(placedFeatures.getOrThrow(SkyrimcraftPlacedFeatures.MOUNTAIN_FLOWER_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+
+        context.register(ADD_MUSHROOMS, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(SkyrimcraftPlacedFeatures.MUSHROOMS_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+
+        context.register(ADD_DESERT_PLANTS, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(SkyrimcraftPlacedFeatures.DESERT_PLANTS_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+
+        context.register(ADD_OYSTERS, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_BEACH),
+                HolderSet.direct(placedFeatures.getOrThrow(SkyrimcraftPlacedFeatures.OYSTERS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
         context.register(ADD_PLAINS_FLYING_MOBS, new BiomeModifiers.AddSpawnsBiomeModifier(

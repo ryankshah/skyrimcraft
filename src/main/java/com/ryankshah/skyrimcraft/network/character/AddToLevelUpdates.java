@@ -3,7 +3,11 @@ package com.ryankshah.skyrimcraft.network.character;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.screen.SkyrimGuiOverlay;
 import com.ryankshah.skyrimcraft.util.LevelUpdate;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.toasts.SystemToast;
+import net.minecraft.client.gui.components.toasts.ToastComponent;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -40,7 +44,9 @@ public record AddToLevelUpdates(String updateName, int level, int levelUpRenderT
     public static void handleClient(final AddToLevelUpdates data, final PlayPayloadContext context) {
         Player player = context.player().orElseThrow();
         player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
-        SkyrimGuiOverlay.SkyrimLevelUpdates.LEVEL_UPDATES.add(new LevelUpdate(data.updateName, data.level, data.levelUpRenderTime));
+        if(data.updateName.equals("characterLevel"))
+            Minecraft.getInstance().getToasts().addToast(new SystemToast(SystemToast.SystemToastId.NARRATOR_TOGGLE, Component.literal("Level Up"), Component.literal("You have a new attribute point to use!")));
+        SkyrimGuiOverlay.LEVEL_UPDATES.add(new LevelUpdate(data.updateName, data.level, data.levelUpRenderTime));
     }
 }
 

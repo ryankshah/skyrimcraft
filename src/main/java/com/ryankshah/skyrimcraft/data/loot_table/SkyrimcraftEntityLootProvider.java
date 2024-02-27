@@ -15,6 +15,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerC
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithLootingCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.stream.Stream;
@@ -41,6 +42,14 @@ public class SkyrimcraftEntityLootProvider extends EntityLootSubProvider
 
         this.add(EntityInit.KHAJIIT.get(), LootTable.lootTable());
         this.add(EntityInit.FALMER.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(ItemInit.FALMER_EAR.get()))));
+
+//        LootPool.Builder draugrPool = LootPool.lootPool()
+//                .name("draugrPool")
+//                .setRolls(3)
+//                .add(LootItem.lootTableItem(ItemInit.FLAWED_RUBY)
+//                        .apply(function1)
+//                        .when(condition1)
+//                );
         this.add(EntityInit.DRAUGR.get(), LootTable.lootTable());
     }
 

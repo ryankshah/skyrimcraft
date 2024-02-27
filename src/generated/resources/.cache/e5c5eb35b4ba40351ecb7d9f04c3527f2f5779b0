@@ -1,4 +1,5 @@
-// 1.20.4	2024-02-24T16:33:16.5838671	Advancements
+// 1.20.4	2024-02-27T14:13:41.5954393	Advancements
+e344bb8b89e8d91b69d6fecede7442a37568c86a data/minecraft/advancements/skyrimcraft/arrow_to_knee.json
 8f0ec864bc7c0f19fac572cd8d6513399536675f data/skyrimcraft/advancements/combat/reach_level_10.json
 e1035328e3ce90487f685a4edd117544ae5f1d12 data/skyrimcraft/advancements/combat/root.json
 d844fa5286aca05ee593d37cf8f60032c32fe1b3 data/skyrimcraft/advancements/root.json
@@ -17,6 +18,6 @@ dbd487bb707a5cdb7537cb15c2f9b53eb1f87ffa data/skyrimcraft/advancements/shout/roo
 947a3e1b9951da31fc872d6eb4248ec6e6cdd712 data/skyrimcraft/advancements/spell/conjure_familiar.json
 804cd4ade7edc320b6947e7bdbbd9a9f624e7bf9 data/skyrimcraft/advancements/spell/fireball.json
 eb01ee58f22dbfde8a2f75d2571c104ba41f4290 data/skyrimcraft/advancements/spell/healing.json
-d13b9546c79dadabbeceeef6ee7ad949eddd3535 data/skyrimcraft/advancements/spell/lightning.json
+3b8d236c98f552219ef64da3f6a75212966f948b data/skyrimcraft/advancements/spell/lightning_bolt.json
 2eb95e37ac539480f3921fab5e95af9dc0a1a50f data/skyrimcraft/advancements/spell/root.json
 590ce7eb4e76395a23bb51050e915f2dc631b418 data/skyrimcraft/advancements/spell/turn_undead.json

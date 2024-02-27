@@ -25,7 +25,9 @@ public class SkyrimcraftPlacedFeatures
     public static final ResourceKey<PlacedFeature> SILVER_ORE_PLACED_KEY = registerKey("silver_ore_placed");
 
     public static final ResourceKey<PlacedFeature> MOUNTAIN_FLOWER_PLACED_KEY = registerKey("mountain_flower_placed");
+    public static final ResourceKey<PlacedFeature> MUSHROOMS_PLACED_KEY = registerKey("mushrooms_placed");
     public static final ResourceKey<PlacedFeature> DESERT_PLANTS_PLACED_KEY = registerKey("desert_plants_placed");
+    public static final ResourceKey<PlacedFeature> OYSTERS_PLACED_KEY = registerKey("oysters_placed");
 
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
@@ -62,15 +64,35 @@ public class SkyrimcraftPlacedFeatures
                 )
         );
 
-//        register(context, DESERT_PLANTS_PLACED_KEY,
-//                configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.DESERT_PLANTS_KEY),
-//                List.of(
-//                        RarityFilter.onAverageOnceEvery(26),
-//                        InSquarePlacement.spread(),
-//                        PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
-//                        BiomeFilter.biome()
-//                )
-//        );
+        register(context, MUSHROOMS_PLACED_KEY,
+                configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.MUSHROOMS_KEY),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(26),
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP,
+                        BiomeFilter.biome()
+                )
+        );
+
+        register(context, OYSTERS_PLACED_KEY,
+                configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.OYSTERS_KEY),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(26),
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
+                        BiomeFilter.biome()
+                )
+        );
+
+        register(context, DESERT_PLANTS_PLACED_KEY,
+                configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.DESERT_PLANTS_KEY),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(26),
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
+                        BiomeFilter.biome()
+                )
+        );
     }
 
 

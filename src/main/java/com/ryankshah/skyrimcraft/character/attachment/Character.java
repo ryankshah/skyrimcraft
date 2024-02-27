@@ -7,16 +7,13 @@ import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
-import com.ryankshah.skyrimcraft.init.AdvancementTriggersInit;
-import com.ryankshah.skyrimcraft.network.character.AddToLevelUpdates;
 import com.ryankshah.skyrimcraft.network.character.UpdateCharacter;
-import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
+import com.ryankshah.skyrimcraft.util.LevelUpdate;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -44,7 +41,8 @@ public class Character
             Codec.unboundedMap(SpellRegistry.SPELLS_REGISTRY.byNameCodec(), Codec.FLOAT).fieldOf("spellsOnCooldown").forGetter(Character::getSpellsOnCooldown),
             CompassFeature.CODEC.listOf().fieldOf("compassFeatures").forGetter(Character::getCompassFeatures),
             Codec.INT.listOf().fieldOf("targetingEntities").forGetter(Character::getTargets),
-            Codec.INT.fieldOf("currentTarget").forGetter(Character::getCurrentTarget)
+            Codec.INT.fieldOf("currentTarget").forGetter(Character::getCurrentTarget),
+            Codec.INT.fieldOf("levelPerkPoints").forGetter(Character::getLevelPerkPoints)
     ).apply(characterInstance, Character::new));
 
     private boolean hasSetup;
@@ -63,8 +61,9 @@ public class Character
 
     private List<Integer> targetingEntities;
     private int currentTarget;
+    private int levelPerkPoints;
 
-    public Character(IAttachmentHolder p) {
+    public Character() {
         this(
                 false,
                 20.0f,
@@ -72,7 +71,7 @@ public class Character
                 1.0f,
                 1,
                 0,
-                new ArrayList<>(SkillRegistry.SKILLS_REGISTRY.stream().toList()),
+                new ArrayList<>(), //SkillRegistry.SKILLS_REGISTRY.stream().toList()
                 Race.NORD,
                 new ArrayList<>(),
                 SpellRegistry.EMPTY_SPELL.get(),
@@ -80,7 +79,8 @@ public class Character
                 new HashMap<>(),
                 new ArrayList<>(),
                 new ArrayList<>(),
-                -1
+                -1,
+                0
         );
     }
 
@@ -91,7 +91,8 @@ public class Character
             List<Skill> skills, Race race,
             List<Spell> spells, Spell selectedSpell1, Spell selectedSpell2, Map<Spell, Float> cooldowns,
             List<CompassFeature> features,
-            List<Integer> targets, int current
+            List<Integer> targets, int current,
+            int levelPerkPoints
             ) {
         this.hasSetup = hasSetup;
         this.magicka = magicka;
@@ -105,10 +106,10 @@ public class Character
         this.spellsOnCooldown = new HashMap<>(cooldowns);
         this.skills = new ArrayList<>(skills);
         this.race = race;
-        this.skills = getStartingSkills(race);
         this.compassFeatures = new ArrayList<>(features);
         this.targetingEntities = new ArrayList<>(targets);
         this.currentTarget = current;
+        this.levelPerkPoints = levelPerkPoints;
     }
 
     public void setHasSetup(boolean hasSetup) {
@@ -117,6 +118,12 @@ public class Character
     public boolean getHasSetup() {
         return this.hasSetup;
     }
+
+    public int getLevelPerkPoints() { return this.levelPerkPoints; }
+    public void addLevelPerkPoint() { this.levelPerkPoints += 1; }
+    public void removeLevelPerkPoint() { this.levelPerkPoints -= 1; }
+    public void addLevelPerkPoints(int amount) { this.levelPerkPoints += amount; }
+    public void removeLevelPerkPoints(int amount) { this.levelPerkPoints -= amount; }
 
     public float getMagicka() {
         return this.magicka;
@@ -173,7 +180,7 @@ public class Character
             int speech, int alchemy, int illusion, int conj, int destruct,
             int restoration, int alteration, int enchanting
     ) {
-        List<Skill> skills = SkillRegistry.SKILLS_REGISTRY.stream().toList();
+        List<Skill> skills = new ArrayList<>(SkillRegistry.SKILLS_REGISTRY.stream().toList());
         for(Skill skill : skills) {
             if(skill.getID() == SkillRegistry.SMITHING.get().getID())
                 skill.setLevel(smithing);
@@ -213,13 +220,15 @@ public class Character
                 skill.setLevel(alchemy);
             if(skill.getID() == SkillRegistry.ENCHANTING.get().getID())
                 skill.setLevel(enchanting);
+
+            skills.set(skill.getID(), skill);
         }
 
         return skills;
     }
 
     public void setSkills(List<Skill> skills) {
-        this.skills = skills;
+        this.skills = new ArrayList<>(skills);
     }
     public List<Skill> getSkills() {
         return skills;
@@ -232,40 +241,9 @@ public class Character
         return this.skills.get(id);
     }
 
-    public void addXpToSkill(ServerPlayer serverPlayer, int id, int xp) {
-        Skill skill = this.skills.get(id);
-        int oldSkillLevel = skill.getLevel();
-        System.out.println(skills.get(id));
-        this.skills.get(id).giveExperiencePoints(xp);
-        System.out.println(skills.get(id));
-
-        final AddXpToSkill sendToClient = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(skill).get(), xp);
-        PacketDistributor.PLAYER.with(serverPlayer).send(sendToClient);
-
-        if(skill.getLevel() > oldSkillLevel) {
-            // The skill has leveled up, so send packet to client to add to the skyrim ingame gui levelUpdates list.
-            final AddToLevelUpdates levelUpdates = new AddToLevelUpdates(skill.getName(), skill.getLevel(), 200);
-            PacketDistributor.PLAYER.with(serverPlayer).send(levelUpdates);
-
-            int level = getCharacterLevel();
-            int totalXp = getCharacterTotalXp();
-            int newLevel = (int) Math.floor(-2.5 + Math.sqrt(8 * totalXp + 1225) / 10);
-
-            if (newLevel == 10)
-                AdvancementTriggersInit.LEVEL_UP.get().trigger(serverPlayer, skill, 10);
-
-            setCharacterTotalXp(totalXp + skill.getLevel());
-            if (newLevel > level) {
-                setCharacterLevel(newLevel);
-                final AddToLevelUpdates charLevelUpdates = new AddToLevelUpdates("characterLevel", getCharacterLevel(), 200);
-                PacketDistributor.PLAYER.with(serverPlayer).send(charLevelUpdates);
-            }
-        }
-    }
-
     //TODO: FIX THIS!
     public void giveExperiencePoints(int id, int xp) {
-        getSkill(id).giveExperiencePoints(xp);
+        this.skills.set(id, getSkill(id).giveExperiencePoints(xp));
     }
 
     public void setRace(Race race) {

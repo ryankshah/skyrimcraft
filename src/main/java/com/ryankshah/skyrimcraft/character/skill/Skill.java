@@ -38,6 +38,14 @@ public abstract class Skill //implements Registry<ISkill>
     public Skill(int id, String name) {
         this.identifier = id;
         this.name = name;
+        this.description = getDescription();
+        this.level = getDefaultLevel();
+        this.totalXp = getTotalXp();
+        this.xpProgress = getXpProgress();
+        this.skillUseMultiplier = getSkillUseMultiplier();
+        this.skillUseOffset = getSkillUseOffset();
+        this.skillImproveMultiplier = getSkillImproveMultiplier();
+        this.skillImproveOffset = getSkillImproveOffset();
     }
 
     public abstract AbstractMap.SimpleEntry<Integer, Integer> getIconUV();
@@ -154,7 +162,7 @@ public abstract class Skill //implements Registry<ISkill>
     }
 
     // xp progress calculation taken from https://en.uesp.net/wiki/Skyrim:Leveling
-    public void giveExperiencePoints(int baseXp) {
+    public Skill giveExperiencePoints(int baseXp) {
         // full calculation: `Skill Use Mult * (base XP * skill specific multipliers) + Skill Use Offset` -- TODO: add in skill specific multipliers
         // minecraft progress calc : (float)amount / (float)this.getXpNeededForNextLevel();
         float xpToAdd = skillUseMultiplier * (baseXp) + skillUseOffset;
@@ -177,6 +185,7 @@ public abstract class Skill //implements Registry<ISkill>
             this.giveXpLevels(1);
             xpProgress /= (float)this.getXpNeededForNextLevel();
         }
+        return this;
     }
 
     // Taken from https://en.uesp.net/wiki/Skyrim:Leveling
@@ -186,6 +195,21 @@ public abstract class Skill //implements Registry<ISkill>
 
     public static float clamp(float val, float min, float max) {
         return Math.max(min, Math.min(max, val));
+    }
+
+    public class Perk
+    {
+        protected String name;
+        protected Skill skillRequired;
+        protected int levelRequirement;
+        protected Perk[] parents;
+
+        public Perk(String name, Skill skillRequired, int levelRequirement, Perk[] parents) {
+            this.name = name;
+            this.skillRequired = skillRequired;
+            this.levelRequirement = levelRequirement;
+            this.parents = parents;
+        }
     }
 
     @Override
