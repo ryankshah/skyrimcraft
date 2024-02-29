@@ -11,6 +11,7 @@ import com.ryankshah.skyrimcraft.curios.render.NecklaceRenderer;
 import com.ryankshah.skyrimcraft.curios.render.RingRenderer;
 import com.ryankshah.skyrimcraft.data.DataGenerators;
 import com.ryankshah.skyrimcraft.data.loot_table.SkyrimLootModifiers;
+import com.ryankshah.skyrimcraft.data.loot_table.condition.type.SkyrimcraftLootConditionTypes;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.entity.boss.dragon.SkyrimDragon;
 import com.ryankshah.skyrimcraft.entity.creature.*;
@@ -146,6 +147,7 @@ public class Skyrimcraft
         BlockInit.BLOCKS.register(bus);
         CreativeTabInit.CREATIVE_MODE_TABS.register(bus);
 
+        SkyrimcraftLootConditionTypes.LOOT_CONDITION_TYPE.register(bus);
         AdvancementTriggersInit.TRIGGERS.register(bus);
 
         RecipeTypeInit.RECIPE_TYPES.register(bus);

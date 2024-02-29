@@ -118,11 +118,9 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         item(ItemInit.BEAR_CLAWS.get());
         item(ItemInit.BEEHIVE_HUSK.get());
         item(ItemInit.BERITS_ASHES.get());
-//        item(ItemInit.BLEEDING_CROWN.get());
         item(ItemInit.BLISTERWORT.get());
         item(ItemInit.BLUE_BUTTERFLY_WING.get());
         item(ItemInit.BUTTERFLY_WING.get());
-//        item(ItemInit.CANIS_ROOT.get());
         item(ItemInit.CHARRED_SKEEVER_HIDE.get());
         item(ItemInit.CRIMSON_NIRNROOT.get());
         item(ItemInit.DEATHBELL.get());
@@ -336,6 +334,8 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         spellbook(ItemInit.TURN_UNDEAD_SPELLBOOK.get());
         spellbook(ItemInit.LIGHTNING_SPELLBOOK.get());
 
+        skillbook(ItemInit.PICKPOCKET_SKILLBOOK.get());
+
         item(ItemInit.MINOR_MAGICKA_POTION.get());
         item(ItemInit.MAGICKA_POTION.get());
         item(ItemInit.PLENTIFUL_MAGICKA_POTION.get());
@@ -359,6 +359,13 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         getBuilder(name)
                 .parent(getExistingFile(mcLoc("item/generated")))
                 .texture("layer0", "item/spellbook");
+    }
+
+    private void skillbook(Item item) {
+        String name = NameUtils.getItemName(item);
+        getBuilder(name)
+                .parent(getExistingFile(mcLoc("item/generated")))
+                .texture("layer0", "item/skillbook");
     }
 
     private ItemModelBuilder item(String name) {

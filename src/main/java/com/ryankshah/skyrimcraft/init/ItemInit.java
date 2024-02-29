@@ -2,6 +2,7 @@ package com.ryankshah.skyrimcraft.init;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
+import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.event.ClientEvents;
 import com.ryankshah.skyrimcraft.item.ArmorMaterials;
 import com.ryankshah.skyrimcraft.item.*;
@@ -530,6 +531,9 @@ public class ItemInit
     public static final Supplier<Item> HEALING_SPELLBOOK = ITEMS.register("healing_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.HEALING));
     public static final Supplier<Item> LIGHTNING_SPELLBOOK = ITEMS.register("lightning_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.LIGHTNING));
 
+    // Skill books
+    public static final Supplier<Item> PICKPOCKET_SKILLBOOK = ITEMS.register("pickpocket_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.PICKPOCKET));
+
     //// Jewellery
     public static final Supplier<Item> GOLD_RING = ITEMS.register("gold_ring", () -> new SkyrimRing());
     public static final Supplier<Item> GOLD_DIAMOND_RING = ITEMS.register("gold_diamond_ring", () -> new SkyrimRing());
@@ -858,6 +862,8 @@ public class ItemInit
         provider.addItem(HEALING_SPELLBOOK, "Spellbook");
         provider.addItem(TURN_UNDEAD_SPELLBOOK, "Spellbook");
         provider.addItem(LIGHTNING_SPELLBOOK, "Spellbook");
+
+        provider.addItem(PICKPOCKET_SKILLBOOK, "Skill Book");
 
         provider.addItem(GOLD_RING, "Gold Ring");
         provider.addItem(GOLD_SAPPHIRE_RING, "Gold Sapphire Ring");

@@ -12,17 +12,18 @@ import com.ryankshah.skyrimcraft.util.CompassFeature;
 import com.ryankshah.skyrimcraft.util.LevelUpdate;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Character
 {
@@ -349,8 +350,14 @@ public class Character
     private static class CharacterEvents
     {
         @SubscribeEvent
-        public void attachCapabilities(EntityJoinLevelEvent event)
-        {
+        public void entityJoinWorld(EntityJoinLevelEvent event) {
+            Entity target = event.getEntity();
+            if (target.level().isClientSide)
+                return;
+            if (target instanceof Player player)
+            {
+                get(player).syncToSelf(player);
+            }
         }
 
         @SubscribeEvent
@@ -383,15 +390,26 @@ public class Character
             }
         }
 
+        //TODO: Check if this is how we do it...
+        @SubscribeEvent
+        public void playerDeath(LivingDeathEvent event) {
+            if(event.getEntity() instanceof Player player) {
+                var newHandler = get(player);
+
+                player.setData(PlayerAttachments.CHARACTER, player.getData(PlayerAttachments.CHARACTER));
+                PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateCharacter(newHandler));
+            }
+        }
+
         @SubscribeEvent
         public void playerClone(PlayerEvent.Clone event) {
+            Player player = event.getEntity();
             Player oldPlayer = event.getOriginal();
-            Player newPlayer = event.getEntity();
-            var oldHandler = get(oldPlayer);
-            var newHandler = get(newPlayer);
-
-            newPlayer.setData(PlayerAttachments.CHARACTER, oldPlayer.getData(PlayerAttachments.CHARACTER));
-            PacketDistributor.PLAYER.with((ServerPlayer) newPlayer).send(new UpdateCharacter(newHandler));
+            oldPlayer.revive();
+            Character oldHandler = Character.get(oldPlayer);
+            player.setData(PlayerAttachments.CHARACTER, oldHandler);
+            Character newHandler = Character.get(player);
+            PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateCharacter(newHandler));
         }
     }
 }

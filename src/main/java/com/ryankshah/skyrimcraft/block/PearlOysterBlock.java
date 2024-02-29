@@ -2,6 +2,7 @@ package com.ryankshah.skyrimcraft.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -9,18 +10,22 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.IPlantable;
+import net.neoforged.neoforge.common.PlantType;
 
-public class PearlOysterBlock extends Block
+public class PearlOysterBlock extends Block implements IPlantable
 {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty IS_OPEN = BlockStateProperties.OPEN;
@@ -90,5 +95,39 @@ public class PearlOysterBlock extends Block
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_206840_1_) {
         p_206840_1_.add(FACING, IS_OPEN, IS_EMPTY);
+    }
+
+    @Override
+    public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
+        BlockState soil = pLevel.getBlockState(pPos.below());
+        if (soil.canSustainPlant(pLevel, pPos.below(), Direction.UP, this)) return true;
+        BlockState blockstate = pLevel.getBlockState(pPos.below());
+        if (blockstate.is(this)) {
+            return true;
+        } else {
+            if (blockstate.is(BlockTags.DIRT) || blockstate.is(BlockTags.SAND)) {
+                BlockPos blockpos = pPos.below();
+
+                for(Direction direction : Direction.Plane.HORIZONTAL) {
+                    BlockState blockstate1 = pLevel.getBlockState(blockpos.relative(direction));
+                    FluidState fluidstate = pLevel.getFluidState(blockpos.relative(direction));
+                    if (pState.canBeHydrated(pLevel, pPos, fluidstate, blockpos.relative(direction)) || blockstate1.is(Blocks.FROSTED_ICE) || blockstate1.is(Blocks.GRAVEL)) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+    }
+
+    @Override
+    public PlantType getPlantType(BlockGetter level, BlockPos pos) {
+        return PlantType.BEACH;
+    }
+
+    @Override
+    public BlockState getPlant(BlockGetter level, BlockPos pos) {
+        return defaultBlockState();
     }
 }

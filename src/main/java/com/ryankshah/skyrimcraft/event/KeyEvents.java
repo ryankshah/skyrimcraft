@@ -8,6 +8,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
+import net.neoforged.neoforge.client.settings.KeyModifier;
 import net.neoforged.neoforge.common.util.Lazy;
 import org.lwjgl.glfw.GLFW;
 
@@ -34,8 +35,9 @@ public class KeyEvents
     ));
     public static final Lazy<KeyMapping> PICKPOCKET_KEY = Lazy.of(() -> new KeyMapping(
             "key." + Skyrimcraft.MODID + ".toggle_pickpocket", // Will be localized using this translation key
+            KeyConflictContext.UNIVERSAL,
             InputConstants.Type.KEYSYM, // Default mapping is on the keyboard
-            GLFW.GLFW_KEY_G, // Default key is P
+            GLFW.GLFW_KEY_P, // Default key is P
             "key.categories.misc" // Mapping will be in the misc category
     ));
 

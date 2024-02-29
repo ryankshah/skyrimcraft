@@ -4,11 +4,13 @@ import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
+import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.init.AttributeInit;
 import com.ryankshah.skyrimcraft.init.TagsInit;
 import com.ryankshah.skyrimcraft.network.character.AddToCompassFeatures;
 import com.ryankshah.skyrimcraft.network.character.OpenCharacterCreationScreen;
+import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
 import com.ryankshah.skyrimcraft.network.spell.UpdateShoutCooldown;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
 import net.minecraft.client.Minecraft;
@@ -20,6 +22,7 @@ import net.minecraft.tags.StructureTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -27,7 +30,9 @@ import net.neoforged.fml.LogicalSide;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.neoforge.event.enchanting.EnchantmentLevelSetEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.TradeWithVillagerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
@@ -46,6 +51,20 @@ public class PlayerEvents
             event.setSwingHand(false);
             event.setCanceled(true);
         }
+    }
+
+    @SubscribeEvent
+    public static void onEnchant(EnchantmentLevelSetEvent event) {
+        // TODO: Check if event.getEnchantLevel() is suitable for XP amount (or do we multiply by some base)
+        final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ENCHANTING.get()).get(), (int)event.getEnchantLevel());
+        PacketDistributor.SERVER.noArg().send(xpToSkill);
+    }
+
+    @SubscribeEvent
+    public static void onTradeWithVillager(TradeWithVillagerEvent event) {
+        // TODO: Check if this is suitable for XP amount (or do we multiply by some base)
+        final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.SPEECH.get()).get(), event.getMerchantOffer().getXp());
+        PacketDistributor.SERVER.noArg().send(xpToSkill);
     }
 
     @SubscribeEvent

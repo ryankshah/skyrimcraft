@@ -41,7 +41,7 @@ public class MatchSkillLevel implements LootItemCondition
 
     @Override
     public LootItemConditionType getType() {
-        return SkyrimcraftLootConditionTypes.MATCH_SKILL;
+        return SkyrimcraftLootConditionTypes.MATCH_SKILL.get();
     }
 
     @Override

@@ -20,5 +20,6 @@ public class PlayerAttachments
 
     public static void registerSyncEvents() {
         Character.register();
+        LevelUpdates.register();
     }
 }

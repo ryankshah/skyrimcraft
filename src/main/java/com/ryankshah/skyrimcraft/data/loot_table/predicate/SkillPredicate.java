@@ -26,17 +26,20 @@ public class SkillPredicate
     public static final Codec<SkillPredicate> CODEC = RecordCodecBuilder.create(
             p_298173_ -> p_298173_.group(
                     SkillRegistry.SKILLS_REGISTRY.byNameCodec().fieldOf("skill").forGetter(SkillPredicate::getSkill),
+                    Codec.INT.fieldOf("level").forGetter(SkillPredicate::getLevel),
                     Codec.FLOAT.fieldOf("successChance").forGetter(SkillPredicate::getSuccessChance)
             ).apply(p_298173_, SkillPredicate::new)
     );
 
     private final Skill skill;
     private final float successChance;
+    private final int level;
     //private final NBTPredicate nbt;
     private Random random = new Random();
 
     public SkillPredicate() {
         this.skill = null;
+        this.level = 1;
         this.successChance = 1.0f;
         //this.nbt = NBTPredicate.ANY;
     }
@@ -44,6 +47,14 @@ public class SkillPredicate
     public SkillPredicate(Skill skill, float successChance) { //NBTPredicate nbt
         this.skill = skill;
         this.successChance = successChance;
+        this.level = 1;
+        //this.nbt = nbt;
+    }
+
+    public SkillPredicate(Skill skill, int level, float successChance) { //NBTPredicate nbt
+        this.skill = skill;
+        this.successChance = successChance;
+        this.level = level;
         //this.nbt = nbt;
     }
 
@@ -54,6 +65,8 @@ public class SkillPredicate
     public float getSuccessChance() {
         return this.successChance;
     }
+
+    public int getLevel() { return this.level; }
 
     public boolean matches(Skill skill, float successChance) {
         if(this == ANY)
@@ -130,6 +143,7 @@ public class SkillPredicate
 
     public static class Builder {
         private Skill skill;
+        private int level;
         private float successChance;
 
         private Builder() {
@@ -145,8 +159,15 @@ public class SkillPredicate
             return this;
         }
 
+        public SkillPredicate.Builder of(Skill skill, int level, float successChance) {
+            this.skill = skill;
+            this.level = level;
+            this.successChance = successChance;
+            return this;
+        }
+
         public SkillPredicate build() {
-            return new SkillPredicate(skill, successChance);
+            return new SkillPredicate(skill, level, successChance);
         }
     }
 }

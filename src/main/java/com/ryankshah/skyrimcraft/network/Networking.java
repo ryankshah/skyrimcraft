@@ -6,6 +6,7 @@ import com.ryankshah.skyrimcraft.network.recipe.FinishAlchemyRecipe;
 import com.ryankshah.skyrimcraft.network.recipe.FinishForgeRecipe;
 import com.ryankshah.skyrimcraft.network.recipe.FinishOvenRecipe;
 import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
+import com.ryankshah.skyrimcraft.network.skill.HandlePickpocket;
 import com.ryankshah.skyrimcraft.network.spell.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -21,6 +22,8 @@ public class Networking
 
         registrar.play(AddToLevelUpdates.ID, AddToLevelUpdates::new, payload -> payload.server(AddToLevelUpdates::handleServer).client(AddToLevelUpdates::handleClient));
         registrar.play(AddXpToSkill.ID, AddXpToSkill::new, payload -> payload.server(AddXpToSkill::handleServer).client(AddXpToSkill::handleClient));
+        registrar.play(HandlePickpocket.ID, HandlePickpocket::new, payload -> payload.server(HandlePickpocket::handleServer).client(HandlePickpocket::handleClient));
+
 
         registrar.play(AddToTargetingEntities.ID, AddToTargetingEntities::new, payload -> payload.server(AddToTargetingEntities::handleServer).client(AddToTargetingEntities::handleClient));
         registrar.play(RemoveFromTargetingEntities.ID, RemoveFromTargetingEntities::new, payload -> payload.server(RemoveFromTargetingEntities::handleServer).client(RemoveFromTargetingEntities::handleClient));
@@ -39,6 +42,7 @@ public class Networking
         registrar.play(OpenCharacterCreationScreen.ID, OpenCharacterCreationScreen::new, payload -> payload.server(OpenCharacterCreationScreen::handleServer).client(OpenCharacterCreationScreen::handleClient));
         registrar.play(CreateCharacter.ID, CreateCharacter::new, payload -> payload.server(CreateCharacter::handleServer).client(CreateCharacter::handleClient));
         registrar.play(UpdateCharacter.ID, UpdateCharacter::new, payload -> payload.client(UpdateCharacter::handleClient)); //.server(UpdateCharacter::handleServer)
+        registrar.play(UpdateLevelUpdates.ID, UpdateLevelUpdates::new, payload -> payload.server(UpdateLevelUpdates::handleServer).client(UpdateLevelUpdates::handleClient)); //.server(UpdateCharacter::handleServer)
 
         registrar.play(FinishAlchemyRecipe.ID, FinishAlchemyRecipe::new, payload -> payload.server(FinishAlchemyRecipe::handleServer));
         registrar.play(FinishOvenRecipe.ID, FinishOvenRecipe::new, payload -> payload.server(FinishOvenRecipe::handleServer));

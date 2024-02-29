@@ -43,14 +43,38 @@ public class SkyrimcraftEntityLootProvider extends EntityLootSubProvider
         this.add(EntityInit.KHAJIIT.get(), LootTable.lootTable());
         this.add(EntityInit.FALMER.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(ItemInit.FALMER_EAR.get()))));
 
-//        LootPool.Builder draugrPool = LootPool.lootPool()
-//                .name("draugrPool")
-//                .setRolls(3)
-//                .add(LootItem.lootTableItem(ItemInit.FLAWED_RUBY)
-//                        .apply(function1)
-//                        .when(condition1)
-//                );
-        this.add(EntityInit.DRAUGR.get(), LootTable.lootTable());
+        LootPool.Builder draugrPool = LootPool.lootPool()
+                .name("draugrPool")
+                .setRolls(UniformGenerator.between(1.0F, 3.0F))
+                .add(LootItem.lootTableItem(ItemInit.FLAWED_RUBY)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.FLAWED_EMERALD)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.FLAWED_DIAMOND)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.FLAWLESS_RUBY)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.FLAWED_GARNET)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.FLAWLESS_GARNET)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.FLAWED_AMETHYST)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                );
+        this.add(EntityInit.DRAUGR.get(), LootTable.lootTable().withPool(draugrPool));
     }
 
     @Override

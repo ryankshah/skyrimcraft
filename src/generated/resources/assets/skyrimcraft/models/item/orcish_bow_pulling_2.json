@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/bow",
-  "textures": {
-    "layer0": "skyrimcraft:item/orcish_bow_pulling_2"
-  }
-}

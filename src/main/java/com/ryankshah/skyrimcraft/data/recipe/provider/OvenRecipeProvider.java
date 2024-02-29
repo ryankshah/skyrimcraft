@@ -90,7 +90,8 @@ public class OvenRecipeProvider implements DataProvider, IConditionBuilder
                 new ResourceLocation(Skyrimcraft.MODID + ":oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.HORSE_HAUNCH.get()).getPath()),
                 new OvenRecipe("food", new ItemStack(ItemInit.HORSE_HAUNCH.get(), 1), 1, 5,
                         NonNullList.of(
-                                Ingredient.of(new ItemStack(ItemInit.HORSE_MEAT.get(), 1))
+                                Ingredient.of(new ItemStack(ItemInit.HORSE_MEAT.get(), 1)),
+                                Ingredient.of(new ItemStack(ItemInit.SALT_PILE.get()))
                         )),
                 null
         );
@@ -98,7 +99,8 @@ public class OvenRecipeProvider implements DataProvider, IConditionBuilder
                 new ResourceLocation(Skyrimcraft.MODID + ":oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.LEG_OF_GOAT_ROAST.get()).getPath()),
                 new OvenRecipe("food", new ItemStack(ItemInit.LEG_OF_GOAT_ROAST.get(), 1), 1, 5,
                         NonNullList.of(
-                                Ingredient.of(new ItemStack(ItemInit.LEG_OF_GOAT.get(), 1))
+                                Ingredient.of(new ItemStack(ItemInit.LEG_OF_GOAT.get(), 1)),
+                                Ingredient.of(new ItemStack(ItemInit.BUTTER.get(), 1))
                         )),
                 null
         );

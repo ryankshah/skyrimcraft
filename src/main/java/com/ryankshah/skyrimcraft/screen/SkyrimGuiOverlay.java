@@ -276,12 +276,19 @@ public class SkyrimGuiOverlay
 //                mc.textureManager.bind(AbstractGui.GUI_ICONS_LOCATION);
                 poseStack.pushPose();
                 if (flag) {
-                    RenderUtil.blitWithBlend(poseStack, k, j, 68, 94, 16, 16, 256, 256, 4, 1);
+                    guiGraphics.blitSprite(CROSSHAIR_ATTACK_INDICATOR_FULL_SPRITE, k, j, 16, 16);
                 } else if (f < 1.0F) {
                     int l = (int)(f * 17.0F);
-                    RenderUtil.blitWithBlend(poseStack, k, j, 36, 94, 16, 4, 256, 256, 4, 1);
-                    RenderUtil.blitWithBlend(poseStack, k, j, 52, 94, l, 4, 256, 256, 4, 1);
+                    guiGraphics.blitSprite(CROSSHAIR_ATTACK_INDICATOR_BACKGROUND_SPRITE, k, j, 16, 4);
+                    guiGraphics.blitSprite(CROSSHAIR_ATTACK_INDICATOR_PROGRESS_SPRITE, 16, 4, 0, 0, k, j, l, 4);
                 }
+//                if (flag) {
+//                    RenderUtil.blitWithBlend(poseStack, k, j, 68, 94, 16, 16, 256, 256, 4, 1);
+//                } else if (f < 1.0F) {
+//                    int l = (int)(f * 17.0F);
+//                    RenderUtil.blitWithBlend(poseStack, k, j, 36, 94, 16, 4, 256, 256, 4, 1);
+//                    RenderUtil.blitWithBlend(poseStack, k, j, 52, 94, l, 4, 256, 256, 4, 1);
+//                }
                 poseStack.popPose();
             }
         }

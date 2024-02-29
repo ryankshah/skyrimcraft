@@ -9,16 +9,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.SingleItemRecipe;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.function.Supplier;
 
 public class SkyrimcraftLootConditionTypes
 {
-    public static LootItemConditionType MATCH_SKILL;
+    public static final DeferredRegister<LootItemConditionType> LOOT_CONDITION_TYPE = DeferredRegister.create(BuiltInRegistries.LOOT_CONDITION_TYPE, Skyrimcraft.MODID);
 
-    public static void register() {
-        MATCH_SKILL = add("match_skill", MatchSkillLevel.CODEC);
-    }
-
-    public static LootItemConditionType add(String name, Codec<? extends LootItemCondition> lootSerializer) {
-        return Registry.register(BuiltInRegistries.LOOT_CONDITION_TYPE, new ResourceLocation(Skyrimcraft.MODID, name), new LootItemConditionType(lootSerializer));
-    }
+    public static final Supplier<LootItemConditionType> MATCH_SKILL = LOOT_CONDITION_TYPE.register("match_skill", () -> new LootItemConditionType(MatchSkillLevel.CODEC));
 }

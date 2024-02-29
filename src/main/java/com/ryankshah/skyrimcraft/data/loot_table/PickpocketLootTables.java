@@ -8,6 +8,7 @@ import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.data.loot_table.condition.MatchSkillLevel;
 import com.ryankshah.skyrimcraft.data.loot_table.predicate.SkillPredicate;
+import com.ryankshah.skyrimcraft.init.ItemInit;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -18,6 +19,8 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
+import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -32,12 +35,12 @@ public class PickpocketLootTables implements LootTableSubProvider
 {
     private final Map<ResourceLocation, LootTable.Builder> map = Maps.newHashMap();
 
-//    protected static LootItemCondition.Builder getSkillLevelCondition(Skill skill, int level) {
-//        return MatchSkillLevel.skillMatches(SkillPredicate.Builder.skill().of(skill, level, 1F));
-//    }
+    protected static LootItemCondition.Builder getSkillLevelCondition(Skill skill, int level) {
+        return MatchSkillLevel.skillMatches(SkillPredicate.Builder.skill().of(skill, level, 1F));
+    }
 
-    protected static LootItemCondition.Builder getSkillLevelConditionWithChance(Skill skill, float successChance) {
-        return MatchSkillLevel.skillMatches(SkillPredicate.Builder.skill().of(skill, successChance));
+    protected static LootItemCondition.Builder getSkillLevelConditionWithChance(Skill skill, int level, float successChance) {
+        return MatchSkillLevel.skillMatches(SkillPredicate.Builder.skill().of(skill, level, successChance));
     }
 
     protected static LootTable.Builder createSingleItemTable(ItemLike itemProvider) {
@@ -84,13 +87,39 @@ public class PickpocketLootTables implements LootTableSubProvider
     }
 
     public void addTables(BiConsumer<ResourceLocation, LootTable.Builder> pOutput) {
-//        add(EntityType.VILLAGER, multiplePools(
-//                getSkillLevelConditionWithChance(SkillRegistry.PICKPOCKET.getID(), 15, 0.4f),
-//                LootPool.lootPool().setRolls(RandomValueRange.between(1, 3)).add(ItemLootEntry.lootTableItem(Items.EMERALD)),
-//                LootPool.lootPool().setRolls(RandomValueRange.between(0, 1)).add(ItemLootEntry.lootTableItem(ModItems.DWARVEN_OIL.get()))
-//        ));
-        //add(ModEntityType.MERCHANT.get(), createSingleItemTableWithRange(Items.EMERALD, RandomValueRange.between(1F, 3F), getSkillLevelConditionWithChance(SkillRegistry.PICKPOCKET.getID(), 15, 0.4f)));
-        add(pOutput, EntityType.VILLAGER, createSingleItemTableWithRange(Items.EMERALD, UniformGenerator.between(1F, 3F), getSkillLevelConditionWithChance(SkillRegistry.PICKPOCKET.get(), 0.4f)));
+        LootPool.Builder pickpocketGemPool = LootPool.lootPool()
+                .name("pickpocketGemPool")
+                .setRolls(UniformGenerator.between(1.0F, 3.0F))
+                .add(LootItem.lootTableItem(ItemInit.FLAWED_RUBY)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.FLAWED_EMERALD)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.FLAWED_DIAMOND)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.FLAWLESS_RUBY)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.FLAWED_GARNET)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.FLAWLESS_GARNET)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.FLAWED_AMETHYST)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                );
+
+        add(pOutput, EntityType.VILLAGER, createSingleItemTableWithRange(Items.EMERALD, UniformGenerator.between(1F, 3F), getSkillLevelConditionWithChance(SkillRegistry.PICKPOCKET.get(), 15, 0.4f)));
     }
 
     @Override

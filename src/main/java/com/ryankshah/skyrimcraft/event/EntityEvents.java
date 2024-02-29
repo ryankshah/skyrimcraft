@@ -28,6 +28,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingAttackEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
+import net.neoforged.neoforge.event.entity.player.TradeWithVillagerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Iterator;
@@ -94,6 +95,11 @@ public class EntityEvents
             if (event.getEntity() != null) {
                 if (playerEntity.hasEffect(ModEffects.ETHEREAL.get()))
                     playerEntity.removeEffect(ModEffects.ETHEREAL.get());
+
+                if(playerEntity.isCrouching() && !playerEntity.canBeSeenAsEnemy()) {
+                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.SNEAK.get()).get(), (int)event.getAmount());
+                    PacketDistributor.SERVER.noArg().send(xpToSkill);
+                }
 
                 if (playerEntity.getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
                     final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ARCHERY.get()).get(), (int)event.getAmount());
