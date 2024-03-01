@@ -3,11 +3,23 @@ package com.ryankshah.skyrimcraft.character.skill.type;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Archery extends Skill
 {
-    public Archery(int id, String name) {
-        super(id, name);
+//    public Archery(int id, String name) {
+//        super(id, name);
+//    }
+
+    @Override
+    public int getID() {
+        return 8;
+    }
+
+    @Override
+    public String getName() {
+        return "Archery";
     }
 
     @Override
@@ -38,5 +50,10 @@ public class Archery extends Skill
     @Override
     public int getSkillImproveOffset() {
         return 0;
+    }
+
+    @Override
+    public List<Perk> getSkillPerks() {
+        return new ArrayList<>();
     }
 }

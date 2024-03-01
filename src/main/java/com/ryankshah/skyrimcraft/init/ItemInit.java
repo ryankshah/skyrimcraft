@@ -2,7 +2,9 @@ package com.ryankshah.skyrimcraft.init;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
+import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
+import com.ryankshah.skyrimcraft.character.skill.type.*;
 import com.ryankshah.skyrimcraft.event.ClientEvents;
 import com.ryankshah.skyrimcraft.item.ArmorMaterials;
 import com.ryankshah.skyrimcraft.item.*;
@@ -532,7 +534,24 @@ public class ItemInit
     public static final Supplier<Item> LIGHTNING_SPELLBOOK = ITEMS.register("lightning_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.LIGHTNING));
 
     // Skill books
+    public static final Supplier<Item> ALTERATION_SKILLBOOK = ITEMS.register("alteration_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.ALTERATION));
+    public static final Supplier<Item> CONJURATION_SKILLBOOK = ITEMS.register("conjuration_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.CONJURATION));
+    public static final Supplier<Item> DESTRUCTION_SKILLBOOK = ITEMS.register("destruction_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.DESTRUCTION));
+    public static final Supplier<Item> ILLUSION_SKILLBOOK = ITEMS.register("illusion_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.ILLUSION));
+    public static final Supplier<Item> RESTORATION_SKILLBOOK = ITEMS.register("restoration_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.RESTORATION));
+    public static final Supplier<Item> ENCHANTING_SKILLBOOK = ITEMS.register("enchanting_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.ENCHANTING));
+    public static final Supplier<Item> ONE_HANDED_SKILLBOOK = ITEMS.register("one_handed_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.ONE_HANDED));
+    public static final Supplier<Item> TWO_HANDED_SKILLBOOK = ITEMS.register("two_handed_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.TWO_HANDED));
+    public static final Supplier<Item> ARCHERY_SKILLBOOK = ITEMS.register("archery_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.ARCHERY));
+    public static final Supplier<Item> BLOCK_SKILLBOOK = ITEMS.register("block_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.BLOCK));
+    public static final Supplier<Item> SMITHING_SKILLBOOK = ITEMS.register("smithing_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.SMITHING));
+    public static final Supplier<Item> HEAVY_ARMOR_SKILLBOOK = ITEMS.register("heavy_armor_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.HEAVY_ARMOR));
+    public static final Supplier<Item> LIGHT_ARMOR_SKILLBOOK = ITEMS.register("light_armor_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.LIGHT_ARMOR));
     public static final Supplier<Item> PICKPOCKET_SKILLBOOK = ITEMS.register("pickpocket_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.PICKPOCKET));
+    public static final Supplier<Item> LOCKPICKING_SKILLBOOK = ITEMS.register("lockpicking_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.LOCKPICKING));
+    public static final Supplier<Item> SNEAK_SKILLBOOK = ITEMS.register("sneak_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.SNEAK));
+    public static final Supplier<Item> ALCHEMY_SKILLBOOK = ITEMS.register("alchemy_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.ALCHEMY));
+    public static final Supplier<Item> SPEECH_SKILLBOOK = ITEMS.register("speech_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.SPEECH));
 
     //// Jewellery
     public static final Supplier<Item> GOLD_RING = ITEMS.register("gold_ring", () -> new SkyrimRing());
@@ -863,7 +882,24 @@ public class ItemInit
         provider.addItem(TURN_UNDEAD_SPELLBOOK, "Spellbook");
         provider.addItem(LIGHTNING_SPELLBOOK, "Spellbook");
 
+        provider.addItem(ALTERATION_SKILLBOOK, "Skill Book");
+        provider.addItem(CONJURATION_SKILLBOOK, "Skill Book");
+        provider.addItem(DESTRUCTION_SKILLBOOK, "Skill Book");
+        provider.addItem(ILLUSION_SKILLBOOK, "Skill Book");
+        provider.addItem(RESTORATION_SKILLBOOK, "Skill Book");
+        provider.addItem(ENCHANTING_SKILLBOOK, "Skill Book");
+        provider.addItem(ONE_HANDED_SKILLBOOK, "Skill Book");
+        provider.addItem(TWO_HANDED_SKILLBOOK, "Skill Book");
+        provider.addItem(ARCHERY_SKILLBOOK, "Skill Book");
+        provider.addItem(BLOCK_SKILLBOOK, "Skill Book");
+        provider.addItem(SMITHING_SKILLBOOK, "Skill Book");
+        provider.addItem(HEAVY_ARMOR_SKILLBOOK, "Skill Book");
+        provider.addItem(LIGHT_ARMOR_SKILLBOOK, "Skill Book");
         provider.addItem(PICKPOCKET_SKILLBOOK, "Skill Book");
+        provider.addItem(LOCKPICKING_SKILLBOOK, "Skill Book");
+        provider.addItem(SNEAK_SKILLBOOK, "Skill Book");
+        provider.addItem(ALCHEMY_SKILLBOOK, "Skill Book");
+        provider.addItem(SPEECH_SKILLBOOK, "Skill Book");
 
         provider.addItem(GOLD_RING, "Gold Ring");
         provider.addItem(GOLD_SAPPHIRE_RING, "Gold Sapphire Ring");

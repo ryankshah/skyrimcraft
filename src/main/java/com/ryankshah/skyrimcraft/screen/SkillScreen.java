@@ -134,9 +134,6 @@ public class SkillScreen extends Screen
         if(!skillSelected) {
             for (Skill skillEntry : skillsList) {
                 int x = this.width / 2 + 128 * (skillEntry.getID() + 1) - (this.currentSkill + 1) * 128; //(width / 2) - ((SKILL_BAR_CONTAINER_WIDTH / 2) + (24 * currentSkill+1))
-//                this.addRenderableWidget(new SkillWidget(
-//                        font, x, height / 2 - 32, 64, 128, Component.empty(), skillsList, skillEntry, currentSkill, onPress -> this.skillSelected = true
-//                ));
                 drawSkill(skillEntry, graphics, poseStack, x, height / 2 - 20);
             }
         } else {

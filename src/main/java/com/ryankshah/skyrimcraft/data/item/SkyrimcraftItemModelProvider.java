@@ -334,7 +334,24 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         spellbook(ItemInit.TURN_UNDEAD_SPELLBOOK.get());
         spellbook(ItemInit.LIGHTNING_SPELLBOOK.get());
 
+        skillbook(ItemInit.ALTERATION_SKILLBOOK.get());
+        skillbook(ItemInit.CONJURATION_SKILLBOOK.get());
+        skillbook(ItemInit.DESTRUCTION_SKILLBOOK.get());
+        skillbook(ItemInit.ILLUSION_SKILLBOOK.get());
+        skillbook(ItemInit.RESTORATION_SKILLBOOK.get());
+        skillbook(ItemInit.ENCHANTING_SKILLBOOK.get());
+        skillbook(ItemInit.ONE_HANDED_SKILLBOOK.get());
+        skillbook(ItemInit.TWO_HANDED_SKILLBOOK.get());
+        skillbook(ItemInit.ARCHERY_SKILLBOOK.get());
+        skillbook(ItemInit.BLOCK_SKILLBOOK.get());
+        skillbook(ItemInit.SMITHING_SKILLBOOK.get());
+        skillbook(ItemInit.HEAVY_ARMOR_SKILLBOOK.get());
+        skillbook(ItemInit.LIGHT_ARMOR_SKILLBOOK.get());
         skillbook(ItemInit.PICKPOCKET_SKILLBOOK.get());
+        skillbook(ItemInit.LOCKPICKING_SKILLBOOK.get());
+        skillbook(ItemInit.SNEAK_SKILLBOOK.get());
+        skillbook(ItemInit.ALCHEMY_SKILLBOOK.get());
+        skillbook(ItemInit.SPEECH_SKILLBOOK.get());
 
         item(ItemInit.MINOR_MAGICKA_POTION.get());
         item(ItemInit.MAGICKA_POTION.get());

@@ -87,7 +87,7 @@ public class PickpocketLootTables implements LootTableSubProvider
     }
 
     public void addTables(BiConsumer<ResourceLocation, LootTable.Builder> pOutput) {
-        LootPool.Builder pickpocketGemPool = LootPool.lootPool()
+        LootTable.Builder pickpocketGemPool = LootTable.lootTable().withPool(LootPool.lootPool()
                 .name("pickpocketGemPool")
                 .setRolls(UniformGenerator.between(1.0F, 3.0F))
                 .add(LootItem.lootTableItem(ItemInit.FLAWED_RUBY)
@@ -117,9 +117,11 @@ public class PickpocketLootTables implements LootTableSubProvider
                 .add(LootItem.lootTableItem(ItemInit.FLAWED_AMETHYST)
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
                         .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
-                );
+                )
+                .when(getSkillLevelConditionWithChance(SkillRegistry.PICKPOCKET.get(), 15, 0.4f))
+        );
 
-        add(pOutput, EntityType.VILLAGER, createSingleItemTableWithRange(Items.EMERALD, UniformGenerator.between(1F, 3F), getSkillLevelConditionWithChance(SkillRegistry.PICKPOCKET.get(), 15, 0.4f)));
+        add(pOutput, EntityType.VILLAGER, pickpocketGemPool); //createSingleItemTableWithRange(Items.EMERALD, UniformGenerator.between(1F, 3F), getSkillLevelConditionWithChance(SkillRegistry.PICKPOCKET.get(), 15, 0.4f)));
     }
 
     @Override

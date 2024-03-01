@@ -3,11 +3,23 @@ package com.ryankshah.skyrimcraft.character.skill.type;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pickpocket extends Skill
 {
-    public Pickpocket(int id, String name) {
-        super(id, name);
+//    public Pickpocket(int id, String name) {
+//        super(id, name);
+//    }
+
+    @Override
+    public int getID() {
+        return 13;
+    }
+
+    @Override
+    public String getName() {
+        return "Pickpocket";
     }
 
     @Override
@@ -38,5 +50,10 @@ public class Pickpocket extends Skill
     @Override
     public int getSkillImproveOffset() {
         return 250;
+    }
+
+    @Override
+    public List<Perk> getSkillPerks() {
+        return new ArrayList<>();
     }
 }

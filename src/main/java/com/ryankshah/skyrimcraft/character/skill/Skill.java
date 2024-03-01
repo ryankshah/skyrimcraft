@@ -6,8 +6,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.AbstractMap;
+import java.util.List;
 
-public abstract class Skill //implements Registry<ISkill>
+public abstract class Skill
 {
     private Player player;
     private int identifier;
@@ -22,6 +23,8 @@ public abstract class Skill //implements Registry<ISkill>
     public float skillImproveMultiplier;
     public int skillImproveOffset;
 
+    protected List<Perk> skillPerks;
+
 //    public static Codec<Skill> SKILL_CODEC = RecordCodecBuilder.create(skill -> skill.group(
 //            Codec.INT.fieldOf("identifier").forGetter(Skill::getIdentifier),
 //            Codec.STRING.fieldOf("name").forGetter(Skill::getName),
@@ -33,11 +36,9 @@ public abstract class Skill //implements Registry<ISkill>
 //            Codec.INT.fieldOf("skillImproveOffset").forGetter(Skill::getSkillImproveOffset)
 //    ).apply(skill, Skill::new));
 
-    // Main constructor to use
-
-    public Skill(int id, String name) {
-        this.identifier = id;
-        this.name = name;
+    public Skill() {
+        this.identifier = getID();
+        this.name = getName();
         this.description = getDescription();
         this.level = getDefaultLevel();
         this.totalXp = getTotalXp();
@@ -46,15 +47,16 @@ public abstract class Skill //implements Registry<ISkill>
         this.skillUseOffset = getSkillUseOffset();
         this.skillImproveMultiplier = getSkillImproveMultiplier();
         this.skillImproveOffset = getSkillImproveOffset();
+        this.skillPerks = getSkillPerks();
     }
 
     public abstract AbstractMap.SimpleEntry<Integer, Integer> getIconUV();
 
-    public Skill(int identifier, String name, String description, int baseLevel, float skillUseMultiplier, int skillUseOffset, float skillImproveMultiplier, int skillImproveOffset) {
-        this(identifier, name, description, baseLevel, 0, 0, skillUseMultiplier, skillUseOffset, skillImproveMultiplier, skillImproveOffset);
+    public Skill(int identifier, String name, String description, int baseLevel, float skillUseMultiplier, int skillUseOffset, float skillImproveMultiplier, int skillImproveOffset, List<Perk> perks) {
+        this(identifier, name, description, baseLevel, 0, 0, skillUseMultiplier, skillUseOffset, skillImproveMultiplier, skillImproveOffset, perks);
     }
 
-    public Skill(int identifier, String name, String description, int level, int totalXp, float xpProgress, float skillUseMultiplier, int skillUseOffset, float skillImproveMultiplier, int skillImproveOffset) {
+    public Skill(int identifier, String name, String description, int level, int totalXp, float xpProgress, float skillUseMultiplier, int skillUseOffset, float skillImproveMultiplier, int skillImproveOffset, List<Perk> perks) {
         this.identifier = identifier;
         this.name = name;
         this.description = description;
@@ -65,11 +67,12 @@ public abstract class Skill //implements Registry<ISkill>
         this.skillUseOffset = skillUseOffset;
         this.skillImproveMultiplier = skillImproveMultiplier;
         this.skillImproveOffset = skillImproveOffset;
+        this.skillPerks = perks;
     }
 
     // Dummy constructor
     public Skill(Skill skill) {
-        this(skill.identifier, skill.name, skill.description, skill.level, skill.totalXp, skill.xpProgress, skill.skillUseMultiplier, skill.skillUseOffset, skill.skillImproveMultiplier, skill.skillImproveOffset);
+        this(skill.identifier, skill.name, skill.description, skill.level, skill.totalXp, skill.xpProgress, skill.skillUseMultiplier, skill.skillUseOffset, skill.skillImproveMultiplier, skill.skillImproveOffset, skill.skillPerks);
     }
 
     public int getDefaultLevel() {
@@ -197,18 +200,30 @@ public abstract class Skill //implements Registry<ISkill>
         return Math.max(min, Math.min(max, val));
     }
 
+    public abstract List<Perk> getSkillPerks();
+
     public class Perk
     {
         protected String name;
-        protected Skill skillRequired;
         protected int levelRequirement;
         protected Perk[] parents;
 
-        public Perk(String name, Skill skillRequired, int levelRequirement, Perk[] parents) {
+        public Perk(String name, int levelRequirement, Perk[] parents) {
             this.name = name;
-            this.skillRequired = skillRequired;
             this.levelRequirement = levelRequirement;
             this.parents = parents;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public int getLevelRequirement() {
+            return this.levelRequirement;
+        }
+
+        public Perk[] getParents() {
+            return this.parents;
         }
     }
 

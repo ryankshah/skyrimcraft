@@ -32,8 +32,7 @@ public record UpdateCharacter(Character character) implements CustomPacketPayloa
     public static void handleServer(final UpdateCharacter data, final PlayPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
         player.setData(PlayerAttachments.CHARACTER, data.character);
-//
-        final UpdateCharacter sendToClient = new UpdateCharacter(data.character);
+        final UpdateCharacter sendToClient = new UpdateCharacter(player.getData(PlayerAttachments.CHARACTER));
         PacketDistributor.PLAYER.with(player).send(sendToClient);
     }
 

@@ -3,11 +3,23 @@ package com.ryankshah.skyrimcraft.character.skill.type;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TwoHanded extends Skill
 {
-    public TwoHanded(int id, String name) {
-        super(id, name);
+//    public TwoHanded(int id, String name) {
+//        super(id, name);
+//    }
+
+    @Override
+    public int getID() {
+        return 7;
+    }
+
+    @Override
+    public String getName() {
+        return "Two-Handed";
     }
 
     @Override
@@ -38,5 +50,10 @@ public class TwoHanded extends Skill
     @Override
     public int getSkillImproveOffset() {
         return 0;
+    }
+
+    @Override
+    public List<Perk> getSkillPerks() {
+        return new ArrayList<>();
     }
 }

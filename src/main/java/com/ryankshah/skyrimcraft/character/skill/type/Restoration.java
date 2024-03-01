@@ -3,11 +3,23 @@ package com.ryankshah.skyrimcraft.character.skill.type;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Restoration extends Skill
 {
-    public Restoration(int id, String name) {
-        super(id, name);
+//    public Restoration(int id, String name) {
+//        super(id, name);
+//    }
+
+    @Override
+    public int getID() {
+        return 4;
+    }
+
+    @Override
+    public String getName() {
+        return "Restoration";
     }
 
     @Override
@@ -38,5 +50,10 @@ public class Restoration extends Skill
     @Override
     public int getSkillImproveOffset() {
         return 0;
+    }
+
+    @Override
+    public List<Perk> getSkillPerks() {
+        return new ArrayList<>();
     }
 }

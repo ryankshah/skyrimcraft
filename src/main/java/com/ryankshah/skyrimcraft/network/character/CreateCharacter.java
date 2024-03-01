@@ -10,6 +10,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
+import java.util.ArrayList;
+
 public record CreateCharacter(int raceID) implements CustomPacketPayload //(int raceID, String raceName, Map<Integer, IntList> skills)
 {
     public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"createcharacter");
@@ -36,7 +38,7 @@ public record CreateCharacter(int raceID) implements CustomPacketPayload //(int 
         Character character = Character.get(player);
 
         character.setRace(race);
-        character.setSkills(character.getStartingSkills(race));
+        character.setSkills(new ArrayList<>(character.getStartingSkills(race)));
         character.setHasSetup(true);
 
         final UpdateCharacter sendToClient = new UpdateCharacter(character);
@@ -44,11 +46,5 @@ public record CreateCharacter(int raceID) implements CustomPacketPayload //(int 
     }
 
     public static void handleClient(final CreateCharacter data, final PlayPayloadContext context) {
-//        Player player = context.player().orElseThrow();
-//        Race race = Race.getRaces().stream().filter(r -> r.getId() == data.raceID()).findFirst().get();
-//        Character character = Character.get(player);
-//
-//        player.setData(PlayerAttachments.SKILLS, new SkillsHandler(race));
-//        player.setData(PlayerAttachments.HAS_SETUP, true);
     }
 }

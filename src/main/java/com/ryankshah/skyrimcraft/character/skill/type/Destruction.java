@@ -3,11 +3,23 @@ package com.ryankshah.skyrimcraft.character.skill.type;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Destruction extends Skill
 {
-    public Destruction(int id, String name) {
-        super(id, name);
+//    public Destruction(int id, String name) {
+//        super(id, name);
+//    }
+
+    @Override
+    public int getID() {
+        return 2;
+    }
+
+    @Override
+    public String getName() {
+        return "Destruction";
     }
 
     @Override
@@ -35,10 +47,13 @@ public class Destruction extends Skill
         return 2f;
     }
 
-
-
     @Override
     public int getSkillImproveOffset() {
         return 0;
+    }
+
+    @Override
+    public List<Perk> getSkillPerks() {
+        return new ArrayList<>();
     }
 }

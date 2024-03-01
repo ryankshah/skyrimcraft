@@ -232,7 +232,7 @@ public class Character
         this.skills = new ArrayList<>(skills);
     }
     public List<Skill> getSkills() {
-        return skills;
+        return new ArrayList<>(skills);
     }
     public void addSkill(int index, Skill value) {
         this.skills.add(index, value);
@@ -244,7 +244,8 @@ public class Character
 
     //TODO: FIX THIS!
     public void giveExperiencePoints(int id, int xp) {
-        this.skills.set(id, getSkill(id).giveExperiencePoints(xp));
+        Skill skill = getSkill(id).giveExperiencePoints(xp);
+        this.skills.set(id, skill);
     }
 
     public void setRace(Race race) {

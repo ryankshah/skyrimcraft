@@ -28,6 +28,9 @@ public class SkyrimcraftLanguageProvider extends LanguageProvider
         add("spellbook.learn", "You have just learnt %s!");
         add("spellbook.known", "You already know this spell!");
 
+        add("skillbook.tooltip", "Improves %s by one level");
+        add("skillbook.fail", "Something has gone wrong with this Skill Book");
+
         // Shout block
         add("shoutblock.allshoutsknown", "You have no more shouts to learn!");
         add("shoutblock.used", "The power which once resonated within this wall has since departed...");
