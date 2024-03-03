@@ -42,11 +42,14 @@ public record AddToLevelUpdates(String updateName, int level, int levelUpRenderT
     }
 
     public static void handleClient(final AddToLevelUpdates data, final PlayPayloadContext context) {
-        Player player = context.player().orElseThrow();
-        player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
-        if(data.updateName.equals("characterLevel"))
-            Minecraft.getInstance().getToasts().addToast(new SystemToast(SystemToast.SystemToastId.NARRATOR_TOGGLE, Component.literal("Level Up"), Component.literal("You have a new attribute point to use!")));
-        SkyrimGuiOverlay.LEVEL_UPDATES.add(new LevelUpdate(data.updateName, data.level, data.levelUpRenderTime));
+        Minecraft minecraft = Minecraft.getInstance();
+        minecraft.execute(() -> {
+            Player player = minecraft.player;
+            player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
+            if (data.updateName.equals("characterLevel"))
+                Minecraft.getInstance().getToasts().addToast(new SystemToast(SystemToast.SystemToastId.NARRATOR_TOGGLE, Component.literal("Level Up"), Component.literal("You have a new attribute point to use!")));
+            SkyrimGuiOverlay.LEVEL_UPDATES.add(new LevelUpdate(data.updateName, data.level, data.levelUpRenderTime));
+        });
     }
 }
 

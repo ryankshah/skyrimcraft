@@ -7,6 +7,7 @@ import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
+import com.ryankshah.skyrimcraft.character.skill.SkillWrapper;
 import com.ryankshah.skyrimcraft.network.character.UpdateCharacter;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
 import com.ryankshah.skyrimcraft.util.LevelUpdate;
@@ -24,6 +25,9 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Character
 {
@@ -34,7 +38,8 @@ public class Character
             Codec.FLOAT.fieldOf("magickaRegenModifier").forGetter(Character::getMagickaRegenModifier),
             Codec.INT.fieldOf("characterLevel").forGetter(Character::getCharacterLevel),
             Codec.INT.fieldOf("characterTotalXp").forGetter(Character::getCharacterTotalXp),
-            SkillRegistry.SKILLS_REGISTRY.byNameCodec().listOf().fieldOf("skills").forGetter(Character::getSkills),
+            SkillWrapper.CODEC.listOf().fieldOf("skills").forGetter(Character::getSkills),
+//            SkillRegistry.SKILLS_REGISTRY.byNameCodec().listOf().fieldOf("skills").forGetter(Character::getSkills),
             Race.RACE_CODEC.fieldOf("race").forGetter(Character::getRace),
             SpellRegistry.SPELLS_REGISTRY.byNameCodec().listOf().fieldOf("knownSpells").forGetter(Character::getKnownSpells),
             SpellRegistry.SPELLS_REGISTRY.byNameCodec().fieldOf("selectedSpell1").forGetter(Character::getSelectedSpell1),
@@ -50,7 +55,7 @@ public class Character
     private float magicka, maxMagicka, magickaRegenModifier;
     private int characterLevel, characterTotalXp;
 
-    private List<Skill> skills;
+    private List<SkillWrapper> skills;
     private Race race;
 
     private List<Spell> knownSpells;
@@ -72,7 +77,7 @@ public class Character
                 1.0f,
                 1,
                 0,
-                new ArrayList<>(), //SkillRegistry.SKILLS_REGISTRY.stream().toList()
+                new ArrayList<>(),
                 Race.NORD,
                 new ArrayList<>(),
                 SpellRegistry.EMPTY_SPELL.get(),
@@ -89,7 +94,7 @@ public class Character
             boolean hasSetup,
             float magicka, float maxMagicka, float magickaRegenModifier,
             int characterLevel, int characterTotalXp,
-            List<Skill> skills, Race race,
+            List<SkillWrapper> skills, Race race,
             List<Spell> spells, Spell selectedSpell1, Spell selectedSpell2, Map<Spell, Float> cooldowns,
             List<CompassFeature> features,
             List<Integer> targets, int current,
@@ -161,7 +166,7 @@ public class Character
         this.characterTotalXp = xp;
     }
 
-    public List<Skill> getStartingSkills(Race race) {
+    public List<SkillWrapper> getStartingSkills(Race race) {
         if (race.equals(Race.ALTMER)) return createStartingSkillsFromStartingLevels(15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 25, 20, 20, 20, 20, 20);
         else if (race.equals(Race.ARGONIAN)) return createStartingSkillsFromStartingLevels(15, 15, 15, 15, 15, 15, 20, 20, 25, 20, 15, 15, 15, 15, 15, 20, 20, 15);
         else if (race.equals(Race.BOSMER)) return createStartingSkillsFromStartingLevels(15, 15, 15, 15, 15, 25, 20, 20, 20, 20, 15, 15, 15, 15, 15, 20, 20, 15);
@@ -175,76 +180,77 @@ public class Character
         else return createStartingSkillsFromStartingLevels(20, 15, 20, 25, 20, 15, 20, 15, 15, 15, 20, 15, 15, 15, 15, 15, 15, 15);
     }
 
-    private static List<Skill> createStartingSkillsFromStartingLevels(
+    private static List<SkillWrapper> createStartingSkillsFromStartingLevels(
             int smithing, int heavyarmor, int block, int twohand, int onehand,
             int archery, int lightarmor, int sneak, int lockpick, int pickpocket,
             int speech, int alchemy, int illusion, int conj, int destruct,
             int restoration, int alteration, int enchanting
     ) {
         List<Skill> skills = new ArrayList<>(SkillRegistry.SKILLS_REGISTRY.stream().toList());
+        List<SkillWrapper> skillWrappers = new ArrayList<>(Stream.generate(SkillWrapper::new).limit(skills.size()).collect(Collectors.toList()));
         for(Skill skill : skills) {
             if(skill.getID() == SkillRegistry.SMITHING.get().getID())
-                skill.setLevel(smithing);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), smithing, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.HEAVY_ARMOR.get().getID())
-                skill.setLevel(heavyarmor);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), heavyarmor, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.BLOCK.get().getID())
-                skill.setLevel(block);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), block, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.TWO_HANDED.get().getID())
-                skill.setLevel(twohand);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), twohand, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.ONE_HANDED.get().getID())
-                skill.setLevel(onehand);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), onehand, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.ARCHERY.get().getID())
-                skill.setLevel(archery);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), archery, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.LIGHT_ARMOR.get().getID())
-                skill.setLevel(lightarmor);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), lightarmor, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.SNEAK.get().getID())
-                skill.setLevel(sneak);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), sneak, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.LOCKPICKING.get().getID())
-                skill.setLevel(lockpick);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), lockpick, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.PICKPOCKET.get().getID())
-                skill.setLevel(pickpocket);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), pickpocket, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.SPEECH.get().getID())
-                skill.setLevel(speech);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), speech, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.ALCHEMY.get().getID())
-                skill.setLevel(alchemy);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), alchemy, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.ILLUSION.get().getID())
-                skill.setLevel(illusion);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), illusion, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.CONJURATION.get().getID())
-                skill.setLevel(conj);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), conj, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.DESTRUCTION.get().getID())
-                skill.setLevel(destruct);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), destruct, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.RESTORATION.get().getID())
-                skill.setLevel(restoration);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), restoration, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.ALTERATION.get().getID())
-                skill.setLevel(alteration);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), alteration, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.ALCHEMY.get().getID())
-                skill.setLevel(alchemy);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), alchemy, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
             if(skill.getID() == SkillRegistry.ENCHANTING.get().getID())
-                skill.setLevel(enchanting);
+                skillWrappers.set(skill.getID(), new SkillWrapper(skill, skill.getID(), enchanting, skill.getTotalXp(), skill.getXpProgress(), skill.getSkillUseMultiplier(), skill.getSkillUseOffset(), skill.getSkillImproveMultiplier(), skill.getSkillImproveOffset()));
 
-            skills.set(skill.getID(), skill);
+//            skills.set(skill.getID(), skill);
         }
 
-        return skills;
+        return skillWrappers;
     }
 
-    public void setSkills(List<Skill> skills) {
+    public void setSkills(List<SkillWrapper> skills) {
         this.skills = new ArrayList<>(skills);
     }
-    public List<Skill> getSkills() {
-        return new ArrayList<>(skills);
+    public List<SkillWrapper> getSkills() {
+        return skills;
     }
-    public void addSkill(int index, Skill value) {
-        this.skills.add(index, value);
+    public void addSkill(int index, SkillWrapper value) {
+        this.skills.set(index, value);
     }
 
-    public Skill getSkill(int id) {
+    public SkillWrapper getSkill(int id) {
         return this.skills.get(id);
     }
 
     //TODO: FIX THIS!
     public void giveExperiencePoints(int id, int xp) {
-        Skill skill = getSkill(id).giveExperiencePoints(xp);
+        SkillWrapper skill = getSkill(id).giveExperiencePoints(xp);
         this.skills.set(id, skill);
     }
 
@@ -351,7 +357,7 @@ public class Character
     private static class CharacterEvents
     {
         @SubscribeEvent
-        public void entityJoinWorld(EntityJoinLevelEvent event) {
+        public void entityJoinLevel(EntityJoinLevelEvent event) {
             Entity target = event.getEntity();
             if (target.level().isClientSide)
                 return;
@@ -371,7 +377,7 @@ public class Character
         }
 
         @SubscribeEvent
-        public void joinWorld(PlayerEvent.PlayerChangedDimensionEvent event)
+        public void changedDimension(PlayerEvent.PlayerChangedDimensionEvent event)
         {
             Player target = event.getEntity();
             if (target.level().isClientSide)
@@ -404,6 +410,9 @@ public class Character
 
         @SubscribeEvent
         public void playerClone(PlayerEvent.Clone event) {
+            if(!event.isWasDeath())
+                return;
+
             Player player = event.getEntity();
             Player oldPlayer = event.getOriginal();
             oldPlayer.revive();

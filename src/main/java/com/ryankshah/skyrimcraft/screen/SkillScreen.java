@@ -8,6 +8,7 @@ import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
+import com.ryankshah.skyrimcraft.character.skill.SkillWrapper;
 import com.ryankshah.skyrimcraft.event.KeyEvents;
 import com.ryankshah.skyrimcraft.screen.components.SkillWidget;
 import com.ryankshah.skyrimcraft.util.ClientUtil;
@@ -46,8 +47,8 @@ public class SkillScreen extends Screen
             SKILL_BAR_WIDTH = 67,
             SKILL_BAR_HEIGHT = 2;
 
-    private List<Skill> skillsList;
-    private Skill selectedSkillObject;
+    private List<SkillWrapper> skillsList;
+    private SkillWrapper selectedSkillObject;
     private Minecraft minecraft;
     private LocalPlayer player;
     private Character character;
@@ -132,7 +133,7 @@ public class SkillScreen extends Screen
 //        RenderSystem.setShaderTexture(0, GuiComponent.GUI_ICONS_LOCATION);
         // If no skill is selected, show skill icons etc.
         if(!skillSelected) {
-            for (Skill skillEntry : skillsList) {
+            for (SkillWrapper skillEntry : skillsList) {
                 int x = this.width / 2 + 128 * (skillEntry.getID() + 1) - (this.currentSkill + 1) * 128; //(width / 2) - ((SKILL_BAR_CONTAINER_WIDTH / 2) + (24 * currentSkill+1))
                 drawSkill(skillEntry, graphics, poseStack, x, height / 2 - 20);
             }
@@ -246,7 +247,7 @@ public class SkillScreen extends Screen
         return SkillRegistry.SKILLS_REGISTRY.get(skill).getIconUV();
     }
 
-    private void drawSkill(Skill skill, GuiGraphics graphics, PoseStack poseStack, int x, int y) {
+    private void drawSkill(SkillWrapper skill, GuiGraphics graphics, PoseStack poseStack, int x, int y) {
         float skillProgress = skill.getXpProgress();
         //float skillBarWidth = SKILL_BAR_WIDTH * skillProgress;
         poseStack.pushPose();
@@ -254,7 +255,7 @@ public class SkillScreen extends Screen
         RenderUtil.blitWithBlend(poseStack, x - (SKILL_BAR_CONTAINER_WIDTH / 2), y + 48 + (SKILL_BAR_CONTAINER_HEIGHT / 2), SKILL_BAR_CONTAINER_U, SKILL_BAR_CONTAINER_V, SKILL_BAR_CONTAINER_WIDTH, SKILL_BAR_CONTAINER_HEIGHT, 512, 512, 2, 1);
         RenderUtil.blitWithBlend(poseStack, x - (SKILL_BAR_CONTAINER_WIDTH / 2) + 7, y + 49 + (SKILL_BAR_CONTAINER_HEIGHT / 2) + SKILL_BAR_HEIGHT, SKILL_BAR_U, SKILL_BAR_V, (int)(SKILL_BAR_WIDTH * skillProgress), SKILL_BAR_HEIGHT, 512, 512, 2, 1);
 
-        AbstractMap.SimpleEntry<Integer, Integer> iconUV = getIconUV(SkillRegistry.SKILLS_REGISTRY.getResourceKey(skill).get());
+        AbstractMap.SimpleEntry<Integer, Integer> iconUV = getIconUV(SkillRegistry.SKILLS_REGISTRY.getResourceKey(skill.getSkill()).get());
         RenderUtil.blitWithBlend(poseStack, x - 32, y + 18 - 64, iconUV.getKey(), iconUV.getValue(), 64, 64, 512, 512, 2, 1);
         poseStack.popPose();
         String name = skill.getName().toUpperCase();

@@ -5,6 +5,7 @@ import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
+import com.ryankshah.skyrimcraft.character.skill.SkillWrapper;
 import com.ryankshah.skyrimcraft.init.AdvancementTriggersInit;
 import com.ryankshah.skyrimcraft.network.character.AddToLevelUpdates;
 import net.minecraft.client.Minecraft;
@@ -45,7 +46,7 @@ public record AddXpToSkill(ResourceKey<Skill> skill, int baseXp) implements Cust
                     if (player instanceof ServerPlayer) {
                         ServerPlayer serverPlayer = (ServerPlayer) player;
                         Character character = Character.get(serverPlayer);
-                        Skill skill = character.getSkill(SkillRegistry.SKILLS_REGISTRY.get(data.skill).getID());
+                        SkillWrapper skill = character.getSkill(SkillRegistry.SKILLS_REGISTRY.get(data.skill).getID());
 
                         int oldSkillLevel = Integer.valueOf(skill.getLevel());
                         character.giveExperiencePoints(skill.getID(), data.baseXp);
@@ -88,7 +89,7 @@ public record AddXpToSkill(ResourceKey<Skill> skill, int baseXp) implements Cust
         minecraft.execute(() -> {
             Player player = Minecraft.getInstance().player;
             Character character = Character.get(player);
-            Skill skill = character.getSkill(SkillRegistry.SKILLS_REGISTRY.get(data.skill).getID());
+            SkillWrapper skill = character.getSkill(SkillRegistry.SKILLS_REGISTRY.get(data.skill).getID());
 
             int oldSkillLevel = skill.getLevel();
             character.giveExperiencePoints(skill.getID(), data.baseXp);

@@ -50,7 +50,7 @@ public class MatchSkillLevel implements LootItemCondition
         if(entity instanceof ServerPlayer player) {
             float successChance = player.getRandom().nextFloat();
             Character character = Character.get(player);
-            return this.skillPredicate.matches(character.getSkills().get(SkillRegistry.PICKPOCKET.get().getID()), successChance);
+            return this.skillPredicate.matches(character.getSkills().get(skillPredicate.getSkill().getID()), successChance);
         }
         return false;
     }

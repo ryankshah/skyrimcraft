@@ -21,6 +21,7 @@ public class SkillRegistry
     public static final int BASE_BLOCK_XP = 4;
     public static final int BASE_PICKPOCKET_XP = 4;
     public static final int BASE_ALCHEMY_XP = 4;
+    public static final int BASE_SMITHING_XP = 6;
 
     public static Supplier<Skill> ALTERATION = SKILLS.register("alteration", Alteration::new);
     public static Supplier<Skill> CONJURATION = SKILLS.register("conjuration", Conjuration::new);

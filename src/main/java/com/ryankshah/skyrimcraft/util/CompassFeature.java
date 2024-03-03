@@ -50,8 +50,8 @@ public class CompassFeature
             return new AbstractMap.SimpleEntry<>(0, 124);
         } else if(feature.equals(TagsInit.StructureTagsInit.NETHER_FORTRESS)) {
             return new AbstractMap.SimpleEntry<>(16, 124);
-//        } else if(feature.equals(ModStructures.SHOUT_WALL.getId())) {
-//            return new AbstractMap.SimpleEntry<>(29, 124);
+        } else if(feature.equals(TagsInit.StructureTagsInit.SHOUT_WALL)) {
+            return new AbstractMap.SimpleEntry<>(29, 124);
         } else if(feature.equals(StructureTags.MINESHAFT)) {
             return new AbstractMap.SimpleEntry<>(44, 125);
         } else if(feature.equals(StructureTags.SHIPWRECK)) {

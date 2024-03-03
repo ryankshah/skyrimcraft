@@ -1,38 +1,56 @@
 package com.ryankshah.skyrimcraft.screen;
 
+import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexSorting;
 import com.mojang.math.Axis;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.chunk.SectionRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.core.Direction;
+import net.minecraft.data.worldgen.Structures;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.StructureTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.MapItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MapScreen extends Screen
 {
     public static final ResourceLocation BEAM_LOCATION = new ResourceLocation("textures/entity/beacon_beam.png");
-//
+
     private Minecraft minecraft;
     private LocalPlayer player;
     private Level world;
     private Vec3 camera;
-//    private ObjectList<LevelRenderer.RenderChunkInfo> renderChunks;
-//    private SectionRenderDispatcher.RenderSection[] renderChunksChunkers;
-//    private ObjectList<LevelRenderer.RenderChunkInfo> mapChunks;
+    private ObjectList<SectionRenderDispatcher.RenderSection> renderChunks;
+    private SectionRenderDispatcher.RenderSection[] renderChunksChunkers;
+    private ObjectList<SectionRenderDispatcher.RenderSection> mapChunks;
     private List<CompassFeature> features;
 //
     protected MapScreen() {
@@ -45,88 +63,93 @@ public class MapScreen extends Screen
         this.player = Minecraft.getInstance().player;
         this.world = player.level();
         this.camera = minecraft.gameRenderer.getMainCamera().getPosition();
-//        this.renderChunks = new ObjectArrayList<>(69696);
-//        renderChunksChunkers = this.minecraft.levelRenderer.viewArea.sections;
-//        this.mapChunks = new ObjectArrayList<>(69696);
+
+        this.renderChunks = new ObjectArrayList<>(69696);
+        assert this.minecraft.levelRenderer.viewArea != null;
+        renderChunksChunkers = this.minecraft.levelRenderer.viewArea.sections;
+        this.mapChunks = new ObjectArrayList<>(69696);
 
 //        this.mapChunks.addAll(Arrays.stream(
-//                this.minecraft.levelRenderer.viewArea.chunks
+//                this.minecraft.levelRenderer.viewArea.sections
 //        ).map(
-//                chunkRender -> minecraft.levelRenderer.new RenderChunkInfo(chunkRender, (Direction)null, 0)
+//                chunkRender -> minecraft.levelRenderer.new SectionRenderDispatcher.RenderSection(chunkRender, (Direction)null, 0)
 //        ).collect(Collectors.toList()));
+
         this.features = Character.get(player).getCompassFeatures();
 
         // Filter for features found within the map's chunks, and only for features that appear on the surface
-//        this.features = features.stream().filter(feature -> Arrays.stream(renderChunksChunkers).anyMatch(chunkRender -> chunkRender.getOrigin().getX() == feature.getBlockPos().getX() && chunkRender.getOrigin().getZ() == feature.getBlockPos().getZ()) && !feature.equals(StructureFeature.MINESHAFT.getRegistryName())).collect(Collectors.toList());
+        this.features = features.stream().filter(feature -> Arrays.stream(renderChunksChunkers).anyMatch(chunkRender -> chunkRender.getOrigin().getX() == feature.getBlockPos().getX() && chunkRender.getOrigin().getZ() == feature.getBlockPos().getZ()) && !feature.getFeature().equals(StructureTags.MINESHAFT)).collect(Collectors.toList());
     }
-//
-//    @Override
-//    public boolean isPauseScreen() {
-//        return false;
-//    }
-//
-//    @Override
-//    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-//        PoseStack matrixStack = guiGraphics.pose();
-//        RenderSystem.clearColor(1.0F, 1.0F, 1.0F, 1.0F);
-//
-//        if(world != null) {
-//            guiGraphics.fill(0, 0, this.width, this.height, 0xFF000000);
-////            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiScreenEvent.BackgroundDrawnEvent(this, matrixStack));
-//        }
-//
-//        this.renderChunks = minecraft.levelRenderer.renderChunks;
-//
-//        this.minecraft.levelRenderer.renderChunks.clear();
-//        this.minecraft.levelRenderer.renderChunks.addAll(mapChunks);
-//
-//        // Set d1 to 200 or max build height...
-//        double d0 = player.blockPosition().getX(), d1 = 200d, d2 = player.blockPosition().getZ();
-//
-//        //Matrix4f matrix4f1 = matrixStack.last().pose();
-//        this.resetProjectionMatrix();
-//        matrixStack.translate(width / 2, height / 2 + 45f, -1.4143 * minecraft.options.renderDistance*16);
-//
-//        matrixStack.pushPose();
-//
-//        matrixStack.mulPose(new Quaternion(Vector3f.XP.rotationDegrees(60f)));
-//        matrixStack.mulPose(new Quaternion(Vector3f.YP.rotationDegrees(-22.5f)));
-//
-////        minecraft.levelRenderer.renderChunkLayer(RenderType.solid(), matrixStack, d0, d1, d2);
-////        minecraft.getModelManager().getAtlas(TextureAtlas.LOCATION_BLOCKS).setBlurMipmap(false, this.minecraft.options.mipmapLevels > 0); // FORGE: fix flickering leaves when mods mess up the blurMipmap settings
-////        minecraft.levelRenderer.renderChunkLayer(RenderType.cutoutMipped(), matrixStack, d0, d1, d2);
-////        minecraft.getModelManager().getAtlas(TextureAtlas.LOCATION_BLOCKS).restoreLastBlurMipmap();
-////        minecraft.levelRenderer.renderChunkLayer(RenderType.cutout(), matrixStack, d0, d1, d2);
-////        minecraft.levelRenderer.renderChunkLayer(RenderType.translucent(), matrixStack, d0, d1, d2);
-//        //RenderHelper.setupLevel(matrixStack.last().pose());
-//
-//        // TODO: Fix this...
-//        long i = world.getGameTime();
-//        for(CompassFeature feature : features) {
-//            matrixStack.pushPose();
-//            matrixStack.translate(feature.getBlockPos().getX() - d0, feature.getBlockPos().getY() - d1, feature.getBlockPos().getZ() - d2);
-//            // TODO: Render the map marker which we can click on for fast travel to and show info about the marked CompassFeature
-//            renderBeaconBeam(matrixStack, minecraft.renderBuffers().bufferSource(), partialTicks, i, 40, 1024, DyeColor.WHITE.getTextureDiffuseColors());
-//            matrixStack.popPose();
-//        }
-//
-//        matrixStack.popPose();
-//
-//        //RenderSystem.disableDepthTest();
-//
-//        this.minecraft.levelRenderer.renderChunks.clear();
-//        this.minecraft.levelRenderer.renderChunks.addAll(this.renderChunks);
-//
-////        super.render(guiGraphics, mouseX, mouseY, partialTicks);
-//    }
-//
-//    public void resetProjectionMatrix() {
-////        RenderSystem.matrixMode(5889); // projection view
-////        RenderSystem.loadIdentity();
-////        RenderSystem.ortho(0, width, 0, height, 1f, 1000.0f);
-////        RenderSystem.matrixMode(5888); // model view
-////        RenderSystem.loadIdentity();
-//    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        PoseStack matrixStack = guiGraphics.pose();
+        RenderSystem.clearColor(1.0F, 1.0F, 1.0F, 1.0F);
+
+        if(world != null) {
+            guiGraphics.fill(0, 0, this.width, this.height, 0xFF000000);
+//            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiScreenEvent.BackgroundDrawnEvent(this, matrixStack));
+        }
+
+        this.renderChunks = minecraft.levelRenderer.visibleSections;
+
+        this.minecraft.levelRenderer.visibleSections.clear();
+        this.minecraft.levelRenderer.visibleSections.addAll(mapChunks);
+
+        // Set d1 to 200 or max build height...
+        double d0 = player.blockPosition().getX(), d1 = 200d, d2 = player.blockPosition().getZ();
+
+        Matrix4f pProjectionMatrix = matrixStack.last().pose();
+        this.resetProjectionMatrix(pProjectionMatrix);
+        matrixStack.translate(width / 2, height / 2 + 45f, -1.4143 * (double)minecraft.options.renderDistance.get()*16D);
+
+        matrixStack.pushPose();
+
+        matrixStack.mulPose(new Quaternionf(Axis.XP.rotationDegrees(60f)));
+        matrixStack.mulPose(new Quaternionf(Axis.YP.rotationDegrees(-22.5f)));
+
+        minecraft.levelRenderer.renderSectionLayer(RenderType.solid(), matrixStack, d0, d1, d2, pProjectionMatrix);
+        minecraft.getModelManager().getAtlas(TextureAtlas.LOCATION_BLOCKS).setBlurMipmap(false, this.minecraft.options.mipmapLevels().get() > 0); // FORGE: fix flickering leaves when mods mess up the blurMipmap settings
+        minecraft.levelRenderer.renderSectionLayer(RenderType.cutoutMipped(), matrixStack, d0, d1, d2, pProjectionMatrix);
+        minecraft.getModelManager().getAtlas(TextureAtlas.LOCATION_BLOCKS).restoreLastBlurMipmap();
+        minecraft.levelRenderer.renderSectionLayer(RenderType.cutout(), matrixStack, d0, d1, d2, pProjectionMatrix);
+        minecraft.levelRenderer.renderSectionLayer(RenderType.translucent(), matrixStack, d0, d1, d2, pProjectionMatrix);
+
+        Lighting.setupLevel(matrixStack.last().pose());
+
+        // TODO: Fix this...
+        long i = world.getGameTime();
+        for(CompassFeature feature : features) {
+            matrixStack.pushPose();
+            matrixStack.translate(feature.getBlockPos().getX() - d0, feature.getBlockPos().getY() - d1, feature.getBlockPos().getZ() - d2);
+            // TODO: Render the map marker which we can click on for fast travel to and show info about the marked CompassFeature
+            renderBeaconBeam(matrixStack, minecraft.renderBuffers().bufferSource(), partialTicks, i, 40, 1024, DyeColor.WHITE.getTextureDiffuseColors());
+            matrixStack.popPose();
+        }
+
+        matrixStack.popPose();
+
+        //RenderSystem.disableDepthTest();
+
+        this.minecraft.levelRenderer.visibleSections.clear();
+        this.minecraft.levelRenderer.visibleSections.addAll(this.renderChunks);
+
+//        super.render(guiGraphics, mouseX, mouseY, partialTicks);
+    }
+
+    public void resetProjectionMatrix(Matrix4f pMatrix) {
+//        RenderSystem.setProjectionMatrix(pMatrix, VertexSorting.ORTHOGRAPHIC_Z); // this is new, below is what I had before...
+//        RenderSystem.matrixMode(5889); // projection view
+//        RenderSystem.loadIdentity();
+//        RenderSystem.ortho(0, width, 0, height, 1f, 1000.0f);
+//        RenderSystem.matrixMode(5888); // model view
+//        RenderSystem.loadIdentity();
+    }
 
     private static void renderBeaconBeam(PoseStack p_228841_0_, MultiBufferSource p_228841_1_, float p_228841_2_, long p_228841_3_, int p_228841_5_, int p_228841_6_, float[] p_228841_7_) {
         renderBeaconBeam(p_228841_0_, p_228841_1_, BEAM_LOCATION, p_228841_2_, 1.0F, p_228841_3_, p_228841_5_, p_228841_6_, p_228841_7_, 1f, 0.25f);

@@ -8,6 +8,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
+import com.ryankshah.skyrimcraft.character.skill.SkillWrapper;
 import com.ryankshah.skyrimcraft.data.loot_table.condition.MatchSkillLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -25,13 +26,14 @@ public class SkillPredicate
 
     public static final Codec<SkillPredicate> CODEC = RecordCodecBuilder.create(
             p_298173_ -> p_298173_.group(
-                    SkillRegistry.SKILLS_REGISTRY.byNameCodec().fieldOf("skill").forGetter(SkillPredicate::getSkill),
+                    //SkillRegistry.SKILLS_REGISTRY.byNameCodec().fieldOf("skill").forGetter(SkillPredicate::getSkill),
+                    SkillWrapper.CODEC.fieldOf("skill").forGetter(SkillPredicate::getSkill),
                     Codec.INT.fieldOf("level").forGetter(SkillPredicate::getLevel),
                     Codec.FLOAT.fieldOf("successChance").forGetter(SkillPredicate::getSuccessChance)
             ).apply(p_298173_, SkillPredicate::new)
     );
 
-    private final Skill skill;
+    private final SkillWrapper skill;
     private final float successChance;
     private final int level;
     //private final NBTPredicate nbt;
@@ -44,21 +46,21 @@ public class SkillPredicate
         //this.nbt = NBTPredicate.ANY;
     }
 
-    public SkillPredicate(Skill skill, float successChance) { //NBTPredicate nbt
+    public SkillPredicate(SkillWrapper skill, float successChance) { //NBTPredicate nbt
         this.skill = skill;
         this.successChance = successChance;
         this.level = 1;
         //this.nbt = nbt;
     }
 
-    public SkillPredicate(Skill skill, int level, float successChance) { //NBTPredicate nbt
+    public SkillPredicate(SkillWrapper skill, int level, float successChance) { //NBTPredicate nbt
         this.skill = skill;
         this.successChance = successChance;
         this.level = level;
         //this.nbt = nbt;
     }
 
-    public Skill getSkill() {
+    public SkillWrapper getSkill() {
         return this.skill;
     }
 
@@ -68,7 +70,7 @@ public class SkillPredicate
 
     public int getLevel() { return this.level; }
 
-    public boolean matches(Skill skill, float successChance) {
+    public boolean matches(SkillWrapper skill, float successChance) {
         if(this == ANY)
             return true;
         else if(this.skill != null && skill.getID() != this.skill.getID())
@@ -86,52 +88,52 @@ public class SkillPredicate
         return false;
     }
 
-    public static SkillPredicate fromJson(@Nullable JsonElement p_192492_0_) {
-        if (p_192492_0_ != null && !p_192492_0_.isJsonNull()) {
-            JsonObject jsonobject = GsonHelper.convertToJsonObject(p_192492_0_, "item");
-            if (jsonobject.has("type")) {
-                final ResourceLocation rl = new ResourceLocation(GsonHelper.getAsString(jsonobject, "type"));
-                if (custom_predicates.containsKey(rl)) return custom_predicates.get(rl).apply(jsonobject);
-                else throw new JsonSyntaxException("There is no SkillPredicate of type "+rl);
-            }
-
-            Skill skill = null;
-            if(!jsonobject.has("skill"))
-                throw new JsonSyntaxException("There is no skill specified!");
-            else {
-                JsonObject skillObj = GsonHelper.getAsJsonObject(jsonobject, "skill");
-                int id = GsonHelper.getAsInt(skillObj, "id");
-                if(SkillRegistry.SKILLS_REGISTRY.stream().noneMatch(s -> s.getID() == id))
-                    throw new JsonSyntaxException("There is no skill that exists with id: " + id);
-                int level = GsonHelper.getAsInt(skillObj, "level");
-
-//                skill = SkillRegistry.SKILLS_REGISTRY
-            }
-
-            float successChance = GsonHelper.getAsFloat(jsonobject, "successChance");
-
-            return new SkillPredicate(skill, successChance);
-        } else {
-            return ANY;
-        }
-    }
-
-    public JsonElement serializeToJson() {
-        if (this == ANY) {
-            return JsonNull.INSTANCE;
-        } else {
-            JsonObject jsonobject = new JsonObject();
-            JsonObject skillObject = new JsonObject();
-            if (this.skill != null) {
-                skillObject.addProperty("id", this.skill.getID());
-                skillObject.addProperty("level", this.skill.getLevel());
-                jsonobject.add("skill", skillObject);
-            }
-            jsonobject.addProperty("successChance", this.successChance);
-
-            return jsonobject;
-        }
-    }
+//    public static SkillPredicate fromJson(@Nullable JsonElement p_192492_0_) {
+//        if (p_192492_0_ != null && !p_192492_0_.isJsonNull()) {
+//            JsonObject jsonobject = GsonHelper.convertToJsonObject(p_192492_0_, "item");
+//            if (jsonobject.has("type")) {
+//                final ResourceLocation rl = new ResourceLocation(GsonHelper.getAsString(jsonobject, "type"));
+//                if (custom_predicates.containsKey(rl)) return custom_predicates.get(rl).apply(jsonobject);
+//                else throw new JsonSyntaxException("There is no SkillPredicate of type "+rl);
+//            }
+//
+//            Skill skill = null;
+//            if(!jsonobject.has("skill"))
+//                throw new JsonSyntaxException("There is no skill specified!");
+//            else {
+//                JsonObject skillObj = GsonHelper.getAsJsonObject(jsonobject, "skill");
+//                int id = GsonHelper.getAsInt(skillObj, "id");
+//                if(SkillRegistry.SKILLS_REGISTRY.stream().noneMatch(s -> s.getID() == id))
+//                    throw new JsonSyntaxException("There is no skill that exists with id: " + id);
+//                int level = GsonHelper.getAsInt(skillObj, "level");
+//
+////                skill = SkillRegistry.SKILLS_REGISTRY
+//            }
+//
+//            float successChance = GsonHelper.getAsFloat(jsonobject, "successChance");
+//
+//            return new SkillPredicate(skill, successChance);
+//        } else {
+//            return ANY;
+//        }
+//    }
+//
+//    public JsonElement serializeToJson() {
+//        if (this == ANY) {
+//            return JsonNull.INSTANCE;
+//        } else {
+//            JsonObject jsonobject = new JsonObject();
+//            JsonObject skillObject = new JsonObject();
+//            if (this.skill != null) {
+//                skillObject.addProperty("id", this.skill.getID());
+//                skillObject.addProperty("level", this.skill.getLevel());
+//                jsonobject.add("skill", skillObject);
+//            }
+//            jsonobject.addProperty("successChance", this.successChance);
+//
+//            return jsonobject;
+//        }
+//    }
 
     public static void register(ResourceLocation name, java.util.function.Function<JsonObject, SkillPredicate> deserializer) {
         custom_predicates.put(name, deserializer);
@@ -142,7 +144,7 @@ public class SkillPredicate
     }
 
     public static class Builder {
-        private Skill skill;
+        private SkillWrapper skill;
         private int level;
         private float successChance;
 
@@ -153,13 +155,13 @@ public class SkillPredicate
             return new SkillPredicate.Builder();
         }
 
-        public SkillPredicate.Builder of(Skill skill, float successChance) {
+        public SkillPredicate.Builder of(SkillWrapper skill, float successChance) {
             this.skill = skill;
             this.successChance = successChance;
             return this;
         }
 
-        public SkillPredicate.Builder of(Skill skill, int level, float successChance) {
+        public SkillPredicate.Builder of(SkillWrapper skill, int level, float successChance) {
             this.skill = skill;
             this.level = level;
             this.successChance = successChance;

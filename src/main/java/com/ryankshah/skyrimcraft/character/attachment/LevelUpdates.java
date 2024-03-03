@@ -28,7 +28,7 @@ public class LevelUpdates
     private static class LevelUpdateEvents
     {
         @SubscribeEvent
-        public void entityJoinWorld(EntityJoinLevelEvent event) {
+        public void entityJoinLevel(EntityJoinLevelEvent event) {
             Entity target = event.getEntity();
             if (target.level().isClientSide)
                 return;
@@ -39,7 +39,7 @@ public class LevelUpdates
         }
 
         @SubscribeEvent
-        public void joinWorld(PlayerEvent.PlayerLoggedInEvent event)
+        public void loggedIn(PlayerEvent.PlayerLoggedInEvent event)
         {
             Player target = event.getEntity();
             if (target.level().isClientSide)
@@ -48,7 +48,7 @@ public class LevelUpdates
         }
 
         @SubscribeEvent
-        public void joinWorld(PlayerEvent.PlayerChangedDimensionEvent event)
+        public void changedDimension(PlayerEvent.PlayerChangedDimensionEvent event)
         {
             Player target = event.getEntity();
             if (target.level().isClientSide)
@@ -80,6 +80,9 @@ public class LevelUpdates
 
         @SubscribeEvent
         public void playerClone(PlayerEvent.Clone event) {
+            if(!event.isWasDeath())
+                return;
+
             Player player = event.getEntity();
             Player oldPlayer = event.getOriginal();
             oldPlayer.revive();

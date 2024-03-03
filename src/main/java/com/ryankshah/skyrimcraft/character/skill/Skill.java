@@ -25,17 +25,6 @@ public abstract class Skill
 
     protected List<Perk> skillPerks;
 
-//    public static Codec<Skill> SKILL_CODEC = RecordCodecBuilder.create(skill -> skill.group(
-//            Codec.INT.fieldOf("identifier").forGetter(Skill::getIdentifier),
-//            Codec.STRING.fieldOf("name").forGetter(Skill::getName),
-//            Codec.STRING.fieldOf("description").forGetter(Skill::getDescription),
-//            Codec.INT.fieldOf("level").forGetter(Skill::getLevel),
-//            Codec.FLOAT.fieldOf("skillUseMultiplier").forGetter(Skill::getSkillUseMultiplier),
-//            Codec.INT.fieldOf("skillUseOffset").forGetter(Skill::getSkillUseOffset),
-//            Codec.FLOAT.fieldOf("skillImproveMultiplier").forGetter(Skill::getSkillImproveMultiplier),
-//            Codec.INT.fieldOf("skillImproveOffset").forGetter(Skill::getSkillImproveOffset)
-//    ).apply(skill, Skill::new));
-
     public Skill() {
         this.identifier = getID();
         this.name = getName();
@@ -148,57 +137,11 @@ public abstract class Skill
 
     public int getLevel() { return this.level; }
 
-    public void setLevel(int level) { this.level = level; }
-
     public int getTotalXp() {
         return this.totalXp;
     }
 
     public float getXpProgress() { return this.xpProgress; }
-
-    private void giveXpLevels(int levels) {
-        this.level += levels;
-        if (this.level < 0) {
-            this.level = 0;
-            this.totalXp = 0;
-        }
-    }
-
-    // xp progress calculation taken from https://en.uesp.net/wiki/Skyrim:Leveling
-    public Skill giveExperiencePoints(int baseXp) {
-        // full calculation: `Skill Use Mult * (base XP * skill specific multipliers) + Skill Use Offset` -- TODO: add in skill specific multipliers
-        // minecraft progress calc : (float)amount / (float)this.getXpNeededForNextLevel();
-        float xpToAdd = skillUseMultiplier * (baseXp) + skillUseOffset;
-        this.xpProgress += xpToAdd / (float)this.getXpNeededForNextLevel();
-        this.totalXp = (int)clamp(this.totalXp + xpToAdd, 0, Integer.MAX_VALUE);
-
-        if(xpProgress < 0.0F) {
-            float f = xpProgress * (float)this.getXpNeededForNextLevel();
-            if (level > 0) {
-                this.giveXpLevels(-1);
-                xpProgress = 1.0F + f / (float)this.getXpNeededForNextLevel();
-            } else {
-                giveXpLevels(-1);
-                xpProgress = 0.0F;
-            }
-        }
-
-        if(xpProgress >= 1.0F) {
-            xpProgress = (xpProgress - 1.0F) * (float)this.getXpNeededForNextLevel();
-            this.giveXpLevels(1);
-            xpProgress /= (float)this.getXpNeededForNextLevel();
-        }
-        return this;
-    }
-
-    // Taken from https://en.uesp.net/wiki/Skyrim:Leveling
-    public double getXpNeededForNextLevel() {
-        return level == 0 ? 0 : skillImproveMultiplier * Math.pow((level), 1.95) + skillImproveOffset;
-    }
-
-    public static float clamp(float val, float min, float max) {
-        return Math.max(min, Math.min(max, val));
-    }
 
     public abstract List<Perk> getSkillPerks();
 

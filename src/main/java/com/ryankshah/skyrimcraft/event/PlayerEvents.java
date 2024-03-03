@@ -176,6 +176,12 @@ public class PlayerEvents
         }
     }
 
+    @SubscribeEvent
+    public static void playerSmelt(PlayerEvent.ItemSmeltedEvent event) {
+        final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.SMITHING.get()).get(), event.getSmelting().getCount() * SkillRegistry.BASE_SMITHING_XP);
+        PacketDistributor.SERVER.noArg().send(xpToSkill);
+    }
+
     // Open the character creation screen if first login / world created
     @SubscribeEvent
     public static void playerJoin(PlayerEvent.PlayerLoggedInEvent event) {
