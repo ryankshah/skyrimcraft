@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class SkyrimMenuScreen extends Screen
+public class MenuScreen extends Screen
 {
     protected static final ResourceLocation MENU_ICONS = new ResourceLocation(Skyrimcraft.MODID, "textures/gui/cross.png");
     private final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID, "textures/gui/overlay_icons.png");
@@ -35,7 +35,7 @@ public class SkyrimMenuScreen extends Screen
     Component QUESTS = Component.translatable("skyrimcraft.menu.quests");
     Component MAGIC = Component.translatable("skyrimcraft.menu.magic");
 
-    public SkyrimMenuScreen() {
+    public MenuScreen() {
         super(Component.translatable(Skyrimcraft.MODID + ".menu.title"));
 
         this.currentDirection = Direction.NONE;
@@ -169,7 +169,7 @@ public class SkyrimMenuScreen extends Screen
                     minecraft.player.displayClientMessage(Component.translatable("skyrimcraft.menu.option.magic.none"), false);
                 } else {
                     minecraft.setScreen(null);
-                    minecraft.setScreen(new SkyrimMagicScreen(knownSpells.get()));
+                    minecraft.setScreen(new MagicScreen(knownSpells.get()));
                 }
             }  else
                 minecraft.player.displayClientMessage(Component.translatable("skyrimcraft.menu.option.invalid"), false);

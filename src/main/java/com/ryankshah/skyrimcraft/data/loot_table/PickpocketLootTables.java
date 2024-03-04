@@ -36,11 +36,11 @@ public class PickpocketLootTables implements LootTableSubProvider
 {
     private final Map<ResourceLocation, LootTable.Builder> map = Maps.newHashMap();
 
-    protected static LootItemCondition.Builder getSkillLevelCondition(SkillWrapper skill, int level) {
+    protected static LootItemCondition.Builder getSkillLevelCondition(Skill skill, int level) {
         return MatchSkillLevel.skillMatches(SkillPredicate.Builder.skill().of(skill, level, 1F));
     }
 
-    protected static LootItemCondition.Builder getSkillLevelConditionWithChance(SkillWrapper skill, int level, float successChance) {
+    protected static LootItemCondition.Builder getSkillLevelConditionWithChance(Skill skill, int level, float successChance) {
         return MatchSkillLevel.skillMatches(SkillPredicate.Builder.skill().of(skill, level, successChance));
     }
 
@@ -119,7 +119,7 @@ public class PickpocketLootTables implements LootTableSubProvider
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
                         .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
                 )
-                .when(getSkillLevelConditionWithChance(new SkillWrapper(SkillRegistry.PICKPOCKET.get()), 15, 0.4f))
+                .when(getSkillLevelConditionWithChance(SkillRegistry.PICKPOCKET.get(), 15, 0.4f))
         );
 
         add(pOutput, EntityType.VILLAGER, pickpocketGemPool); //createSingleItemTableWithRange(Items.EMERALD, UniformGenerator.between(1F, 3F), getSkillLevelConditionWithChance(SkillRegistry.PICKPOCKET.get(), 15, 0.4f)));

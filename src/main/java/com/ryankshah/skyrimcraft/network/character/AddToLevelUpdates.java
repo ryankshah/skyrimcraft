@@ -1,6 +1,7 @@
 package com.ryankshah.skyrimcraft.network.character;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.screen.SkyrimGuiOverlay;
 import com.ryankshah.skyrimcraft.util.LevelUpdate;
 import net.minecraft.client.Minecraft;
@@ -37,17 +38,21 @@ public record AddToLevelUpdates(String updateName, int level, int levelUpRenderT
     }
 
     public static void handleServer(final AddToLevelUpdates data, final PlayPayloadContext context) {
+        ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
+        if(data.updateName.equals("characterLevel"))
+            player.setData(PlayerAttachments.LEVEL_UPDATES, player.getData(PlayerAttachments.LEVEL_UPDATES)+1);
         final AddToLevelUpdates updates = new AddToLevelUpdates(data.updateName, data.level, data.levelUpRenderTime);
         PacketDistributor.PLAYER.with((ServerPlayer) context.player().orElseThrow()).send(updates);
     }
 
     public static void handleClient(final AddToLevelUpdates data, final PlayPayloadContext context) {
-        Minecraft minecraft = Minecraft.getInstance();
-        minecraft.execute(() -> {
-            Player player = minecraft.player;
+        context.workHandler().execute(() -> {
+            Player player = context.player().orElseThrow();
             player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
-            if (data.updateName.equals("characterLevel"))
+            if (data.updateName.equals("characterLevel")) {
+                player.setData(PlayerAttachments.LEVEL_UPDATES, player.getData(PlayerAttachments.LEVEL_UPDATES)+1);
                 Minecraft.getInstance().getToasts().addToast(new SystemToast(SystemToast.SystemToastId.NARRATOR_TOGGLE, Component.literal("Level Up"), Component.literal("You have a new attribute point to use!")));
+            }
             SkyrimGuiOverlay.LEVEL_UPDATES.add(new LevelUpdate(data.updateName, data.level, data.levelUpRenderTime));
         });
     }

@@ -6,10 +6,13 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
+import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
+import com.ryankshah.skyrimcraft.character.attachment.StatIncreases;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.character.skill.SkillWrapper;
 import com.ryankshah.skyrimcraft.event.KeyEvents;
+import com.ryankshah.skyrimcraft.network.character.UpdateStatIncreases;
 import com.ryankshah.skyrimcraft.screen.components.SkillWidget;
 import com.ryankshah.skyrimcraft.util.ClientUtil;
 import com.ryankshah.skyrimcraft.util.RenderUtil;
@@ -26,6 +29,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.AbstractMap;
 import java.util.List;
@@ -54,10 +58,11 @@ public class SkillScreen extends Screen
     private Character character;
     private float cubeMapPosition = 0.0f;
     private int currentSkill = 0;
-    private int currentUpdateSelection = 0; // 0 = magicka, 1 = health, 2 = stamina
+    private int currentUpdateSelection = -1; // 0 = magicka, 1 = health, 2 = stamina
     private boolean skillSelected;
-    private int perkPoints;
+    private int perkPoints, levelPoints;
     private boolean shouldFocusLevelUpdates = false;
+    private String[] levelUpdateOptions = {"Magicka", "Health", "Stamina"};
 
     private int greenColor = 0xFF4B8C32;
 
@@ -75,6 +80,12 @@ public class SkillScreen extends Screen
         this.selectedSkillObject = null;
         this.characterProgress = character.getCharacterTotalXp() / (float)getXpNeededForNextCharacterLevel(character.getCharacterLevel()+1);
         this.characterProgressBarWidth = 60 * characterProgress;
+
+        this.levelPoints = player.getData(PlayerAttachments.LEVEL_UPDATES);
+        if(levelPoints > 0) {
+            currentUpdateSelection = 1;
+            shouldFocusLevelUpdates = true;
+        }
     }
 
     private double getXpNeededForNextCharacterLevel(int level) {
@@ -124,9 +135,9 @@ public class SkillScreen extends Screen
 
         poseStack.pushPose();
         RenderUtil.bind(SKILL_ICONS);
-        renderHealth(graphics, poseStack, width, height);
-        renderStamina(graphics, poseStack, width, height);
-        renderMagicka(graphics, poseStack, width, height);
+        renderHealth(graphics, poseStack, width, height, currentUpdateSelection == 1);
+        renderStamina(graphics, poseStack, width, height, currentUpdateSelection == 2);
+        renderMagicka(graphics, poseStack, width, height, currentUpdateSelection == 0);
 
         poseStack.popPose();
 
@@ -143,7 +154,21 @@ public class SkillScreen extends Screen
 
         // If there is a level update, draw this shit on top
         if(shouldFocusLevelUpdates) {
+            drawGradientRect(graphics, poseStack, width / 2 - 140, height / 2 - 30, width / 2 + 140, height / 2 + 6, 0xDD000000, 0xDD000000, 0xFF6E6B64);
+            graphics.drawCenteredString(font, "You leveled up! Choose an attribute to advance:", width / 2, height / 2 - 24, 0xFFFFFFFF);
 
+            graphics.drawCenteredString(font, currentUpdateSelection == 0 ? "< " + levelUpdateOptions[0] + " >" : levelUpdateOptions[0], width / 2 - font.width(levelUpdateOptions[0]) - 20, height / 2 - 10, 0xFFFFFFFF);
+            graphics.drawCenteredString(font, currentUpdateSelection == 1 ? "< " + levelUpdateOptions[1] + " >" : levelUpdateOptions[1], width / 2, height / 2 - 10, 0xFFFFFFFF);
+            graphics.drawCenteredString(font, currentUpdateSelection == 2 ? "< " + levelUpdateOptions[2] + " >" : levelUpdateOptions[2], width / 2 + font.width(levelUpdateOptions[2]) + 20, height / 2 - 10, 0xFFFFFFFF);
+
+//            int i = 1;
+//            for(String option : levelUpdateOptions) {
+//                if(currentUpdateSelection == i-1)
+//                    graphics.drawCenteredString(font, "< " + option + " >", option.equals("health") ? width / 2 : width / 2 - 70 + (i * 42), height / 2 - 10, 0xFFFFFFFF);
+//                else
+//                    graphics.drawCenteredString(font, option, option.equals("health") ? width / 2 : width / 2 - 70 + (i * 42), height / 2 - 10, 0xFFFFFFFF);
+//                i++;
+//            }
         }
     }
 
@@ -192,8 +217,9 @@ public class SkillScreen extends Screen
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if(KeyEvents.SKYRIM_MENU_EAST.get().isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
-            if (shouldFocusLevelUpdates && currentUpdateSelection > 0) {
-                currentUpdateSelection--;
+            if (shouldFocusLevelUpdates) {
+                if(currentUpdateSelection > 0)
+                    currentUpdateSelection--;
             } else if(!skillSelected) {
                 if (currentSkill > 0) {
                     currentSkill--;
@@ -202,8 +228,9 @@ public class SkillScreen extends Screen
                 }
             }
         } else if(KeyEvents.SKYRIM_MENU_WEST.get().isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
-            if(shouldFocusLevelUpdates && currentUpdateSelection < 2) {
-                currentUpdateSelection++;
+            if(shouldFocusLevelUpdates) {
+                if(currentUpdateSelection < 2)
+                    currentUpdateSelection++;
             } else if(!skillSelected) {
                 if (currentSkill < skillsList.size() - 1) {
                     currentSkill++;
@@ -214,7 +241,17 @@ public class SkillScreen extends Screen
         } else if(KeyEvents.SKYRIM_MENU_ENTER.get().isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
             if(shouldFocusLevelUpdates) {
                 // Send packet based on the update selected
-//                Networking.sendToServer(new PacketUpdateExtraStatOnServer(currentUpdateSelection));
+                StatIncreases statIncreases = player.getData(PlayerAttachments.STAT_INCREASES);
+                if(currentUpdateSelection == 1) {
+                    statIncreases.increaseHealth();
+                }
+                final UpdateStatIncreases updateStatIncreases = new UpdateStatIncreases(statIncreases);
+                PacketDistributor.SERVER.noArg().send(updateStatIncreases);
+                levelPoints--;
+                if(levelPoints == 0) {
+                    shouldFocusLevelUpdates = false;
+                    currentUpdateSelection = -1;
+                }
             } else if(!skillSelected) {
                 skillSelected = true;
                 selectedSkillObject = skillsList.get(currentSkill);
@@ -252,11 +289,11 @@ public class SkillScreen extends Screen
         //float skillBarWidth = SKILL_BAR_WIDTH * skillProgress;
         poseStack.pushPose();
         RenderUtil.bind(SKILL_ICONS);
-        RenderUtil.blitWithBlend(poseStack, x - (SKILL_BAR_CONTAINER_WIDTH / 2), y + 48 + (SKILL_BAR_CONTAINER_HEIGHT / 2), SKILL_BAR_CONTAINER_U, SKILL_BAR_CONTAINER_V, SKILL_BAR_CONTAINER_WIDTH, SKILL_BAR_CONTAINER_HEIGHT, 512, 512, 2, 1);
-        RenderUtil.blitWithBlend(poseStack, x - (SKILL_BAR_CONTAINER_WIDTH / 2) + 7, y + 49 + (SKILL_BAR_CONTAINER_HEIGHT / 2) + SKILL_BAR_HEIGHT, SKILL_BAR_U, SKILL_BAR_V, (int)(SKILL_BAR_WIDTH * skillProgress), SKILL_BAR_HEIGHT, 512, 512, 2, 1);
+        RenderUtil.blitWithBlend(poseStack, x - (SKILL_BAR_CONTAINER_WIDTH / 2), y + 48 + (SKILL_BAR_CONTAINER_HEIGHT / 2), SKILL_BAR_CONTAINER_U, SKILL_BAR_CONTAINER_V, SKILL_BAR_CONTAINER_WIDTH, SKILL_BAR_CONTAINER_HEIGHT, 512, 512, 0, 1);
+        RenderUtil.blitWithBlend(poseStack, x - (SKILL_BAR_CONTAINER_WIDTH / 2) + 7, y + 49 + (SKILL_BAR_CONTAINER_HEIGHT / 2) + SKILL_BAR_HEIGHT, SKILL_BAR_U, SKILL_BAR_V, (int)(SKILL_BAR_WIDTH * skillProgress), SKILL_BAR_HEIGHT, 512, 512, 0, 1);
 
         AbstractMap.SimpleEntry<Integer, Integer> iconUV = getIconUV(SkillRegistry.SKILLS_REGISTRY.getResourceKey(skill.getSkill()).get());
-        RenderUtil.blitWithBlend(poseStack, x - 32, y + 18 - 64, iconUV.getKey(), iconUV.getValue(), 64, 64, 512, 512, 2, 1);
+        RenderUtil.blitWithBlend(poseStack, x - 32, y + 18 - 64, iconUV.getKey(), iconUV.getValue(), 64, 64, 512, 512, 0, 1);
         poseStack.popPose();
         String name = skill.getName().toUpperCase();
         drawScaledCenteredString(graphics, skill.getName().toUpperCase(), x - 12, y + 40, 0xFF949494, 0.75f);
@@ -267,7 +304,7 @@ public class SkillScreen extends Screen
         }
     }
 
-    private void renderHealth(GuiGraphics graphics, PoseStack poseStack, int width, int height) {
+    private void renderHealth(GuiGraphics graphics, PoseStack poseStack, int width, int height, boolean selected) {
         poseStack.pushPose();
         float healthPercentage = player.getHealth() / player.getMaxHealth();
         float healthBarWidth = PLAYER_BAR_MAX_WIDTH * healthPercentage;
@@ -282,11 +319,11 @@ public class SkillScreen extends Screen
         }
         RenderUtil.blitWithBlend(poseStack, (int)healthBarStartX, height - 28, 12 + ((PLAYER_BAR_MAX_WIDTH - healthBarWidth) / 2.0f), 247, healthBarWidth, 6, 512, 512, 3, 1);
         drawScaledString(graphics, "HEALTH", width / 2 - 31, height - 16, 0xFF949494, 0.75F);
-        graphics.drawCenteredString(font, "" + (int)player.getHealth() + "/" + (int)player.getMaxHealth(), width / 2 + 15, height - 18, 0xFFFFFFFF);
+        graphics.drawCenteredString(font, "" + (int)player.getHealth() + "/" + (int)player.getMaxHealth(), width / 2 + 15, height - 18, selected ? greenColor : 0xFFFFFFFF);
         poseStack.popPose();
     }
 
-    private void renderStamina(GuiGraphics graphics, PoseStack poseStack, int width, int height) {
+    private void renderStamina(GuiGraphics graphics, PoseStack poseStack, int width, int height, boolean selected) {
         poseStack.pushPose();
         RenderUtil.bind(SKILL_ICONS);
         float staminaPercentage = player.getFoodData().getFoodLevel() / 20.0f; // 20.0f is the max food value (this is apparently hardcoded...)
@@ -296,11 +333,11 @@ public class SkillScreen extends Screen
         RenderUtil.blitWithBlend(poseStack, width - 120, height - 30, 0, 226, 102, 10, 512, 512, 3, 1);
         RenderUtil.blitWithBlend(poseStack, (int)staminaBarStartX, height - 28, 12 + ((PLAYER_BAR_MAX_WIDTH - staminaBarWidth) / 2.0f), 255, staminaBarWidth, 6, 512, 512, 3, 1);
         drawScaledString(graphics, "STAMINA", width - 120 + 21, height - 16, 0xFF949494, 0.75F);
-        graphics.drawCenteredString(font, "" + (int)player.getFoodData().getFoodLevel() + "/" + 20, width - 120 + 70, height - 18, 0xFFFFFFFF);
+        graphics.drawCenteredString(font, "" + (int)player.getFoodData().getFoodLevel() + "/" + 20, width - 120 + 70, height - 18, selected ? greenColor : 0xFFFFFFFF);
         poseStack.popPose();
     }
 
-    private void renderMagicka(GuiGraphics graphics, PoseStack poseStack, int width, int height) {
+    private void renderMagicka(GuiGraphics graphics, PoseStack poseStack, int width, int height, boolean selected) {
         poseStack.pushPose();
         RenderUtil.bind(SKILL_ICONS);
         float magickaPercentage = character.getMagicka() / character.getMaxMagicka();
@@ -308,7 +345,19 @@ public class SkillScreen extends Screen
         RenderUtil.blitWithBlend(poseStack, 20, height - 30, 0, 226, 102, 10, 512, 512, 3, 1);
         RenderUtil.blitWithBlend(poseStack, 32, height - 28, 12 + ((PLAYER_BAR_MAX_WIDTH - magickaBarWidth) / 2.0f), 239, (int)(78 * magickaPercentage), 6, 512, 512, 3, 1);
         drawScaledString(graphics, "MAGICKA", 41, height - 16, 0xFF949494, 0.75F);
-        graphics.drawCenteredString(font, "" + (int)character.getMagicka() + "/" + (int)character.getMaxMagicka(), 90, height - 18, 0xFFFFFFFF);
+        graphics.drawCenteredString(font, "" + (int)character.getMagicka() + "/" + (int)character.getMaxMagicka(), 90, height - 18, selected ? greenColor : 0xFFFFFFFF);
         poseStack.popPose();
+    }
+
+    private void drawGradientRect(GuiGraphics graphics, PoseStack matrixStack, int startX, int startY, int endX, int endY, int colorStart, int colorEnd, int borderColor) {
+        matrixStack.pushPose();
+        // Draw background
+        graphics.fillGradient(startX, startY, endX, endY, colorStart, colorEnd);
+        // Draw borders
+        graphics.fill(startX, startY, endX, startY+1, borderColor); // top
+        graphics.fill(startX, endY-1, endX, endY, borderColor); // bottom
+        graphics.fill(startX, startY+1, startX+1, endY-1, borderColor); // left
+        graphics.fill(endX-1, startY+1, endX, endY-1, borderColor); // right
+        matrixStack.popPose();
     }
 }

@@ -7,7 +7,7 @@ import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.init.EntityInit;
 import com.ryankshah.skyrimcraft.network.skill.HandlePickpocket;
 import com.ryankshah.skyrimcraft.network.spell.CastSpell;
-import com.ryankshah.skyrimcraft.screen.SkyrimMenuScreen;
+import com.ryankshah.skyrimcraft.screen.MenuScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,7 +27,7 @@ public class InputEvents
             Minecraft mc = Minecraft.getInstance();
 
             while (KeyEvents.MENU_KEY.get().consumeClick()) {
-                mc.setScreen(new SkyrimMenuScreen());
+                mc.setScreen(new MenuScreen());
                 return;
             }
             while (KeyEvents.SPELL_SLOT_1_KEY.get().consumeClick()) { // TODO: Check if `isDown` for continuous cast?

@@ -41,8 +41,9 @@ public class Networking
 
         registrar.play(OpenCharacterCreationScreen.ID, OpenCharacterCreationScreen::new, payload -> payload.server(OpenCharacterCreationScreen::handleServer).client(OpenCharacterCreationScreen::handleClient));
         registrar.play(CreateCharacter.ID, CreateCharacter::new, payload -> payload.server(CreateCharacter::handleServer).client(CreateCharacter::handleClient));
-        registrar.play(UpdateCharacter.ID, UpdateCharacter::new, payload -> payload.client(UpdateCharacter::handleClient)); //.server(UpdateCharacter::handleServer)
-        registrar.play(UpdateLevelUpdates.ID, UpdateLevelUpdates::new, payload -> payload.server(UpdateLevelUpdates::handleServer).client(UpdateLevelUpdates::handleClient)); //.server(UpdateCharacter::handleServer)
+        registrar.play(UpdateCharacter.ID, UpdateCharacter::new, payload -> payload.client(UpdateCharacter::handleClient));
+        registrar.play(UpdateLevelUpdates.ID, UpdateLevelUpdates::new, payload -> payload.server(UpdateLevelUpdates::handleServer).client(UpdateLevelUpdates::handleClient));
+        registrar.play(UpdateStatIncreases.ID, UpdateStatIncreases::new, payload -> payload.server(UpdateStatIncreases::handleServer).client(UpdateStatIncreases::handleClient));
 
         registrar.play(FinishAlchemyRecipe.ID, FinishAlchemyRecipe::new, payload -> payload.server(FinishAlchemyRecipe::handleServer));
         registrar.play(FinishOvenRecipe.ID, FinishOvenRecipe::new, payload -> payload.server(FinishOvenRecipe::handleServer));

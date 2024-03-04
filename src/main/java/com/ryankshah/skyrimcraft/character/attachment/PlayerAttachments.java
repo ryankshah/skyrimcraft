@@ -16,10 +16,13 @@ public class PlayerAttachments
             "character", () -> AttachmentType.builder(Character::new).serialize(Character.CODEC).copyOnDeath().build());
     public static final Supplier<AttachmentType<Integer>> LEVEL_UPDATES = ATTACHMENT_TYPES.register(
             "level_updates", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).copyOnDeath().build());
+    public static final Supplier<AttachmentType<StatIncreases>> STAT_INCREASES = ATTACHMENT_TYPES.register(
+            "stat_increases", () -> AttachmentType.builder(StatIncreases::new).serialize(StatIncreases.CODEC).copyOnDeath().build());
 
 
     public static void registerSyncEvents() {
         Character.register();
         LevelUpdates.register();
+        StatIncreases.register();
     }
 }

@@ -26,14 +26,14 @@ public class SkillPredicate
 
     public static final Codec<SkillPredicate> CODEC = RecordCodecBuilder.create(
             p_298173_ -> p_298173_.group(
-                    //SkillRegistry.SKILLS_REGISTRY.byNameCodec().fieldOf("skill").forGetter(SkillPredicate::getSkill),
-                    SkillWrapper.CODEC.fieldOf("skill").forGetter(SkillPredicate::getSkill),
+                    SkillRegistry.SKILLS_REGISTRY.byNameCodec().fieldOf("skill").forGetter(SkillPredicate::getSkill),
+//                    SkillWrapper.CODEC.fieldOf("skill").forGetter(SkillPredicate::getSkill),
                     Codec.INT.fieldOf("level").forGetter(SkillPredicate::getLevel),
                     Codec.FLOAT.fieldOf("successChance").forGetter(SkillPredicate::getSuccessChance)
             ).apply(p_298173_, SkillPredicate::new)
     );
 
-    private final SkillWrapper skill;
+    private final Skill skill;
     private final float successChance;
     private final int level;
     //private final NBTPredicate nbt;
@@ -46,21 +46,21 @@ public class SkillPredicate
         //this.nbt = NBTPredicate.ANY;
     }
 
-    public SkillPredicate(SkillWrapper skill, float successChance) { //NBTPredicate nbt
+    public SkillPredicate(Skill skill, float successChance) { //NBTPredicate nbt
         this.skill = skill;
         this.successChance = successChance;
         this.level = 1;
         //this.nbt = nbt;
     }
 
-    public SkillPredicate(SkillWrapper skill, int level, float successChance) { //NBTPredicate nbt
+    public SkillPredicate(Skill skill, int level, float successChance) { //NBTPredicate nbt
         this.skill = skill;
         this.successChance = successChance;
         this.level = level;
         //this.nbt = nbt;
     }
 
-    public SkillWrapper getSkill() {
+    public Skill getSkill() {
         return this.skill;
     }
 
@@ -70,7 +70,7 @@ public class SkillPredicate
 
     public int getLevel() { return this.level; }
 
-    public boolean matches(SkillWrapper skill, float successChance) {
+    public boolean matches(Skill skill, float successChance) {
         if(this == ANY)
             return true;
         else if(this.skill != null && skill.getID() != this.skill.getID())
@@ -144,7 +144,7 @@ public class SkillPredicate
     }
 
     public static class Builder {
-        private SkillWrapper skill;
+        private Skill skill;
         private int level;
         private float successChance;
 
@@ -155,13 +155,13 @@ public class SkillPredicate
             return new SkillPredicate.Builder();
         }
 
-        public SkillPredicate.Builder of(SkillWrapper skill, float successChance) {
+        public SkillPredicate.Builder of(Skill skill, float successChance) {
             this.skill = skill;
             this.successChance = successChance;
             return this;
         }
 
-        public SkillPredicate.Builder of(SkillWrapper skill, int level, float successChance) {
+        public SkillPredicate.Builder of(Skill skill, int level, float successChance) {
             this.skill = skill;
             this.level = level;
             this.successChance = successChance;

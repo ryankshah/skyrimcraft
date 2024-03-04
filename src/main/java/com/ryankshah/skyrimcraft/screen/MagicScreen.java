@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 import static org.lwjgl.glfw.GLFW.glfwGetKeyName;
 
-public class SkyrimMagicScreen extends Screen
+public class MagicScreen extends Screen
 {
     protected static final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID, "textures/gui/overlay_icons.png");
     private static final int PADDING = 7;
@@ -43,7 +43,7 @@ public class SkyrimMagicScreen extends Screen
     private float currentTick, lastTick;
     private int currentSpellFrame;
 
-    public SkyrimMagicScreen(List<Spell> knownSpells) {
+    public MagicScreen(List<Spell> knownSpells) {
         super(Component.translatable(Skyrimcraft.MODID + ".magicgui.title"));
         this.spellsAndTypes = new HashMap<>();
         spellsAndTypes.put(Spell.SpellType.ALL, new ArrayList<>());
