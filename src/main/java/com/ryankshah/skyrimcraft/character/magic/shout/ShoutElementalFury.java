@@ -42,7 +42,7 @@ public class ShoutElementalFury extends Spell //implements IForgeRegistryEntry<I
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/dragonrend.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/elemental_fury.png");
     }
 
     @Override

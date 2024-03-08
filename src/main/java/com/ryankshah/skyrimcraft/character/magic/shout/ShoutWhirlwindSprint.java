@@ -52,7 +52,7 @@ public class ShoutWhirlwindSprint extends Spell //implements IForgeRegistryEntry
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/fireball.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/whirlwind_sprint.png");
     }
 
     @Override

@@ -11,6 +11,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
@@ -53,6 +54,12 @@ public record UpdateStatIncreases(StatIncreases statIncreases) implements Custom
     public static void handleClient(final UpdateStatIncreases data, final PlayPayloadContext context) {
         Minecraft minecraft = Minecraft.getInstance();
         minecraft.execute(() -> {
+            Player player = minecraft.player;
+            StatIncreases oldStats = player.getData(PlayerAttachments.STAT_INCREASES);
+            if(data.statIncreases.getHealthIncrease() > oldStats.getHealthIncrease()) {
+                AttributeInit.setMaxHealth(player, data.statIncreases.getHealthIncrease(), AttributeModifier.Operation.ADDITION);
+            }
+
             Minecraft.getInstance().player.setData(PlayerAttachments.STAT_INCREASES, data.statIncreases);
         });
     }

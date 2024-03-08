@@ -50,6 +50,7 @@ import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.List;
 
+//TODO: Fix the pathing etc.
 public class SkyrimDragon extends FlyingMob implements GeoEntity, Enemy
 {
     public static final EntityDataAccessor<Integer> DATA_PHASE = SynchedEntityData.defineId(SkyrimDragon.class, EntityDataSerializers.INT);

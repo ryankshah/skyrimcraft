@@ -1,5 +1,7 @@
 package com.ryankshah.skyrimcraft.entity.creature;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -12,6 +14,7 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 
 public class Draugr extends Monster
 {
@@ -31,10 +34,22 @@ public class Draugr extends Monster
 
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.MOVEMENT_SPEED, 0.25F)
+                .add(Attributes.MOVEMENT_SPEED, 0.1F)
                 .add(Attributes.FOLLOW_RANGE, 20.0F)
                 .add(Attributes.ATTACK_DAMAGE, 3.0F)
                 .add(Attributes.ARMOR, 2.0);
+    }
+
+    public static boolean checkSpawnRules(
+            EntityType<Draugr> pEntity, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom
+    ) {
+        if (pPos.getY() >= pLevel.getSeaLevel()) {
+            return false;
+        } else {
+            int i = pLevel.getMaxLocalRawBrightness(pPos);
+
+            return i <= 5 && checkMobSpawnRules(pEntity, pLevel, pSpawnType, pPos, pRandom);
+        }
     }
 
     @Override

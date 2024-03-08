@@ -22,7 +22,10 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.event.entity.SpawnPlacementRegisterEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -74,7 +77,7 @@ public class EntityInit
                     .build(new ResourceLocation(Skyrimcraft.MODID, "mammoth").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<SkyrimDragon>> DRAGON = ENTITY_TYPES.register("dragon",
             () -> EntityType.Builder.of(SkyrimDragon::new, MobCategory.MONSTER)
-                    .fireImmune().sized(12.0F, 8.0F).clientTrackingRange(10)
+                    .fireImmune().sized(4.0F, 4.0F).clientTrackingRange(64)
                     .build(new ResourceLocation(Skyrimcraft.MODID, "dragon").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<DwarvenSpider>> DWARVEN_SPIDER = ENTITY_TYPES.register("dwarven_spider",
             () -> EntityType.Builder.of(DwarvenSpider::new, MobCategory.MONSTER)
@@ -150,6 +153,11 @@ public class EntityInit
         event.registerEntityRenderer(KHAJIIT.get(), KhajiitRenderer::new);
         event.registerEntityRenderer(FALMER.get(), FalmerRenderer::new);
         event.registerEntityRenderer(DRAUGR.get(), DraugrRenderer::new);
+    }
+
+    public static void addSpawnPlacements(SpawnPlacementRegisterEvent event) {
+        event.register(DWARVEN_SPIDER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DwarvenSpider::checkSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(DRAUGR.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Draugr::checkSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
     }
 
 }

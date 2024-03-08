@@ -99,8 +99,8 @@ public class MenuScreen extends Screen
 
         poseStack.pushPose();
         RenderUtil.bind(OVERLAY_ICONS);
-        RenderUtil.blitWithBlend(poseStack, 39, this.height - 23, 0, 51, 102, 10, 256, 256, 0, 1);
-        RenderUtil.blitWithBlend(poseStack, 51, this.height - 21, 96 + ((PLAYER_BAR_MAX_WIDTH - characterProgressBarWidth) / 2.0f), 64, (int)(78 * characterProgress), 6, 256, 256, 0, 1);
+        RenderUtil.blitWithBlend(poseStack, 39, this.height - 25, 0, 51, 102, 10, 256, 256, 0, 1);
+        RenderUtil.blitWithBlend(poseStack, 51, this.height - 23, 96 + ((PLAYER_BAR_MAX_WIDTH - characterProgressBarWidth) / 2.0f), 64, (int)(78 * characterProgress), 6, 256, 256, 0, 1);
         poseStack.popPose();
 
         String time = calculateSkyrimTime(minecraft.player.level());

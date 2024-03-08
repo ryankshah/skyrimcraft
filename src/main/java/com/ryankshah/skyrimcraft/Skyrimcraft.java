@@ -111,7 +111,6 @@ import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 @Mod(Skyrimcraft.MODID)
 public class Skyrimcraft
 {
-    // Define mod id in a common place for everything to reference
     public static final String MODID = "skyrimcraft";
     public static Logger logger = LoggerFactory.getLogger(Skyrimcraft.class);
 
@@ -140,7 +139,6 @@ public class Skyrimcraft
 
         PlayerAttachments.ATTACHMENT_TYPES.register(bus);
         PlayerAttachments.registerSyncEvents();
-//        SpellHandler.register(bus);
 
         StructureInit.STRUCTURES.register(bus);
 
@@ -164,6 +162,7 @@ public class Skyrimcraft
         bus.addListener(this::registerLayerDefinitions);
         bus.addListener(EntityInit::registerRenderers);
         bus.addListener(this::renderCurios);
+        bus.addListener(EntityInit::addSpawnPlacements);
     }
 
 //    public void dataPackRegistry(DataPackRegistryEvent.NewRegistry event) {

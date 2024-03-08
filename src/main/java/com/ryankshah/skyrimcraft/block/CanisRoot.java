@@ -33,6 +33,6 @@ public class CanisRoot extends BushBlock
 
     @Override
     protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        return pState.is(BlockTags.DEAD_BUSH_MAY_PLACE_ON);
+        return pState.is(BlockTags.SAND);
     }
 }

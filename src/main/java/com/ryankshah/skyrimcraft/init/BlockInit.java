@@ -11,20 +11,21 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DropExperienceBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.function.Function;
 
 public class BlockInit
 {
@@ -116,6 +117,10 @@ public class BlockInit
             ));
     public static final DeferredItem<BlockItem> DEEPSLATE_SILVER_ORE_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(DEEPSLATE_SILVER_ORE);
 
+    public static final DeferredBlock<Block> BIRDS_NEST = BLOCKS.register("birds_nest",
+            BirdsNestBlock::new);
+    public static final DeferredItem<BlockItem> BIRDS_NEST_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(BIRDS_NEST);
+
 
     public static final DeferredBlock<Block> SHOUT_BLOCK = BLOCKS.register("shout_block",
             ShoutBlock::new);
@@ -205,6 +210,30 @@ public class BlockInit
     public static final DeferredItem<BlockItem> BLEEDING_CROWN = ItemInit.ITEMS.register("bleeding_crown",
             () -> new SkyrimBlockItemIngredient(BLEEDING_CROWN_BLOCK.get(), new Item.Properties(), IngredientEffect.WEAKNESS_TO_FIRE, IngredientEffect.FORTIFY_BLOCK, IngredientEffect.WEAKNESS_TO_POISON, IngredientEffect.RESIST_MAGIC));
 
+    public static final DeferredBlock<Block> WHITE_CAP_BLOCK = BLOCKS.register("white_cap",
+            GenericTripleMushroom::new);
+    public static final DeferredItem<BlockItem> WHITE_CAP = ItemInit.ITEMS.register("white_cap",
+            () -> new SkyrimBlockItemIngredient(WHITE_CAP_BLOCK.get(), new Item.Properties(), IngredientEffect.WEAKNESS_TO_FIRE, IngredientEffect.FORTIFY_BLOCK, IngredientEffect.WEAKNESS_TO_POISON, IngredientEffect.RESIST_MAGIC));
+
+
+    public static final DeferredBlock<Block> BLISTERWORT_BLOCK = BLOCKS.register("blisterwort",
+            GenericTripleMushroom::new);
+    public static final DeferredItem<BlockItem> BLISTERWORT = ItemInit.ITEMS.register("blisterwort",
+            () -> new SkyrimBlockItemIngredient(BLISTERWORT_BLOCK.get(), new Item.Properties(), IngredientEffect.DAMAGE_STAMINA, IngredientEffect.FRENZY, IngredientEffect.RESTORE_HEALTH, IngredientEffect.FORTIFY_SMITHING));
+
+    public static final DeferredBlock<Block> CREEP_CLUSTER_BLOCK = BLOCKS.register("creep_cluster",
+            () -> new CreepClusterBlock(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.PLANT)
+                            .noCollission()
+                            .noOcclusion()
+                            .sound(SoundType.HARD_CROP)
+                            .randomTicks()
+            ));
+    public static final DeferredItem<BlockItem> CREEP_CLUSTER = ItemInit.ITEMS.register("creep_cluster",
+            () -> new SkyrimBlockItemIngredient(CREEP_CLUSTER_BLOCK.get(), new Item.Properties(), IngredientEffect.RESTORE_MAGICKA, IngredientEffect.DAMAGE_STAMINA_REGEN, IngredientEffect.FORTIFY_CARRY_WEIGHT, IngredientEffect.WEAKNESS_TO_MAGIC));
+
+
     public static final DeferredBlock<Block> PEARL_OYSTER_BLOCK = BLOCKS.register("pearl_oyster",
             PearlOysterBlock::new);
     public static final DeferredItem<BlockItem> PEARL_OYSTER = ItemInit.ITEMS.register("pearl_oyster", () -> new BlockItem(PEARL_OYSTER_BLOCK.get(), new Item.Properties()));
@@ -247,6 +276,8 @@ public class BlockInit
 
         provider.addBlock(SHOUT_BLOCK, "Shout Block");
 
+        provider.addBlock(BIRDS_NEST, "Bird's Nest");
+
         provider.addBlock(ALCHEMY_TABLE, "Alchemy Table");
         provider.addBlock(OVEN, "Oven");
         provider.addBlock(BLACKSMITH_FORGE, "Blacksmith Forge");
@@ -257,7 +288,10 @@ public class BlockInit
         provider.addBlock(PURPLE_MOUNTAIN_FLOWER, "Purple Mountain Flower");
 
         provider.addBlock(BLEEDING_CROWN_BLOCK, "Bleeding Crown");
+        provider.addBlock(WHITE_CAP_BLOCK, "White Cap");
+        provider.addBlock(BLISTERWORT_BLOCK, "Blisterwort");
         provider.addBlock(CANIS_ROOT_BLOCK, "Canis Root");
+        provider.addBlock(CREEP_CLUSTER_BLOCK, "Creep Cluster");
 
         provider.addBlock(PEARL_OYSTER_BLOCK, "Pearl Oyster");
 
@@ -289,29 +323,60 @@ public class BlockInit
         flowerBlock(provider, PURPLE_MOUNTAIN_FLOWER.get());
 
         crossBlock(provider, CANIS_ROOT_BLOCK.get());
+        lilyPadBlock(provider, CREEP_CLUSTER_BLOCK.get());
 
         mushroomBlock(provider, BLEEDING_CROWN_BLOCK.get());
+        mushroomBlock(provider, WHITE_CAP_BLOCK.get());
+        mushroomBlock(provider, BLISTERWORT_BLOCK.get());
 
-        provider.getVariantBuilder(PEARL_OYSTER_BLOCK.get()).forAllStates(state -> {
-            boolean open = state.getValue(PearlOysterBlock.IS_OPEN);
-            boolean empty = state.getValue(PearlOysterBlock.IS_EMPTY);
-            Direction facing = state.getValue(PearlOysterBlock.FACING);
+        provider.getVariantBuilder(PEARL_OYSTER_BLOCK.get())
+                .forAllStates(state -> {
+                    boolean open = state.getValue(PearlOysterBlock.IS_OPEN);
+                    boolean empty = state.getValue(PearlOysterBlock.IS_EMPTY);
+                    Direction facing = state.getValue(PearlOysterBlock.FACING);
 
-            return ConfiguredModel.builder()
-                    .modelFile(open ?
-                            (empty ?
-                                    provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_empty")) :
-                                    provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_open"))
-                            ) :
-                            provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster"))
-                    )
-                    .rotationY(((int) facing.toYRot() + 180) % 360) // 180 is default angle offset
-                    .build();
-        });
+                    return ConfiguredModel.builder()
+                            .modelFile(provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster")))
+                            .rotationY(((int) facing.toYRot() + 180) % 360)
+                            .nextModel()
+                            .modelFile(provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_open")))
+                            .rotationY(((int) facing.toYRot() + 180) % 360)
+                            .nextModel()
+                            .modelFile(provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_empty")))
+                            .rotationY(((int) facing.toYRot() + 180) % 360)
+                            .build();
+                });
+
+//                .partialState().with(PearlOysterBlock.IS_OPEN, true)
+//                .modelForState().modelFile(provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_open"))).addModel()
+//                .partialState().with(PearlOysterBlock.IS_EMPTY, true)
+//                .modelForState().modelFile(provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_empty"))).addModel()
+//                .partialState().with(PearlOysterBlock.IS_OPEN, false)
+//                .modelForState().modelFile(provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster"))).addModel();
+
+//        forAllStates(state -> {
+//            boolean open = state.getValue(PearlOysterBlock.IS_OPEN);
+//            boolean empty = state.getValue(PearlOysterBlock.IS_EMPTY);
+//            Direction facing = state.getValue(PearlOysterBlock.FACING);
+//
+//            return ConfiguredModel.builder()
+//                    .modelFile(open ?
+//                            (empty ?
+//                                    provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_empty")) :
+//                                    provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_open"))
+//                            ) :
+//                            provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster"))
+//                    )
+//                    .rotationY(((int) facing.toYRot() + 180) % 360) // 180 is default angle offset
+//                    .build();
+//        });
         provider.simpleBlockItem(PEARL_OYSTER_BLOCK.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster")));
 
         provider.horizontalBlock(ALCHEMY_TABLE.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/alchemy_table")));
         provider.simpleBlockItem(ALCHEMY_TABLE.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/alchemy_table")));
+
+        provider.simpleBlock(BIRDS_NEST.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/birds_nest")));
+        provider.simpleBlockItem(BIRDS_NEST.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/birds_nest")));
 
         provider.horizontalBlock(OVEN.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/oven")));
         provider.simpleBlockItem(OVEN.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/oven")));
@@ -323,6 +388,9 @@ public class BlockInit
     public static void addBlockItemModels(ItemModelProvider provider) {
         provider.basicItem(CANIS_ROOT.asItem());
         provider.basicItem(BLEEDING_CROWN.asItem());
+        provider.basicItem(BLISTERWORT.asItem());
+        provider.basicItem(WHITE_CAP.asItem());
+        provider.basicItem(CREEP_CLUSTER.asItem());
     }
 
     public static void normalBlock(BlockStateProvider provider, Block block) {
@@ -348,6 +416,13 @@ public class BlockInit
         String path = blockKey.getPath();
 
         provider.simpleBlock(block, provider.models().getBuilder(blockKey.toString()).parent(provider.models().getExistingFile(new ResourceLocation("minecraft:block/cross"))).texture("cross", provider.modLoc("block/"+path)).renderType("cutout"));
+    }
+
+    public static void lilyPadBlock(BlockStateProvider provider, Block block) {
+        ResourceLocation blockKey = BuiltInRegistries.BLOCK.getKey(block);
+        String path = blockKey.getPath();
+
+        provider.simpleBlock(block, provider.models().getBuilder(blockKey.toString()).parent(provider.models().getExistingFile(new ResourceLocation("minecraft:block/lily_pad"))).texture("texture", provider.modLoc("block/"+path)).texture("particle", provider.modLoc("block/"+path)).renderType("cutout"));
     }
 
     public static void flowerBlock(BlockStateProvider provider, Block block) {

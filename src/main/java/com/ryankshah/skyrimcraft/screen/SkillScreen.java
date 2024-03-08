@@ -73,7 +73,7 @@ public class SkillScreen extends Screen
         super(Component.translatable(Skyrimcraft.MODID + ".skills.title"));
 
         this.minecraft = Minecraft.getInstance();
-        this.player = Minecraft.getInstance().player;
+        this.player = minecraft.player;
         this.character = Character.get(player);
         this.skillsList = character.getSkills();
         this.perkPoints = character.getLevelPerkPoints();

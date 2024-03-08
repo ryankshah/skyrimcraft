@@ -32,11 +32,11 @@ public class PearlOysterBlock extends Block implements IPlantable
     public static final BooleanProperty IS_EMPTY = BooleanProperty.create("empty");
 
     private VoxelShape shape = Shapes.or(
-            Block.box(5, 0, 3, 12, 7, 14)
+            Block.box(0, 0, 0, 16, 7, 16) // todo: potentially change shape based on placement state (FACING)
     );
 
     public PearlOysterBlock() {
-        super(Properties.ofFullCopy(Blocks.OAK_WOOD).strength(2.0f).requiresCorrectToolForDrops().noOcclusion()); // axe, 2
+        super(Properties.ofFullCopy(Blocks.LILY_PAD).noOcclusion());
         this.registerDefaultState(
                 this.stateDefinition.any()
                         .setValue(FACING, Direction.NORTH)
@@ -100,6 +100,8 @@ public class PearlOysterBlock extends Block implements IPlantable
     @Override
     public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
         BlockState soil = pLevel.getBlockState(pPos.below());
+//        return soil.is(BlockTags.SAND);
+
         if (soil.canSustainPlant(pLevel, pPos.below(), Direction.UP, this)) return true;
         BlockState blockstate = pLevel.getBlockState(pPos.below());
         if (blockstate.is(this)) {

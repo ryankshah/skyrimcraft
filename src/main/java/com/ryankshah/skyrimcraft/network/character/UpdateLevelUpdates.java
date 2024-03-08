@@ -32,7 +32,7 @@ public record UpdateLevelUpdates(int levelUpdates) implements CustomPacketPayloa
     public static void handleServer(final UpdateLevelUpdates data, final PlayPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
         player.setData(PlayerAttachments.LEVEL_UPDATES, data.levelUpdates);
-//
+
         final UpdateLevelUpdates sendToClient = new UpdateLevelUpdates(data.levelUpdates);
         PacketDistributor.PLAYER.with(player).send(sendToClient);
     }

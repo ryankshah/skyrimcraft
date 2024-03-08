@@ -49,7 +49,7 @@ public class ShoutUnrelentingForce extends Spell //implements IForgeRegistryEntr
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/fireball.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/unrelenting_force_icon.png");
     }
 
     @Override

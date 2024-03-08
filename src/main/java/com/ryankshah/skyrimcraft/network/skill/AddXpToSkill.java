@@ -58,7 +58,7 @@ public record AddXpToSkill(ResourceKey<Skill> skill, int baseXp) implements Cust
                         if(skill.getLevel() > oldSkillLevel) {
                             // The skill has leveled up, so send packet to client to add to the skyrim ingame gui levelUpdates list.
                             final AddToLevelUpdates levelUpdates = new AddToLevelUpdates(skill.getName(), skill.getLevel(), 200);
-                            PacketDistributor.PLAYER.with(serverPlayer).send(levelUpdates);
+                            PacketDistributor.SERVER.noArg().send(levelUpdates); //.with(serverPlayer).send(levelUpdates);
 
                             int level = character.getCharacterLevel();
                             int totalXp = character.getCharacterTotalXp();

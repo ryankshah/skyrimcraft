@@ -29,38 +29,40 @@ public class SkyrimcraftPlacedFeatures
 
     public static final ResourceKey<PlacedFeature> MOUNTAIN_FLOWER_PLACED_KEY = registerKey("mountain_flower_placed");
     public static final ResourceKey<PlacedFeature> MUSHROOMS_PLACED_KEY = registerKey("mushrooms_placed");
+    public static final ResourceKey<PlacedFeature> CREEP_CLUSTER_PLACED_KEY = registerKey("creep_cluster_placed");
     public static final ResourceKey<PlacedFeature> DESERT_PLANTS_PLACED_KEY = registerKey("desert_plants_placed");
     public static final ResourceKey<PlacedFeature> OYSTERS_PLACED_KEY = registerKey("oysters_placed");
+    public static final ResourceKey<PlacedFeature> BIRDS_NEST_PLACED_KEY = registerKey("birds_nest_placed");
 
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
         register(context, CORUNDUM_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.CORUNDUM_ORE_KEY),
                 OrePlacement.commonOrePlacement(24,
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(80))));
+                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-32), VerticalAnchor.absolute(32))));
         register(context, EBONY_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.EBONY_ORE_KEY),
-                OrePlacement.commonOrePlacement(32,
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(80))));
+                OrePlacement.rareOrePlacement(12,
+                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(8))));
         register(context, MALACHITE_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.MALACHITE_ORE_KEY),
                 OrePlacement.commonOrePlacement(28,
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(80))));
+                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-11), VerticalAnchor.absolute(46))));
         register(context, MOONSTONE_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.MOONSTONE_ORE_KEY),
                 OrePlacement.commonOrePlacement(32,
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(80))));
+                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-32), VerticalAnchor.absolute(22))));
         register(context, ORICHALCUM_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.ORICHALCUM_ORE_KEY),
                 OrePlacement.commonOrePlacement(30,
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(80))));
+                        HeightRangePlacement.uniform(VerticalAnchor.absolute(8), VerticalAnchor.absolute(64))));
         register(context, QUICKSILVER_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.QUICKSILVER_ORE_KEY),
                 OrePlacement.commonOrePlacement(24,
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(80))));
+                        HeightRangePlacement.uniform(VerticalAnchor.absolute(0), VerticalAnchor.absolute(48))));
         register(context, SILVER_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.SILVER_ORE_KEY),
                 OrePlacement.commonOrePlacement(20,
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(80))));
+                        HeightRangePlacement.uniform(VerticalAnchor.absolute(0), VerticalAnchor.absolute(64))));
 
         register(context, MOUNTAIN_FLOWER_PLACED_KEY,
                 configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.MOUNTAIN_FLOWER_KEY),
                 List.of(
-                        RarityFilter.onAverageOnceEvery(26),
+                        RarityFilter.onAverageOnceEvery(24),
                         InSquarePlacement.spread(),
                         PlacementUtils.HEIGHTMAP,
                         BiomeFilter.biome()
@@ -70,7 +72,16 @@ public class SkyrimcraftPlacedFeatures
         register(context, MUSHROOMS_PLACED_KEY,
                 configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.MUSHROOMS_KEY),
                 List.of(
-                        RarityFilter.onAverageOnceEvery(26),
+                        RarityFilter.onAverageOnceEvery(12),
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP,
+                        BiomeFilter.biome()
+                )
+        );
+        register(context, CREEP_CLUSTER_PLACED_KEY,
+                configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.CREEP_CLUSTER_KEY),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(12),
                         InSquarePlacement.spread(),
                         PlacementUtils.HEIGHTMAP,
                         BiomeFilter.biome()
@@ -80,7 +91,7 @@ public class SkyrimcraftPlacedFeatures
         register(context, OYSTERS_PLACED_KEY,
                 configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.OYSTERS_KEY),
                 List.of(
-                        RarityFilter.onAverageOnceEvery(26),
+                        RarityFilter.onAverageOnceEvery(4),
                         InSquarePlacement.spread(),
                         PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
                         BiomeFilter.biome()
@@ -90,7 +101,17 @@ public class SkyrimcraftPlacedFeatures
         register(context, DESERT_PLANTS_PLACED_KEY,
                 configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.DESERT_PLANTS_KEY),
                 List.of(
-                        RarityFilter.onAverageOnceEvery(26),
+                        RarityFilter.onAverageOnceEvery(12),
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
+                        BiomeFilter.biome()
+                )
+        );
+
+        register(context, BIRDS_NEST_PLACED_KEY,
+                configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.BIRDS_NEST_KEY),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(4),
                         InSquarePlacement.spread(),
                         PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
                         BiomeFilter.biome()

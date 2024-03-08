@@ -38,7 +38,7 @@ public class SpellTurnUndead extends Spell
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/fireball.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/turn_undead.png");
     }
 
     public SoundEvent getSound() {

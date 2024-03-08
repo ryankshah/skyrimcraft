@@ -38,8 +38,10 @@ public class SkyrimcraftConfiguredFeatures
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> MOUNTAIN_FLOWER_KEY = registerKey("mountain_flower");
     public static final ResourceKey<ConfiguredFeature<?, ?>> MUSHROOMS_KEY = registerKey("mushrooms");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CREEP_CLUSTER_KEY = registerKey("creep_clusters");
     public static final ResourceKey<ConfiguredFeature<?, ?>> DESERT_PLANTS_KEY = registerKey("desert_plants");
     public static final ResourceKey<ConfiguredFeature<?, ?>> OYSTERS_KEY = registerKey("oysters");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> BIRDS_NEST_KEY = registerKey("birds_nest");
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
         RuleTest stoneReplaceable = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
@@ -108,7 +110,23 @@ public class SkyrimcraftConfiguredFeatures
                                         new NormalNoise.NoiseParameters(0, 1.0),
                                         0.020833334F,
                                         List.of(
-                                                BlockInit.BLEEDING_CROWN_BLOCK.get().defaultBlockState()
+                                                BlockInit.BLEEDING_CROWN_BLOCK.get().defaultBlockState(),
+                                                BlockInit.WHITE_CAP_BLOCK.get().defaultBlockState(),
+                                                BlockInit.BLISTERWORT_BLOCK.get().defaultBlockState()
+                                        )
+                                )
+                        ))));
+
+        register(context, CREEP_CLUSTER_KEY, Feature.NO_BONEMEAL_FLOWER, new RandomPatchConfiguration(32, 3, 3,
+                PlacementUtils.onlyWhenEmpty(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                new NoiseProvider(
+                                        2345L,
+                                        new NormalNoise.NoiseParameters(0, 1.0),
+                                        0.020833334F,
+                                        List.of(
+                                                BlockInit.CREEP_CLUSTER_BLOCK.get().defaultBlockState()
                                         )
                                 )
                         ))));
@@ -133,6 +151,18 @@ public class SkyrimcraftConfiguredFeatures
                                 0.020833334F,
                                 List.of(
                                         BlockInit.CANIS_ROOT_BLOCK.get().defaultBlockState()
+                                )
+                        ))
+                )));
+
+        register(context, BIRDS_NEST_KEY, Feature.RANDOM_PATCH, FeatureUtils.simpleRandomPatchConfiguration(
+                4, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+                        new NoiseProvider(
+                                2345L,
+                                new NormalNoise.NoiseParameters(0, 1.0),
+                                0.020833334F,
+                                List.of(
+                                        BlockInit.BIRDS_NEST.get().defaultBlockState()
                                 )
                         ))
                 )));

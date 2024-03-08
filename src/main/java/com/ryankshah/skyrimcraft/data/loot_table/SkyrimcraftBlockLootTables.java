@@ -8,10 +8,21 @@ import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.WaterlilyBlock;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
+import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
+import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -60,6 +71,9 @@ public class SkyrimcraftBlockLootTables extends BlockLootSubProvider
 
         dropSelf(BlockInit.CANIS_ROOT_BLOCK.get());
         dropSelf(BlockInit.BLEEDING_CROWN_BLOCK.get());
+        dropSelf(BlockInit.WHITE_CAP_BLOCK.get());
+        dropSelf(BlockInit.BLISTERWORT_BLOCK.get());
+        dropSelf(BlockInit.CREEP_CLUSTER_BLOCK.get());
 
         LootItemCondition.Builder lootitemcondition$pearloyster = LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockInit.PEARL_OYSTER_BLOCK.get())
                 .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(PearlOysterBlock.IS_OPEN, true))
@@ -74,6 +88,26 @@ public class SkyrimcraftBlockLootTables extends BlockLootSubProvider
                 .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CropBlock.AGE, 7));
         add(BlockInit.GARLIC_CROP.get(), createCropDrops(BlockInit.GARLIC_CROP.get(), ItemInit.GARLIC.get(), ItemInit.GARLIC.get(), ilootcondition$garliccrop));
 
+        LootTable.Builder birdsNestDrops = LootTable.lootTable().withPool(LootPool.lootPool()
+                        .name("birdsNestPool")
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(LootItem.lootTableItem(ItemInit.HAWK_EGG)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.PINE_THRUSH_EGG)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.ROCK_WARBLER_EGG)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(Items.EGG))
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        );
+        add(BlockInit.BIRDS_NEST.get(), birdsNestDrops);
     }
 
     @Override

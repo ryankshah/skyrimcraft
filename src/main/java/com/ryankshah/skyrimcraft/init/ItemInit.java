@@ -8,7 +8,7 @@ import com.ryankshah.skyrimcraft.character.skill.type.*;
 import com.ryankshah.skyrimcraft.event.ClientEvents;
 import com.ryankshah.skyrimcraft.item.ArmorMaterials;
 import com.ryankshah.skyrimcraft.item.*;
-import com.ryankshah.skyrimcraft.item.potion.MagickaPotion;
+import com.ryankshah.skyrimcraft.item.potion.*;
 import com.ryankshah.skyrimcraft.util.IngredientEffect;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -297,7 +297,7 @@ public class ItemInit
     public static final DeferredItem<Item> FLAWLESS_GARNET = ITEMS.register("flawless_garnet", () -> new Item(new Item.Properties()));
 
     public static final DeferredItem<Item> SALT_PILE = ITEMS.register("salt_pile", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.WEAKNESS_TO_MAGIC, IngredientEffect.FORTIFY_RESTORATION, IngredientEffect.SLOW, IngredientEffect.REGENERATE_MAGICKA));
-    public static final DeferredItem<Item> CREEP_CLUSTER = ITEMS.register("creep_cluster", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESTORE_MAGICKA, IngredientEffect.DAMAGE_STAMINA_REGEN, IngredientEffect.FORTIFY_CARRY_WEIGHT, IngredientEffect.WEAKNESS_TO_MAGIC));
+//    public static final DeferredItem<Item> CREEP_CLUSTER = ITEMS.register("creep_cluster", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESTORE_MAGICKA, IngredientEffect.DAMAGE_STAMINA_REGEN, IngredientEffect.FORTIFY_CARRY_WEIGHT, IngredientEffect.WEAKNESS_TO_MAGIC));
     public static final DeferredItem<Item> GRASS_POD = ITEMS.register("grass_pod", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESIST_POISON, IngredientEffect.RAVAGE_MAGICKA, IngredientEffect.FORTIFY_ALTERATION, IngredientEffect.RESTORE_MAGICKA));
     public static final DeferredItem<Item> VAMPIRE_DUST = ITEMS.register("vampire_dust", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.INVISIBILITY, IngredientEffect.RESTORE_MAGICKA, IngredientEffect.REGENERATE_HEALTH, IngredientEffect.CURE_DISEASE));
     public static final DeferredItem<Item> MORA_TAPINELLA = ITEMS.register("mora_tapinella", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESTORE_MAGICKA, IngredientEffect.LINGERING_DAMAGE_HEALTH, IngredientEffect.REGENERATE_STAMINA, IngredientEffect.FORTIFY_ILLUSION));
@@ -330,7 +330,7 @@ public class ItemInit
     public static final DeferredItem<Item> BEEHIVE_HUSK = ITEMS.register("beehive_husk", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESIST_POISON, IngredientEffect.FORTIFY_LIGHT_ARMOR, IngredientEffect.FORTIFY_SNEAK, IngredientEffect.FORTIFY_DESTRUCTION));
     public static final DeferredItem<Item> BERITS_ASHES = ITEMS.register("berits_ashes", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.DAMAGE_STAMINA, IngredientEffect.RESIST_FIRE, IngredientEffect.FORTIFY_CONJURATION, IngredientEffect.RAVAGE_STAMINA));
 //    public static final DeferredItem<Item> BLEEDING_CROWN = ITEMS.register("bleeding_crown", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.WEAKNESS_TO_FIRE, IngredientEffect.FORTIFY_BLOCK, IngredientEffect.WEAKNESS_TO_POISON, IngredientEffect.RESIST_MAGIC));
-    public static final DeferredItem<Item> BLISTERWORT = ITEMS.register("blisterwort", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.DAMAGE_STAMINA, IngredientEffect.FRENZY, IngredientEffect.RESTORE_HEALTH, IngredientEffect.FORTIFY_SMITHING));
+//    public static final DeferredItem<Item> BLISTERWORT = ITEMS.register("blisterwort", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.DAMAGE_STAMINA, IngredientEffect.FRENZY, IngredientEffect.RESTORE_HEALTH, IngredientEffect.FORTIFY_SMITHING));
     public static final DeferredItem<Item> BLUE_BUTTERFLY_WING = ITEMS.register("blue_butterfly_wing", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.DAMAGE_STAMINA, IngredientEffect.FORTIFY_CONJURATION, IngredientEffect.DAMAGE_MAGICKA_REGEN, IngredientEffect.FORTIFY_ENCHANTING));
     public static final DeferredItem<Item> BUTTERFLY_WING = ITEMS.register("butterfly_wing", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESTORE_HEALTH, IngredientEffect.FORTIFY_BARTER, IngredientEffect.LINGERING_DAMAGE_STAMINA, IngredientEffect.DAMAGE_MAGICKA));
 //    public static final DeferredItem<Item> CANIS_ROOT = ITEMS.register("canis_root", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.DAMAGE_STAMINA, IngredientEffect.FORTIFY_ONE_HANDED, IngredientEffect.FORTIFY_MARKSMAN, IngredientEffect.PARALYSIS));
@@ -532,6 +532,7 @@ public class ItemInit
     public static final Supplier<Item> CONJURE_FAMILIAR_SPELLBOOK = ITEMS.register("conjure_familiar_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.CONJURE_FAMILIAR));
     public static final Supplier<Item> HEALING_SPELLBOOK = ITEMS.register("healing_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.HEALING));
     public static final Supplier<Item> LIGHTNING_SPELLBOOK = ITEMS.register("lightning_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.LIGHTNING));
+    public static final Supplier<Item> FLAME_CLOAK_SPELLBOOK = ITEMS.register("flame_cloak_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.FLAME_CLOAK));
 
     // Skill books
     public static final Supplier<Item> ALTERATION_SKILLBOOK = ITEMS.register("alteration_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.ALTERATION));
@@ -594,6 +595,21 @@ public class ItemInit
     public static final DeferredItem<Item> EXTREME_MAGICKA_POTION = ITEMS.register("extreme_magicka_potion", () -> new MagickaPotion(new Item.Properties(), 12.0f));
     public static final DeferredItem<Item> ULTIMATE_MAGICKA_POTION = ITEMS.register("ultimate_magicka_potion", () -> new MagickaPotion(new Item.Properties(), 20.0f));
 
+    public static final DeferredItem<Item> LASTING_POTENCY_POTION = ITEMS.register("lasting_potency_potion", () -> new RegenMagickaPotion(new Item.Properties(),1.5f, 600));
+    public static final DeferredItem<Item> DRAUGHT_LASTING_POTENCY_POTION = ITEMS.register("draught_lasting_potency_potion", () -> new RegenMagickaPotion(new Item.Properties(), 1.6f, 600));
+    public static final DeferredItem<Item> SOLUTION_LASTING_POTENCY_POTION = ITEMS.register("solution_lasting_potency_potion", () -> new RegenMagickaPotion(new Item.Properties(), 1.7f, 600));
+    public static final DeferredItem<Item> PHILTER_LASTING_POTENCY_POTION = ITEMS.register("philter_lasting_potency_potion", () -> new RegenMagickaPotion(new Item.Properties(), 1.8f, 600));
+    public static final DeferredItem<Item> ELIXIR_LASTING_POTENCY_POTION = ITEMS.register("elixir_lasting_potency_potion", () -> new RegenMagickaPotion(new Item.Properties(), 2f, 600));
+
+    public static final DeferredItem<Item> POTION_OF_HAGGLING = ITEMS.register("potion_of_haggling", () -> new HagglingPotion(new Item.Properties(),1, 30));
+    public static final DeferredItem<Item> DRAUGHT_OF_HAGGLING = ITEMS.register("draught_of_haggling", () -> new HagglingPotion(new Item.Properties(), 1, 60));
+    public static final DeferredItem<Item> PHILTER_OF_HAGGLING = ITEMS.register("philter_of_haggling", () -> new HagglingPotion(new Item.Properties(), 2, 30));
+    public static final DeferredItem<Item> ELIXIR_OF_HAGGLING = ITEMS.register("elixir_of_haggling", () -> new HagglingPotion(new Item.Properties(), 3, 60));
+
+    // Unique and non-levelled potions
+    public static final DeferredItem<Item> PHILTER_OF_THE_PHANTOM_POTION = ITEMS.register("philter_of_the_phantom_potion", () -> new SpectralPotion(new Item.Properties(), 600));
+    public static final DeferredItem<Item> POTION_OF_WATERWALKING = ITEMS.register("potion_of_waterwalking", () -> new WaterWalkingPotion(new Item.Properties(), 1, 1200));
+
     public static final DeferredItem<Item> SABRE_CAT_SPAWN_EGG = ITEMS.register("sabre_cat_spawn_egg", () -> new DeferredSpawnEggItem(EntityInit.SABRE_CAT, 0x505050, 0x606060, new Item.Properties()));
     public static final DeferredItem<Item> GIANT_SPAWN_EGG = ITEMS.register("giant_spawn_egg", () -> new DeferredSpawnEggItem(EntityInit.GIANT, 0x505050, 0x606060, new Item.Properties()));
     public static final DeferredItem<Item> DRAGON_SPAWN_EGG = ITEMS.register("dragon_spawn_egg", () -> new DeferredSpawnEggItem(EntityInit.DRAGON, 0x505050, 0x606060, new Item.Properties()));
@@ -652,7 +668,7 @@ public class ItemInit
         provider.addItem(TOMATO_SEEDS, "Tomato Seeds");
 
         provider.addItem(SALT_PILE, "Salt Pile");
-        provider.addItem(CREEP_CLUSTER, "Creep Cluster");
+//        provider.addItem(CREEP_CLUSTER, "Creep Cluster");
         provider.addItem(GRASS_POD, "Grass Pod");
         provider.addItem(VAMPIRE_DUST, "Vampire Dust");
         provider.addItem(MORA_TAPINELLA, "Mora Tapinella");
@@ -685,7 +701,7 @@ public class ItemInit
         provider.addItem(BEEHIVE_HUSK, "Beehive Husk");
         provider.addItem(BERITS_ASHES, "Berit's Ashes");
 //        provider.addItem(BLEEDING_CROWN, "Bleeding Crown");
-        provider.addItem(BLISTERWORT, "Blisterwort");
+//        provider.addItem(BLISTERWORT, "Blisterwort");
         provider.addItem(BLUE_BUTTERFLY_WING, "Blue Butterfly Wing");
         provider.addItem(BUTTERFLY_WING, "Butterfly Wing");
 //        provider.addItem(CANIS_ROOT, "Canis Root");
@@ -881,6 +897,7 @@ public class ItemInit
         provider.addItem(HEALING_SPELLBOOK, "Spellbook");
         provider.addItem(TURN_UNDEAD_SPELLBOOK, "Spellbook");
         provider.addItem(LIGHTNING_SPELLBOOK, "Spellbook");
+        provider.addItem(FLAME_CLOAK_SPELLBOOK, "Spellbook");
 
         provider.addItem(ALTERATION_SKILLBOOK, "Skill Book");
         provider.addItem(CONJURATION_SKILLBOOK, "Skill Book");
@@ -940,6 +957,20 @@ public class ItemInit
         provider.addItem(VIGOROUS_MAGICKA_POTION, "Potion of Vigorous Magicka");
         provider.addItem(EXTREME_MAGICKA_POTION, "Potion of Extreme Magicka");
         provider.addItem(ULTIMATE_MAGICKA_POTION, "Potion of Ultimate Magicka");
+
+        provider.addItem(LASTING_POTENCY_POTION, "Potion of Lasting Potency");
+        provider.addItem(DRAUGHT_LASTING_POTENCY_POTION, "Draught of Lasting Potency");
+        provider.addItem(SOLUTION_LASTING_POTENCY_POTION, "Solution of Lasting Potency");
+        provider.addItem(PHILTER_LASTING_POTENCY_POTION, "Philter of Lasting Potency");
+        provider.addItem(ELIXIR_LASTING_POTENCY_POTION, "Elixir of Lasting Potency");
+
+        provider.addItem(POTION_OF_HAGGLING, "Potion of Haggling");
+        provider.addItem(DRAUGHT_OF_HAGGLING, "Draught of Haggling");
+        provider.addItem(PHILTER_OF_HAGGLING, "Philter of Haggling");
+        provider.addItem(ELIXIR_OF_HAGGLING, "Elixir of Haggling");
+
+        provider.addItem(PHILTER_OF_THE_PHANTOM_POTION, "Philter of the Phantom");
+        provider.addItem(POTION_OF_WATERWALKING, "Potion of Waterwalking");
     }
 
     public static void registerItemModelProperties() {

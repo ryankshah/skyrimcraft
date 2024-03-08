@@ -55,4 +55,9 @@ public class ModEffects
             MobEffectCategory.BENEFICIAL,
             0xA5F2F3
     ));
+
+    public static final Supplier<EffectFlameCloak> FLAME_CLOAK = MOB_EFFECTS.register("flame_cloak", () -> new EffectFlameCloak(
+            MobEffectCategory.BENEFICIAL,
+            0xAA222222
+    ));
 }

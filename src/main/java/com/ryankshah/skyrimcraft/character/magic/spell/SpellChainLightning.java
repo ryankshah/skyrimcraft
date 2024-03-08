@@ -45,7 +45,7 @@ public class SpellChainLightning extends Spell
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/fireball.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/lightning_icon.png");
     }
 
     public SoundEvent getSound() {

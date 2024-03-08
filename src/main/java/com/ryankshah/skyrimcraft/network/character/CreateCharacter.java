@@ -3,6 +3,8 @@ package com.ryankshah.skyrimcraft.network.character;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.feature.Race;
+import com.ryankshah.skyrimcraft.character.magic.Spell;
+import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -11,6 +13,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
 import java.util.ArrayList;
+import java.util.function.Supplier;
 
 public record CreateCharacter(int raceID) implements CustomPacketPayload //(int raceID, String raceName, Map<Integer, IntList> skills)
 {
@@ -40,6 +43,10 @@ public record CreateCharacter(int raceID) implements CustomPacketPayload //(int 
         character.setRace(race);
         character.setSkills(new ArrayList<>(character.getStartingSkills(race)));
         character.setHasSetup(true);
+
+        for(Supplier<Spell> spell : SpellRegistry.getPowersForRace(race)) {
+            character.addNewSpell(spell.get());
+        }
 
         final UpdateCharacter sendToClient = new UpdateCharacter(character);
         PacketDistributor.PLAYER.with(player).send(sendToClient);

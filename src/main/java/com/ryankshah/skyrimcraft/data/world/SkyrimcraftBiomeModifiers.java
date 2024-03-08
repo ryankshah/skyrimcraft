@@ -30,8 +30,10 @@ public class SkyrimcraftBiomeModifiers
 
     public static final ResourceKey<BiomeModifier> ADD_MOUNTAIN_FLOWERS = registerKey("add_mountain_flowers");
     public static final ResourceKey<BiomeModifier> ADD_MUSHROOMS = registerKey("add_mushrooms");
+    public static final ResourceKey<BiomeModifier> ADD_CREEP_CLUSTER = registerKey("add_creep_cluster");
     public static final ResourceKey<BiomeModifier> ADD_DESERT_PLANTS = registerKey("add_desert_plants");
     public static final ResourceKey<BiomeModifier> ADD_OYSTERS = registerKey("add_oysters");
+    public static final ResourceKey<BiomeModifier> ADD_NESTS = registerKey("add_nests");
 
     public static final ResourceKey<BiomeModifier> ADD_PLAINS_FLYING_MOBS = registerKey("add_plains_flying_mobs");
     public static final ResourceKey<BiomeModifier> ADD_DRIPSTONE_MOBS = registerKey("add_dripstone_mobs");
@@ -91,6 +93,16 @@ public class SkyrimcraftBiomeModifiers
                 HolderSet.direct(placedFeatures.getOrThrow(SkyrimcraftPlacedFeatures.OYSTERS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
+        context.register(ADD_NESTS, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_FOREST),
+                HolderSet.direct(placedFeatures.getOrThrow(SkyrimcraftPlacedFeatures.BIRDS_NEST_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+
+        context.register(ADD_CREEP_CLUSTER, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_HILL),
+                HolderSet.direct(placedFeatures.getOrThrow(SkyrimcraftPlacedFeatures.CREEP_CLUSTER_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+
         context.register(ADD_PLAINS_FLYING_MOBS, new BiomeModifiers.AddSpawnsBiomeModifier(
                 HolderSet.direct(
                         biomes.getOrThrow(Biomes.PLAINS), biomes.getOrThrow(Biomes.SUNFLOWER_PLAINS),
@@ -118,8 +130,9 @@ public class SkyrimcraftBiomeModifiers
                         biomes.getOrThrow(Biomes.SNOWY_SLOPES), biomes.getOrThrow(Biomes.SNOWY_TAIGA)
                 ),
                 List.of(
-                        new MobSpawnSettings.SpawnerData(EntityInit.SABRE_CAT.get(), 2, 1, 2),
-                        new MobSpawnSettings.SpawnerData(EntityInit.GIANT.get(), 1, 2, 4)
+                        new MobSpawnSettings.SpawnerData(EntityInit.SABRE_CAT.get(), 1, 1, 2),
+                        new MobSpawnSettings.SpawnerData(EntityInit.GIANT.get(), 1, 2, 2),
+                        new MobSpawnSettings.SpawnerData(EntityInit.DRAUGR.get(), 2, 2, 2)
                 )
         ));
         context.register(ADD_PLAINS_MOBS, new BiomeModifiers.AddSpawnsBiomeModifier(
@@ -128,7 +141,9 @@ public class SkyrimcraftBiomeModifiers
                         biomes.getOrThrow(Biomes.SAVANNA_PLATEAU)
                 ),
                 List.of(
-                        new MobSpawnSettings.SpawnerData(EntityInit.SABRE_CAT.get(), 2, 1, 2)
+                        new MobSpawnSettings.SpawnerData(EntityInit.SABRE_CAT.get(), 1, 1, 2),
+                        new MobSpawnSettings.SpawnerData(EntityInit.DRAUGR.get(), 3, 2, 2),
+                        new MobSpawnSettings.SpawnerData(EntityInit.DWARVEN_SPIDER.get(), 3, 2, 2)
                 )
         ));
     }

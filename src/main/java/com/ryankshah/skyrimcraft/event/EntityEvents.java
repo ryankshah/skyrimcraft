@@ -3,6 +3,7 @@ package com.ryankshah.skyrimcraft.event;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
+import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.data.loot_table.PickpocketLootTables;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
@@ -44,7 +45,7 @@ public class EntityEvents
 
     @SubscribeEvent
     public static void entitySetAttackTarget(LivingAttackEvent event) {
-        if(event.getSource().getDirectEntity() instanceof ServerPlayer) {
+        if(event.getSource().getDirectEntity() != null && event.getSource().getDirectEntity() instanceof ServerPlayer && event.getAmount() > 0) {
             ServerPlayer player = (ServerPlayer) event.getSource().getDirectEntity();
             Character character = Character.get(player);
             List<Integer> targetingEntities = character.getTargets();
@@ -57,7 +58,7 @@ public class EntityEvents
             }
         }
 
-        if(event.getEntity() instanceof ServerPlayer player) {
+        if(event.getSource().getDirectEntity() != null && event.getEntity() instanceof ServerPlayer player && event.getAmount() > 0) {
             Character character = Character.get(player);
             final UpdateCurrentTarget currentTarget = new UpdateCurrentTarget(event.getSource().getDirectEntity().getId());
             character.addTarget(event.getSource().getDirectEntity().getId());
@@ -95,6 +96,10 @@ public class EntityEvents
             if (event.getEntity() != null) {
                 if (playerEntity.hasEffect(ModEffects.ETHEREAL.get()))
                     playerEntity.removeEffect(ModEffects.ETHEREAL.get());
+
+                if(playerEntity.hasEffect(ModEffects.FLAME_CLOAK.get()) && character.getSpellCooldown(SpellRegistry.ANCESTORS_WRATH.get()) > 0) {
+                    event.getEntity().setSecondsOnFire(1);
+                }
 
                 if(playerEntity.isCrouching() && !playerEntity.canBeSeenAsEnemy()) {
                     final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.SNEAK.get()).get(), (int)event.getAmount());

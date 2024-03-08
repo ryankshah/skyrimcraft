@@ -9,6 +9,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.player.Player;
@@ -61,6 +62,21 @@ public class ClientUtil
             circlePoints.add(origin.add(x).add(y));
         }
         return circlePoints;
+    }
+
+    public static Set<Vec3> sphere(int samples){
+        Set<Vec3> spherePoints = new HashSet<>();
+        float phi = Mth.PI * (Mth.sqrt(5f) - 1f); // golden angle in rads
+
+        for (int i = 0; i < samples; i++) {
+            float y = 1 - ((float) i / (samples-1)) * 2;
+            float radius = Mth.sqrt(1 - y * y);
+            float theta = phi * i;
+            float x = Mth.cos(theta) * radius;
+            float z = Mth.cos(theta) * radius;
+            spherePoints.add(new Vec3(x, y, z));
+        }
+        return spherePoints;
     }
 
     public static void drawCubeAtPos(RenderLevelStageEvent event, BlockPos pos, Vec3 size, int color)  {

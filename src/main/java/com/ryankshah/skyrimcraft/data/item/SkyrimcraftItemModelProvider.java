@@ -86,7 +86,7 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         item(ItemInit.FLAWLESS_GARNET.get());
 
         item(ItemInit.SALT_PILE.get());
-        item(ItemInit.CREEP_CLUSTER.get());
+//        item(ItemInit.CREEP_CLUSTER.get());
         item(ItemInit.GRASS_POD.get());
         item(ItemInit.VAMPIRE_DUST.get());
         item(ItemInit.MORA_TAPINELLA.get());
@@ -118,7 +118,7 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         item(ItemInit.BEAR_CLAWS.get());
         item(ItemInit.BEEHIVE_HUSK.get());
         item(ItemInit.BERITS_ASHES.get());
-        item(ItemInit.BLISTERWORT.get());
+//        item(ItemInit.BLISTERWORT.get());
         item(ItemInit.BLUE_BUTTERFLY_WING.get());
         item(ItemInit.BUTTERFLY_WING.get());
         item(ItemInit.CHARRED_SKEEVER_HIDE.get());
@@ -333,6 +333,7 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         spellbook(ItemInit.HEALING_SPELLBOOK.get());
         spellbook(ItemInit.TURN_UNDEAD_SPELLBOOK.get());
         spellbook(ItemInit.LIGHTNING_SPELLBOOK.get());
+        spellbook(ItemInit.FLAME_CLOAK_SPELLBOOK.get());
 
         skillbook(ItemInit.ALTERATION_SKILLBOOK.get());
         skillbook(ItemInit.CONJURATION_SKILLBOOK.get());
@@ -359,6 +360,20 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         item(ItemInit.VIGOROUS_MAGICKA_POTION.get());
         item(ItemInit.EXTREME_MAGICKA_POTION.get());
         item(ItemInit.ULTIMATE_MAGICKA_POTION.get());
+
+        item(ItemInit.PHILTER_OF_THE_PHANTOM_POTION.get());
+        item(ItemInit.POTION_OF_WATERWALKING.get());
+
+        item(ItemInit.LASTING_POTENCY_POTION.get());
+        item(ItemInit.DRAUGHT_LASTING_POTENCY_POTION.get());
+        item(ItemInit.SOLUTION_LASTING_POTENCY_POTION.get());
+        item(ItemInit.PHILTER_LASTING_POTENCY_POTION.get());
+        item(ItemInit.ELIXIR_LASTING_POTENCY_POTION.get());
+
+        item(ItemInit.POTION_OF_HAGGLING.get());
+        item(ItemInit.DRAUGHT_OF_HAGGLING.get());
+        item(ItemInit.PHILTER_OF_HAGGLING.get());
+        item(ItemInit.ELIXIR_OF_HAGGLING.get());
 
         BlockInit.addBlockItemModels(this);
     }

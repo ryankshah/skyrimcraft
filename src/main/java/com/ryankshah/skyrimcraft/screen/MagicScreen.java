@@ -201,18 +201,16 @@ public class MagicScreen extends Screen
         if(spell.getType() != Spell.SpellType.SHOUT) {
             graphics.drawString(font, "Cost: " + (int) spell.getCost(), 50, (this.height) / 2 + 40, 0x00FFFFFF);
             // TODO: Draw the spell difficulty (spell#getDifficulty)
+            graphics.drawString(font, "Difficulty: " + spell.getDifficulty(), 50, (this.height) / 2 + 44, 0x00FFFFFF);
         } else
             graphics.drawString(font, "Cooldown: " + (int)spell.getCooldown(), 50, (this.height) / 2 + 40, 0x00FFFFFF);
 
-        // Draw the spell entity?
-//        minecraft.getTextureManager().bind(spell.getDisplayAnimation());
         matrixStack.pushPose();
         RenderUtil.bind(spell.getDisplayAnimation());
         currentSpellFrame = (int)(lastTick + (currentTick - lastTick) * partialTicks) / 64;
-        int uOffset = 64 * (currentSpellFrame % 5), vOffset = 0;
-        RenderUtil.blitWithBlend(matrixStack, 88, (this.height / 2) - 94, uOffset, vOffset, 64, 64, 320, 64, 1, 1);
+        int uOffset = 64 * (currentSpellFrame % 4), vOffset = 0;
+        RenderUtil.blitWithBlend(matrixStack, 88, (this.height / 2) - 94, uOffset, vOffset, 64, 64, 256, 64, 1, 1);
         matrixStack.popPose();
-//        minecraft.getTextureManager().bind(AbstractGui.GUI_ICONS_LOCATION);
     }
 
     private void renderMagicka(GuiGraphics graphics, PoseStack matrixStack, int width, int height) {

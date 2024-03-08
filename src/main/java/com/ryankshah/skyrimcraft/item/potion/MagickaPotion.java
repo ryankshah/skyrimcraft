@@ -57,10 +57,10 @@ public class MagickaPotion extends SkyrimPotion
             ingredients.add(Ingredient.of(new ItemStack(ItemInit.VAMPIRE_DUST.get(), 1)));
             ingredients.add(Ingredient.of(new ItemStack(ItemInit.BRIAR_HEART.get(), 1)));
         } else if (this == ItemInit.VIGOROUS_MAGICKA_POTION.get()) {
-            ingredients.add(Ingredient.of(new ItemStack(ItemInit.CREEP_CLUSTER.get(), 1)));
+            ingredients.add(Ingredient.of(new ItemStack(BlockInit.CREEP_CLUSTER.get(), 1)));
             ingredients.add(Ingredient.of(new ItemStack(BlockInit.RED_MOUNTAIN_FLOWER.get(), 1)));
         } else if (this == ItemInit.EXTREME_MAGICKA_POTION.get()) {
-            ingredients.add(Ingredient.of(new ItemStack(ItemInit.CREEP_CLUSTER.get(), 1)));
+            ingredients.add(Ingredient.of(new ItemStack(BlockInit.CREEP_CLUSTER.get(), 1)));
             ingredients.add(Ingredient.of(new ItemStack(ItemInit.MORA_TAPINELLA.get(), 1)));
         } else if (this == ItemInit.ULTIMATE_MAGICKA_POTION.get()) {
             ingredients.add(Ingredient.of(new ItemStack(ItemInit.MORA_TAPINELLA.get(), 1)));

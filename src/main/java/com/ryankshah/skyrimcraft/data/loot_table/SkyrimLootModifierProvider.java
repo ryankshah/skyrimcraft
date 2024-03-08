@@ -31,6 +31,15 @@ public class SkyrimLootModifierProvider extends GlobalLootModifierProvider
                 )
         );
 
+        this.add("beehive",
+                new AddTableLootModifier(
+                        new LootItemCondition[] {
+                                LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.BEEHIVE).build()
+                        },
+                        new ResourceLocation(Skyrimcraft.MODID, "beehive")
+                )
+        );
+
         this.add("goat",
                 new AddTableLootModifier(
                         new LootItemCondition[] {
@@ -40,6 +49,18 @@ public class SkyrimLootModifierProvider extends GlobalLootModifierProvider
                                 )).build()
                         },
                         new ResourceLocation(Skyrimcraft.MODID, "goat")
+                )
+        );
+
+        this.add("bee",
+                new AddTableLootModifier(
+                        new LootItemCondition[] {
+                                LootItemKilledByPlayerCondition.killedByPlayer()
+                                        .and(LootItemEntityPropertyCondition.hasProperties(
+                                                LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(EntityType.BEE)
+                                        )).build()
+                        },
+                        new ResourceLocation(Skyrimcraft.MODID, "bee")
                 )
         );
 

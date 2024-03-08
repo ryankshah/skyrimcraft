@@ -32,7 +32,7 @@ public class ShoutDismay extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/turn_undead.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/dismay.png");
     }
 
     @Override

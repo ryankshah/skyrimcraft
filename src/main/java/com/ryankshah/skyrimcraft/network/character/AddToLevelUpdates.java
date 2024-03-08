@@ -46,8 +46,9 @@ public record AddToLevelUpdates(String updateName, int level, int levelUpRenderT
     }
 
     public static void handleClient(final AddToLevelUpdates data, final PlayPayloadContext context) {
-        context.workHandler().execute(() -> {
-            Player player = context.player().orElseThrow();
+        Minecraft minecraft = Minecraft.getInstance();
+        minecraft.execute(() -> {
+            Player player = minecraft.player;
             player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
             if (data.updateName.equals("characterLevel")) {
                 player.setData(PlayerAttachments.LEVEL_UPDATES, player.getData(PlayerAttachments.LEVEL_UPDATES)+1);
