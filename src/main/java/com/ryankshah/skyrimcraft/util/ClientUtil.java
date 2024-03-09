@@ -68,12 +68,13 @@ public class ClientUtil
         Set<Vec3> spherePoints = new HashSet<>();
         float phi = Mth.PI * (Mth.sqrt(5f) - 1f); // golden angle in rads
 
-        for (int i = 0; i < samples; i++) {
-            float y = 1 - ((float) i / (samples-1)) * 2;
+        for (int i = 0; i < samples; i++)
+        {
+            float y = 1 - ((float) i / (samples - 1)) * 2;
             float radius = Mth.sqrt(1 - y * y);
             float theta = phi * i;
             float x = Mth.cos(theta) * radius;
-            float z = Mth.cos(theta) * radius;
+            float z = Mth.sin(theta) * radius;
             spherePoints.add(new Vec3(x, y, z));
         }
         return spherePoints;

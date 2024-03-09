@@ -35,47 +35,18 @@ public class EffectFlameCloak extends MobEffect
     public void applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
         if(livingEntity.level() instanceof ServerLevel) {
             ServerLevel level = (ServerLevel)livingEntity.level();
-            Vec3 loc = livingEntity.position();
+            Vec3 loc = livingEntity.position().add(0, 1, 0);
             double radius = 16D;
 
-            Set<Vec3> sphereSet = ClientUtil.sphere(1000);
+            Set<Vec3> sphereSet = ClientUtil.sphere(100);
             for(Vec3 point : sphereSet) {
-                level.sendParticles(ParticleTypes.FLAME, loc.x + point.x, loc.y * point.y, loc.z + point.z, 2, 0, 0, 0, 0);
-                level.sendParticles(ParticleTypes.ASH, loc.x + point.x, loc.y + point.y, loc.z + point.z, 1, 0, 0, 0, 0);
+                level.sendParticles(ParticleTypes.SMALL_FLAME, loc.x + point.x, loc.y + point.y, loc.z + point.z, 1, 0, 0, 0, 0);
+                level.sendParticles(ParticleTypes.WHITE_ASH, loc.x + point.x, loc.y + point.y, loc.z + point.z, 1, 0, 0, 0, 0);
             }
-
-//            for (double phi = 0; phi <= 2 * Math.PI; phi += Math.PI / 6) {
-//                double z = Math.cos(phi) * radius;
-//                double x = Math.sin(phi) * radius;
-//                level.sendParticles(ParticleTypes.FLAME, livingEntity.getX() + x, livingEntity.getY() + livingEntity.getEyeHeight(), livingEntity.getZ() + z, 1, 0D, 0D, 0D, 0); // set amount to 0 so particles don't fly off and stays in place
-//                level.sendParticles(ParticleTypes.WHITE_ASH, livingEntity.getX() + x, livingEntity.getY() + livingEntity.getEyeHeight(), livingEntity.getZ() + z, 2, 0D, 0D, 0D, 0); // set amount to 0 so particles don't fly off and stays in place
-//            }
-
-//            for (int i = 0; i < 360; i++) {
-//                int n = 6 - 30 + 1;
-//                int in = level.random.nextInt() % 2;
-//                int size =  in;
-//
-//                double angle = (i * size * Math.PI / 180);
-//                double x = size * Math.cos(angle);
-//                double z = size * Math.sin(angle);
-//                Vec3 loc = livingEntity.position().add(x, 1, z);
-//
-//                level.sendParticles(ParticleTypes.FLAME, loc.x, loc.y, loc.z, 1, 0D, 0D, 0D, 0); // set amount to 0 so particles don't fly off and stays in place
-//                level.sendParticles(ParticleTypes.WHITE_ASH, loc.x, loc.y, loc.z, 1, 0D, 0D, 0D, 0); // set amount to 0 so particles don't fly off and stays in place
-//            }
-
-//            for (double phi = 0; phi <= Math.PI * radius; phi += Math.PI * radius / 6) {
-//                double z = Math.cos(phi) * 0.8;
-//                double x = Math.sin(phi) * 0.8;
-//                level.sendParticles(ParticleTypes.FLAME, livingEntity.getX() + x, livingEntity.getY() + livingEntity.getEyeHeight(), livingEntity.getZ() + z, 1, 0D, 0D, 0D, 0); // set amount to 0 so particles don't fly off and stays in place
-//                level.sendParticles(ParticleTypes.WHITE_ASH, livingEntity.getX() + x, livingEntity.getY() + livingEntity.getEyeHeight(), livingEntity.getZ() + z, 2, 0D, 0D, 0D, 0); // set amount to 0 so particles don't fly off and stays in place
-//            }
 
             for(Entity entity : level.getEntities(livingEntity, new AABB(livingEntity.position(), livingEntity.position().multiply(radius, radius, radius)))) {
                 if(entity instanceof LivingEntity target) {
                     target.setSecondsOnFire(2);
-//                    target.hurt(level.damageSources().onFire(), 2);
                 }
             }
         }
