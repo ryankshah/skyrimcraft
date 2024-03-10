@@ -27,14 +27,15 @@ public class PowerHistskin extends Spell
     @Override
     public List<String> getDescription() {
         List<String> desc = new ArrayList<>();
-        desc.add("Invoke the power of the Hist to recover");
-        desc.add("health 10x faster for 60 seconds.");
+        desc.add("Invoke the power of the Hist");
+        desc.add("to recover health 10x faster");
+        desc.add("for 60 seconds");
         return desc;
     }
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/turn_undead.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/gray_spell.png");
     }
 
     @Override
@@ -78,8 +79,8 @@ public class PowerHistskin extends Spell
 
     @Override
     public void onCast() {
-        getCaster().addEffect(new MobEffectInstance(MobEffects.REGENERATION, 1200, 1, true, true, true));
-
+//        getCaster().addEffect(new MobEffectInstance(MobEffects.REGENERATION, 1200, 1, true, true, true));
+        getCaster().addEffect(new MobEffectInstance(ModEffects.HIST.get(), 1200, 1, true, true, true));
         super.onCast();
     }
 }

@@ -334,6 +334,8 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         spellbook(ItemInit.TURN_UNDEAD_SPELLBOOK.get());
         spellbook(ItemInit.LIGHTNING_SPELLBOOK.get());
         spellbook(ItemInit.FLAME_CLOAK_SPELLBOOK.get());
+        spellbook(ItemInit.ICE_SPIKE_SPELLBOOK.get());
+        spellbook(ItemInit.CONJURE_ZOMBIE_SPELLBOOK.get());
 
         skillbook(ItemInit.ALTERATION_SKILLBOOK.get());
         skillbook(ItemInit.CONJURATION_SKILLBOOK.get());

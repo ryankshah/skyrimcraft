@@ -74,8 +74,10 @@ public class SkyrimcraftLanguageProvider extends LanguageProvider
 
         // Damage Source
         add("death.attack.death.skyrimcraft.conjuredfamiliar", "Your conjured %1$s familiar has vanished!");
-
         add("skyrimcraft.conjuredfamiliar.exists", "You have already conjured a familiar!");
+
+        add("death.attack.death.skyrimcraft.conjuredzombie", "Your conjured zombie has vanished!");
+        add("skyrimcraft.conjuredzombie.exists", "You have already conjured a zombie!");
 
         ItemInit.addItemTranslations(this);
         BlockInit.addBlockTranslations(this);

@@ -39,7 +39,7 @@ public class SpellConjureFamiliar extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/fireball.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/conjure_familiar.png");
     }
 
     @Override
@@ -83,7 +83,7 @@ public class SpellConjureFamiliar extends Spell
             // TODO: check if there are any other conjured entities
             Wolf wolf = getCaster().level().getNearestEntity(Wolf.class, TargetingConditions.DEFAULT, getCaster(), getCaster().getX(), getCaster().getY(), getCaster().getZ(),
                     new AABB(getCaster().getX() - 10f, getCaster().getY() - 10f, getCaster().getZ() - 10f, getCaster().getX() + 10f, getCaster().getY() + 10f, getCaster().getZ() + 10f));
-            if(wolf != null && wolf.getPersistentData().contains(Skyrimcraft.MODID+"_timeToKill")) {
+            if(wolf != null && wolf.getPersistentData().contains(Skyrimcraft.MODID+"_conjuredfamiliar_timeToKill")) {
                 getCaster().displayClientMessage(Component.translatable(Skyrimcraft.MODID + ".conjuredfamiliar.exists"), false);
             } else {
                 Wolf wolfEntity = new Wolf(EntityType.WOLF, getCaster().level());
@@ -92,7 +92,7 @@ public class SpellConjureFamiliar extends Spell
                 wolfEntity.setHealth(40f);
                 wolfEntity.addEffect(new MobEffectInstance(ModEffects.SPECTRAL.get(), 60 * 20, 0, false, true, true));
                 wolfEntity.setOwnerUUID(getCaster().getUUID());
-                wolfEntity.getPersistentData().putLong(Skyrimcraft.MODID + "_timeToKill", getCaster().level().getGameTime() + (60L * 20L));
+                wolfEntity.getPersistentData().putLong(Skyrimcraft.MODID + "_conjuredfamiliar_timeToKill", getCaster().level().getGameTime() + (60L * 20L));
                 getCaster().level().addFreshEntity(wolfEntity);
 
                 super.onCast();

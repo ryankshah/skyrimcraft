@@ -2,9 +2,7 @@ package com.ryankshah.skyrimcraft.character.magic;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.feature.Race;
-import com.ryankshah.skyrimcraft.character.magic.power.PowerAncestorsWrath;
-import com.ryankshah.skyrimcraft.character.magic.power.PowerHighborn;
-import com.ryankshah.skyrimcraft.character.magic.power.PowerHistskin;
+import com.ryankshah.skyrimcraft.character.magic.power.*;
 import com.ryankshah.skyrimcraft.character.magic.shout.*;
 import com.ryankshah.skyrimcraft.character.magic.spell.*;
 import net.minecraft.core.Registry;
@@ -46,6 +44,8 @@ public class SpellRegistry
     public static Supplier<Spell> HEALING = SPELLS.register("healing", () -> new SpellHealing(23));
     public static Supplier<Spell> LIGHTNING = SPELLS.register("lightning", () -> new SpellChainLightning(24));
     public static Supplier<Spell> FLAME_CLOAK = SPELLS.register("flame_cloak", () -> new SpellFlameCloak(25));
+    public static Supplier<Spell> ICE_SPIKE = SPELLS.register("ice_spike", () -> new SpellIceSpike(26));
+    public static Supplier<Spell> CONJURE_ZOMBIE = SPELLS.register("conjure_zombie", () -> new SpellConjureZombie(27));
 
     // Powers
     public static Supplier<Spell> HIGHBORN = SPELLS.register("highborn", () -> new PowerHighborn(80));
@@ -53,6 +53,17 @@ public class SpellRegistry
     //command animal
     //dragonskin
     public static Supplier<Spell> ANCESTORS_WRATH = SPELLS.register("ancestors_wrath", () -> new PowerAncestorsWrath(84));
+    //voice of the emperor
+    public static Supplier<Spell> BATTLE_CRY = SPELLS.register("battlecry", () -> new PowerBattleCry(86));
+    //berserker rage
+    public static Supplier<Spell> ADRENALINE_RUSH = SPELLS.register("adrenaline_rush", () -> new PowerAdrenalineRush(88));
+    //embraceofshadows (vampire)
+    //vampire's seduction
+    //vampire's servant
+    //vampire lord
+    //beast form (werewolf)
+    //ring of hircine (werewolf)
+    public static Supplier<Spell> NIGHT_EYE = SPELLS.register("night_eye", () -> new PowerNightEye(95));
 
     public static List<Supplier<Spell>> getPowersForRace(Race race) {
         List<Supplier<Spell>> spells = new ArrayList<>();
@@ -63,6 +74,12 @@ public class SpellRegistry
             spells.add(HISTSKIN);
         else if(race.getId() == Race.DUNMER.getId())
             spells.add(ANCESTORS_WRATH);
+        else if(race.getId() == Race.REDGUARD.getId())
+            spells.add(ADRENALINE_RUSH);
+        else if(race.getId() == Race.NORD.getId())
+            spells.add(BATTLE_CRY);
+        else if(race.getId() == Race.KHAJIIT.getId())
+            spells.add(NIGHT_EYE);
 
         return spells;
     }

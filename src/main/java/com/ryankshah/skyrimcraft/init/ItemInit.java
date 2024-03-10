@@ -533,6 +533,9 @@ public class ItemInit
     public static final Supplier<Item> HEALING_SPELLBOOK = ITEMS.register("healing_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.HEALING));
     public static final Supplier<Item> LIGHTNING_SPELLBOOK = ITEMS.register("lightning_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.LIGHTNING));
     public static final Supplier<Item> FLAME_CLOAK_SPELLBOOK = ITEMS.register("flame_cloak_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.FLAME_CLOAK));
+    public static final Supplier<Item> ICE_SPIKE_SPELLBOOK = ITEMS.register("ice_spike_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.ICE_SPIKE));
+    public static final Supplier<Item> CONJURE_ZOMBIE_SPELLBOOK = ITEMS.register("conjure_zombie_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.CONJURE_ZOMBIE));
+
 
     // Skill books
     public static final Supplier<Item> ALTERATION_SKILLBOOK = ITEMS.register("alteration_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.ALTERATION));
@@ -898,6 +901,8 @@ public class ItemInit
         provider.addItem(TURN_UNDEAD_SPELLBOOK, "Spellbook");
         provider.addItem(LIGHTNING_SPELLBOOK, "Spellbook");
         provider.addItem(FLAME_CLOAK_SPELLBOOK, "Spellbook");
+        provider.addItem(ICE_SPIKE_SPELLBOOK, "Spellbook");
+        provider.addItem(CONJURE_ZOMBIE_SPELLBOOK, "Spellbook");
 
         provider.addItem(ALTERATION_SKILLBOOK, "Skill Book");
         provider.addItem(CONJURATION_SKILLBOOK, "Skill Book");

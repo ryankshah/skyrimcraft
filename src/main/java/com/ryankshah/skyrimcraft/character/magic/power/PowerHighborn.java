@@ -39,19 +39,20 @@ public class PowerHighborn extends Spell
     @Override
     public List<String> getDescription() {
         List<String> desc = new ArrayList<>();
-        desc.add("Regenerate 25% of your magicka each");
-        desc.add("second for 60 seconds.");
+        desc.add("Regenerate 25% of your magicka");
+        desc.add("each second for 60");
+        desc.add("seconds");
         return desc;
     }
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/turn_undead.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/purple_spell.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/fireball.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/highborn.png");
     }
 
     public SoundEvent getSound() {

@@ -15,17 +15,18 @@ import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
-public record CreateCharacter(int raceID) implements CustomPacketPayload //(int raceID, String raceName, Map<Integer, IntList> skills)
+public record CreateCharacter(int raceID, boolean fin) implements CustomPacketPayload //(int raceID, String raceName, Map<Integer, IntList> skills)
 {
     public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"createcharacter");
 
     public CreateCharacter(final FriendlyByteBuf buf) {
-        this(buf.readInt()); //, buf.readUtf(), buf.readMap(FriendlyByteBuf::readInt, FriendlyByteBuf::readIntIdList));
+        this(buf.readInt(), buf.readBoolean()); //, buf.readUtf(), buf.readMap(FriendlyByteBuf::readInt, FriendlyByteBuf::readIntIdList));
     }
 
     @Override
     public void write(final FriendlyByteBuf buf) {
         buf.writeInt(raceID);
+        buf.writeBoolean(fin);
 //        buf.writeUtf(raceName);
 //        buf.writeMap(skills, FriendlyByteBuf::writeInt, FriendlyByteBuf::writeIntIdList);
     }
@@ -44,8 +45,10 @@ public record CreateCharacter(int raceID) implements CustomPacketPayload //(int 
         character.setSkills(new ArrayList<>(character.getStartingSkills(race)));
         character.setHasSetup(true);
 
-        for(Supplier<Spell> spell : SpellRegistry.getPowersForRace(race)) {
-            character.addNewSpell(spell.get());
+        if(data.fin) {
+            for (Supplier<Spell> spell : SpellRegistry.getPowersForRace(race)) {
+                character.addNewSpell(spell.get());
+            }
         }
 
         final UpdateCharacter sendToClient = new UpdateCharacter(character);

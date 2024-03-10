@@ -40,7 +40,7 @@ public class SpellChainLightning extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/turn_undead.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/purple_spell.png");
     }
 
     @Override

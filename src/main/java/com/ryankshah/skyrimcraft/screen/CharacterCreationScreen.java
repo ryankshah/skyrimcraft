@@ -47,7 +47,7 @@ public class CharacterCreationScreen extends Screen
         races = Race.getRaces();
         currentRace = 0;
         currentRaceObject = races.get(currentRace);
-        final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId());
+        final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId(), false);
         PacketDistributor.SERVER.noArg().send(createCharacter);
     }
 
@@ -113,7 +113,7 @@ public class CharacterCreationScreen extends Screen
                 this.currentRace = this.races.size() - 1;
 
             currentRaceObject = races.get(currentRace);
-            final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId());
+            final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId(), false);
             PacketDistributor.SERVER.noArg().send(createCharacter);
         }
 
@@ -124,12 +124,12 @@ public class CharacterCreationScreen extends Screen
                 this.currentRace = 0;
 
             currentRaceObject = races.get(currentRace);
-            final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId());
+            final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId(), false);
             PacketDistributor.SERVER.noArg().send(createCharacter);
         }
 
         if (KeyEvents.SKYRIM_MENU_ENTER.get().isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
-            final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId());
+            final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId(), true);
             PacketDistributor.SERVER.noArg().send(createCharacter);
 //            System.out.println(minecraft.player.getData(PlayerAttachments.SKILLS).getRace().getName() + " " + minecraft.player.getData(PlayerAttachments.SKILLS).getRace().getStartingSkills());
             minecraft.setScreen(null);

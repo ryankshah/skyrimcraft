@@ -54,7 +54,7 @@ public class ShoutDragonAspect extends Spell //implements IForgeRegistryEntry<IS
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/fireball.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/dragon_aspect.png");
     }
 
     @Override

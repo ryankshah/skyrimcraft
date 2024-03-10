@@ -60,4 +60,19 @@ public class ModEffects
             MobEffectCategory.BENEFICIAL,
             0xAA222222
     ));
+
+    public static final Supplier<EffectHist> HIST = MOB_EFFECTS.register("hist", () -> new EffectHist(
+            MobEffectCategory.BENEFICIAL,
+            0xAA222222
+    ));
+
+    public static final Supplier<EffectAdrenalineRush> ADRENALINE_RUSH = MOB_EFFECTS.register("adrenaline_rush", () -> new EffectAdrenalineRush(
+            MobEffectCategory.BENEFICIAL,
+            0xAA222222
+    ));
+
+    public static final Supplier<EffectBattlecry> BATTLE_CRY = MOB_EFFECTS.register("battle_cry", () -> new EffectBattlecry(
+            MobEffectCategory.BENEFICIAL,
+            0xAA222222
+    ));
 }

@@ -4,15 +4,10 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 
-public class EffectMagickaRegen extends MobEffect
+public class EffectBattlecry extends MobEffect
 {
-    protected EffectMagickaRegen(MobEffectCategory pCategory, int pColor) {
+    protected EffectBattlecry(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);
-    }
-
-    @Override
-    public boolean shouldApplyEffectTickThisTick(int tickCount, int amplifier) {
-        return tickCount % 20 == 0; // every 1 second
     }
 
     @Override

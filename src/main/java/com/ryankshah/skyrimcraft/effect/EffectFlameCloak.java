@@ -5,8 +5,13 @@ import com.ryankshah.skyrimcraft.particle.LightningParticle;
 import com.ryankshah.skyrimcraft.util.ClientUtil;
 import com.ryankshah.skyrimcraft.util.ParticleColors;
 import com.ryankshah.skyrimcraft.util.ProjectileHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.effect.MobEffect;
@@ -40,8 +45,8 @@ public class EffectFlameCloak extends MobEffect
 
             Set<Vec3> sphereSet = ClientUtil.sphere(100);
             for(Vec3 point : sphereSet) {
-                level.sendParticles(ParticleTypes.SMALL_FLAME, loc.x + point.x, loc.y + point.y, loc.z + point.z, 1, 0, 0, 0, 0);
-                level.sendParticles(ParticleTypes.WHITE_ASH, loc.x + point.x, loc.y + point.y, loc.z + point.z, 1, 0, 0, 0, 0);
+                sendParticles(livingEntity, level, ParticleTypes.SMALL_FLAME, loc.x + point.x, loc.y + point.y, loc.z + point.z, 1, 0, 0, 0, 0);
+                sendParticles(livingEntity, level, ParticleTypes.WHITE_ASH, loc.x + point.x, loc.y + point.y, loc.z + point.z, 1, 0, 0, 0, 0);
             }
 
             for(Entity entity : level.getEntities(livingEntity, new AABB(livingEntity.position(), livingEntity.position().multiply(radius, radius, radius)))) {
@@ -51,5 +56,39 @@ public class EffectFlameCloak extends MobEffect
             }
         }
         super.applyEffectTick(livingEntity, p_76394_2_);
+    }
+
+    public <T extends ParticleOptions> int sendParticles(
+            LivingEntity entity, ServerLevel level, T pType, double pPosX, double pPosY, double pPosZ, int pParticleCount, double pXOffset, double pYOffset, double pZOffset, double pSpeed
+    ) {
+        ClientboundLevelParticlesPacket clientboundlevelparticlespacket = new ClientboundLevelParticlesPacket(
+                pType, false, pPosX, pPosY, pPosZ, (float)pXOffset, (float)pYOffset, (float)pZOffset, (float)pSpeed, pParticleCount
+        );
+        int i = 0;
+
+        for(int j = 0; j < level.players().size(); ++j) {
+            ServerPlayer serverplayer = level.players().get(j);
+            if(!(serverplayer.getUUID().equals(entity.getUUID()))) {
+                if (sendParticles(level, serverplayer, false, pPosX, pPosY, pPosZ, clientboundlevelparticlespacket)) {
+                    ++i;
+                }
+            }
+        }
+
+        return i;
+    }
+
+    private boolean sendParticles(ServerLevel level, ServerPlayer pPlayer, boolean pLongDistance, double pPosX, double pPosY, double pPosZ, Packet<?> pPacket) {
+        if (pPlayer.level() != level) {
+            return false;
+        } else {
+            BlockPos blockpos = pPlayer.blockPosition();
+            if (blockpos.closerToCenterThan(new Vec3(pPosX, pPosY, pPosZ), pLongDistance ? 512.0 : 32.0)) {
+                pPlayer.connection.send(pPacket);
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 }

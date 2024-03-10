@@ -18,6 +18,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -199,9 +200,8 @@ public class MagicScreen extends Screen
             graphics.drawCenteredString(font, spell.getDescription().get(i-1), 120, (this.height) / 2 + (8 * i), 0x00FFFFFF); // Spell description
 
         if(spell.getType() != Spell.SpellType.SHOUT) {
-            graphics.drawString(font, "Cost: " + (int) spell.getCost(), 50, (this.height) / 2 + 40, 0x00FFFFFF);
-            // TODO: Draw the spell difficulty (spell#getDifficulty)
-            graphics.drawString(font, "Difficulty: " + spell.getDifficulty(), 50, (this.height) / 2 + 44, 0x00FFFFFF);
+            graphics.drawString(font, "Cost: " + (int) spell.getCost(), 50, (this.height) / 2 + 34, 0x00FFFFFF);
+            graphics.drawString(font, "Difficulty: " + StringUtils.capitalize(StringUtils.lowerCase(spell.getDifficulty().toString())), 50, (this.height) / 2 + 44, 0x00FFFFFF);
         } else
             graphics.drawString(font, "Cooldown: " + (int)spell.getCooldown(), 50, (this.height) / 2 + 40, 0x00FFFFFF);
 
