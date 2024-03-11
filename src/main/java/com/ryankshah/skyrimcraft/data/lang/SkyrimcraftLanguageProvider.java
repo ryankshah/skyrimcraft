@@ -24,7 +24,8 @@ public class SkyrimcraftLanguageProvider extends LanguageProvider
         add(CreativeTabInit.SKYRIMCRAFT_MAGIC_TITLE, "Skyrimcraft Magic");
 
         // Spellbook
-        add("spellbook.tooltip", "Grants you use of the %s spell!");
+        add("spellbook.tooltip.name", "Grants you use of the %s spell!");
+        add("spellbook.tooltip.difficulty", "Spell Difficulty: %s");
         add("spellbook.learn", "You have just learnt %s!");
         add("spellbook.known", "You already know this spell!");
 

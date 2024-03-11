@@ -41,7 +41,7 @@ public class EffectFlameCloak extends MobEffect
         if(livingEntity.level() instanceof ServerLevel) {
             ServerLevel level = (ServerLevel)livingEntity.level();
             Vec3 loc = livingEntity.position().add(0, 1, 0);
-            double radius = 16D;
+            double radius = 4D;
 
             Set<Vec3> sphereSet = ClientUtil.sphere(100);
             for(Vec3 point : sphereSet) {

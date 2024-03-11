@@ -46,6 +46,10 @@ public class SpellRegistry
     public static Supplier<Spell> FLAME_CLOAK = SPELLS.register("flame_cloak", () -> new SpellFlameCloak(25));
     public static Supplier<Spell> ICE_SPIKE = SPELLS.register("ice_spike", () -> new SpellIceSpike(26));
     public static Supplier<Spell> CONJURE_ZOMBIE = SPELLS.register("conjure_zombie", () -> new SpellConjureZombie(27));
+    public static Supplier<Spell> DETECT_LIFE = SPELLS.register("detect_life", () -> new SpellDetectLife(28));
+    public static Supplier<Spell> CANDLELIGHT = SPELLS.register("candlelight", () -> new SpellCandlelight(29));
+    public static Supplier<Spell> WATERBREATHING = SPELLS.register("waterbreathing", () -> new SpellWaterbreathing(30));
+//    public static Supplier<Spell> WATERBREATHING = SPELLS.register("waterbreathing", () -> new SpellWaterbreathing(30));
 
     // Powers
     public static Supplier<Spell> HIGHBORN = SPELLS.register("highborn", () -> new PowerHighborn(80));
@@ -54,7 +58,7 @@ public class SpellRegistry
     //dragonskin
     public static Supplier<Spell> ANCESTORS_WRATH = SPELLS.register("ancestors_wrath", () -> new PowerAncestorsWrath(84));
     //voice of the emperor
-    public static Supplier<Spell> BATTLE_CRY = SPELLS.register("battlecry", () -> new PowerBattleCry(86));
+    public static Supplier<Spell> BATTLE_CRY = SPELLS.register("battle_cry", () -> new PowerBattleCry(86));
     //berserker rage
     public static Supplier<Spell> ADRENALINE_RUSH = SPELLS.register("adrenaline_rush", () -> new PowerAdrenalineRush(88));
     //embraceofshadows (vampire)

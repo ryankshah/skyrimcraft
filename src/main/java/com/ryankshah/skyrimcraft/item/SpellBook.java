@@ -55,10 +55,14 @@ public class SpellBook extends Item
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        if(spell != null)
-            pTooltipComponents.add(Component.translatable("spellbook.tooltip", Component.translatable(
-                    spell.get().getName())
+        if(spell != null) {
+            pTooltipComponents.add(Component.translatable("spellbook.tooltip.name", Component.translatable(
+                            spell.get().getName())
                     .withStyle(ChatFormatting.RED)));
+            pTooltipComponents.add(Component.translatable("spellbook.tooltip.difficulty", Component.translatable(
+                            spell.get().getDifficulty().toString())
+                    .withStyle(ChatFormatting.RED)));
+        }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

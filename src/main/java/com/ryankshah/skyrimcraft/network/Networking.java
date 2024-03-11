@@ -36,6 +36,8 @@ public class Networking
         registrar.play(UpdateShoutCooldown.ID, UpdateShoutCooldown::new, payload -> payload.server(UpdateShoutCooldown::handleServer).client(UpdateShoutCooldown::handleClient));
         registrar.play(CastSpell.ID, CastSpell::new, payload -> payload.server(CastSpell::handle));
 
+        registrar.play(DetectLife.ID, DetectLife::new, payload -> payload.client(DetectLife::handle));
+
         registrar.play(ReplenishMagicka.ID, ReplenishMagicka::new, payload -> payload.server(ReplenishMagicka::handleServer).client(ReplenishMagicka::handleClient));
         registrar.play(ConsumeMagicka.ID, ConsumeMagicka::new, payload -> payload.server(ConsumeMagicka::handleServer).client(ConsumeMagicka::handleClient));
 

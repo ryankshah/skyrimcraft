@@ -72,8 +72,8 @@ public class Character
     public Character() {
         this(
                 false,
-                20.0f,
-                20.0f,
+                50.0f,
+                50.0f,
                 1.0f,
                 1,
                 0,
