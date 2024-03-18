@@ -88,14 +88,14 @@ public class SpellDetectLife extends Spell
 
     @Override
     public void onCast() {
-        //TODO: Fix this so it only shows for the player who cast it!
-        float radius = 16.0f;
+        float radius = 32.0f;
         if(getCaster().level() instanceof ServerLevel level) {
             IntList ids = IntArrayList.of();
             for(Entity entity : level.getEntities(getCaster(), new AABB(getCaster().position(), getCaster().position().multiply(radius, radius, radius)))) {
                 if(entity instanceof LivingEntity target
                         && target.getMobType() != MobType.UNDEAD) {
                     ids.add(target.getId());
+                    System.out.println(ids);
                 }
             }
             PacketDistributor.PLAYER.with((ServerPlayer) getCaster()).send(new DetectLife(ids));

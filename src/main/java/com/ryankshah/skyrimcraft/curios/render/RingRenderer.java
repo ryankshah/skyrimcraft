@@ -50,7 +50,7 @@ public class RingRenderer implements ICurioRenderer {
             ICurioRenderer.translateIfSneaking(matrixStack, living);
 //            ICurioRenderer.rotateIfSneaking(matrixStack, living);
 
-//            ICurioRenderer.followBodyRotations(living, (HumanoidModel<LivingEntity>) renderLayerParent.getModel());
+            ICurioRenderer.followBodyRotations(living, (HumanoidModel<LivingEntity>) renderLayerParent.getModel());
 
             BakedModel bakedmodel = Minecraft.getInstance().getItemRenderer().getModel(stack, living.level(), living, 10);
             MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();

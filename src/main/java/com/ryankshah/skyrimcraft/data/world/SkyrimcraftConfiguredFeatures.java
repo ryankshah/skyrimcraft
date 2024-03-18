@@ -112,7 +112,8 @@ public class SkyrimcraftConfiguredFeatures
                                         List.of(
                                                 BlockInit.BLEEDING_CROWN_BLOCK.get().defaultBlockState(),
                                                 BlockInit.WHITE_CAP_BLOCK.get().defaultBlockState(),
-                                                BlockInit.BLISTERWORT_BLOCK.get().defaultBlockState()
+                                                BlockInit.BLISTERWORT_BLOCK.get().defaultBlockState(),
+                                                BlockInit.FLY_AMANITA_BLOCK.get().defaultBlockState()
                                         )
                                 )
                         ))));

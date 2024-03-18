@@ -20,9 +20,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.StringUtil;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
@@ -37,6 +40,7 @@ import net.neoforged.neoforge.client.gui.overlay.IGuiOverlay;
 import net.neoforged.neoforge.client.gui.overlay.VanillaGuiOverlay;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.fluids.FluidType;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -187,7 +191,7 @@ public class SkyrimGuiOverlay
             if(currentTarget instanceof LivingEntity && currentTarget.isAlive()) {
 //            if(targets.contains(mc.player.getLastHurtMob().getId()) && mc.player.getLastHurtMob() != null && mc.player.getLastHurtMob().isAlive()) {
                 LivingEntity target = (LivingEntity)currentTarget;
-                String entityName = target.getDisplayName().getString();
+                String entityName = target instanceof Villager villager ? villager.getVillagerData().getProfession() == VillagerProfession.NONE ? "Villager" : StringUtils.capitalize(villager.getVillagerData().getProfession().toString()) : target.getDisplayName().getString();
 
                 if(!mc.player.closerThan(target, 16.0D))
                     return;
@@ -206,7 +210,7 @@ public class SkyrimGuiOverlay
                 RenderUtil.blitWithBlend(poseStack, (scaledWidth / 2) - 2 - (41 + entityNameWidth / 2), 38, 25, 107, 41, 12, 256, 256, 3, 1); // width / 2 - 69
                 // right banner
                 RenderUtil.blitWithBlend(poseStack, (scaledWidth / 2) + 2 + entityNameWidth / 2, 38, 84, 107, 41, 12, 256, 256, 3, 1); // width / 2 + 28
-                guiGraphics.drawCenteredString(mc.font, entityName , scaledWidth / 2, 40, 0x00C0C0C0);
+                guiGraphics.drawCenteredString(mc.font, entityName, scaledWidth / 2, 40, 0x00C0C0C0);
                 poseStack.popPose();
             }
         }

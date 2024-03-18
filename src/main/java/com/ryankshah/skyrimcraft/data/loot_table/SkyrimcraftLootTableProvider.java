@@ -41,6 +41,28 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
         );
 
         pOutput.accept(
+                new ResourceLocation(Skyrimcraft.MODID, "spider"),
+                LootTable.lootTable().withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1))
+                        .add(LootItem.lootTableItem(ItemInit.SPIDER_EGG.get())
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.45f, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.85F, 1.0F)))
+                        )
+                )
+        );
+
+        pOutput.accept(
+                new ResourceLocation(Skyrimcraft.MODID, "salmon"),
+                LootTable.lootTable().withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1))
+                        .add(LootItem.lootTableItem(ItemInit.SALMON_ROE.get())
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.45f, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.85F, 1.0F)))
+                        )
+                )
+        );
+
+        pOutput.accept(
                 new ResourceLocation(Skyrimcraft.MODID, "bee"),
                 LootTable.lootTable().withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
@@ -68,6 +90,98 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
                         .setRolls(ConstantValue.exactly(1))
                         .add(LootItem.lootTableItem(ItemInit.HORSE_MEAT.get())
                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.875F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                )
+        );
+
+        LootTable.Builder chestPool = LootTable.lootTable().withPool(
+                LootPool.lootPool()
+                        .setRolls(UniformGenerator.between(1.0F, 3.0F))
+                        .add(LootItem.lootTableItem(ItemInit.VAMPIRE_DUST)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.FIRE_SALTS)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.SALT_PILE)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.DWARVEN_OIL)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.TROLL_FAT)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.TAPROOT)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.BEAR_CLAWS)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.CHARRED_SKEEVER_HIDE)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.BRIAR_HEART)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+        );
+
+        pOutput.accept(
+                new ResourceLocation(Skyrimcraft.MODID, "chests/simple_dungeon"),
+                chestPool
+        );
+        pOutput.accept(
+                new ResourceLocation(Skyrimcraft.MODID, "chests/abandoned_mineshaft"),
+                chestPool
+        );
+        pOutput.accept(
+                new ResourceLocation(Skyrimcraft.MODID, "chests/buried_treasure"),
+                chestPool
+        );
+        pOutput.accept(
+                new ResourceLocation(Skyrimcraft.MODID, "chests/desert_pyramid"),
+                chestPool
+        );
+        pOutput.accept(
+                new ResourceLocation(Skyrimcraft.MODID, "chests/shipwreck_supply"),
+                chestPool
+        );
+        pOutput.accept(
+                new ResourceLocation(Skyrimcraft.MODID, "chests/stronghold_corridor"),
+                chestPool
+        );
+        pOutput.accept(
+                new ResourceLocation(Skyrimcraft.MODID, "gameplay/piglin_bartering"),
+                chestPool
+        );
+        pOutput.accept(
+                new ResourceLocation(Skyrimcraft.MODID, "gameplay/sniffer_digging"),
+                LootTable.lootTable().withPool(LootPool.lootPool()
+                        .setRolls(UniformGenerator.between(1.0F, 3.0F))
+                        .add(LootItem.lootTableItem(ItemInit.TAPROOT)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.FIRE_SALTS)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.SALT_PILE)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.DWARVEN_OIL)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
                                 .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
                         )
                 )

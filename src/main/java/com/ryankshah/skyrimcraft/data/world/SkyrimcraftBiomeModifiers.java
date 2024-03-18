@@ -39,6 +39,8 @@ public class SkyrimcraftBiomeModifiers
     public static final ResourceKey<BiomeModifier> ADD_DRIPSTONE_MOBS = registerKey("add_dripstone_mobs");
     public static final ResourceKey<BiomeModifier> ADD_SNOW_MOBS = registerKey("add_snow_mobs");
     public static final ResourceKey<BiomeModifier> ADD_PLAINS_MOBS = registerKey("add_plains_mobs");
+    public static final ResourceKey<BiomeModifier> ADD_CAVE_MOBS = registerKey("add_cave_mobs");
+    public static final ResourceKey<BiomeModifier> ADD_WATER_MOBS = registerKey("add_water_mobs");
 
     public static void bootstrap(BootstapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
@@ -109,11 +111,11 @@ public class SkyrimcraftBiomeModifiers
                         biomes.getOrThrow(Biomes.MEADOW)
                 ),
                 List.of(
-                        new MobSpawnSettings.SpawnerData(EntityInit.BLUE_BUTTERFLY.get(), 100, 3, 5),
-                        new MobSpawnSettings.SpawnerData(EntityInit.MONARCH_BUTTERFLY.get(), 100, 3, 5),
-                        new MobSpawnSettings.SpawnerData(EntityInit.BLUE_DARTWING.get(), 100, 3, 5),
-                        new MobSpawnSettings.SpawnerData(EntityInit.ORANGE_DARTWING.get(), 100, 3, 5),
-                        new MobSpawnSettings.SpawnerData(EntityInit.LUNAR_MOTH.get(), 100, 3, 5)
+                        new MobSpawnSettings.SpawnerData(EntityInit.BLUE_BUTTERFLY.get(), 20, 3, 5),
+                        new MobSpawnSettings.SpawnerData(EntityInit.MONARCH_BUTTERFLY.get(), 20, 3, 5),
+                        new MobSpawnSettings.SpawnerData(EntityInit.BLUE_DARTWING.get(), 20, 3, 5),
+                        new MobSpawnSettings.SpawnerData(EntityInit.ORANGE_DARTWING.get(), 20, 3, 5),
+                        new MobSpawnSettings.SpawnerData(EntityInit.LUNAR_MOTH.get(), 20, 3, 5)
                 )
         ));
         context.register(ADD_DRIPSTONE_MOBS, new BiomeModifiers.AddSpawnsBiomeModifier(
@@ -121,7 +123,7 @@ public class SkyrimcraftBiomeModifiers
                         biomes.getOrThrow(Biomes.DRIPSTONE_CAVES), biomes.getOrThrow(Biomes.LUSH_CAVES)
                 ),
                 List.of(
-                        new MobSpawnSettings.SpawnerData(EntityInit.TORCHBUG.get(), 200, 4, 6)
+                        new MobSpawnSettings.SpawnerData(EntityInit.TORCHBUG.get(), 40, 4, 6)
                 )
         ));
         context.register(ADD_SNOW_MOBS, new BiomeModifiers.AddSpawnsBiomeModifier(
@@ -130,9 +132,9 @@ public class SkyrimcraftBiomeModifiers
                         biomes.getOrThrow(Biomes.SNOWY_SLOPES), biomes.getOrThrow(Biomes.SNOWY_TAIGA)
                 ),
                 List.of(
-                        new MobSpawnSettings.SpawnerData(EntityInit.SABRE_CAT.get(), 1, 1, 2),
+                        new MobSpawnSettings.SpawnerData(EntityInit.SABRE_CAT.get(), 4, 1, 2),
                         new MobSpawnSettings.SpawnerData(EntityInit.GIANT.get(), 1, 2, 2),
-                        new MobSpawnSettings.SpawnerData(EntityInit.DRAUGR.get(), 2, 2, 2)
+                        new MobSpawnSettings.SpawnerData(EntityInit.DRAUGR.get(), 30, 2, 2)
                 )
         ));
         context.register(ADD_PLAINS_MOBS, new BiomeModifiers.AddSpawnsBiomeModifier(
@@ -141,9 +143,33 @@ public class SkyrimcraftBiomeModifiers
                         biomes.getOrThrow(Biomes.SAVANNA_PLATEAU)
                 ),
                 List.of(
-                        new MobSpawnSettings.SpawnerData(EntityInit.SABRE_CAT.get(), 1, 1, 2),
-                        new MobSpawnSettings.SpawnerData(EntityInit.DRAUGR.get(), 3, 2, 2),
-                        new MobSpawnSettings.SpawnerData(EntityInit.DWARVEN_SPIDER.get(), 3, 2, 2)
+                        new MobSpawnSettings.SpawnerData(EntityInit.SABRE_CAT.get(), 4, 1, 2)
+                )
+        ));
+
+        context.register(ADD_CAVE_MOBS, new BiomeModifiers.AddSpawnsBiomeModifier(
+                HolderSet.direct(
+                        biomes.getOrThrow(Biomes.DRIPSTONE_CAVES), biomes.getOrThrow(Biomes.SNOWY_SLOPES),
+                        biomes.getOrThrow(Biomes.WINDSWEPT_GRAVELLY_HILLS), biomes.getOrThrow(Biomes.WINDSWEPT_HILLS),
+                        biomes.getOrThrow(Biomes.DESERT), biomes.getOrThrow(Biomes.GROVE), biomes.getOrThrow(Biomes.BADLANDS),
+                        biomes.getOrThrow(Biomes.PLAINS), biomes.getOrThrow(Biomes.SNOWY_PLAINS), biomes.getOrThrow(Biomes.SNOWY_TAIGA),
+                        biomes.getOrThrow(Biomes.DEEP_DARK), biomes.getOrThrow(Biomes.BIRCH_FOREST), biomes.getOrThrow(Biomes.DARK_FOREST),
+                        biomes.getOrThrow(Biomes.OLD_GROWTH_BIRCH_FOREST), biomes.getOrThrow(Biomes.WINDSWEPT_FOREST), biomes.getOrThrow(Biomes.WINDSWEPT_SAVANNA)
+                ),
+                List.of(
+                        new MobSpawnSettings.SpawnerData(EntityInit.DRAUGR.get(), 8, 2, 3),
+                        new MobSpawnSettings.SpawnerData(EntityInit.DWARVEN_SPIDER.get(), 8, 1, 2)
+                )
+        ));
+
+        context.register(ADD_WATER_MOBS, new BiomeModifiers.AddSpawnsBiomeModifier(
+                HolderSet.direct(
+                        biomes.getOrThrow(Biomes.RIVER), biomes.getOrThrow(Biomes.BEACH),
+                        biomes.getOrThrow(Biomes.COLD_OCEAN), biomes.getOrThrow(Biomes.OCEAN)
+                ),
+                List.of(
+                        new MobSpawnSettings.SpawnerData(EntityInit.ABECEAN_LONGFIN.get(), 4, 2, 4),
+                        new MobSpawnSettings.SpawnerData(EntityInit.CYRODILIC_SPADETAIL.get(), 4, 2, 4)
                 )
         ));
     }

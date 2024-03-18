@@ -57,9 +57,9 @@ public class SpellRegistry
     //command animal
     //dragonskin
     public static Supplier<Spell> ANCESTORS_WRATH = SPELLS.register("ancestors_wrath", () -> new PowerAncestorsWrath(84));
-    //voice of the emperor
+    public static Supplier<Spell> VOICE_OF_THE_EMPEROR = SPELLS.register("voice_of_the_emperor", () -> new PowerVoiceOfTheEmperor(85));
     public static Supplier<Spell> BATTLE_CRY = SPELLS.register("battle_cry", () -> new PowerBattleCry(86));
-    //berserker rage
+    public static Supplier<Spell> BERSERKER_RAGE = SPELLS.register("berserker_rage", () -> new PowerBerserkerRage(87));
     public static Supplier<Spell> ADRENALINE_RUSH = SPELLS.register("adrenaline_rush", () -> new PowerAdrenalineRush(88));
     //embraceofshadows (vampire)
     //vampire's seduction
@@ -68,6 +68,7 @@ public class SpellRegistry
     //beast form (werewolf)
     //ring of hircine (werewolf)
     public static Supplier<Spell> NIGHT_EYE = SPELLS.register("night_eye", () -> new PowerNightEye(95));
+    // TODO: add factions and their faction powers too
 
     public static List<Supplier<Spell>> getPowersForRace(Race race) {
         List<Supplier<Spell>> spells = new ArrayList<>();
@@ -78,6 +79,10 @@ public class SpellRegistry
             spells.add(HISTSKIN);
         else if(race.getId() == Race.DUNMER.getId())
             spells.add(ANCESTORS_WRATH);
+        else if(race.getId() == Race.IMPERIAL.getId())
+            spells.add(VOICE_OF_THE_EMPEROR);
+        else if(race.getId() == Race.ORSIMER.getId())
+            spells.add(BERSERKER_RAGE);
         else if(race.getId() == Race.REDGUARD.getId())
             spells.add(ADRENALINE_RUSH);
         else if(race.getId() == Race.NORD.getId())

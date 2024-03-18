@@ -110,7 +110,7 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         item(ItemInit.HAWK_EGG.get());
         item(ItemInit.TROLL_FAT.get());
         item(ItemInit.CHAURUS_EGGS.get());
-        item(ItemInit.FLY_AMANITA.get());
+//        item(ItemInit.FLY_AMANITA.get());
         item(ItemInit.ELVES_EAR.get());
         item(ItemInit.TAPROOT.get());
         item(ItemInit.BEE.get());
@@ -137,6 +137,9 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         egg(ItemInit.DRAGON_SPAWN_EGG.get());
         egg(ItemInit.GIANT_SPAWN_EGG.get());
         egg(ItemInit.SABRE_CAT_SPAWN_EGG.get());
+        egg(ItemInit.DRAUGR_SPAWN_EGG.get());
+        egg(ItemInit.KHAJIIT_SPAWN_EGG.get());
+        egg(ItemInit.FALMER_SPAWN_EGG.get());
 
         item(ItemInit.ANCIENT_NORD_HELMET.get());
         item(ItemInit.ANCIENT_NORD_CHESTPLATE.get());
@@ -337,6 +340,7 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         spellbook(ItemInit.ICE_SPIKE_SPELLBOOK.get());
         spellbook(ItemInit.CONJURE_ZOMBIE_SPELLBOOK.get());
         spellbook(ItemInit.DETECT_LIFE_SPELLBOOK.get());
+        spellbook(ItemInit.CANDLELIGHT_SPELLBOOK.get());
 
         skillbook(ItemInit.ALTERATION_SKILLBOOK.get());
         skillbook(ItemInit.CONJURATION_SKILLBOOK.get());

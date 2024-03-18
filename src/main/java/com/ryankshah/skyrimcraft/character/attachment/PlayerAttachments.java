@@ -14,6 +14,8 @@ public class PlayerAttachments
 
     public static final Supplier<AttachmentType<Character>> CHARACTER = ATTACHMENT_TYPES.register(
             "character", () -> AttachmentType.builder(Character::new).serialize(Character.CODEC).copyOnDeath().build());
+    public static final Supplier<AttachmentType<ExtraCharacter>> EXTRA_CHARACTER = ATTACHMENT_TYPES.register(
+            "extra_character", () -> AttachmentType.builder(() -> new ExtraCharacter()).serialize(ExtraCharacter.CODEC).copyOnDeath().build());
     public static final Supplier<AttachmentType<Integer>> LEVEL_UPDATES = ATTACHMENT_TYPES.register(
             "level_updates", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).copyOnDeath().build());
     public static final Supplier<AttachmentType<StatIncreases>> STAT_INCREASES = ATTACHMENT_TYPES.register(

@@ -180,6 +180,9 @@ public abstract class Spell
      * @return {@link CastResult}
      */
     private CastResult canCast() {
+        if(getCaster().isUnderWater())
+            return CastResult.UNDERWATER;
+
         Character character = Character.get(getCaster());
         if(getType() == SpellType.SHOUT) {
             return character.getSpellCooldown(this) <= 0f ? CastResult.SUCCESS : CastResult.COOLDOWN;
@@ -200,7 +203,9 @@ public abstract class Spell
         if(canCast() == CastResult.SUCCESS) {
             onCast();
         } else if(canCast() == CastResult.FAIL) {
-            getCaster().displayClientMessage(Component.literal("Failed to Cast Spell/Shout"), false);
+            getCaster().displayClientMessage(Component.literal("Failed to Cast Spell/Shout!"), false);
+        } else if(canCast() == CastResult.UNDERWATER) {
+            getCaster().displayClientMessage(Component.literal("You cannot cast spells underwater!"), false);
         } else {
             getCaster().displayClientMessage(Component.literal("" + (canCast() == CastResult.MAGICKA ? "Not enough magicka!" : "This shout is still on cooldown!")), false);
         }
@@ -297,7 +302,8 @@ public abstract class Spell
         SUCCESS(0),
         COOLDOWN(1),
         MAGICKA(2),
-        FAIL(3);
+        FAIL(3),
+        UNDERWATER(4);
 
         private int id;
 

@@ -15,7 +15,8 @@ public class AttributeInit
 {
     public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(Registries.ATTRIBUTE, Skyrimcraft.MODID);
 
-    public static final Holder<Attribute> MAGICKA_REGEN = ATTRIBUTES.register("magicka_regen_attribute", () -> new RangedAttribute("skyrimcraft.character.attribute.magicka_regen", 1F, 1F, 2F).setSyncable(true));
+    public static final Holder<Attribute> MAGICKA_REGEN = ATTRIBUTES.register("magicka_regen_attribute", () -> new RangedAttribute("skyrimcraft.character.attribute.magicka_regen", 1F, 0F, 2F).setSyncable(true));
+//    public static final Holder<Attribute> POISON_RESISTANCE = ATTRIBUTES.register("poison_resistance_attribute", () -> new RangedAttribute("skyrimcraft.character.attribute.poison_resistance", 0F, 0F, 10F).setSyncable(true));
 
     public static final UUID MODIFIER_ID_MAGICKA_REGEN = UUID.fromString("26fcb349-bc96-4593-9b29-5ace7bdee19f");
     private static final UUID MODIFIER_ID_PLAYER_HEALTH = UUID.fromString("671fbcca-aac7-4de7-9399-d951d58adc12");

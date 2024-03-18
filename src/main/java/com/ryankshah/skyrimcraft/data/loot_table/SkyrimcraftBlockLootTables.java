@@ -73,6 +73,7 @@ public class SkyrimcraftBlockLootTables extends BlockLootSubProvider
         dropSelf(BlockInit.BLEEDING_CROWN_BLOCK.get());
         dropSelf(BlockInit.WHITE_CAP_BLOCK.get());
         dropSelf(BlockInit.BLISTERWORT_BLOCK.get());
+        dropSelf(BlockInit.FLY_AMANITA_BLOCK.get());
         dropSelf(BlockInit.CREEP_CLUSTER_BLOCK.get());
 
         LootItemCondition.Builder lootitemcondition$pearloyster = LootItemBlockStatePropertyCondition.hasBlockStateProperties(BlockInit.PEARL_OYSTER_BLOCK.get())

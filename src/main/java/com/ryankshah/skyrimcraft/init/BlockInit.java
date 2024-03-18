@@ -221,6 +221,11 @@ public class BlockInit
     public static final DeferredItem<BlockItem> BLISTERWORT = ItemInit.ITEMS.register("blisterwort",
             () -> new SkyrimBlockItemIngredient(BLISTERWORT_BLOCK.get(), new Item.Properties(), IngredientEffect.DAMAGE_STAMINA, IngredientEffect.FRENZY, IngredientEffect.RESTORE_HEALTH, IngredientEffect.FORTIFY_SMITHING));
 
+    public static final DeferredBlock<Block> FLY_AMANITA_BLOCK = BLOCKS.register("fly_amanita",
+            GenericTripleMushroom::new);
+    public static final DeferredItem<BlockItem> FLY_AMANITA = ItemInit.ITEMS.register("fly_amanita",
+            () -> new SkyrimBlockItemIngredient(FLY_AMANITA_BLOCK.get(), new Item.Properties(), IngredientEffect.RESIST_FIRE, IngredientEffect.FORTIFY_TWO_HANDED, IngredientEffect.FRENZY, IngredientEffect.REGENERATE_STAMINA));
+
     public static final DeferredBlock<Block> CREEP_CLUSTER_BLOCK = BLOCKS.register("creep_cluster",
             () -> new CreepClusterBlock(
                     BlockBehaviour.Properties.of()
@@ -290,6 +295,7 @@ public class BlockInit
         provider.addBlock(BLEEDING_CROWN_BLOCK, "Bleeding Crown");
         provider.addBlock(WHITE_CAP_BLOCK, "White Cap");
         provider.addBlock(BLISTERWORT_BLOCK, "Blisterwort");
+        provider.addBlock(FLY_AMANITA_BLOCK, "Fly Amanita");
         provider.addBlock(CANIS_ROOT_BLOCK, "Canis Root");
         provider.addBlock(CREEP_CLUSTER_BLOCK, "Creep Cluster");
 
@@ -323,11 +329,12 @@ public class BlockInit
         flowerBlock(provider, PURPLE_MOUNTAIN_FLOWER.get());
 
         crossBlock(provider, CANIS_ROOT_BLOCK.get());
-        lilyPadBlock(provider, CREEP_CLUSTER_BLOCK.get());
 
         mushroomBlock(provider, BLEEDING_CROWN_BLOCK.get());
+        mushroomBlock(provider, FLY_AMANITA_BLOCK.get());
         mushroomBlock(provider, WHITE_CAP_BLOCK.get());
         mushroomBlock(provider, BLISTERWORT_BLOCK.get());
+        lilyPadBlock(provider, CREEP_CLUSTER_BLOCK.get());
 
         provider.getVariantBuilder(PEARL_OYSTER_BLOCK.get())
                 .forAllStates(state -> {
@@ -389,6 +396,7 @@ public class BlockInit
         provider.basicItem(CANIS_ROOT.asItem());
         provider.basicItem(BLEEDING_CROWN.asItem());
         provider.basicItem(BLISTERWORT.asItem());
+        provider.basicItem(FLY_AMANITA.asItem());
         provider.basicItem(WHITE_CAP.asItem());
         provider.basicItem(CREEP_CLUSTER.asItem());
     }
@@ -406,7 +414,8 @@ public class BlockInit
 
         provider.simpleBlock(block, provider.models().getBuilder(blockKey.toString())
                 .parent(provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/triple_mushroom_generic")))
-                .texture("0", provider.modLoc("block/"+path)).renderType("cutout")
+                .texture("0", provider.modLoc("block/"+path))
+                .renderType("cutout")
                 .texture("particle", provider.modLoc("block/"+path))
         );
     }
@@ -415,14 +424,20 @@ public class BlockInit
         ResourceLocation blockKey = BuiltInRegistries.BLOCK.getKey(block);
         String path = blockKey.getPath();
 
-        provider.simpleBlock(block, provider.models().getBuilder(blockKey.toString()).parent(provider.models().getExistingFile(new ResourceLocation("minecraft:block/cross"))).texture("cross", provider.modLoc("block/"+path)).renderType("cutout"));
+        provider.simpleBlock(block, provider.models().getBuilder(blockKey.toString()).parent(provider.models().getExistingFile(new ResourceLocation("minecraft:block/cross")))
+                .texture("cross", provider.modLoc("block/"+path))
+                .renderType("cutout"));
     }
 
     public static void lilyPadBlock(BlockStateProvider provider, Block block) {
         ResourceLocation blockKey = BuiltInRegistries.BLOCK.getKey(block);
         String path = blockKey.getPath();
 
-        provider.simpleBlock(block, provider.models().getBuilder(blockKey.toString()).parent(provider.models().getExistingFile(new ResourceLocation("minecraft:block/lily_pad"))).texture("texture", provider.modLoc("block/"+path)).texture("particle", provider.modLoc("block/"+path)).renderType("cutout"));
+        provider.simpleBlock(block, provider.models().getBuilder(blockKey.toString())
+                .parent(provider.models().getExistingFile(new ResourceLocation("minecraft:block/lily_pad")))
+                .texture("texture", provider.modLoc("block/"+path))
+                .renderType("cutout")
+                .texture("particle", provider.modLoc("block/"+path)));
     }
 
     public static void flowerBlock(BlockStateProvider provider, Block block) {

@@ -96,6 +96,7 @@ public class SpellConjureZombie extends Spell
             } else {
                 Zombie zombieEntity = new Zombie(EntityType.ZOMBIE, getCaster().level());
                 zombieEntity.setPos(getCaster().getX(), getCaster().getY() + 0.2f, getCaster().getZ());
+//                zombieEntity.setSunSensitive(false); // TODO: add a mixin to Zombie to make this method and make the `isSunSensitive` public
                 zombieEntity.goalSelector.removeAllGoals(g -> true);
                 zombieEntity.targetSelector.removeAllGoals(g -> true);
                 zombieEntity.goalSelector.addGoal(5, new MeleeAttackGoal(zombieEntity, 1.0, true));

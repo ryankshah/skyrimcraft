@@ -15,9 +15,13 @@ import net.minecraft.world.entity.LivingEntity;
 
 import javax.annotation.Nullable;
 
-public class DamageSourceInit
+public class DamageTypeInit
 {
     public static final ResourceKey<DamageType> SPELL = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Skyrimcraft.MODID, "spell_attack"));
+    public static final ResourceKey<DamageType> POISON = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Skyrimcraft.MODID, "poison"));
+    public static final ResourceKey<DamageType> SHOCK = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Skyrimcraft.MODID, "shock"));
+    public static final ResourceKey<DamageType> FROST = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Skyrimcraft.MODID, "frost"));
+    // and fire, but this is already in game - maybe poison is too i guess... maybe frost too?
 
 
     public static SpellDamageSource indirectSpellAttack(Entity source, @Nullable LivingEntity indirect, @Nullable Spell spell) {

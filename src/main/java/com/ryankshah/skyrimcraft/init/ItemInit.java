@@ -254,19 +254,19 @@ public class ItemInit
                             .build())
             ));
 
-    public static final DeferredItem<Item> ALE = ITEMS.register("ale", () -> new PotionItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> ALTO_WINE = ITEMS.register("alto_wine", () -> new PotionItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> ARGONIAN_ALE = ITEMS.register("argonian_ale", () -> new PotionItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> NORD_MEAD = ITEMS.register("nord_mead", () -> new PotionItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> BLACK_BRIAR_MEAD = ITEMS.register("black_briar_mead", () -> new PotionItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> BLACK_BRIAR_RESERVE = ITEMS.register("black_briar_reserve", () -> new PotionItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> DRAGONS_BREATH_MEAD = ITEMS.register("dragons_breath_mead", () -> new PotionItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> FIREBRAND_WINE = ITEMS.register("firebrand_wine", () -> new PotionItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> HONNINGBREW_MEAD = ITEMS.register("honningbrew_mead", () -> new PotionItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> MEAD_WITH_JUNIPER_BERRY = ITEMS.register("mead_with_juniper_berry", () -> new PotionItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> SKOOMA = ITEMS.register("skooma", () -> new PotionItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> SPICED_WINE = ITEMS.register("spiced_wine", () -> new PotionItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> WINE = ITEMS.register("wine", () -> new PotionItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> ALE = ITEMS.register("ale", () -> new SkyrimAlcohol(new Item.Properties().stacksTo(1))); // new PotionItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> ALTO_WINE = ITEMS.register("alto_wine", () -> new SkyrimAlcohol(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> ARGONIAN_ALE = ITEMS.register("argonian_ale", () -> new SkyrimAlcohol(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> NORD_MEAD = ITEMS.register("nord_mead", () -> new SkyrimAlcohol(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> BLACK_BRIAR_MEAD = ITEMS.register("black_briar_mead", () -> new SkyrimAlcohol(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> BLACK_BRIAR_RESERVE = ITEMS.register("black_briar_reserve", () -> new SkyrimAlcohol(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> DRAGONS_BREATH_MEAD = ITEMS.register("dragons_breath_mead", () -> new SkyrimAlcohol(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FIREBRAND_WINE = ITEMS.register("firebrand_wine", () -> new SkyrimAlcohol(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> HONNINGBREW_MEAD = ITEMS.register("honningbrew_mead", () -> new SkyrimAlcohol(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> MEAD_WITH_JUNIPER_BERRY = ITEMS.register("mead_with_juniper_berry", () -> new SkyrimAlcohol(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> SKOOMA = ITEMS.register("skooma", () -> new SkyrimAlcohol(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> SPICED_WINE = ITEMS.register("spiced_wine", () -> new SkyrimAlcohol(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> WINE = ITEMS.register("wine", () -> new SkyrimAlcohol(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> MAMMOTH_SNOUT = ITEMS.register("mammoth_snout", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> FLOUR = ITEMS.register("flour", () -> new Item(new Item.Properties()));
@@ -321,7 +321,7 @@ public class ItemInit
     public static final DeferredItem<Item> HAWK_EGG = ITEMS.register("hawk_egg", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESIST_MAGIC, IngredientEffect.DAMAGE_MAGICKA_REGEN, IngredientEffect.WATERBREATHING, IngredientEffect.LINGERING_DAMAGE_STAMINA));
     public static final DeferredItem<Item> TROLL_FAT = ITEMS.register("troll_fat", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESIST_POISON, IngredientEffect.FORTIFY_TWO_HANDED, IngredientEffect.FRENZY, IngredientEffect.DAMAGE_HEALTH));
     public static final DeferredItem<Item> CHAURUS_EGGS = ITEMS.register("chaurus_eggs", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.WEAKNESS_TO_POISON, IngredientEffect.FORTIFY_STAMINA, IngredientEffect.DAMAGE_MAGICKA, IngredientEffect.INVISIBILITY));
-    public static final DeferredItem<Item> FLY_AMANITA = ITEMS.register("fly_amanita", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESIST_FIRE, IngredientEffect.FORTIFY_TWO_HANDED, IngredientEffect.FRENZY, IngredientEffect.REGENERATE_STAMINA));
+//    public static final DeferredItem<Item> FLY_AMANITA = ITEMS.register("fly_amanita", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESIST_FIRE, IngredientEffect.FORTIFY_TWO_HANDED, IngredientEffect.FRENZY, IngredientEffect.REGENERATE_STAMINA));
     public static final DeferredItem<Item> ELVES_EAR = ITEMS.register("elves_ear", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESTORE_MAGICKA, IngredientEffect.FORTIFY_MARKSMAN, IngredientEffect.WEAKNESS_TO_FROST, IngredientEffect.RESIST_FIRE));
     public static final DeferredItem<Item> TAPROOT = ITEMS.register("taproot", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.WEAKNESS_TO_MAGIC, IngredientEffect.FORTIFY_ILLUSION, IngredientEffect.REGENERATE_MAGICKA, IngredientEffect.RESTORE_MAGICKA));
     public static final DeferredItem<Item> BEE = ITEMS.register("bee", () -> new SkyrimIngredient(new Item.Properties(), IngredientEffect.RESTORE_STAMINA, IngredientEffect.RAVAGE_STAMINA, IngredientEffect.REGENERATE_STAMINA, IngredientEffect.WEAKNESS_TO_SHOCK));
@@ -536,6 +536,7 @@ public class ItemInit
     public static final Supplier<Item> ICE_SPIKE_SPELLBOOK = ITEMS.register("ice_spike_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.ICE_SPIKE));
     public static final Supplier<Item> CONJURE_ZOMBIE_SPELLBOOK = ITEMS.register("conjure_zombie_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.CONJURE_ZOMBIE));
     public static final Supplier<Item> DETECT_LIFE_SPELLBOOK = ITEMS.register("detect_life_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.DETECT_LIFE));
+    public static final Supplier<Item> CANDLELIGHT_SPELLBOOK = ITEMS.register("candlelight_spellbook", () -> new SpellBook(new Item.Properties().rarity(Rarity.EPIC), SpellRegistry.CANDLELIGHT));
 
     // Skill books
     public static final Supplier<Item> ALTERATION_SKILLBOOK = ITEMS.register("alteration_skillbook", () -> new SkillBook(new Item.Properties().rarity(Rarity.EPIC), SkillRegistry.ALTERATION));
@@ -622,6 +623,10 @@ public class ItemInit
     public static final DeferredItem<Item> BLUE_DARTWING_SPAWN_EGG = ITEMS.register("blue_dartwing_spawn_egg", () -> new DeferredSpawnEggItem(EntityInit.BLUE_DARTWING, 0x505050, 0x606060, new Item.Properties()));
     public static final DeferredItem<Item> LUNAR_MOTH_SPAWN_EGG = ITEMS.register("lunar_moth_spawn_egg", () -> new DeferredSpawnEggItem(EntityInit.LUNAR_MOTH, 0x505050, 0x606060, new Item.Properties()));
     public static final DeferredItem<Item> TORCHBUG_SPAWN_EGG = ITEMS.register("torchbug_spawn_egg", () -> new DeferredSpawnEggItem(EntityInit.TORCHBUG, 0x505050, 0x606060, new Item.Properties()));
+    public static final DeferredItem<Item> DRAUGR_SPAWN_EGG = ITEMS.register("draugr_spawn_egg", () -> new DeferredSpawnEggItem(EntityInit.DRAUGR, 0x505050, 0x606060, new Item.Properties()));
+    public static final DeferredItem<Item> KHAJIIT_SPAWN_EGG = ITEMS.register("khajiit_spawn_egg", () -> new DeferredSpawnEggItem(EntityInit.KHAJIIT, 0x505050, 0x606060, new Item.Properties()));
+    public static final DeferredItem<Item> FALMER_SPAWN_EGG = ITEMS.register("falmer_spawn_egg", () -> new DeferredSpawnEggItem(EntityInit.FALMER, 0x505050, 0x606060, new Item.Properties()));
+
 
     public static void addItemTranslations(LanguageProvider provider) {
         provider.addItem(SWEET_ROLL, "Sweet Roll");
@@ -695,7 +700,7 @@ public class ItemInit
         provider.addItem(HAWK_EGG, "Hawk Egg");
         provider.addItem(TROLL_FAT, "Troll Fat");
         provider.addItem(CHAURUS_EGGS, "Chaurus Eggs");
-        provider.addItem(FLY_AMANITA, "Fly Amanita");
+//        provider.addItem(FLY_AMANITA, "Fly Amanita");
         provider.addItem(ELVES_EAR, "Elves Ear");
         provider.addItem(TAPROOT, "Taproot");
         provider.addItem(BEE, "Bee");
@@ -744,6 +749,9 @@ public class ItemInit
         provider.addItem(BLUE_DARTWING_SPAWN_EGG, "Blue Dartwing");
         provider.addItem(LUNAR_MOTH_SPAWN_EGG, "Lunar Moth");
         provider.addItem(TORCHBUG_SPAWN_EGG, "Torchbug");
+        provider.addItem(DRAUGR_SPAWN_EGG, "Draugr");
+        provider.addItem(KHAJIIT_SPAWN_EGG, "Khajiit");
+        provider.addItem(FALMER_SPAWN_EGG, "Falmer");
 
         provider.addItem(ANCIENT_NORD_HELMET, "Ancient Nord Helmet");
         provider.addItem(ANCIENT_NORD_CHESTPLATE, "Ancient Nord Chestplate");
@@ -904,6 +912,7 @@ public class ItemInit
         provider.addItem(ICE_SPIKE_SPELLBOOK, "Spellbook");
         provider.addItem(CONJURE_ZOMBIE_SPELLBOOK, "Spellbook");
         provider.addItem(DETECT_LIFE_SPELLBOOK, "Spellbook");
+        provider.addItem(CANDLELIGHT_SPELLBOOK, "Spellbook");
 
         provider.addItem(ALTERATION_SKILLBOOK, "Skill Book");
         provider.addItem(CONJURATION_SKILLBOOK, "Skill Book");

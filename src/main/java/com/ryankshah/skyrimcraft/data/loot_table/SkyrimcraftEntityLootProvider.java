@@ -41,7 +41,10 @@ public class SkyrimcraftEntityLootProvider extends EntityLootSubProvider
         this.add(EntityInit.DWARVEN_SPIDER.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(ItemInit.DWARVEN_METAL_INGOT.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 1.0F))).apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F))))));
 
         this.add(EntityInit.KHAJIIT.get(), LootTable.lootTable());
-        this.add(EntityInit.FALMER.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(ItemInit.FALMER_EAR.get()))));
+        this.add(EntityInit.FALMER.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(ItemInit.FALMER_EAR.get())))); //todo: add salt pile too and many other ingredients - https://elderscrolls.fandom.com/wiki/Falmer_(Skyrim)
+
+        this.add(EntityInit.ABECEAN_LONGFIN.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(ItemInit.ABECEAN_LONGFIN.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 1.0F))).apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F))))));
+        this.add(EntityInit.CYRODILIC_SPADETAIL.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(ItemInit.CYRODILIC_SPADETAIL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 1.0F))).apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F))))));
 
         LootPool.Builder draugrPool = LootPool.lootPool()
                 .name("draugrPool")

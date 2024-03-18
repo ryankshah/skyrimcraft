@@ -6,6 +6,7 @@ import com.ryankshah.skyrimcraft.character.feature.model.HighElfEarModel;
 import com.ryankshah.skyrimcraft.character.feature.model.KhajiitHeadModel;
 import com.ryankshah.skyrimcraft.character.feature.model.KhajiitTailModel;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
+import com.ryankshah.skyrimcraft.character.magic.entity.LightBallEntity;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.curios.render.NecklaceRenderer;
 import com.ryankshah.skyrimcraft.curios.render.RingRenderer;
@@ -184,6 +185,11 @@ public class Skyrimcraft
         event.put(EntityInit.KHAJIIT.get(), Khajiit.createMobAttributes().build());
         event.put(EntityInit.FALMER.get(), Falmer.createMobAttributes().build());
         event.put(EntityInit.DRAUGR.get(), Draugr.createAttributes().build());
+
+        event.put(EntityInit.ABECEAN_LONGFIN.get(), AbeceanLongfin.createAttributes().build());
+        event.put(EntityInit.CYRODILIC_SPADETAIL.get(), AbeceanLongfin.createAttributes().build());
+
+        event.put(EntityInit.LIGHTBALL_ENTITY.get(), LightBallEntity.createAttributes().build());
     }
 
     public void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {

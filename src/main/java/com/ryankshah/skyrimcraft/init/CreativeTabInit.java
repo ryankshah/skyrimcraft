@@ -1,10 +1,7 @@
 package com.ryankshah.skyrimcraft.init;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.item.SkyrimIngredient;
-import com.ryankshah.skyrimcraft.item.SkyrimNecklace;
-import com.ryankshah.skyrimcraft.item.SkyrimRing;
-import com.ryankshah.skyrimcraft.item.SpellBook;
+import com.ryankshah.skyrimcraft.item.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
@@ -31,7 +28,7 @@ public class CreativeTabInit
         builder.displayItems((itemDisplayParameters, output) -> {
             ItemInit.ITEMS.getEntries()
                     .stream()
-                    .filter(i -> i.get() instanceof BlockItem)
+                    .filter(i -> i.get() instanceof BlockItem && !(i.get() instanceof SkyrimBlockItemIngredient))
                     .map(DeferredHolder::get)
                     .forEach(output::accept);
         });
@@ -99,7 +96,7 @@ public class CreativeTabInit
         builder.displayItems((itemDisplayParameters, output) -> {
             ItemInit.ITEMS.getEntries()
                     .stream()
-                    .filter(item -> item.get() instanceof SkyrimIngredient)
+                    .filter(item -> item.get() instanceof SkyrimIngredient || item.get() instanceof SkyrimBlockItemIngredient)
                     .map(DeferredHolder::get)
                     .forEach(output::accept);
         });

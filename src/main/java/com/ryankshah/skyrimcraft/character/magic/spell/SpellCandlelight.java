@@ -2,8 +2,7 @@ package com.ryankshah.skyrimcraft.character.magic.spell;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
-import com.ryankshah.skyrimcraft.character.magic.entity.FireballEntity;
-import com.ryankshah.skyrimcraft.character.magic.entity.LightballEntity;
+import com.ryankshah.skyrimcraft.character.magic.entity.LightBallEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -72,9 +71,9 @@ public class SpellCandlelight extends Spell
 
     @Override
     public void onCast() {
-//        LightballEntity fireball = new LightballEntity(getCaster().level(), getCaster(), getCaster().getLookAngle().x * 1, getCaster().getLookAngle().y * 1, getCaster().getLookAngle().z * 1);
-//        fireball.setPos(fireball.getX(), getCaster().getY() + getCaster().getEyeHeight(), getCaster().getZ());
-//        getCaster().getCommandSenderWorld().addFreshEntity(fireball);
+        LightBallEntity lightball = new LightBallEntity(getCaster().level(), getCaster());
+//        lightball.setPos(lightball.getX() + 1, getCaster().getY() + getCaster().getEyeHeight(), getCaster().getZ() + 1);
+        getCaster().getCommandSenderWorld().addFreshEntity(lightball);
 
         super.onCast();
     }

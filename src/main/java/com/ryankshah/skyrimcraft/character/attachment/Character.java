@@ -39,7 +39,6 @@ public class Character
             Codec.INT.fieldOf("characterLevel").forGetter(Character::getCharacterLevel),
             Codec.INT.fieldOf("characterTotalXp").forGetter(Character::getCharacterTotalXp),
             SkillWrapper.CODEC.listOf().fieldOf("skills").forGetter(Character::getSkills),
-//            SkillRegistry.SKILLS_REGISTRY.byNameCodec().listOf().fieldOf("skills").forGetter(Character::getSkills),
             Race.RACE_CODEC.fieldOf("race").forGetter(Character::getRace),
             SpellRegistry.SPELLS_REGISTRY.byNameCodec().listOf().fieldOf("knownSpells").forGetter(Character::getKnownSpells),
             SpellRegistry.SPELLS_REGISTRY.byNameCodec().fieldOf("selectedSpell1").forGetter(Character::getSelectedSpell1),

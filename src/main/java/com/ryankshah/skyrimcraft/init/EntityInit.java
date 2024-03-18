@@ -1,12 +1,10 @@
 package com.ryankshah.skyrimcraft.init;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.character.magic.entity.DisarmEntity;
-import com.ryankshah.skyrimcraft.character.magic.entity.FireballEntity;
-import com.ryankshah.skyrimcraft.character.magic.entity.LightningEntity;
-import com.ryankshah.skyrimcraft.character.magic.entity.UnrelentingForceEntity;
+import com.ryankshah.skyrimcraft.character.magic.entity.*;
 import com.ryankshah.skyrimcraft.character.magic.entity.render.DisarmRenderer;
 import com.ryankshah.skyrimcraft.character.magic.entity.render.FireballRenderer;
+import com.ryankshah.skyrimcraft.character.magic.entity.render.LightBallRenderer;
 import com.ryankshah.skyrimcraft.character.magic.entity.render.UnrelentingForceRenderer;
 import com.ryankshah.skyrimcraft.entity.boss.dragon.SkyrimDragon;
 import com.ryankshah.skyrimcraft.entity.boss.dragon.render.SkyrimDragonRenderer;
@@ -45,6 +43,13 @@ public class EntityInit
     public static final DeferredHolder<EntityType<?>, EntityType<LightningEntity>> SKYRIM_LIGHTNING = ENTITY_TYPES.register("skyrim_lightning", () ->
             EntityType.Builder.<LightningEntity>of(LightningEntity::new, MobCategory.MISC)
                     .build(new ResourceLocation(Skyrimcraft.MODID, "skyrim_lightning").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<LightBallEntity>> LIGHTBALL_ENTITY = ENTITY_TYPES.register("lightball",
+            () -> EntityType.Builder.<LightBallEntity>of(LightBallEntity::new, MobCategory.MISC)
+                    .sized(1.25f, 1.25f) // Hitbox Size
+                    .setTrackingRange(64)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setUpdateInterval(2)
+                    .build(new ResourceLocation(Skyrimcraft.MODID, "lightball").toString()));
 
     // Shout entity types
     public static final DeferredHolder<EntityType<?>, EntityType<UnrelentingForceEntity>> SHOUT_UNRELENTING_FORCE_ENTITY = ENTITY_TYPES.register(
@@ -120,6 +125,16 @@ public class EntityInit
                     .sized(1.0f, 2.0f) // Hitbox Size
                     .build(new ResourceLocation(Skyrimcraft.MODID, "draugr").toString()));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<AbeceanLongfin>> ABECEAN_LONGFIN = ENTITY_TYPES.register("abecean_longfin",
+            () -> EntityType.Builder.of(AbeceanLongfin::new, MobCategory.WATER_AMBIENT)
+                    .sized(1.0f, 1.0f) // Hitbox Size
+                    .build(new ResourceLocation(Skyrimcraft.MODID, "abecean_longfin").toString()));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<CyrodilicSpadetail>> CYRODILIC_SPADETAIL = ENTITY_TYPES.register("cyrodilic_spadetail",
+            () -> EntityType.Builder.of(CyrodilicSpadetail::new, MobCategory.WATER_AMBIENT)
+                    .sized(1.0f, 1.0f) // Hitbox Size
+                    .build(new ResourceLocation(Skyrimcraft.MODID, "cyrodilic_spadetail").toString()));
+
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
 //        RenderingRegistry.registerEntityRenderingHandler((EntityType<AncientNordArrowEntity>) ModEntityType.ANCIENT_NORD_ARROW_ENTITY.get(), AncientNordArrowRenderer::new);
 //        RenderingRegistry.registerEntityRenderingHandler((EntityType<GlassArrowEntity>) ModEntityType.GLASS_ARROW_ENTITY.get(), GlassArrowRenderer::new);
@@ -136,12 +151,14 @@ public class EntityInit
         event.registerEntityRenderer(SHOUT_UNRELENTING_FORCE_ENTITY.value(), UnrelentingForceRenderer::new);
         event.registerEntityRenderer(SPELL_FIREBALL_ENTITY.value(), FireballRenderer::new);
         event.registerEntityRenderer(SHOUT_DISARM_ENTITY.value(), DisarmRenderer::new);
+        event.registerEntityRenderer(LIGHTBALL_ENTITY.value(), LightBallRenderer::new);
 
         // Mobs
         event.registerEntityRenderer(SABRE_CAT.get(), SabreCatRenderer::new);
         event.registerEntityRenderer(GIANT.get(), GiantRenderer::new);
         event.registerEntityRenderer(MAMMOTH.get(), MammothRenderer::new);
         event.registerEntityRenderer(DRAGON.get(), SkyrimDragonRenderer::new);
+        event.registerEntityRenderer(DRAUGR.get(), DraugrRenderer::new);
         event.registerEntityRenderer(DWARVEN_SPIDER.get(), DwarvenSpiderRenderer::new);
         event.registerEntityRenderer(BLUE_BUTTERFLY.get(), BlueButterflyRenderer::new);
         event.registerEntityRenderer(MONARCH_BUTTERFLY.get(), MonarchButterflyRenderer::new);
@@ -152,7 +169,9 @@ public class EntityInit
 
         event.registerEntityRenderer(KHAJIIT.get(), KhajiitRenderer::new);
         event.registerEntityRenderer(FALMER.get(), FalmerRenderer::new);
-        event.registerEntityRenderer(DRAUGR.get(), DraugrRenderer::new);
+
+        event.registerEntityRenderer(ABECEAN_LONGFIN.get(), AbeceanLongfinRenderer::new);
+        event.registerEntityRenderer(CYRODILIC_SPADETAIL.get(), CyrodilicSpadetailRenderer::new);
     }
 
     public static void addSpawnPlacements(SpawnPlacementRegisterEvent event) {

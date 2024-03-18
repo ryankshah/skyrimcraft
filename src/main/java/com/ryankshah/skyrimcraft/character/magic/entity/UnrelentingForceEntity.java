@@ -14,12 +14,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -99,12 +102,22 @@ public class UnrelentingForceEntity extends Projectile
             super.tick();
             ++this.ticksInAir;
 
-//            ServerLevel level = (ServerLevel)this.level();
+            AABB aabb = getBoundingBox();
+            List<Entity> entitiesInBoundingBox = this.level().getEntities(this.shootingEntity, aabb);
 
-            HitResult raytraceresult = ProjectileUtil.getHitResultOnMoveVector(this, entity -> entity.isAlive() && entity != this.shootingEntity);
-            if (raytraceresult.getType() != HitResult.Type.MISS) {
-                this.onImpact(raytraceresult);
+            for(Entity entity : entitiesInBoundingBox) {
+                if(entity instanceof LivingEntity livingEntity && livingEntity != shootingEntity) {
+                    if((!livingEntity.isInWater() || !livingEntity.isInLava())) {
+                        livingEntity.knockback(2F, (double) Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), (double) (-Mth.cos(this.getYRot() * ((float) Math.PI / 180F))));
+                    }
+                }
             }
+
+//            ServerLevel level = (ServerLevel)this.level();
+//            HitResult raytraceresult = ProjectileUtil.getHitResultOnMoveVector(this, entity -> entity.isAlive() && entity != this.shootingEntity);
+//            if (raytraceresult.getType() != HitResult.Type.MISS) {
+//                this.onImpact(raytraceresult);
+//            }
 
             Vec3 vec3d = this.getDeltaMovement();
             this.setPos(getX() + vec3d.x, getY() + vec3d.y, getZ() + vec3d.z);

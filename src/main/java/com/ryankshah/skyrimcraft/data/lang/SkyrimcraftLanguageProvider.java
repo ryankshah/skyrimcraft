@@ -70,6 +70,9 @@ public class SkyrimcraftLanguageProvider extends LanguageProvider
         add("entity.skyrimcraft.dwarven_spider", "Dwarven Spider");
         add("entity.skyrimcraft.draugr", "Draugr");
 
+        add("entity.skyrimcraft.abecean_longfin", "Abecean Longfin");
+        add("entity.skyrimcraft.cyrodilic_spadetail", "Cyrodilic Spadetail");
+
         add("entity.skyrimcraft.khajiit", "Khajiit");
         add("entity.skyrimcraft.falmer", "Falmer");
 

@@ -43,7 +43,8 @@ public class Networking
 
         registrar.play(OpenCharacterCreationScreen.ID, OpenCharacterCreationScreen::new, payload -> payload.server(OpenCharacterCreationScreen::handleServer).client(OpenCharacterCreationScreen::handleClient));
         registrar.play(CreateCharacter.ID, CreateCharacter::new, payload -> payload.server(CreateCharacter::handleServer).client(CreateCharacter::handleClient));
-        registrar.play(UpdateCharacter.ID, UpdateCharacter::new, payload -> payload.client(UpdateCharacter::handleClient));
+        registrar.play(UpdateCharacter.ID, UpdateCharacter::new, payload -> payload.server(UpdateCharacter::handleServer).client(UpdateCharacter::handleClient));
+        registrar.play(UpdateExtraCharacter.ID, UpdateExtraCharacter::new, payload -> payload.server(UpdateExtraCharacter::handleServer).client(UpdateExtraCharacter::handleClient));
         registrar.play(UpdateLevelUpdates.ID, UpdateLevelUpdates::new, payload -> payload.server(UpdateLevelUpdates::handleServer).client(UpdateLevelUpdates::handleClient));
         registrar.play(UpdateStatIncreases.ID, UpdateStatIncreases::new, payload -> payload.server(UpdateStatIncreases::handleServer).client(UpdateStatIncreases::handleClient));
 

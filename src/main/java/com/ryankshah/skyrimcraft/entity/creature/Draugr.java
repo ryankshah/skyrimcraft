@@ -34,7 +34,7 @@ public class Draugr extends Monster
 
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.MOVEMENT_SPEED, 0.1F)
+                .add(Attributes.MOVEMENT_SPEED, 0.5F)
                 .add(Attributes.FOLLOW_RANGE, 20.0F)
                 .add(Attributes.ATTACK_DAMAGE, 3.0F)
                 .add(Attributes.ARMOR, 2.0);

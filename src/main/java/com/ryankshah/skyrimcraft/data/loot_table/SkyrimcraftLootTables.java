@@ -21,7 +21,7 @@ public class SkyrimcraftLootTables extends LootTableProvider
         super(p_254123_, Set.of(), List.of(
                 new SubProviderEntry(SkyrimcraftBlockLootTables::new, LootContextParamSets.BLOCK),
                 new SubProviderEntry(SkyrimcraftEntityLootProvider::new, LootContextParamSets.ENTITY),
-                new SubProviderEntry(SkyrimcraftLootTableProvider::new, LootContextParamSets.SELECTOR),
+                new SubProviderEntry(SkyrimcraftLootTableProvider::new, LootContextParamSets.CHEST),
                 new SubProviderEntry(PickpocketLootTables::new, LootContextParamSets.SELECTOR)
         ));
     }
