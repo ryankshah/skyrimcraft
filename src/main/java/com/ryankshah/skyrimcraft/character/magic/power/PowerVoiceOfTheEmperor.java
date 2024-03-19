@@ -3,6 +3,7 @@ package com.ryankshah.skyrimcraft.character.magic.power;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
+import com.ryankshah.skyrimcraft.effect.ModEffects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -85,7 +86,7 @@ public class PowerVoiceOfTheEmperor extends Spell
         AABB playerBoundingBox = getCaster().getBoundingBox();
         List<Raider> raiders = getCaster().level().getEntities(EntityTypeTest.forClass(Raider.class), playerBoundingBox.inflate(4D), p -> true);
         for(Raider raider : raiders) {
-//            raider.raid
+            raider.addEffect(new MobEffectInstance(ModEffects.CALM.get(), 1200));
         }
         super.onCast();
     }

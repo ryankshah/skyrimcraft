@@ -75,4 +75,9 @@ public class ModEffects
             MobEffectCategory.BENEFICIAL,
             0xAA222222
     ));
+
+    public static final Supplier<EffectCalm> CALM = MOB_EFFECTS.register("calm", () -> new EffectCalm(
+            MobEffectCategory.BENEFICIAL,
+            0xAA222222
+    ));
 }

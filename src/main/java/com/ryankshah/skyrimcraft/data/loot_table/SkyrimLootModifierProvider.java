@@ -91,53 +91,46 @@ public class SkyrimLootModifierProvider extends GlobalLootModifierProvider
         );
 
 
-        this.add("chests/simple_dungeon", new DungeonLootEnhancerModifier(
+        this.add("chests/simple_dungeon", new AddTableLootModifier(
             new LootItemCondition[] {
-                    LootTableIdCondition.builder(new ResourceLocation("chests/simple_dungeon")).build()
-            },
-            2)
-        );
-        this.add("chests/abandoned_mineshaft", new DungeonLootEnhancerModifier(
+                    LootTableIdCondition.builder(new ResourceLocation(Skyrimcraft.MODID, "chests/simple_dungeon")).build()
+            }, new ResourceLocation(Skyrimcraft.MODID, "chests/simple_dungeon")
+        ));
+
+        this.add("chests/abandoned_mineshaft", new AddTableLootModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("chests/abandoned_mineshaft")).build()
-                },
-                2)
-        );
-        this.add("chests/buried_treasure", new DungeonLootEnhancerModifier(
+                        LootTableIdCondition.builder(new ResourceLocation(Skyrimcraft.MODID, "chests/abandoned_mineshaft")).build()
+                }, new ResourceLocation(Skyrimcraft.MODID, "chests/abandoned_mineshaft")
+        ));
+        this.add("chests/buried_treasure", new AddTableLootModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("chests/buried_treasure")).build()
-                },
-                2)
-        );
-        this.add("chests/desert_pyramid", new DungeonLootEnhancerModifier(
+                        LootTableIdCondition.builder(new ResourceLocation(Skyrimcraft.MODID, "chests/buried_treasure")).build()
+                }, new ResourceLocation(Skyrimcraft.MODID, "chests/buried_treasure")
+        ));
+        this.add("chests/desert_pyramid", new AddTableLootModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("chests/desert_pyramid")).build()
-                },
-                2)
-        );
-        this.add("chests/shipwreck_supply", new DungeonLootEnhancerModifier(
+                        LootTableIdCondition.builder(new ResourceLocation(Skyrimcraft.MODID, "chests/desert_pyramid")).build()
+                }, new ResourceLocation(Skyrimcraft.MODID, "chests/desert_pyramid")
+        ));
+        this.add("chests/shipwreck_supply", new AddTableLootModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("chests/shipwreck_supply")).build()
-                },
-                2)
-        );
-        this.add("chests/stronghold_corridor", new DungeonLootEnhancerModifier(
+                        LootTableIdCondition.builder(new ResourceLocation(Skyrimcraft.MODID, "chests/shipwreck_supply")).build()
+                }, new ResourceLocation(Skyrimcraft.MODID, "chests/shipwreck_supply")
+        ));
+        this.add("chests/stronghold_corridor", new AddTableLootModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("chests/stronghold_corridor")).build()
-                },
-                2)
-        );
-        this.add("gameplay/piglin_bartering", new DungeonLootEnhancerModifier(
+                        LootTableIdCondition.builder(new ResourceLocation(Skyrimcraft.MODID, "chests/stronghold_corridor")).build()
+                }, new ResourceLocation(Skyrimcraft.MODID, "chests/stronghold_corridor")
+        ));
+        this.add("gameplay/piglin_bartering", new AddTableLootModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("gameplay/piglin_bartering")).build()
-                },
-                2)
-        );
-        this.add("gameplay/sniffer_digging", new DungeonLootEnhancerModifier(
+                        LootTableIdCondition.builder(new ResourceLocation(Skyrimcraft.MODID, "gameplay/piglin_bartering")).build()
+                }, new ResourceLocation(Skyrimcraft.MODID, "gameplay/piglin_bartering")
+        ));
+        this.add("gameplay/sniffer_digging", new AddTableLootModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("gameplay/sniffer_digging")).build()
-                },
-                2)
-        );
+                        LootTableIdCondition.builder(new ResourceLocation(Skyrimcraft.MODID, "gameplay/sniffer_digging")).build()
+                }, new ResourceLocation(Skyrimcraft.MODID, "gameplay/sniffer_digging")
+        ));
     }
 }
