@@ -59,25 +59,6 @@ public class BirdsNestBlock extends Block implements IPlantable
         BlockState soil = pLevel.getBlockState(pPos.below());
         if (soil.canSustainPlant(pLevel, pPos.below(), Direction.UP, this)) return true;
         return false;
-        // Todo: check if tree is nearby (i.e. check for oak log/wood)
-//        BlockState blockstate = pLevel.getBlockState(pPos.below());
-//        if (blockstate.is(this)) {
-//            return true;
-//        } else {
-//            if (blockstate.is(BlockTags.DIRT) || blockstate.is(BlockTags.SAND)) {
-//                BlockPos blockpos = pPos.below();
-//
-//                for(Direction direction : Direction.Plane.HORIZONTAL) {
-//                    BlockState blockstate1 = pLevel.getBlockState(blockpos.relative(direction));
-//                    FluidState fluidstate = pLevel.getFluidState(blockpos.relative(direction));
-//                    if (pState.canBeHydrated(pLevel, pPos, fluidstate, blockpos.relative(direction)) || blockstate1.is(Blocks.FROSTED_ICE) || blockstate1.is(Blocks.GRAVEL)) {
-//                        return true;
-//                    }
-//                }
-//            }
-//
-//            return false;
-//        }
     }
 
     @Override

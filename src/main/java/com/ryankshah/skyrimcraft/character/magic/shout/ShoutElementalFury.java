@@ -74,15 +74,6 @@ public class ShoutElementalFury extends Spell //implements IForgeRegistryEntry<I
 
     @Override
     public void onCast() {
-        Level level = getCaster().level();
-
-        //TODO: Enchant the held weapon (if exists) and increase attack speed of player while using the weapon temporarily.
-        //TODO: If its a pickaxe, enable faster mining with this item temporarily
-
         getCaster().addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 30*20, 4, false, true, false));
-
-//        getCaster().getAttribute(Attributes.ATTACK_SPEED).addTransientModifier(
-//                new AttributeModifier(AttributeInit.ELEMENTAL_FURY_SHOUT_ID, "Elemental Fury Shout Bonus", 2.0f, AttributeModifier.Operation.MULTIPLY_BASE)
-//        );
     }
 }

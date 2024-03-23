@@ -74,7 +74,38 @@ public class SkyrimcraftLanguageProvider extends LanguageProvider
         add("entity.skyrimcraft.cyrodilic_spadetail", "Cyrodilic Spadetail");
 
         add("entity.skyrimcraft.khajiit", "Khajiit");
+        add("entity.skyrimcraft.khajiit.armorer", "Khajiit Armorer");
+        add("entity.skyrimcraft.khajiit.butcher", "Khajiit Butcher");
+        add("entity.skyrimcraft.khajiit.cartographer", "Khajiit Cartographer");
+        add("entity.skyrimcraft.khajiit.cleric", "Khajiit Cleric");
+        add("entity.skyrimcraft.khajiit.farmer", "Khajiit Farmer");
+        add("entity.skyrimcraft.khajiit.fisherman", "Khajiit Fisherman");
+        add("entity.skyrimcraft.khajiit.fletcher", "Khajiit Fletcher");
+        add("entity.skyrimcraft.khajiit.leatherworker", "Khajiit Leatherworker");
+        add("entity.skyrimcraft.khajiit.librarian", "Khajiit Librarian");
+        add("entity.skyrimcraft.khajiit.mason", "Khajiit Mason");
+        add("entity.skyrimcraft.khajiit.nitwit", "Khajiit Nitwit");
+        add("entity.skyrimcraft.khajiit.none", "Khajiit");
+        add("entity.skyrimcraft.khajiit.shepherd", "Khajiit Shepherd");
+        add("entity.skyrimcraft.khajiit.toolsmith", "Khajiit Toolsmith");
+        add("entity.skyrimcraft.khajiit.weaponsmith", "Khajiit Weaponsmith");
+
         add("entity.skyrimcraft.falmer", "Falmer");
+        add("entity.skyrimcraft.falmer.armorer", "Falmer Armorer");
+        add("entity.skyrimcraft.falmer.butcher", "Falmer Butcher");
+        add("entity.skyrimcraft.falmer.cartographer", "Falmer Cartographer");
+        add("entity.skyrimcraft.falmer.cleric", "Falmer Cleric");
+        add("entity.skyrimcraft.falmer.farmer", "Falmer Farmer");
+        add("entity.skyrimcraft.falmer.fisherman", "Falmer Fisherman");
+        add("entity.skyrimcraft.falmer.fletcher", "Falmer Fletcher");
+        add("entity.skyrimcraft.falmer.leatherworker", "Falmer Leatherworker");
+        add("entity.skyrimcraft.falmer.librarian", "Falmer Librarian");
+        add("entity.skyrimcraft.falmer.mason", "Falmer Mason");
+        add("entity.skyrimcraft.falmer.nitwit", "Falmer Nitwit");
+        add("entity.skyrimcraft.falmer.none", "Falmer");
+        add("entity.skyrimcraft.falmer.shepherd", "Falmer Shepherd");
+        add("entity.skyrimcraft.falmer.toolsmith", "Falmer Toolsmith");
+        add("entity.skyrimcraft.falmer.weaponsmith", "Falmer Weaponsmith");
 
         // Damage Source
         add("death.attack.death.skyrimcraft.conjuredfamiliar", "Your conjured %1$s familiar has vanished!");

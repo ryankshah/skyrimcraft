@@ -68,7 +68,6 @@ public class LevelUpdates
             }
         }
 
-        //TODO: Check if this is how we do it...
         @SubscribeEvent
         public void playerDeath(LivingDeathEvent event) {
             if(event.getEntity() instanceof Player player) {

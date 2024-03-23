@@ -21,6 +21,7 @@ import net.minecraft.world.entity.boss.EnderDragonPart;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
 import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhaseManager;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.*;
@@ -36,7 +37,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nullable;
 
-public class DwarvenSpider extends PathfinderMob implements GeoEntity
+public class DwarvenSpider extends Monster implements GeoEntity
 {
     private static final EntityDataAccessor<Integer> PREV_ANIMATION_STATE = SynchedEntityData.defineId(DwarvenSpider.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> ANIMATION_STATE = SynchedEntityData.defineId(DwarvenSpider.class, EntityDataSerializers.INT);
@@ -55,7 +56,7 @@ public class DwarvenSpider extends PathfinderMob implements GeoEntity
     protected static final RawAnimation ATTACK2 = RawAnimation.begin().thenLoop("ATTACK2");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
-    public DwarvenSpider(EntityType<? extends PathfinderMob> type, Level worldIn) {
+    public DwarvenSpider(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
         this.noCulling = true;
         this.xpReward = 5;

@@ -38,7 +38,6 @@ public record FinishOvenRecipe(Recipe<?> recipe) implements CustomPacketPayload
     public static void handleServer(final FinishOvenRecipe data, final PlayPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
         Character character = Character.get(player);
-        // TODO: use character to add xp to alchemy skill?
         if(data.recipe instanceof OvenRecipe currentRecipeObject) {
             List<Ingredient> recipe = currentRecipeObject.getRecipeItems();
             boolean hasAllItems = recipe.stream().allMatch(ingredient -> hasItem(player, ingredient.getItems()[0]));
@@ -76,8 +75,6 @@ public record FinishOvenRecipe(Recipe<?> recipe) implements CustomPacketPayload
         return false;
     }
 
-
-    //TODO: check why this doesnt actually change the player stacks (creates potion but items still there and potion eventually disappears)
     public static void hasAndRemoveItem(Player player, ItemStack is) {
         if (is != null) {
             player.getInventory().clearOrCountMatchingItems(

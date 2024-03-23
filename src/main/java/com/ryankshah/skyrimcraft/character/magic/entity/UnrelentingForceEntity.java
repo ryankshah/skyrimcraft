@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * TODO: Knockback multiple entities, perhaps also improve the shout particles!
  * TODO: See what we can maybe do with a screenshake..?
  */
 public class UnrelentingForceEntity extends Projectile

@@ -66,7 +66,6 @@ public class SkyrimGuiOverlay
         event.registerAbove(VanillaGuiOverlay.ARMOR_LEVEL.id(), new ResourceLocation(Skyrimcraft.MODID, "skyrim_armor"), new SkyrimArmorIcons());
         event.registerAbove(VanillaGuiOverlay.AIR_LEVEL.id(), new ResourceLocation(Skyrimcraft.MODID, "skyrim_air"), new SkyrimAir());
         event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), new ResourceLocation(Skyrimcraft.MODID, "skyrim_crosshair"), new SkyrimCrosshair());
-        // TODO: Fix
         event.registerAbove(VanillaGuiOverlay.EXPERIENCE_BAR.id(), new ResourceLocation(Skyrimcraft.MODID, "skyrim_xpbar"), new SkyrimXPBar());
     }
 
@@ -246,7 +245,7 @@ public class SkyrimGuiOverlay
                 if(mc.player.getArmorValue() > 0) top = scaledHeight - 60;
                 ItemStack itemstack = mc.player.getProjectile(mc.player.getMainHandItem());
                 if(itemstack != ItemStack.EMPTY) {
-                    Component nameAndCount = Component.translatable(String.valueOf(itemstack.getHoverName().copy().append("(" + itemstack.getCount() + ")")));
+                    Component nameAndCount = Component.translatable(itemstack.getHoverName().copy().append("(" + itemstack.getCount() + ")").getString());
                     guiGraphics.drawString(mc.font, nameAndCount, scaledWidth - 18 - mc.font.width(nameAndCount), top, 0x00FFFFFF);
                 }
             }

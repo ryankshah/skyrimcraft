@@ -72,7 +72,7 @@ public record HandlePickpocket(int entity) implements CustomPacketPayload //(int
             items.forEach(player::addItem);
             player.displayClientMessage(Component.translatable("skill.pickpocket.success", livingEntity.getDisplayName()), false);
             livingEntity.removeTag(EntityInit.PICKPOCKET_TAG);
-            final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.PICKPOCKET.get()).get(), SkillRegistry.BASE_PICKPOCKET_XP * (items.size())); // TODO: improve this..
+            final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.PICKPOCKET.get()).get(), SkillRegistry.BASE_PICKPOCKET_XP * (items.size()));
             PacketDistributor.SERVER.noArg().send(xpToSkill);
         }
 

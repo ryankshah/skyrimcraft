@@ -48,7 +48,7 @@ public class ForgeRecipe implements Recipe<IForgeInventory>
 
     @Override
     public boolean matches(IForgeInventory p_77569_1_, Level p_77569_2_) {
-        return this.recipeItems.stream().allMatch(item -> item.test(p_77569_1_.getItem(0))); // todo: check this?
+        return this.recipeItems.stream().allMatch(item -> item.test(p_77569_1_.getItem(0)));
     }
 
     @Override

@@ -19,8 +19,11 @@ import com.ryankshah.skyrimcraft.entity.passive.flying.render.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.TropicalFish;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.event.entity.SpawnPlacementRegisterEvent;
@@ -126,12 +129,12 @@ public class EntityInit
                     .build(new ResourceLocation(Skyrimcraft.MODID, "draugr").toString()));
 
     public static final DeferredHolder<EntityType<?>, EntityType<AbeceanLongfin>> ABECEAN_LONGFIN = ENTITY_TYPES.register("abecean_longfin",
-            () -> EntityType.Builder.of(AbeceanLongfin::new, MobCategory.WATER_AMBIENT)
+            () -> EntityType.Builder.of(AbeceanLongfin::new, MobCategory.WATER_CREATURE)
                     .sized(1.0f, 1.0f) // Hitbox Size
                     .build(new ResourceLocation(Skyrimcraft.MODID, "abecean_longfin").toString()));
 
     public static final DeferredHolder<EntityType<?>, EntityType<CyrodilicSpadetail>> CYRODILIC_SPADETAIL = ENTITY_TYPES.register("cyrodilic_spadetail",
-            () -> EntityType.Builder.of(CyrodilicSpadetail::new, MobCategory.WATER_AMBIENT)
+            () -> EntityType.Builder.of(CyrodilicSpadetail::new, MobCategory.WATER_CREATURE)
                     .sized(1.0f, 1.0f) // Hitbox Size
                     .build(new ResourceLocation(Skyrimcraft.MODID, "cyrodilic_spadetail").toString()));
 
@@ -167,6 +170,7 @@ public class EntityInit
         event.registerEntityRenderer(LUNAR_MOTH.get(), LunarMothRenderer::new);
         event.registerEntityRenderer(TORCHBUG.get(), TorchBugRenderer::new);
 
+
         event.registerEntityRenderer(KHAJIIT.get(), KhajiitRenderer::new);
         event.registerEntityRenderer(FALMER.get(), FalmerRenderer::new);
 
@@ -175,8 +179,16 @@ public class EntityInit
     }
 
     public static void addSpawnPlacements(SpawnPlacementRegisterEvent event) {
-        event.register(DWARVEN_SPIDER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DwarvenSpider::checkSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
-        event.register(DRAUGR.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Draugr::checkSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(DWARVEN_SPIDER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DwarvenSpider::checkSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(DRAUGR.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Draugr::checkSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(ABECEAN_LONGFIN.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbeceanLongfin::checkSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(CYRODILIC_SPADETAIL.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CyrodilicSpadetail::checkSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(BLUE_BUTTERFLY.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+        event.register(BLUE_DARTWING.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+        event.register(MONARCH_BUTTERFLY.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+        event.register(ORANGE_DARTWING.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+        event.register(LUNAR_MOTH.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+
     }
 
 }

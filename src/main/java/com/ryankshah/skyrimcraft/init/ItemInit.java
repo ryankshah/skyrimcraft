@@ -16,6 +16,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+import net.neoforged.neoforge.client.gui.overlay.VanillaGuiOverlay;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -352,7 +353,7 @@ public class ItemInit
     public static final Supplier<SkyrimTwoHandedSword> ANCIENT_NORD_BATTLEAXE = ITEMS.register("ancient_nord_battleaxe", () -> new SkyrimTwoHandedSword(ItemTier.ANCIENT_NORD, 3, -2.4f, new Item.Properties()));
     public static final Supplier<SkyrimTwoHandedSword> ANCIENT_NORD_GREATSWORD = ITEMS.register("ancient_nord_greatsword", () -> new SkyrimTwoHandedSword(ItemTier.ANCIENT_NORD, 3, -2.4f, new Item.Properties()));
     public static final Supplier<SwordItem> ANCIENT_NORD_WAR_AXE = ITEMS.register("ancient_nord_war_axe", () -> new SwordItem(ItemTier.ANCIENT_NORD, 3, -2.4f, new Item.Properties()));
-    public static final Supplier<BowItem> ANCIENT_NORD_BOW = ITEMS.register("ancient_nord_bow", () -> new BowItem(new Item.Properties()));
+    public static final Supplier<BowItem> ANCIENT_NORD_BOW = ITEMS.register("ancient_nord_bow", () -> new BowItem(new BowItem.Properties()));
     // Daedric
     public static final Supplier<SkyrimArmor> DAEDRIC_HELMET = ITEMS.register("daedric_helmet", () -> new SkyrimArmor(ArmorMaterials.DAEDRIC, SkyrimArmor.Type.HELMET, new Item.Properties(), true));
     public static final Supplier<SkyrimArmor> DAEDRIC_CHESTPLATE = ITEMS.register("daedric_chestplate", () -> new SkyrimArmor(ArmorMaterials.DAEDRIC, SkyrimArmor.Type.CHESTPLATE, new Item.Properties(), true));
@@ -363,7 +364,7 @@ public class ItemInit
     public static final Supplier<SwordItem> DAEDRIC_DAGGER = ITEMS.register("daedric_dagger", () -> new SwordItem(ItemTier.DAEDRIC, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> DAEDRIC_SWORD = ITEMS.register("daedric_sword", () -> new SwordItem(ItemTier.DAEDRIC, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SkyrimTwoHandedSword> DAEDRIC_BATTLEAXE = ITEMS.register("daedric_battleaxe", () -> new SkyrimTwoHandedSword(ItemTier.DAEDRIC, 3, -2.4F, (new Item.Properties()).fireResistant()));
-    public static final Supplier<BowItem> DAEDRIC_BOW = ITEMS.register("daedric_bow", () -> new BowItem(new Item.Properties()));
+    public static final Supplier<BowItem> DAEDRIC_BOW = ITEMS.register("daedric_bow", () -> new BowItem(new BowItem.Properties()));
     public static final Supplier<SkyrimTwoHandedSword> DAEDRIC_GREATSWORD = ITEMS.register("daedric_greatsword", () -> new SkyrimTwoHandedSword(ItemTier.DAEDRIC, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> DAEDRIC_MACE = ITEMS.register("daedric_mace", () -> new SwordItem(ItemTier.DAEDRIC, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> DAEDRIC_WAR_AXE = ITEMS.register("daedric_war_axe", () -> new SwordItem(ItemTier.DAEDRIC, 3, -2.4F, (new Item.Properties()).fireResistant()));
@@ -373,7 +374,7 @@ public class ItemInit
     public static final Supplier<SwordItem> DRAGONBONE_DAGGER = ITEMS.register("dragonbone_dagger", () -> new SwordItem(ItemTier.DRAGONBONE, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> DRAGONBONE_SWORD = ITEMS.register("dragonbone_sword", () -> new SwordItem(ItemTier.DRAGONBONE, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> DRAGONBONE_BATTLEAXE = ITEMS.register("dragonbone_battleaxe", () -> new SwordItem(ItemTier.DRAGONBONE, 3, -2.4F, (new Item.Properties()).fireResistant()));
-    public static final Supplier<BowItem> DRAGONBONE_BOW = ITEMS.register("dragonbone_bow", () -> new BowItem(new Item.Properties()));
+    public static final Supplier<BowItem> DRAGONBONE_BOW = ITEMS.register("dragonbone_bow", () -> new BowItem(new BowItem.Properties()));
     public static final Supplier<SkyrimTwoHandedSword> DRAGONBONE_GREATSWORD = ITEMS.register("dragonbone_greatsword", () -> new SkyrimTwoHandedSword(ItemTier.DRAGONBONE, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> DRAGONBONE_MACE = ITEMS.register("dragonbone_mace", () -> new SwordItem(ItemTier.DRAGONBONE, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> DRAGONBONE_WAR_AXE = ITEMS.register("dragonbone_war_axe", () -> new SwordItem(ItemTier.DRAGONBONE, 3, -2.4F, (new Item.Properties()).fireResistant()));
@@ -388,7 +389,7 @@ public class ItemInit
     public static final Supplier<SwordItem> DWARVEN_DAGGER = ITEMS.register("dwarven_dagger", () -> new SwordItem(ItemTier.DWARVEN, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> DWARVEN_SWORD = ITEMS.register("dwarven_sword", () -> new SwordItem(ItemTier.DWARVEN, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SkyrimTwoHandedSword> DWARVEN_BATTLEAXE = ITEMS.register("dwarven_battleaxe", () -> new SkyrimTwoHandedSword(ItemTier.DWARVEN, 3, -2.4F, (new Item.Properties()).fireResistant()));
-    public static final Supplier<BowItem> DWARVEN_BOW = ITEMS.register("dwarven_bow", () -> new BowItem(new Item.Properties()));
+    public static final Supplier<BowItem> DWARVEN_BOW = ITEMS.register("dwarven_bow", () -> new BowItem(new BowItem.Properties()));
     public static final Supplier<SkyrimTwoHandedSword> DWARVEN_GREATSWORD = ITEMS.register("dwarven_greatsword", () -> new SkyrimTwoHandedSword(ItemTier.DWARVEN, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> DWARVEN_MACE = ITEMS.register("dwarven_mace", () -> new SwordItem(ItemTier.DWARVEN, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> DWARVEN_WAR_AXE = ITEMS.register("dwarven_war_axe", () -> new SwordItem(ItemTier.DWARVEN, 3, -2.4F, (new Item.Properties()).fireResistant()));
@@ -403,7 +404,7 @@ public class ItemInit
     public static final Supplier<SwordItem> EBONY_DAGGER = ITEMS.register("ebony_dagger", () -> new SwordItem(ItemTier.EBONY, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> EBONY_SWORD = ITEMS.register("ebony_sword", () -> new SwordItem(ItemTier.EBONY, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SkyrimTwoHandedSword> EBONY_BATTLEAXE = ITEMS.register("ebony_battleaxe", () -> new SkyrimTwoHandedSword(ItemTier.EBONY, 3, -2.4F, (new Item.Properties()).fireResistant()));
-    public static final Supplier<BowItem> EBONY_BOW = ITEMS.register("ebony_bow", () -> new BowItem(new Item.Properties()));
+    public static final Supplier<BowItem> EBONY_BOW = ITEMS.register("ebony_bow", () -> new BowItem(new BowItem.Properties()));
     public static final Supplier<SkyrimTwoHandedSword> EBONY_GREATSWORD = ITEMS.register("ebony_greatsword", () -> new SkyrimTwoHandedSword(ItemTier.EBONY, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> EBONY_MACE = ITEMS.register("ebony_mace", () -> new SwordItem(ItemTier.EBONY, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> EBONY_WAR_AXE = ITEMS.register("ebony_war_axe", () -> new SwordItem(ItemTier.EBONY, 3, -2.4F, (new Item.Properties()).fireResistant()));
@@ -418,7 +419,7 @@ public class ItemInit
     public static final Supplier<SwordItem> ELVEN_DAGGER = ITEMS.register("elven_dagger", () -> new SwordItem(ItemTier.ELVEN, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> ELVEN_SWORD = ITEMS.register("elven_sword", () -> new SwordItem(ItemTier.ELVEN, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SkyrimTwoHandedSword> ELVEN_BATTLEAXE = ITEMS.register("elven_battleaxe", () -> new SkyrimTwoHandedSword(ItemTier.ELVEN, 3, -2.4F, (new Item.Properties()).fireResistant()));
-    public static final Supplier<BowItem> ELVEN_BOW = ITEMS.register("elven_bow", () -> new BowItem(new Item.Properties()));
+    public static final Supplier<BowItem> ELVEN_BOW = ITEMS.register("elven_bow", () -> new BowItem(new BowItem.Properties()));
     public static final Supplier<SkyrimTwoHandedSword> ELVEN_GREATSWORD = ITEMS.register("elven_greatsword", () -> new SkyrimTwoHandedSword(ItemTier.ELVEN, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> ELVEN_MACE = ITEMS.register("elven_mace", () -> new SwordItem(ItemTier.ELVEN, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> ELVEN_WAR_AXE = ITEMS.register("elven_war_axe", () -> new SwordItem(ItemTier.ELVEN, 3, -2.4F, (new Item.Properties()).fireResistant()));
@@ -430,7 +431,7 @@ public class ItemInit
     public static final Supplier<SkyrimArmor> FALMER_BOOTS = ITEMS.register("falmer_boots", () -> new SkyrimArmor(ArmorMaterials.FALMER, SkyrimArmor.Type.BOOTS, new Item.Properties(), true));
     //    public static final Supplier<SwordItem> FALMER_ARROW = ITEMS.register("falmer_arrow", () -> new SkyrimArrow.FalmerArrow(new Item.Properties().fireResistant(), "Falmer Arrow"));
     public static final Supplier<SwordItem> FALMER_SWORD = ITEMS.register("falmer_sword", () -> new SwordItem(ItemTier.FALMER, 3, -2.4F, (new Item.Properties()).fireResistant()));
-    public static final Supplier<BowItem> FALMER_BOW = ITEMS.register("falmer_bow", () -> new BowItem(new Item.Properties()));
+    public static final Supplier<BowItem> FALMER_BOW = ITEMS.register("falmer_bow", () -> new BowItem(new BowItem.Properties()));
     public static final Supplier<SwordItem> FALMER_WAR_AXE = ITEMS.register("falmer_war_axe", () -> new SwordItem(ItemTier.FALMER, 3, -2.4F, (new Item.Properties()).fireResistant()));
     // Glass
     public static final Supplier<SkyrimArmor> GLASS_HELMET = ITEMS.register("glass_helmet", () -> new SkyrimArmor(ArmorMaterials.GLASS, SkyrimArmor.Type.HELMET, new Item.Properties(), false));
@@ -442,7 +443,7 @@ public class ItemInit
     public static final Supplier<SwordItem> GLASS_DAGGER = ITEMS.register("glass_dagger", () -> new SwordItem(ItemTier.GLASS, 3, -2.4F, (new Item.Properties())));
     public static final Supplier<SwordItem> GLASS_SWORD = ITEMS.register("glass_sword", () -> new SwordItem(ItemTier.GLASS, 3, -2.4F, (new Item.Properties())));
     public static final Supplier<SkyrimTwoHandedSword> GLASS_BATTLEAXE = ITEMS.register("glass_battleaxe", () -> new SkyrimTwoHandedSword(ItemTier.GLASS, 3, -2.4F, (new Item.Properties())));
-    public static final Supplier<BowItem> GLASS_BOW = ITEMS.register("glass_bow", () -> new BowItem(new Item.Properties()));
+    public static final Supplier<BowItem> GLASS_BOW = ITEMS.register("glass_bow", () -> new BowItem(new BowItem.Properties()));
     public static final Supplier<SkyrimTwoHandedSword> GLASS_GREATSWORD = ITEMS.register("glass_greatsword", () -> new SkyrimTwoHandedSword(ItemTier.GLASS, 3, -2.4F, (new Item.Properties())));
     public static final Supplier<SwordItem> GLASS_MACE = ITEMS.register("glass_mace", () -> new SwordItem(ItemTier.GLASS, 3, -2.4F, (new Item.Properties())));
     public static final Supplier<SwordItem> GLASS_WAR_AXE = ITEMS.register("glass_war_axe", () -> new SwordItem(ItemTier.GLASS, 3, -2.4F, (new Item.Properties())));
@@ -477,7 +478,7 @@ public class ItemInit
     public static final Supplier<SwordItem> ORCISH_DAGGER = ITEMS.register("orcish_dagger", () -> new SwordItem(ItemTier.ORCISH, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> ORCISH_SWORD = ITEMS.register("orcish_sword", () -> new SwordItem(ItemTier.ORCISH, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SkyrimTwoHandedSword> ORCISH_BATTLEAXE = ITEMS.register("orcish_battleaxe", () -> new SkyrimTwoHandedSword(ItemTier.ORCISH, 3, -2.4F, (new Item.Properties()).fireResistant()));
-    public static final Supplier<BowItem> ORCISH_BOW = ITEMS.register("orcish_bow", () -> new BowItem(new Item.Properties()));
+    public static final Supplier<BowItem> ORCISH_BOW = ITEMS.register("orcish_bow", () -> new BowItem(new BowItem.Properties()));
     public static final Supplier<SkyrimTwoHandedSword> ORCISH_GREATSWORD = ITEMS.register("orcish_greatsword", () -> new SkyrimTwoHandedSword(ItemTier.ORCISH, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> ORCISH_MACE = ITEMS.register("orcish_mace", () -> new SwordItem(ItemTier.ORCISH, 3, -2.4F, (new Item.Properties()).fireResistant()));
     public static final Supplier<SwordItem> ORCISH_WAR_AXE = ITEMS.register("orcish_war_axe", () -> new SwordItem(ItemTier.ORCISH, 3, -2.4F, (new Item.Properties()).fireResistant()));
@@ -504,9 +505,9 @@ public class ItemInit
 
     //// MISC ////
     // Hunting bow
-    public static final Supplier<BowItem> HUNTING_BOW = ITEMS.register("hunting_bow", () -> new BowItem(new Item.Properties()));
+    public static final Supplier<BowItem> HUNTING_BOW = ITEMS.register("hunting_bow", () -> new BowItem(new BowItem.Properties()));
     // Longbow
-    public static final Supplier<BowItem> LONGBOW = ITEMS.register("longbow", () -> new BowItem(new Item.Properties()));
+    public static final Supplier<BowItem> LONGBOW = ITEMS.register("longbow", () -> new BowItem(new BowItem.Properties()));
     // Scaled armor
     public static final Supplier<SkyrimArmor> SCALED_HELMET = ITEMS.register("scaled_helmet", () -> new SkyrimArmor(ArmorMaterials.SCALED, SkyrimArmor.Type.HELMET, new Item.Properties(), false));
     public static final Supplier<SkyrimArmor> SCALED_CHESTPLATE = ITEMS.register("scaled_chestplate", () -> new SkyrimArmor(ArmorMaterials.SCALED, SkyrimArmor.Type.CHESTPLATE, new Item.Properties(), false));

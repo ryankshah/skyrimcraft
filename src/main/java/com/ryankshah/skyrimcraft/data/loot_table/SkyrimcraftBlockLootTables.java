@@ -44,7 +44,6 @@ public class SkyrimcraftBlockLootTables extends BlockLootSubProvider
 //        // deepslate ores
 //        add(BlockInit.DEEPSLATE_EXAMPLE_ORE.get(), createOreDrop(BlockInit.DEEPSLATE_EXAMPLE_ORE.get(), ItemInit.RAW_EXAMPLE.get()));
 
-        //TODO: Change these when we add ingots etc.!
         dropSelf(BlockInit.CORUNDUM_ORE.get());
         dropSelf(BlockInit.EBONY_ORE.get());
         dropSelf(BlockInit.MALACHITE_ORE.get());

@@ -247,7 +247,6 @@ public class Character
         return this.skills.get(id);
     }
 
-    //TODO: FIX THIS!
     public void giveExperiencePoints(int id, int xp) {
         SkillWrapper skill = getSkill(id).giveExperiencePoints(xp);
         this.skills.set(id, skill);
@@ -396,7 +395,6 @@ public class Character
             }
         }
 
-        //TODO: Check if this is how we do it...
         @SubscribeEvent
         public void playerDeath(LivingDeathEvent event) {
             if(event.getEntity() instanceof Player player) {

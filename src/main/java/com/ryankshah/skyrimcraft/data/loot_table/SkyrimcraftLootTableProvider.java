@@ -30,6 +30,42 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
         );
 
         pOutput.accept(
+                new ResourceLocation(Skyrimcraft.MODID, "oregemdrops"),
+                LootTable.lootTable().withPool(LootPool.lootPool()
+                        .name("oresGemPool")
+                        .setRolls(UniformGenerator.between(0.125F, 1.0F))
+                        .add(LootItem.lootTableItem(ItemInit.FLAWED_RUBY)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.FLAWED_EMERALD)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.FLAWED_DIAMOND)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.FLAWLESS_RUBY)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.FLAWED_GARNET)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.FLAWLESS_GARNET)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                        .add(LootItem.lootTableItem(ItemInit.FLAWED_AMETHYST)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        )
+                )
+        );
+
+        pOutput.accept(
                 new ResourceLocation(Skyrimcraft.MODID, "beehive"),
                 LootTable.lootTable().withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))

@@ -5,6 +5,8 @@ import com.ryankshah.skyrimcraft.character.feature.model.DunmerEarModel;
 import com.ryankshah.skyrimcraft.character.feature.model.HighElfEarModel;
 import com.ryankshah.skyrimcraft.character.feature.model.KhajiitHeadModel;
 import com.ryankshah.skyrimcraft.character.feature.model.KhajiitTailModel;
+import com.ryankshah.skyrimcraft.character.feature.render.RenderRaceLayer;
+import com.ryankshah.skyrimcraft.character.feature.render.SpectralLayerRenderer;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.character.magic.entity.LightBallEntity;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
@@ -23,9 +25,14 @@ import com.ryankshah.skyrimcraft.entity.npc.model.FalmerModel;
 import com.ryankshah.skyrimcraft.entity.npc.model.KhajiitModel;
 import com.ryankshah.skyrimcraft.entity.passive.flying.*;
 import com.ryankshah.skyrimcraft.init.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidArmorModel;
+import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.bus.api.IEventBus;
@@ -43,10 +50,6 @@ import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 /**
  * TODO:
- *
- * FIXES:
- * - Fix spells not being able to cast if the player does not have the magicka to do so
- *
  * - Add necklaces and circlets to the corresponding tags...
  * - Add Circlet Jewellery (crowns - https://elderscrolls.fandom.com/wiki/Circlets)
  *   - Copper and Moonstone
@@ -213,6 +216,13 @@ public class Skyrimcraft
         event.registerLayerDefinition(DraugrModel.LAYER_LOCATION, DraugrModel::createBodyLayer);
         event.registerLayerDefinition(DraugrModel.OUTER_ARMOR_LAYER_LOCATION, () -> outerArmor);
         event.registerLayerDefinition(DraugrModel.INNER_ARMOR_LAYER_LOCATION, () -> innerArmor);
+    }
+
+    public void addPlayerLayers(EntityRenderersEvent.AddLayers event) {
+        for(PlayerSkin.Model skin : event.getSkins()) {
+            ((PlayerRenderer)event.getSkin(skin)).addLayer(new RenderRaceLayer(event.getSkin(skin)));
+            ((PlayerRenderer)event.getSkin(skin)).addLayer(new SpectralLayerRenderer(event.getSkin(skin)));
+        }
     }
 
     public void addEntityAttributes(EntityAttributeModificationEvent event) {

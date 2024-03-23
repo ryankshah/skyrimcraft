@@ -41,7 +41,6 @@ public class SkillBook extends Item
         Character character = Character.get(playerIn);
         if (this.skill != null) {
             SkillWrapper skillWrapper = character.getSkill(skill.get().getID());
-            //TODO: Need to check if we should keep the same xp progress or something?
             double xp = skillWrapper.getXpProgress() / skillWrapper.getXpNeededForNextLevel();
             final AddXpToSkill addXpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(skill.get()).get(), (int)xp);
             PacketDistributor.SERVER.noArg().send(addXpToSkill);

@@ -15,11 +15,9 @@ import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 
 public class SpectralLayerRenderer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>
 {
-    private int light;
 
-    public SpectralLayerRenderer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> entityRenderer, int light) {
+    public SpectralLayerRenderer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> entityRenderer) {
         super(entityRenderer);
-        this.light = light;
     }
 
     @Override
@@ -30,7 +28,7 @@ public class SpectralLayerRenderer extends RenderLayer<AbstractClientPlayer, Pla
             VertexConsumer ivertexbuilder = p_225628_2_.getBuffer(RenderType.entityTranslucentCull(p_225628_4_.getSkin().texture()));
             getParentModel().renderToBuffer(p_225628_1_,
                     ivertexbuilder,
-                    light,
+                    p_225628_3_,
                     PlayerRenderer.getOverlayCoords(p_225628_4_, 0.0F),
                     197/255f, 205/255f, 216/255f, 0.4F);
             RenderSystem.disableBlend();

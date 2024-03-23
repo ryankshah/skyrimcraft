@@ -8,8 +8,10 @@ import com.ryankshah.skyrimcraft.init.EntityInit;
 import com.ryankshah.skyrimcraft.network.skill.HandlePickpocket;
 import com.ryankshah.skyrimcraft.network.spell.CastSpell;
 import com.ryankshah.skyrimcraft.screen.MenuScreen;
+import com.ryankshah.skyrimcraft.util.ClientUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -51,13 +53,17 @@ public class InputEvents
                 return;
             }
             while (KeyEvents.PICKPOCKET_KEY.get().consumeClick()) {
-                // TODO: Do we want to ensure player is not seen? and if so, take damage?
                 if (mc.crosshairPickEntity instanceof LivingEntity && mc.player.isCrouching()) {
                     LivingEntity entity = (LivingEntity) mc.crosshairPickEntity;
 
                     if(entity.getTags().contains(EntityInit.PICKPOCKET_TAG)) {
-                        final HandlePickpocket handlePickpocket = new HandlePickpocket(entity.getId());
-                        PacketDistributor.SERVER.noArg().send(handlePickpocket);
+                        if(ClientUtil.canEntitySee(entity, mc.player)) {
+                            mc.player.hurt(mc.player.damageSources().mobAttack(entity), 0.5f);
+                            mc.player.knockback(0.5f, (double) -Mth.sin(mc.player.yRotO * ((float)Math.PI / 180F)), (double)(Mth.cos(mc.player.yRotO * ((float)Math.PI / 180F))));
+                        } else {
+                            final HandlePickpocket handlePickpocket = new HandlePickpocket(entity.getId());
+                            PacketDistributor.SERVER.noArg().send(handlePickpocket);
+                        }
                     }
                 }
             }

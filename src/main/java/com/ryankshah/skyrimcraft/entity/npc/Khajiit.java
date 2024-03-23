@@ -14,16 +14,17 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 
-public class Khajiit extends AgeableMob
+public class Khajiit extends Villager
 {
     private static final EntityDataAccessor<Boolean> SEX = SynchedEntityData.defineId(Khajiit.class, EntityDataSerializers.BOOLEAN);
 
-    public Khajiit(EntityType<? extends AgeableMob> pEntityType, Level pLevel) {
+    public Khajiit(EntityType<? extends Villager> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
 
         this.getNavigation().setCanFloat(true);
@@ -36,13 +37,13 @@ public class Khajiit extends AgeableMob
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0, 60));
+        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 0, 60));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0D).add(Attributes.MOVEMENT_SPEED, 0.1D).add(Attributes.ATTACK_DAMAGE, 2.0D).add(Attributes.FOLLOW_RANGE, 12.0D);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0D).add(Attributes.ATTACK_DAMAGE, 2.0D).add(Attributes.FOLLOW_RANGE, 12.0D);
     }
 
     protected void defineSynchedData() {
@@ -75,7 +76,7 @@ public class Khajiit extends AgeableMob
     }
 
     @Override
-    public AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
+    public Khajiit getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
         double d0 = this.random.nextDouble();
 
         Khajiit khajiit = new Khajiit(EntityInit.KHAJIIT.get(), pLevel);

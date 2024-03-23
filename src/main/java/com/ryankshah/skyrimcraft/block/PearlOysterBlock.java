@@ -32,7 +32,7 @@ public class PearlOysterBlock extends Block implements IPlantable
     public static final BooleanProperty IS_EMPTY = BooleanProperty.create("empty");
 
     private VoxelShape shape = Shapes.or(
-            Block.box(0, 0, 0, 16, 7, 16) // todo: potentially change shape based on placement state (FACING)
+            Block.box(0, 0, 0, 16, 7, 16)
     );
 
     public PearlOysterBlock() {

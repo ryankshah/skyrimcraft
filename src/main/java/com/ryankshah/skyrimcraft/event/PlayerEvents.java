@@ -22,7 +22,9 @@ import net.minecraft.tags.StructureTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.EnchantmentMenu;
 import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -53,17 +55,19 @@ public class PlayerEvents
         }
     }
 
-    @SubscribeEvent
-    public static void onEnchant(EnchantmentLevelSetEvent event) {
-        // TODO: Check if event.getEnchantLevel() is suitable for XP amount (or do we multiply by some base)
-        final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ENCHANTING.get()).get(), (int)event.getEnchantLevel());
-        PacketDistributor.SERVER.noArg().send(xpToSkill);
-    }
+    // TODO: There is no such hook, we need to make this patch for neo or get someone to do it.
+//    @SubscribeEvent
+//    public static void onEnchant(PlayerEvent.ItemCraftedEvent event) {
+//        if(event.getInventory() instanceof EnchantmentMenu enchantmentMenu) {
+//            // TODO: Check if event.getEnchantLevel() is suitable for XP amount (or do we multiply by some base)
+//            final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ENCHANTING.get()).get(), (int)enchantmentMenu.getEnchantLevel() * SkillRegistry.BASE_ENCHANT_XP);
+//            PacketDistributor.SERVER.noArg().send(xpToSkill);
+//        }
+//    }
 
     @SubscribeEvent
     public static void onTradeWithVillager(TradeWithVillagerEvent event) {
-        // TODO: Check if this is suitable for XP amount (or do we multiply by some base)
-        final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.SPEECH.get()).get(), event.getMerchantOffer().getXp());
+        final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.SPEECH.get()).get(), event.getMerchantOffer().getXp() * SkillRegistry.BASE_SPEECH_XP);
         PacketDistributor.SERVER.noArg().send(xpToSkill);
     }
 
@@ -130,7 +134,6 @@ public class PlayerEvents
                 //                }
 
                 // TODO: check if structures can even generate.
-
                 List<ResourceKey<Structure>> structuresList = List.of(BuiltinStructures.VILLAGE_DESERT, BuiltinStructures.VILLAGE_TAIGA,
                         BuiltinStructures.VILLAGE_PLAINS, BuiltinStructures.VILLAGE_SNOWY, BuiltinStructures.VILLAGE_SAVANNA, BuiltinStructures.SHIPWRECK, BuiltinStructures.SHIPWRECK_BEACHED,
                         BuiltinStructures.FORTRESS, BuiltinStructures.MINESHAFT, BuiltinStructures.MINESHAFT_MESA);

@@ -17,7 +17,6 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.List;
 
-//TODO: Add mushrooms, canis root, and pearl oysters
 public class SkyrimcraftBiomeModifiers
 {
     public static final ResourceKey<BiomeModifier> ADD_CORUNDUM_ORE = registerKey("add_corundum_ore");
@@ -134,7 +133,8 @@ public class SkyrimcraftBiomeModifiers
                 List.of(
                         new MobSpawnSettings.SpawnerData(EntityInit.SABRE_CAT.get(), 4, 1, 2),
                         new MobSpawnSettings.SpawnerData(EntityInit.GIANT.get(), 1, 2, 2),
-                        new MobSpawnSettings.SpawnerData(EntityInit.DRAUGR.get(), 30, 2, 2)
+                        new MobSpawnSettings.SpawnerData(EntityInit.DRAUGR.get(), 40, 2, 2),
+                        new MobSpawnSettings.SpawnerData(EntityInit.DWARVEN_SPIDER.get(), 40, 1, 2)
                 )
         ));
         context.register(ADD_PLAINS_MOBS, new BiomeModifiers.AddSpawnsBiomeModifier(
@@ -148,17 +148,10 @@ public class SkyrimcraftBiomeModifiers
         ));
 
         context.register(ADD_CAVE_MOBS, new BiomeModifiers.AddSpawnsBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.DRIPSTONE_CAVES), biomes.getOrThrow(Biomes.SNOWY_SLOPES),
-                        biomes.getOrThrow(Biomes.WINDSWEPT_GRAVELLY_HILLS), biomes.getOrThrow(Biomes.WINDSWEPT_HILLS),
-                        biomes.getOrThrow(Biomes.DESERT), biomes.getOrThrow(Biomes.GROVE), biomes.getOrThrow(Biomes.BADLANDS),
-                        biomes.getOrThrow(Biomes.PLAINS), biomes.getOrThrow(Biomes.SNOWY_PLAINS), biomes.getOrThrow(Biomes.SNOWY_TAIGA),
-                        biomes.getOrThrow(Biomes.DEEP_DARK), biomes.getOrThrow(Biomes.BIRCH_FOREST), biomes.getOrThrow(Biomes.DARK_FOREST),
-                        biomes.getOrThrow(Biomes.OLD_GROWTH_BIRCH_FOREST), biomes.getOrThrow(Biomes.WINDSWEPT_FOREST), biomes.getOrThrow(Biomes.WINDSWEPT_SAVANNA)
-                ),
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
                 List.of(
-                        new MobSpawnSettings.SpawnerData(EntityInit.DRAUGR.get(), 8, 2, 3),
-                        new MobSpawnSettings.SpawnerData(EntityInit.DWARVEN_SPIDER.get(), 8, 1, 2)
+                        new MobSpawnSettings.SpawnerData(EntityInit.DRAUGR.get(), 40, 2, 3),
+                        new MobSpawnSettings.SpawnerData(EntityInit.DWARVEN_SPIDER.get(), 40, 1, 2)
                 )
         ));
 
