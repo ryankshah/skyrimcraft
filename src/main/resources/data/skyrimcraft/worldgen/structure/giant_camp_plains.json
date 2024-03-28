@@ -45,19 +45,19 @@
   // Make sure you add the mob to the right category (monster, creature, etc)
   "spawn_overrides": {
     "monster": {
-      "bounding_box": "full", // "full" - Use the bounding box of entire structure instead of individual pieces.
+      "bounding_box": "piece", // "full" - Use the bounding box of entire structure instead of individual pieces.
       "spawns": [
         {
           "type": "skyrimcraft:giant",
           "weight": 1,
-          "minCount": 2,
-          "maxCount": 3
+          "minCount": 1,
+          "maxCount": 2
         },
         {
           "type": "skyrimcraft:mammoth",
           "weight": 1,
           "minCount": 1,
-          "maxCount": 3
+          "maxCount": 2
         }
       ]
     },

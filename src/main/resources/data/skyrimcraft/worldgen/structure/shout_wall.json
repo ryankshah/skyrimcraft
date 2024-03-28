@@ -10,7 +10,7 @@
   "size": 2,
 
   // Maximum distance away from center that pieces can spawn. Cannot be greater than 128
-  "max_distance_from_center": 80,
+  "max_distance_from_center": 2,
 
   // The biome tag to use for what biomes that this structure can spawn in"
   "biomes": "#skyrimcraft:has_structure/shout_wall_biomes",

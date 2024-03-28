@@ -2,12 +2,13 @@ package com.ryankshah.skyrimcraft.init;
 
 import com.mojang.serialization.Codec;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.world.DungeonStructures;
-import com.ryankshah.skyrimcraft.world.GiantCampStructures;
-import com.ryankshah.skyrimcraft.world.ShoutWallStructures;
+import com.ryankshah.skyrimcraft.world.*;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -30,6 +31,9 @@ public class StructureInit
     public static final DeferredHolder<StructureType<?>, StructureType<ShoutWallStructures>> SHOUT_WALL = STRUCTURES.register("shout_wall", () -> explicitStructureTypeTyping(ShoutWallStructures.CODEC));
     public static final DeferredHolder<StructureType<?>, StructureType<GiantCampStructures>> GIANT_CAMP = STRUCTURES.register("giant_camp", () -> explicitStructureTypeTyping(GiantCampStructures.CODEC));
     public static final DeferredHolder<StructureType<?>, StructureType<DungeonStructures>> DUNGEON = STRUCTURES.register("skyrim_dungeon", () -> explicitStructureTypeTyping(DungeonStructures.CODEC));
+    public static final DeferredHolder<StructureType<?>, StructureType<WatchtowerStructures>> WATCHTOWER = STRUCTURES.register("watchtower", () -> explicitStructureTypeTyping(WatchtowerStructures.CODEC));
+    public static final DeferredHolder<StructureType<?>, StructureType<RuinsStructures>> RUINS = STRUCTURES.register("ruins", () -> explicitStructureTypeTyping(RuinsStructures.CODEC));
+    public static final DeferredHolder<StructureType<?>, StructureType<MonumentStructures>> MONUMENTS = STRUCTURES.register("monuments", () -> explicitStructureTypeTyping(MonumentStructures.CODEC));
 
     /**
      * Originally, I had a double lambda ()->()-> for the RegistryObject line above, but it turns out that

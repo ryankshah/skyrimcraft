@@ -253,7 +253,7 @@ public class SkillScreen extends Screen
                     currentUpdateSelection = -1;
                 }
             } else if(!skillSelected) {
-                skillSelected = true;
+//                skillSelected = true;
                 selectedSkillObject = skillsList.get(currentSkill);
             } else {
                 // Skill panel is open, interact with it.
