@@ -2,6 +2,8 @@ package com.ryankshah.skyrimcraft.entity.npc.render;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.entity.npc.Falmer;
+import com.ryankshah.skyrimcraft.entity.npc.layer.FalmerProfessionLayer;
+import com.ryankshah.skyrimcraft.entity.npc.layer.KhajiitProfessionLayer;
 import com.ryankshah.skyrimcraft.entity.npc.model.FalmerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -21,6 +23,7 @@ public class FalmerRenderer extends HumanoidMobRenderer<Falmer, FalmerModel<Falm
                         this, new FalmerModel<>(pContext.bakeLayer(pInnerModelLayer)), new FalmerModel<>(pContext.bakeLayer(pOuterModelLayer)), pContext.getModelManager()
                 )
         );
+        this.addLayer(new FalmerProfessionLayer<>(this, pContext.getResourceManager(), "falmer"));
     }
 
     @Override

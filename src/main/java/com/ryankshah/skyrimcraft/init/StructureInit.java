@@ -2,6 +2,8 @@ package com.ryankshah.skyrimcraft.init;
 
 import com.mojang.serialization.Codec;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.world.DungeonStructures;
+import com.ryankshah.skyrimcraft.world.GiantCampStructures;
 import com.ryankshah.skyrimcraft.world.ShoutWallStructures;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -26,6 +28,8 @@ public class StructureInit
      * this base structure will have the resourcelocation of structure_tutorial:sky_structures.
      */
     public static final DeferredHolder<StructureType<?>, StructureType<ShoutWallStructures>> SHOUT_WALL = STRUCTURES.register("shout_wall", () -> explicitStructureTypeTyping(ShoutWallStructures.CODEC));
+    public static final DeferredHolder<StructureType<?>, StructureType<GiantCampStructures>> GIANT_CAMP = STRUCTURES.register("giant_camp", () -> explicitStructureTypeTyping(GiantCampStructures.CODEC));
+    public static final DeferredHolder<StructureType<?>, StructureType<DungeonStructures>> DUNGEON = STRUCTURES.register("skyrim_dungeon", () -> explicitStructureTypeTyping(DungeonStructures.CODEC));
 
     /**
      * Originally, I had a double lambda ()->()-> for the RegistryObject line above, but it turns out that

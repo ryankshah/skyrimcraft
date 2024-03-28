@@ -52,7 +52,7 @@ public class MapScreen extends Screen
     private SectionRenderDispatcher.RenderSection[] renderChunksChunkers;
     private ObjectList<SectionRenderDispatcher.RenderSection> mapChunks;
     private List<CompassFeature> features;
-//
+
     protected MapScreen() {
         super(Component.translatable(Skyrimcraft.MODID + ".mapscreen.title"));
 

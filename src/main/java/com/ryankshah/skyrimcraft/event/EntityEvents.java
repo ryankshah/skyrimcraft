@@ -44,7 +44,7 @@ import java.util.stream.StreamSupport;
 @Mod.EventBusSubscriber(modid = Skyrimcraft.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EntityEvents
 {
-    private static List<EntityType<?>> pickPocketableEntities = StreamSupport.stream(PickpocketLootTables.getPickpocketableEntities().spliterator(), false).toList();
+    private static List<EntityType<?>> pickPocketableEntities = StreamSupport.stream(Skyrimcraft.getPickpocketableEntities().spliterator(), false).toList();
 
     @SubscribeEvent
     public static void entitySetAttackTarget(LivingAttackEvent event) {

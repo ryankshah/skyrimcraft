@@ -1,5 +1,6 @@
 package com.ryankshah.skyrimcraft;
 
+import com.google.common.collect.ImmutableList;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.feature.model.DunmerEarModel;
 import com.ryankshah.skyrimcraft.character.feature.model.HighElfEarModel;
@@ -158,15 +159,23 @@ public class Skyrimcraft
 
         SoundsInit.SOUNDS.register(bus);
 
+        VillagerInit.POIS.register(bus);
+        VillagerInit.PROFESSIONS.register(bus);
+
         // listeners
 //        bus.addListener(this::dataPackRegistry);
         bus.addListener(DataGenerators::gatherData);
         bus.addListener(this::createEntityAttributes);
         bus.addListener(this::addEntityAttributes);
         bus.addListener(this::registerLayerDefinitions);
+        bus.addListener(this::addPlayerLayers);
         bus.addListener(EntityInit::registerRenderers);
         bus.addListener(this::renderCurios);
         bus.addListener(EntityInit::addSpawnPlacements);
+    }
+
+    public static Iterable<EntityType<?>> getPickpocketableEntities() {
+        return ImmutableList.of(EntityType.VILLAGER);//, EntityInit.KHAJIIT.get(), EntityInit.FALMER.get());
     }
 
 //    public void dataPackRegistry(DataPackRegistryEvent.NewRegistry event) {

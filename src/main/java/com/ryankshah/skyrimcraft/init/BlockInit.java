@@ -136,6 +136,10 @@ public class BlockInit
             BlacksmithForgeBlock::new);
     public static final DeferredItem<BlockItem> BLACKSMITH_FORGE_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(BLACKSMITH_FORGE);
 
+    public static final DeferredBlock<Block> WEAPON_RACK = BLOCKS.register("weapon_rack",
+            WeaponRackBlock::new);
+    public static final DeferredItem<BlockItem> WEAPON_RACK_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(WEAPON_RACK);
+
     public static final DeferredBlock<Block> RED_MOUNTAIN_FLOWER = BLOCKS.register("red_mountain_flower",
             () -> new SkyrimFlower(
                     MobEffects.SATURATION,
@@ -286,6 +290,7 @@ public class BlockInit
         provider.addBlock(ALCHEMY_TABLE, "Alchemy Table");
         provider.addBlock(OVEN, "Oven");
         provider.addBlock(BLACKSMITH_FORGE, "Blacksmith Forge");
+        provider.addBlock(WEAPON_RACK, "Weapon Rack");
 
         provider.addBlock(RED_MOUNTAIN_FLOWER, "Red Mountain Flower");
         provider.addBlock(BLUE_MOUNTAIN_FLOWER, "Blue Mountain Flower");
@@ -381,6 +386,9 @@ public class BlockInit
 
         provider.horizontalBlock(ALCHEMY_TABLE.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/alchemy_table")));
         provider.simpleBlockItem(ALCHEMY_TABLE.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/alchemy_table")));
+
+        provider.horizontalBlock(WEAPON_RACK.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/weapon_rack")));
+        provider.simpleBlockItem(WEAPON_RACK.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/weapon_rack")));
 
         provider.simpleBlock(BIRDS_NEST.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/birds_nest")));
         provider.simpleBlockItem(BIRDS_NEST.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/birds_nest")));

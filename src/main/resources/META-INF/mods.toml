@@ -78,6 +78,12 @@ description='''${mod_description}'''
     versionRange="[4.4.2,)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="smartbrainlib"
+    type="required"
+    versionRange="[1.13,)"
+    ordering="NONE"
+    side="SERVER"
 [[mixins]]
     config="skyrimcraft.mixins.json"
 [[accessTransformers]]

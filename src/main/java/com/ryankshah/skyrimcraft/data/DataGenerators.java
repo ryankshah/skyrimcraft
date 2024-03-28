@@ -15,6 +15,7 @@ import com.ryankshah.skyrimcraft.data.recipe.provider.AlchemyRecipeProvider;
 import com.ryankshah.skyrimcraft.data.recipe.provider.ForgeRecipeProvider;
 import com.ryankshah.skyrimcraft.data.recipe.provider.OvenRecipeProvider;
 import com.ryankshah.skyrimcraft.data.sound.SkyrimSoundsProvider;
+import com.ryankshah.skyrimcraft.data.tag.SkyrimcraftPoiTypeTagsProvider;
 import com.ryankshah.skyrimcraft.data.world.SkyrimBiomeTagsProvider;
 import com.ryankshah.skyrimcraft.data.world.SkyrimcraftStructureTagsProvider;
 import com.ryankshah.skyrimcraft.data.world.SkyrimcraftWorldGenProvider;
@@ -41,7 +42,7 @@ public class DataGenerators
     public static void gatherData(GatherDataEvent event) {
         try {
             DataGenerator generator = event.getGenerator();
-            PackOutput output = event.getGenerator().getPackOutput();
+            PackOutput output = generator.getPackOutput();
             ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
             generator.addProvider(true, new SkyrimAdvancementProvider(output, event.getLookupProvider(), existingFileHelper, List.of(new SkyrimAdvancementProvider.SkyrimAdvancements())));
@@ -57,12 +58,12 @@ public class DataGenerators
             SkyrimcraftBlockTagsProvider blockTagsProvider = new SkyrimcraftBlockTagsProvider(output, event.getLookupProvider(), Skyrimcraft.MODID, existingFileHelper);
             generator.addProvider(true, blockTagsProvider);
             generator.addProvider(true, new SkyrimcraftItemTagProvider(output, event.getLookupProvider(), blockTagsProvider, existingFileHelper));
-            generator.addProvider(true, new SkyrimcraftStructureTagsProvider(output, event.getLookupProvider(), Skyrimcraft.MODID, existingFileHelper));
+            generator.addProvider(event.includeServer(), new SkyrimcraftStructureTagsProvider(output, event.getLookupProvider(), Skyrimcraft.MODID, existingFileHelper));
             generator.addProvider(event.includeServer(), new SkyrimcraftWorldGenProvider(output, event.getLookupProvider()));
             generator.addProvider(event.includeServer(), new SkyrimCuriosDataProvider(Skyrimcraft.MODID, output,existingFileHelper, event.getLookupProvider()));
             generator.addProvider(true, new SkyrimLootModifierProvider(output, Skyrimcraft.MODID));
             generator.addProvider(event.includeClient(), new SkyrimSoundsProvider(output, Skyrimcraft.MODID, existingFileHelper));
-
+            generator.addProvider(event.includeServer(), new SkyrimcraftPoiTypeTagsProvider(output, event.getLookupProvider(), existingFileHelper));
 //            RegistryOps<JsonElement> registryOps = RegistryOps.create(JsonOps.INSTANCE, );
 //
 //            Map<ResourceLocation, IQuest> map = addQuests();

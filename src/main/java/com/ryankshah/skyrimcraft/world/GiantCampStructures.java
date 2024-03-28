@@ -139,6 +139,6 @@ public class GiantCampStructures extends Structure {
 
     @Override
     public StructureType<?> type() {
-        return StructureInit.SHOUT_WALL.get(); // Helps the game know how to turn this structure back to json to save to chunks
+        return StructureInit.GIANT_CAMP.get(); // Helps the game know how to turn this structure back to json to save to chunks
     }
 }

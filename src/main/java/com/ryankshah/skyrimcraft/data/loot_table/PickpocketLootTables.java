@@ -9,6 +9,7 @@ import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.character.skill.SkillWrapper;
 import com.ryankshah.skyrimcraft.data.loot_table.condition.MatchSkillLevel;
 import com.ryankshah.skyrimcraft.data.loot_table.predicate.SkillPredicate;
+import com.ryankshah.skyrimcraft.init.EntityInit;
 import com.ryankshah.skyrimcraft.init.ItemInit;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -81,10 +82,6 @@ public class PickpocketLootTables implements LootTableSubProvider
     }
     protected void add(BiConsumer<ResourceLocation, LootTable.Builder> pOutput, EntityType<?> entityType, Function<EntityType<?>, LootTable.Builder> builder) {
         this.add(pOutput, entityType, builder.apply(entityType));
-    }
-
-    public static Iterable<EntityType<?>> getPickpocketableEntities() {
-        return ImmutableList.of(EntityType.VILLAGER);//, ModEntityType.MERCHANT.get());
     }
 
     public void addTables(BiConsumer<ResourceLocation, LootTable.Builder> pOutput) {
