@@ -51,7 +51,7 @@ public class ShoutDismay extends Spell
 
     @Override
     public float getCooldown() {
-        return 0f;
+        return 30f;
     }
 
     @Override

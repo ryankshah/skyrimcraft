@@ -25,8 +25,8 @@ public class ShoutClearSkies extends Spell //implements IForgeRegistryEntry<ISpe
     public List<String> getDescription() {
         List<String> desc = new ArrayList<>();
         desc.add("Minecraft yields before your");
-        desc.add("Thu'um, as you clear away fog");
-        desc.add("and inclement weather");
+        desc.add("Thu'um, as you clear away");
+        desc.add("inclement weather");
         return desc;
     }
 

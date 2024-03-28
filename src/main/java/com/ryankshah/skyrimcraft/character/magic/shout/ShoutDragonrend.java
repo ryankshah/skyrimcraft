@@ -31,7 +31,7 @@ public class ShoutDragonrend extends Spell //implements IForgeRegistryEntry<ISpe
         List<String> desc = new ArrayList<>();
         desc.add("Your voice lashes out at a");
         desc.add("dragon's very soul, forcing");
-        desc.add("the beast to land");
+        desc.add("the Ender Dragon to land");
         return desc;
     }
 

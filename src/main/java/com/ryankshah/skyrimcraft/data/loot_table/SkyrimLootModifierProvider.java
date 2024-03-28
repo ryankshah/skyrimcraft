@@ -66,6 +66,30 @@ public class SkyrimLootModifierProvider extends GlobalLootModifierProvider
                 )
         );
 
+        this.add("witch",
+                new AddTableLootModifier(
+                        new LootItemCondition[] {
+                                LootItemKilledByPlayerCondition.killedByPlayer()
+                                        .and(LootItemEntityPropertyCondition.hasProperties(
+                                                LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(EntityType.WITCH)
+                                        )).build()
+                        },
+                        new ResourceLocation(Skyrimcraft.MODID, "witch")
+                )
+        );
+
+        this.add("evoker",
+                new AddTableLootModifier(
+                        new LootItemCondition[] {
+                                LootItemKilledByPlayerCondition.killedByPlayer()
+                                        .and(LootItemEntityPropertyCondition.hasProperties(
+                                                LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(EntityType.EVOKER)
+                                        )).build()
+                        },
+                        new ResourceLocation(Skyrimcraft.MODID, "evoker")
+                )
+        );
+
         this.add("salmon",
                 new AddTableLootModifier(
                         new LootItemCondition[] {

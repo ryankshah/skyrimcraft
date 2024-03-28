@@ -23,18 +23,20 @@ import java.util.List;
 public class SpellChainLightning extends Spell
 {
     public SpellChainLightning(int identifier) {
-        super(identifier, "lightning_bolt");
+        super(identifier, "chain_lightning");
     }
 
     @Override
     public String getName() {
-        return "Lightning Bolt";
+        return "Chain Lightning";
     }
 
     @Override
     public List<String> getDescription() {
         List<String> desc = new ArrayList<>();
-        desc.add("");
+        desc.add("Lightning bolt that does");
+        desc.add("shock damage to health and");
+        desc.add("half to magicka");
         return desc;
     }
 

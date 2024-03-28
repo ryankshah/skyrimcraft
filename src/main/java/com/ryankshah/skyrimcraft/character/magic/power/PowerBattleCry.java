@@ -77,7 +77,7 @@ public class PowerBattleCry extends Spell
 
     @Override
     public void onCast() {
-        getCaster().addEffect(new MobEffectInstance(ModEffects.BATTLE_CRY.get(), 1200, 0, true, true, true));
+        getCaster().addEffect(new MobEffectInstance(ModEffects.BATTLE_CRY.get(), 600, 0, true, true, true));
 
         super.onCast();
     }
