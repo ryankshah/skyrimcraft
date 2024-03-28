@@ -47,22 +47,6 @@ public class WaterWalkingPotion extends SkyrimPotion
     @Override
     public NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> ingredients = NonNullList.create();
-        if (this == ItemInit.LASTING_POTENCY_POTION.get()) {
-            ingredients.add(Ingredient.of(new ItemStack(ItemInit.SALMON_ROE.get(), 1)));
-            ingredients.add(Ingredient.of(new ItemStack(ItemInit.GARLIC.get(), 1)));
-        } else if(this == ItemInit.DRAUGHT_LASTING_POTENCY_POTION.get()) {
-            ingredients.add(Ingredient.of(new ItemStack(ItemInit.GARLIC.get(), 1)));
-            ingredients.add(Ingredient.of(new ItemStack(ItemInit.SALT_PILE.get(), 1)));
-        } else if (this == ItemInit.SOLUTION_LASTING_POTENCY_POTION.get()) {
-            ingredients.add(Ingredient.of(new ItemStack(ItemInit.DWARVEN_OIL.get(), 1)));
-            ingredients.add(Ingredient.of(new ItemStack(ItemInit.SALMON_ROE.get(), 1)));
-        } else if (this == ItemInit.PHILTER_LASTING_POTENCY_POTION.get()) {
-            ingredients.add(Ingredient.of(new ItemStack(ItemInit.SALT_PILE.get(), 1)));
-            ingredients.add(Ingredient.of(new ItemStack(ItemInit.DWARVEN_OIL.get(), 1)));
-        } else if (this == ItemInit.ELIXIR_LASTING_POTENCY_POTION.get()) {
-            ingredients.add(Ingredient.of(new ItemStack(ItemInit.DWARVEN_OIL.get(), 1)));
-            ingredients.add(Ingredient.of(new ItemStack(ItemInit.FIRE_SALTS.get(), 1)));
-        }
         return ingredients;
     }
 
@@ -75,20 +59,7 @@ public class WaterWalkingPotion extends SkyrimPotion
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         String regenValue = "";
 
-        Item item = stack.getItem();
-        if (ItemInit.LASTING_POTENCY_POTION.get().equals(item)) {
-            regenValue = "50%";
-        } else if (ItemInit.DRAUGHT_LASTING_POTENCY_POTION.get().equals(item)) {
-            regenValue = "60%";
-        } else if (ItemInit.SOLUTION_LASTING_POTENCY_POTION.get().equals(item)) {
-            regenValue = "70%";
-        } else if (ItemInit.PHILTER_LASTING_POTENCY_POTION.get().equals(item)) {
-            regenValue = "80%";
-        } else if (ItemInit.ELIXIR_LASTING_POTENCY_POTION.get().equals(item)) {
-            regenValue = "100%";
-        }
-
-        tooltip.add(Component.literal("Grants " + duration/20 + "s of " + regenValue + " magicka regen"));
+        tooltip.add(Component.literal("Grants " + duration/20 + "s of water walking"));
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 }
