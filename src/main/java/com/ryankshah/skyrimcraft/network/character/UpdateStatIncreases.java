@@ -39,6 +39,8 @@ public record UpdateStatIncreases(StatIncreases statIncreases) implements Custom
         StatIncreases oldStats = player.getData(PlayerAttachments.STAT_INCREASES);
         if(data.statIncreases.getHealthIncrease() > oldStats.getHealthIncrease()) {
             AttributeInit.setMaxHealth(player, data.statIncreases.getHealthIncrease(), AttributeModifier.Operation.ADDITION);
+        } else if(data.statIncreases.getMagickaIncrease() > oldStats.getMagickaIncrease()) {
+            AttributeInit.setMaxMagicka(player, data.statIncreases.getMagickaIncrease(), AttributeModifier.Operation.ADDITION);
         }
 
         player.setData(PlayerAttachments.STAT_INCREASES, data.statIncreases);
@@ -55,9 +57,12 @@ public record UpdateStatIncreases(StatIncreases statIncreases) implements Custom
         Minecraft minecraft = Minecraft.getInstance();
         minecraft.execute(() -> {
             Player player = minecraft.player;
+
             StatIncreases oldStats = player.getData(PlayerAttachments.STAT_INCREASES);
             if(data.statIncreases.getHealthIncrease() > oldStats.getHealthIncrease()) {
                 AttributeInit.setMaxHealth(player, data.statIncreases.getHealthIncrease(), AttributeModifier.Operation.ADDITION);
+            } else if(data.statIncreases.getMagickaIncrease() > oldStats.getMagickaIncrease()) {
+                AttributeInit.setMaxMagicka(player, data.statIncreases.getMagickaIncrease(), AttributeModifier.Operation.ADDITION);
             }
 
             Minecraft.getInstance().player.setData(PlayerAttachments.STAT_INCREASES, data.statIncreases);

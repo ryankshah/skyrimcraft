@@ -38,25 +38,25 @@ public class SkyrimcraftPlacedFeatures
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
         register(context, CORUNDUM_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.CORUNDUM_ORE_KEY),
-                OrePlacement.commonOrePlacement(24,
+                OrePlacement.commonOrePlacement(14,
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(-32), VerticalAnchor.absolute(32))));
         register(context, EBONY_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.EBONY_ORE_KEY),
-                OrePlacement.rareOrePlacement(12,
+                OrePlacement.rareOrePlacement(6,
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(8))));
         register(context, MALACHITE_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.MALACHITE_ORE_KEY),
-                OrePlacement.commonOrePlacement(28,
+                OrePlacement.commonOrePlacement(12,
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(-11), VerticalAnchor.absolute(46))));
         register(context, MOONSTONE_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.MOONSTONE_ORE_KEY),
-                OrePlacement.commonOrePlacement(32,
+                OrePlacement.commonOrePlacement(14,
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(-32), VerticalAnchor.absolute(22))));
         register(context, ORICHALCUM_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.ORICHALCUM_ORE_KEY),
-                OrePlacement.commonOrePlacement(30,
+                OrePlacement.commonOrePlacement(12,
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(8), VerticalAnchor.absolute(64))));
         register(context, QUICKSILVER_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.QUICKSILVER_ORE_KEY),
-                OrePlacement.commonOrePlacement(24,
+                OrePlacement.commonOrePlacement(16,
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(0), VerticalAnchor.absolute(48))));
         register(context, SILVER_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.SILVER_ORE_KEY),
-                OrePlacement.commonOrePlacement(20,
+                OrePlacement.commonOrePlacement(24,
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(0), VerticalAnchor.absolute(64))));
 
         register(context, MOUNTAIN_FLOWER_PLACED_KEY,

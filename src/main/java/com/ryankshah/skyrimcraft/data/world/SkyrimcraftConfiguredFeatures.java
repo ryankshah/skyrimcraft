@@ -52,37 +52,37 @@ public class SkyrimcraftConfiguredFeatures
         List<OreConfiguration.TargetBlockState> corundumOres = List.of(OreConfiguration.target(stoneReplaceable,
                         BlockInit.CORUNDUM_ORE.get().defaultBlockState()),
                 OreConfiguration.target(deepslateReplaceables, BlockInit.DEEPSLATE_CORUNDUM_ORE.get().defaultBlockState()));
-        register(context, CORUNDUM_ORE_KEY, Feature.ORE, new OreConfiguration(corundumOres, 9));
+        register(context, CORUNDUM_ORE_KEY, Feature.ORE, new OreConfiguration(corundumOres, 3));
 
         List<OreConfiguration.TargetBlockState> ebonyOres = List.of(OreConfiguration.target(stoneReplaceable,
                         BlockInit.EBONY_ORE.get().defaultBlockState()),
                 OreConfiguration.target(deepslateReplaceables, BlockInit.DEEPSLATE_EBONY_ORE.get().defaultBlockState()));
-        register(context, EBONY_ORE_KEY, Feature.ORE, new OreConfiguration(ebonyOres, 9));
+        register(context, EBONY_ORE_KEY, Feature.ORE, new OreConfiguration(ebonyOres, 2));
 
         List<OreConfiguration.TargetBlockState> malachiteOres = List.of(OreConfiguration.target(stoneReplaceable,
                         BlockInit.MALACHITE_ORE.get().defaultBlockState()),
                 OreConfiguration.target(deepslateReplaceables, BlockInit.DEEPSLATE_MALACHITE_ORE.get().defaultBlockState()));
-        register(context, MALACHITE_ORE_KEY, Feature.ORE, new OreConfiguration(malachiteOres, 9));
+        register(context, MALACHITE_ORE_KEY, Feature.ORE, new OreConfiguration(malachiteOres, 3));
 
         List<OreConfiguration.TargetBlockState> moonstoneOres = List.of(OreConfiguration.target(stoneReplaceable,
                         BlockInit.MOONSTONE_ORE.get().defaultBlockState()),
                 OreConfiguration.target(deepslateReplaceables, BlockInit.DEEPSLATE_MOONSTONE_ORE.get().defaultBlockState()));
-        register(context, MOONSTONE_ORE_KEY, Feature.ORE, new OreConfiguration(moonstoneOres, 9));
+        register(context, MOONSTONE_ORE_KEY, Feature.ORE, new OreConfiguration(moonstoneOres, 3));
 
         List<OreConfiguration.TargetBlockState> orichalcumOres = List.of(OreConfiguration.target(stoneReplaceable,
                         BlockInit.ORICHALCUM_ORE.get().defaultBlockState()),
                 OreConfiguration.target(deepslateReplaceables, BlockInit.DEEPSLATE_ORICHALCUM_ORE.get().defaultBlockState()));
-        register(context, ORICHALCUM_ORE_KEY, Feature.ORE, new OreConfiguration(orichalcumOres, 9));
+        register(context, ORICHALCUM_ORE_KEY, Feature.ORE, new OreConfiguration(orichalcumOres, 3));
 
         List<OreConfiguration.TargetBlockState> quicksilverOres = List.of(OreConfiguration.target(stoneReplaceable,
                         BlockInit.QUICKSILVER_ORE.get().defaultBlockState()),
                 OreConfiguration.target(deepslateReplaceables, BlockInit.DEEPSLATE_QUICKSILVER_ORE.get().defaultBlockState()));
-        register(context, QUICKSILVER_ORE_KEY, Feature.ORE, new OreConfiguration(quicksilverOres, 9));
+        register(context, QUICKSILVER_ORE_KEY, Feature.ORE, new OreConfiguration(quicksilverOres, 4));
 
         List<OreConfiguration.TargetBlockState> silverOres = List.of(OreConfiguration.target(stoneReplaceable,
                         BlockInit.SILVER_ORE.get().defaultBlockState()),
                 OreConfiguration.target(deepslateReplaceables, BlockInit.DEEPSLATE_SILVER_ORE.get().defaultBlockState()));
-        register(context, SILVER_ORE_KEY, Feature.ORE, new OreConfiguration(silverOres, 9));
+        register(context, SILVER_ORE_KEY, Feature.ORE, new OreConfiguration(silverOres, 5));
 
         register(context, MOUNTAIN_FLOWER_KEY, Feature.FLOWER, new RandomPatchConfiguration(32, 7, 3,
                 PlacementUtils.onlyWhenEmpty(

@@ -242,9 +242,15 @@ public class SkillScreen extends Screen
             if(shouldFocusLevelUpdates) {
                 // Send packet based on the update selected
                 StatIncreases statIncreases = player.getData(PlayerAttachments.STAT_INCREASES);
+                System.out.println(statIncreases.getHealthIncrease());
                 if(currentUpdateSelection == 1) {
                     statIncreases.increaseHealth();
+                } else if(currentUpdateSelection == 0) {
+                    statIncreases.increaseMagicka();
+                } else if(currentUpdateSelection == 2) {
+                    statIncreases.increaseStamina();
                 }
+                System.out.println(statIncreases.getHealthIncrease());
                 final UpdateStatIncreases updateStatIncreases = new UpdateStatIncreases(statIncreases);
                 PacketDistributor.SERVER.noArg().send(updateStatIncreases);
                 levelPoints--;
