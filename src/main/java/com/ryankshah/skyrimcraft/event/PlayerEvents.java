@@ -71,6 +71,12 @@ public class PlayerEvents
         PacketDistributor.SERVER.noArg().send(xpToSkill);
     }
 
+//    @SubscribeEvent
+//    public static void onItemSmelted(PlayerEvent.ItemSmeltedEvent event) {
+//        final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.SMITHING.get()).get(), event.getSmelting()..getXp() * SkillRegistry.BASE_SPEECH_XP);
+//        PacketDistributor.SERVER.noArg().send(xpToSkill);
+//    }
+
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         Player playerEntity = event.player;

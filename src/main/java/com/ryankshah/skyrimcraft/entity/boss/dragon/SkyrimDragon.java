@@ -84,17 +84,6 @@ public class SkyrimDragon extends PathfinderMob implements GeoEntity, Enemy, Fly
         this.noPhysics = true;
         this.noCulling = true;
         this.xpReward = XP_REWARD_BOSS;
-
-//        this.moveControl = new SkyrimDragon.DragonMoveControl(this);
-//        this.lookControl = new SkyrimDragon.DragonLookControl(this);
-//
-//        this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
-//        this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 16.0F);
-//        this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, -1.0F);
-    }
-
-    protected void registerGoals() {
-//        this.goalSelector.addGoal(1, new SkyrimDragon.CircleAroundAnchorGoal());
     }
 
     @Override
@@ -307,8 +296,8 @@ public class SkyrimDragon extends PathfinderMob implements GeoEntity, Enemy, Fly
     public BrainActivityGroup<SkyrimDragon> getCoreTasks() { // These are the tasks that run all the time (usually)
         return BrainActivityGroup.coreTasks(
                 new LookAtTarget<>(),                      // Have the entity turn to face and look at its current look target
-                new MoveToWalkTarget<>()
-        );                 // Walk towards the current walk target
+                new MoveToWalkTarget<>() // Walk towards the current walk target
+        );
     }
 
     @Override
@@ -320,6 +309,7 @@ public class SkyrimDragon extends PathfinderMob implements GeoEntity, Enemy, Fly
                         new SetRandomLookTarget<>()
                 ),         // Set a random look target
                 new SetRandomFlyingTarget<>()
+                        .verticalWeight(e -> -4)
                         .whenStarting(a -> a.getEntityData().set(PREV_ANIMATION_STATE, a.getEntityData().get(ANIMATION_STATE)))
                         .whenStarting(a -> a.getEntityData().set(ANIMATION_STATE, 0)),
                 new OneRandomBehaviour<>(                 // Run a random task from the below options

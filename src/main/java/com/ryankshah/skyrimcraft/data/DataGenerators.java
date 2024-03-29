@@ -1,5 +1,7 @@
 package com.ryankshah.skyrimcraft.data;
 
+import com.google.gson.JsonElement;
+import com.mojang.serialization.JsonOps;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.data.advancement.SkyrimAdvancementProvider;
 import com.ryankshah.skyrimcraft.data.block.SkyrimcraftBlockStateProvider;
@@ -23,9 +25,11 @@ import com.ryankshah.skyrimcraft.quest.IQuest;
 import com.ryankshah.skyrimcraft.quest.Quest;
 import com.ryankshah.skyrimcraft.quest.provider.SkyrimQuestDataProvider;
 import net.minecraft.advancements.critereon.*;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
@@ -64,21 +68,6 @@ public class DataGenerators
             generator.addProvider(true, new SkyrimLootModifierProvider(output, Skyrimcraft.MODID));
             generator.addProvider(event.includeClient(), new SkyrimSoundsProvider(output, Skyrimcraft.MODID, existingFileHelper));
             generator.addProvider(event.includeServer(), new SkyrimcraftPoiTypeTagsProvider(output, event.getLookupProvider(), existingFileHelper));
-//            RegistryOps<JsonElement> registryOps = RegistryOps.create(JsonOps.INSTANCE, );
-//
-//            Map<ResourceLocation, IQuest> map = addQuests();
-//            );
-//
-//            JsonCodecProvider<Quest> provider = DataProvider.Factory.forDatapackRegistry(
-//                    generator,
-//                    existingFileHelper,
-//                    Skyrimcraft.MODID,
-//                    registryOps,
-//                    // The registry you want to generate in.
-//                    Registry.PLACED_FEATURE_REGISTRY,
-//                    // The elements to generate.
-//                    map
-//            );
 
             generator.addProvider(true, new SkyrimQuestDataProvider(Skyrimcraft.MODID, output, existingFileHelper, event.getLookupProvider()));
         } catch (RuntimeException e) {
