@@ -2,6 +2,7 @@ package com.ryankshah.skyrimcraft.data.world;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.init.BlockInit;
+import com.ryankshah.skyrimcraft.world.NbtFeature;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
@@ -42,6 +43,8 @@ public class SkyrimcraftConfiguredFeatures
     public static final ResourceKey<ConfiguredFeature<?, ?>> DESERT_PLANTS_KEY = registerKey("desert_plants");
     public static final ResourceKey<ConfiguredFeature<?, ?>> OYSTERS_KEY = registerKey("oysters");
     public static final ResourceKey<ConfiguredFeature<?, ?>> BIRDS_NEST_KEY = registerKey("birds_nest");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> TREES_KEY = registerKey("trees");
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
         RuleTest stoneReplaceable = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);

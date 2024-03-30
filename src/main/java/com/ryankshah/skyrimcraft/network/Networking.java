@@ -47,6 +47,7 @@ public class Networking
         registrar.play(UpdateExtraCharacter.ID, UpdateExtraCharacter::new, payload -> payload.server(UpdateExtraCharacter::handleServer).client(UpdateExtraCharacter::handleClient));
         registrar.play(UpdateLevelUpdates.ID, UpdateLevelUpdates::new, payload -> payload.server(UpdateLevelUpdates::handleServer).client(UpdateLevelUpdates::handleClient));
         registrar.play(UpdateStatIncreases.ID, UpdateStatIncreases::new, payload -> payload.server(UpdateStatIncreases::handleServer).client(UpdateStatIncreases::handleClient));
+        registrar.play(UpdateQuestManager.ID, UpdateQuestManager::new, payload -> payload.server(UpdateQuestManager::handleServer).client(UpdateQuestManager::handleClient));
 
         registrar.play(FinishAlchemyRecipe.ID, FinishAlchemyRecipe::new, payload -> payload.server(FinishAlchemyRecipe::handleServer));
         registrar.play(FinishOvenRecipe.ID, FinishOvenRecipe::new, payload -> payload.server(FinishOvenRecipe::handleServer));

@@ -20,11 +20,15 @@ public class PlayerAttachments
             "level_updates", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).copyOnDeath().build());
     public static final Supplier<AttachmentType<StatIncreases>> STAT_INCREASES = ATTACHMENT_TYPES.register(
             "stat_increases", () -> AttachmentType.builder(StatIncreases::new).serialize(StatIncreases.CODEC).copyOnDeath().build());
+    public static final Supplier<AttachmentType<QuestManager>> QUEST_MANAGER = ATTACHMENT_TYPES.register(
+            "quest_manager", () -> AttachmentType.builder(QuestManager::new).serialize(QuestManager.CODEC).copyOnDeath().build());
 
 
     public static void registerSyncEvents() {
         Character.register();
+        ExtraCharacter.register();
         LevelUpdates.register();
         StatIncreases.register();
+        QuestManager.register();
     }
 }

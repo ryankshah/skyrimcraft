@@ -40,6 +40,8 @@ public class SkyrimcraftEntityLootProvider extends EntityLootSubProvider
         this.add(EntityInit.DRAGON.get(), LootTable.lootTable());
         this.add(EntityInit.DWARVEN_SPIDER.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(ItemInit.DWARVEN_METAL_INGOT.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 1.0F))).apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F))))));
 
+        this.add(EntityInit.SKEEVER.get(), LootTable.lootTable()); //LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(ItemInit.CHARRED_SKEEVER_HIDE.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))).apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F))))));
+
         this.add(EntityInit.KHAJIIT.get(), LootTable.lootTable());
 
         LootPool.Builder falmerPool = LootPool.lootPool()

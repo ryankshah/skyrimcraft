@@ -20,6 +20,7 @@ import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.entity.boss.dragon.SkyrimDragon;
 import com.ryankshah.skyrimcraft.entity.creature.*;
 import com.ryankshah.skyrimcraft.entity.creature.model.DraugrModel;
+import com.ryankshah.skyrimcraft.entity.creature.model.SkeeverModel;
 import com.ryankshah.skyrimcraft.entity.npc.Falmer;
 import com.ryankshah.skyrimcraft.entity.npc.Khajiit;
 import com.ryankshah.skyrimcraft.entity.npc.model.FalmerModel;
@@ -141,6 +142,8 @@ public class Skyrimcraft
         PlayerAttachments.ATTACHMENT_TYPES.register(bus);
         PlayerAttachments.registerSyncEvents();
 
+        FeatureInit.FEATURES.register(bus);
+
         StructureInit.STRUCTURES.register(bus);
 
         ItemInit.ITEMS.register(bus);
@@ -193,6 +196,7 @@ public class Skyrimcraft
         event.put(EntityInit.KHAJIIT.get(), Khajiit.createMobAttributes().build());
         event.put(EntityInit.FALMER.get(), Falmer.createMobAttributes().build());
         event.put(EntityInit.DRAUGR.get(), Draugr.createAttributes().build());
+        event.put(EntityInit.SKEEVER.get(), Skeever.createAttributes().build());
 
         event.put(EntityInit.ABECEAN_LONGFIN.get(), AbeceanLongfin.createAttributes().build());
         event.put(EntityInit.CYRODILIC_SPADETAIL.get(), AbeceanLongfin.createAttributes().build());
@@ -212,6 +216,7 @@ public class Skyrimcraft
         event.registerLayerDefinition(KhajiitTailModel.LAYER_LOCATION, KhajiitTailModel::createBodyLayer);
 
         //Mobs
+        event.registerLayerDefinition(SkeeverModel.LAYER_LOCATION, SkeeverModel::createBodyLayer);
         event.registerLayerDefinition(KhajiitModel.LAYER_LOCATION, KhajiitModel::createBodyLayer);
         event.registerLayerDefinition(KhajiitModel.OUTER_ARMOR_LAYER_LOCATION, () -> outerArmor);
         event.registerLayerDefinition(KhajiitModel.INNER_ARMOR_LAYER_LOCATION, () -> innerArmor);

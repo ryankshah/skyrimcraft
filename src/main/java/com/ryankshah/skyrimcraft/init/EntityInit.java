@@ -127,6 +127,10 @@ public class EntityInit
             () -> EntityType.Builder.of(Draugr::new, MobCategory.MONSTER)
                     .sized(1.0f, 2.0f) // Hitbox Size
                     .build(new ResourceLocation(Skyrimcraft.MODID, "draugr").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<Skeever>> SKEEVER = ENTITY_TYPES.register("skeever",
+            () -> EntityType.Builder.of(Skeever::new, MobCategory.MONSTER)
+                    .sized(1.0f, 1.0f) // Hitbox Size
+                    .build(new ResourceLocation(Skyrimcraft.MODID, "skeever").toString()));
 
     public static final DeferredHolder<EntityType<?>, EntityType<AbeceanLongfin>> ABECEAN_LONGFIN = ENTITY_TYPES.register("abecean_longfin",
             () -> EntityType.Builder.of(AbeceanLongfin::new, MobCategory.WATER_CREATURE)
@@ -174,6 +178,8 @@ public class EntityInit
         event.registerEntityRenderer(KHAJIIT.get(), KhajiitRenderer::new);
         event.registerEntityRenderer(FALMER.get(), FalmerRenderer::new);
 
+        event.registerEntityRenderer(SKEEVER.get(), SkeeverRenderer::new);
+
         event.registerEntityRenderer(ABECEAN_LONGFIN.get(), AbeceanLongfinRenderer::new);
         event.registerEntityRenderer(CYRODILIC_SPADETAIL.get(), CyrodilicSpadetailRenderer::new);
     }
@@ -188,7 +194,6 @@ public class EntityInit
         event.register(MONARCH_BUTTERFLY.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(ORANGE_DARTWING.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(LUNAR_MOTH.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
-
     }
 
 }

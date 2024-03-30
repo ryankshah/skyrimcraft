@@ -34,6 +34,9 @@ public class SkyrimcraftPlacedFeatures
     public static final ResourceKey<PlacedFeature> OYSTERS_PLACED_KEY = registerKey("oysters_placed");
     public static final ResourceKey<PlacedFeature> BIRDS_NEST_PLACED_KEY = registerKey("birds_nest_placed");
 
+
+    public static final ResourceKey<PlacedFeature> TREES_PLACED_KEY = registerKey("trees_placed");
+
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
