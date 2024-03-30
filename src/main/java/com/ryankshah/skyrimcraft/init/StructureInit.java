@@ -34,6 +34,7 @@ public class StructureInit
     public static final DeferredHolder<StructureType<?>, StructureType<WatchtowerStructures>> WATCHTOWER = STRUCTURES.register("watchtower", () -> explicitStructureTypeTyping(WatchtowerStructures.CODEC));
     public static final DeferredHolder<StructureType<?>, StructureType<RuinsStructures>> RUINS = STRUCTURES.register("ruins", () -> explicitStructureTypeTyping(RuinsStructures.CODEC));
     public static final DeferredHolder<StructureType<?>, StructureType<MonumentStructures>> MONUMENTS = STRUCTURES.register("monuments", () -> explicitStructureTypeTyping(MonumentStructures.CODEC));
+    public static final DeferredHolder<StructureType<?>, StructureType<AltarStructures>> ALTAR = STRUCTURES.register("altars", () -> explicitStructureTypeTyping(AltarStructures.CODEC));
 
     /**
      * Originally, I had a double lambda ()->()-> for the RegistryObject line above, but it turns out that

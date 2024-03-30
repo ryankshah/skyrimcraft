@@ -4,6 +4,7 @@ import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.init.ItemInit;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -359,6 +360,72 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
         );
 
         pOutput.accept(new ResourceLocation(Skyrimcraft.MODID, "chests/skyrim_dungeon"), dungeonTable);
+
+
+        LootTable.Builder altarTable = LootTable.lootTable().withPool(LootPool.lootPool()
+                .name("skyrim_altar_table")
+                .setRolls(UniformGenerator.between(1.0F, 3.0F))
+                .add(LootItem.lootTableItem(Items.CANDLE)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1F, 3.0F)))
+                )
+                .add(LootItem.lootTableItem(Items.BLACK_CANDLE)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1F, 3.0F)))
+                )
+                .add(LootItem.lootTableItem(Items.REDSTONE)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(4F, 6.0F)))
+                )
+                .add(LootItem.lootTableItem(Items.CHAIN)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(2F, 6.0F)))
+                )
+                .add(LootItem.lootTableItem(Items.EMERALD)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1F, 4.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.SWEET_ROLL)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.5F, 1.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.GARLIC)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.5F, 2.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.HIDE_BOOTS.get())
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.5F, 3.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.HIDE_CHESTPLATE.get())
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.5F, 1.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.HIDE_HELMET.get())
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.5F, 1.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.HIDE_LEGGINGS.get())
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.5F, 1.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.HUNTING_BOW.get())
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.5F, 1.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.LONGBOW.get())
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.5F, 1.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.ANCIENT_NORD_HELMET.get())
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.5F, 1.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.ANCIENT_NORD_LEGGINGS.get())
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.5F, 1.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.ANCIENT_NORD_SWORD.get())
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.5F, 1.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.ANCIENT_NORD_WAR_AXE.get())
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.5F, 1.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.PHILTER_OF_THE_PHANTOM_POTION.get())
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.5F, 1.0F)))
+                )
+                .add(LootItem.lootTableItem(ItemInit.FLAWED_EMERALD)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
+                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                )
+        );
+
+        pOutput.accept(new ResourceLocation(Skyrimcraft.MODID, "chests/altar"), altarTable);
 
         pOutput.accept(
                 new ResourceLocation(Skyrimcraft.MODID, "goat"),

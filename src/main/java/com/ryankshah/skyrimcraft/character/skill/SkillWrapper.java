@@ -23,6 +23,7 @@ public class SkillWrapper
     ).apply(skill, SkillWrapper::new));
 
     protected Skill skill;
+    protected List<Skill.Perk> perks;
     private int identifier;
     protected int level, totalXp, skillUseOffset, skillImproveOffset;
     protected float xpProgress, skillUseMultiplier, skillImproveMultiplier;
@@ -37,6 +38,7 @@ public class SkillWrapper
         this.skillUseOffset = useOffset;
         this.skillImproveMultiplier = improveMultiplier;
         this.skillImproveOffset = improveOffset;
+        this.perks = skill.getSkillPerks();
     }
 
     public SkillWrapper(Skill skill) {
@@ -48,6 +50,14 @@ public class SkillWrapper
 
     public Skill getSkill() {
         return skill;
+    }
+
+    public List<Skill.Perk> getPerks() {
+        return perks;
+    }
+
+    public boolean isUnlocked(Skill.Perk perk) {
+        return perks.stream().filter( p -> p.equals(perk)).anyMatch(Skill.Perk::isUnlocked);
     }
 
     public int getID() {

@@ -1,10 +1,9 @@
 {
   "replace": false,
   "values": [
-    "minecraft:snowy_slopes",
-    "minecraft:grove",
     "minecraft:windswept_hills",
     "minecraft:old_growth_spruce_taiga",
-    "minecraft:old_growth_pine_taiga"
+    "minecraft:old_growth_pine_taiga",
+    "minecraft:forest"
   ]
 }

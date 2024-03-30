@@ -22,18 +22,25 @@ import net.neoforged.neoforge.network.PacketDistributor;
 public class ExtraCharacter
 {
     public static Codec<ExtraCharacter> CODEC = RecordCodecBuilder.create(characterInstance -> characterInstance.group(
-            Codec.INT.fieldOf("dragonSouls").forGetter(ExtraCharacter::getDragonSouls)
+            Codec.INT.fieldOf("dragonSouls").forGetter(ExtraCharacter::getDragonSouls),
+            Codec.BOOL.fieldOf("isVampireAfflicted").forGetter(ExtraCharacter::isVampireAfflicted),
+            Codec.BOOL.fieldOf("isVampire").forGetter(ExtraCharacter::isVampire)
     ).apply(characterInstance, ExtraCharacter::new));
 
     protected int dragonSouls;
+    protected boolean isVampireAfflicted, isVampire;
 
-    public ExtraCharacter(int dragonSouls) {
+    public ExtraCharacter(int dragonSouls, boolean isVampireAfflicted, boolean isVampire) {
         this.dragonSouls = dragonSouls;
+        this.isVampireAfflicted = isVampireAfflicted;
+        this.isVampire = isVampire;
     }
 
     public ExtraCharacter() {
         this(
-                0
+                0,
+                false,
+                false
         );
     }
 
@@ -48,6 +55,22 @@ public class ExtraCharacter
     }
     public void removeDragonSoul() {
         this.dragonSouls--;
+    }
+
+    public boolean isVampireAfflicted() {
+        return this.isVampireAfflicted;
+    }
+
+    public void setVampireAfflicted() {
+        this.isVampireAfflicted = true;
+    }
+
+    public boolean isVampire() {
+        return this.isVampire;
+    }
+
+    public void setVampire() {
+        this.isVampire = true;
     }
 
     public static ExtraCharacter get(Player player) {

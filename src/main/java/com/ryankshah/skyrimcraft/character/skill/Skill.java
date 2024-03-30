@@ -150,11 +150,13 @@ public abstract class Skill
         protected String name;
         protected int levelRequirement;
         protected Perk[] parents;
+        protected boolean unlocked;
 
-        public Perk(String name, int levelRequirement, Perk[] parents) {
+        public Perk(String name, int levelRequirement, Perk[] parents, boolean unlocked) {
             this.name = name;
             this.levelRequirement = levelRequirement;
             this.parents = parents;
+            this.unlocked = unlocked;
         }
 
         public String getName() {
@@ -167,6 +169,14 @@ public abstract class Skill
 
         public Perk[] getParents() {
             return this.parents;
+        }
+
+        public boolean isUnlocked() {
+            return unlocked;
+        }
+
+        public void unlock() {
+            this.unlocked = true;
         }
     }
 
