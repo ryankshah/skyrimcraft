@@ -29,8 +29,8 @@ public class SpellHealing extends Spell
     }
 
     @Override
-    public boolean isContinuousCast() {
-        return true;
+    public CastReference getCastReference() {
+        return CastReference.HOLD;
     }
 
     @Override

@@ -108,7 +108,7 @@ public class PlayerEvents
             }
 
             if (!playerEntity.hasEffect(ModEffects.MAGICKA_REGEN.get()))
-                playerEntity.getAttribute(AttributeInit.MAGICKA_REGEN.value()).removeModifiers();
+                playerEntity.getAttribute(AttributeInit.MAGICKA_REGEN.get()).removeModifiers();
 
             if (character.getMagicka() < character.getMaxMagicka()) {
                 if (playerEntity.tickCount % 20 == 0) {
@@ -170,7 +170,7 @@ public class PlayerEvents
     }
 
     private static BlockPos locateFeatureStartChunkFromPlayerBlockPos(ServerLevel world, BlockPos pos, TagKey<Structure> feature) {
-        // use 2 since based on min spacing, or we can use 7 in case user makes village spacing at every chunk
+        // use 2 since based on min spacing, or we can use 7 in case user makes village.json spacing at every chunk
         BlockPos blockpos1 = world.findNearestMapStructure(feature, pos, 2, true);
         if (blockpos1 != null) {
             return blockpos1;

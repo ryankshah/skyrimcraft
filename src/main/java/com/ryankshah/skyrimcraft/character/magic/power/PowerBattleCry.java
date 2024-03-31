@@ -71,8 +71,8 @@ public class PowerBattleCry extends Spell
     }
 
     @Override
-    public boolean isContinuousCast() {
-        return false;
+    public CastReference getCastReference() {
+        return CastReference.CHARGE;
     }
 
     @Override

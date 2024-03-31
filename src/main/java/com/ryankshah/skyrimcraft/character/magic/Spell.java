@@ -150,7 +150,7 @@ public abstract class Spell
     }
 
     public float getChargeTime() {
-        return getStageChargeTime() * getNumStages();
+        return getCastReference() == CastReference.CHARGE ? getStageChargeTime() * getNumStages() : 0f;
     }
 
     public int getNumStages() {
@@ -162,8 +162,8 @@ public abstract class Spell
      * - For example, the spell may drain mana while the key is held down
      * @return is continuous?
      */
-    public boolean isContinuousCast() {
-        return false;
+    public CastReference getCastReference() {
+        return CastReference.INSTANT;
     }
 
     /**
@@ -184,6 +184,9 @@ public abstract class Spell
             return CastResult.UNDERWATER;
 
         Character character = Character.get(getCaster());
+
+//        if(getCastReference() == CastReference.CHARGE) // TODO: Implement check for charging reference etc.
+
         if(getType() == SpellType.SHOUT) {
             return character.getSpellCooldown(this) <= 0f ? CastResult.SUCCESS : CastResult.COOLDOWN;
         } else {
@@ -251,6 +254,26 @@ public abstract class Spell
             caster.getCommandSenderWorld().playSound(null, caster.getX(), caster.getY(), caster.getZ(), getSound(), SoundSource.PLAYERS, 1f, 1f);
     }
 
+    public enum CastReference {
+        INSTANT(0),
+        HOLD(1),
+        CHARGE(2);
+
+        private final int value;
+
+        CastReference(final int newValue) {
+            value = newValue;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public boolean requiresHold() {
+            return this == HOLD;
+        }
+    }
+
     public enum SpellType {
         ALL(-1, "ALL"),
         ALTERATION(0, "ALTERATION"),
@@ -303,7 +326,8 @@ public abstract class Spell
         COOLDOWN(1),
         MAGICKA(2),
         FAIL(3),
-        UNDERWATER(4);
+        UNDERWATER(4),
+        CHARGING(5);
 
         private int id;
 

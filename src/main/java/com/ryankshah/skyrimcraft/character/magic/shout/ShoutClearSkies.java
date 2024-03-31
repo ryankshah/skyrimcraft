@@ -48,7 +48,7 @@ public class ShoutClearSkies extends Spell //implements IForgeRegistryEntry<ISpe
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/fireball.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/clear_skies.png");
     }
 
     @Override

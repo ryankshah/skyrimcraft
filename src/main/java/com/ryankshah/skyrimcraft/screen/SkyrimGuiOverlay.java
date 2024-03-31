@@ -320,7 +320,7 @@ public class SkyrimGuiOverlay
 
             poseStack.pushPose();
             RenderUtil.bind(OVERLAY_ICONS);
-            if(!(selectedSpell1 instanceof EmptySpell) && selectedSpell2 instanceof EmptySpell) {
+            if(!(selectedSpell1 instanceof EmptySpell) && (selectedSpell2 instanceof EmptySpell || selectedSpell2 == null)) {
                 RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2), 234, 83, SLOT_WIDTH, SLOT_HEIGHT, 256, 256, 4, 1);
                 poseStack.pushPose();
                 RenderUtil.bind(selectedSpell1.getIcon());
@@ -332,25 +332,24 @@ public class SkyrimGuiOverlay
                         RenderUtil.bind(OVERLAY_ICONS);
                         float maxCooldown = selectedSpell1.getCooldown();
                         float offset = -1 * Mth.floor(cooldown/maxCooldown * 8);
-                        System.out.println(offset + "  :  " + 118+(16*offset));
                         RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3, 230 + (16 * offset), 148, ICON_WIDTH, ICON_HEIGHT, 256, 256, 6, 1);
                         poseStack.popPose();
                     }
                 }
                 poseStack.popPose();
-            } else if(selectedSpell1 instanceof EmptySpell && !(selectedSpell2 instanceof EmptySpell)) {
-                RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH, (scaledHeight / 2) + (DOUBLE_SLOT_HEIGHT / 2), 234, 83, SLOT_WIDTH, SLOT_HEIGHT, 256, 256, 4, 1);
+            } else if((selectedSpell1 instanceof EmptySpell || selectedSpell1 == null) && !(selectedSpell2 instanceof EmptySpell)) {
+                RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 20, 234, 83, SLOT_WIDTH, SLOT_HEIGHT, 256, 256, 4, 1);
                 poseStack.pushPose();
                 RenderUtil.bind(selectedSpell2.getIcon());
-                RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3, 0, 0, 16, 16, 16, 16, 5, 1);
+                RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3 + 20, 0, 0, 16, 16, 16, 16, 5, 1);
                 if(spellCooldowns.containsKey(selectedSpell2)) {
                     float cooldown = spellCooldowns.get(selectedSpell2);
                     if (cooldown > 0) {
                         poseStack.pushPose();
                         RenderUtil.bind(OVERLAY_ICONS);
                         float maxCooldown = selectedSpell2.getCooldown();
-                        float offset = Mth.floor(1.0f - (cooldown/maxCooldown)) * 8f;
-                        RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3, 118 + (16 * offset), 148, ICON_WIDTH, ICON_HEIGHT, 256, 256, 6, 1);
+                        float offset = -1 * Mth.floor(cooldown/maxCooldown * 8);
+                        RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3 + 20, 230 + (16 * offset), 148, ICON_WIDTH, ICON_HEIGHT, 256, 256, 6, 1);
                         poseStack.popPose();
                     }
                 }
@@ -367,8 +366,8 @@ public class SkyrimGuiOverlay
                         poseStack.pushPose();
                         RenderUtil.bind(OVERLAY_ICONS);
                         float maxCooldown = selectedSpell1.getCooldown();
-                        float offset = Mth.floor(1.0f - (cooldown/maxCooldown)) * 8f;
-                        RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3, 118 + (16 * offset), 148, ICON_WIDTH, ICON_HEIGHT, 256, 256, 6, 1);
+                        float offset = -1 * Mth.floor(cooldown/maxCooldown * 8);
+                        RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3, 230 + (16 * offset), 148, ICON_WIDTH, ICON_HEIGHT, 256, 256, 6, 1);
                         poseStack.popPose();
                     }
                 }
@@ -383,8 +382,8 @@ public class SkyrimGuiOverlay
                         poseStack.pushPose();
                         RenderUtil.bind(OVERLAY_ICONS);
                         float maxCooldown = selectedSpell2.getCooldown();
-                        float offset = Mth.floor(1.0f - (cooldown/maxCooldown)) * 8f;
-                        RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3, 118 + (16 * offset), 148, ICON_WIDTH, ICON_HEIGHT, 256, 256, 6, 1);
+                        float offset = -1 * Mth.floor(cooldown/maxCooldown * 8);
+                        RenderUtil.blitWithBlend(poseStack, scaledWidth - SLOT_WIDTH + 3, (scaledHeight / 2) - (DOUBLE_SLOT_HEIGHT / 2) + 3 + 20, 230 + (16 * offset), 148, ICON_WIDTH, ICON_HEIGHT, 256, 256, 6, 1);
                         poseStack.popPose();
                     }
                 }

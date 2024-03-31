@@ -104,6 +104,31 @@ public class CharacterCreationScreen extends Screen
         }
     }
 
+    //TODO: Check this
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if(scrollY > 0) {
+            if (this.currentRace > 0)
+                --this.currentRace;
+            else
+                this.currentRace = 0;
+
+            currentRaceObject = races.get(currentRace);
+            final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId(), false);
+            PacketDistributor.SERVER.noArg().send(createCharacter);
+        } else if(scrollY < 0) {
+            if (this.currentRace < this.races.size() - 1)
+                ++this.currentRace;
+            else
+                this.currentRace = this.races.size() - 1;
+
+            currentRaceObject = races.get(currentRace);
+            final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId(), false);
+            PacketDistributor.SERVER.noArg().send(createCharacter);
+        }
+        return true;
+    }
+
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (KeyEvents.SKYRIM_MENU_SOUTH.get().isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {

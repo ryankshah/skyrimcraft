@@ -32,7 +32,7 @@ public class MagicScreen extends Screen
     private static final int PADDING = 7;
 
     private Map<Spell.SpellType, ArrayList<Spell>> spellsAndTypes;
-    private List<Object> spellTypes;
+    private List<Spell.SpellType> spellTypes;
     private List<Spell> spellsListForCurrentSpellType;
     private boolean spellTypeChosen;
     private int currentSpellType;
@@ -66,10 +66,11 @@ public class MagicScreen extends Screen
 
         this.currentSpellType = 0;
         this.currentSpell = 0;
-        this.currentSpellObject = null;
-        this.currentSpellTypeObject = null;
-        this.spellTypes = Arrays.asList(spellsAndTypes.keySet().toArray());
-        this.spellsListForCurrentSpellType = new ArrayList<>();
+//        this.currentSpellObject = null;
+        this.spellTypes = new ArrayList<>(spellsAndTypes.keySet().stream().toList());
+        this.currentSpellTypeObject = spellTypes.get(currentSpellType); // null;
+        this.spellsListForCurrentSpellType = spellsAndTypes.get(currentSpellTypeObject); //new ArrayList<>();
+        this.currentSpellObject = spellsListForCurrentSpellType.get(currentSpell);
         this.currentTick = 0;
         this.lastTick = 0;
         this.currentSpellFrame = 0;
@@ -125,7 +126,7 @@ public class MagicScreen extends Screen
 
         int i;
         for(i = 0; i < spellTypes.size(); i++) {
-            int y = this.height / 2 + 14 * i - this.currentSpellType * 7;
+            int y = this.height / 2 + 14 * i - this.currentSpellType * font.lineHeight;
             if(y <= MIN_Y || y >= MAX_Y)
                 continue;
             String spellTypeName = spellTypes.get(i).toString();
@@ -163,14 +164,14 @@ public class MagicScreen extends Screen
                 poseStack.popPose();
             }
 
-            int y = this.height / 2 + 14 * j - this.currentSpell * 7;
+            int y = this.height / 2 + 14 * j - this.currentSpell * font.lineHeight;
             if(y <= MIN_Y || y >= MAX_Y)
                 continue;
 
             if (displayName.length() >= 12)
                 displayName = displayName.substring(0, 10) + "..";
 
-            graphics.drawString(font, displayName, this.width - 183, this.height / 2 + 14 * j - this.currentSpell * 7, color.get());
+            graphics.drawString(font, displayName, this.width - 183, y, color.get());
         }
 
         poseStack.popPose();
@@ -192,24 +193,24 @@ public class MagicScreen extends Screen
 
 
     private void drawSpellInformation(GuiGraphics graphics, PoseStack matrixStack, Spell spell, int width, int height, float partialTicks) {
-        drawGradientRect(graphics, matrixStack, 40, (height) / 2 - 20, 200, (height) / 2 + 60, 0xAA000000, 0xAA000000, 0xFF6E6B64);
-        graphics.fillGradient(50, (this.height) / 2, 190, (this.height) / 2 + 1, 0xFF6E6B64, 0xFF6E6B64); // Line under spell name
+        drawGradientRect(graphics, matrixStack, 30, (height) / 2 - 20, 190, (height) / 2 + 60, 0xAA000000, 0xAA000000, 0xFF6E6B64);
+        graphics.fillGradient(40, (this.height) / 2, 180, (this.height) / 2 + 1, 0xFF6E6B64, 0xFF6E6B64); // Line under spell name
 
-        graphics.drawCenteredString(font, spell.getName(), 120, (this.height) / 2 - 10, 0x00FFFFFF); // Spell name
+        graphics.drawCenteredString(font, spell.getName(), 110, (this.height) / 2 - 10, 0x00FFFFFF); // Spell name
         for(int i = 1; i < spell.getDescription().size()+1; i++)
-            graphics.drawCenteredString(font, spell.getDescription().get(i-1), 120, (this.height) / 2 + (8 * i), 0x00FFFFFF); // Spell description
+            graphics.drawCenteredString(font, spell.getDescription().get(i-1), 110, (this.height) / 2 + (8 * i), 0x00FFFFFF); // Spell description
 
         if(spell.getType() != Spell.SpellType.SHOUT) {
-            graphics.drawString(font, "Cost: " + (int) spell.getCost(), 50, (this.height) / 2 + 34, 0x00FFFFFF);
-            graphics.drawString(font, "Difficulty: " + StringUtils.capitalize(StringUtils.lowerCase(spell.getDifficulty().toString())), 50, (this.height) / 2 + 44, 0x00FFFFFF);
+            graphics.drawString(font, "Cost: " + (int) spell.getCost(), 40, (this.height) / 2 + 34, 0x00FFFFFF);
+            graphics.drawString(font, "Difficulty: " + StringUtils.capitalize(StringUtils.lowerCase(spell.getDifficulty().toString())), 40, (this.height) / 2 + 44, 0x00FFFFFF);
         } else
-            graphics.drawString(font, "Cooldown: " + (int)spell.getCooldown(), 50, (this.height) / 2 + 40, 0x00FFFFFF);
+            graphics.drawString(font, "Cooldown: " + (int)spell.getCooldown(), 40, (this.height) / 2 + 40, 0x00FFFFFF);
 
         matrixStack.pushPose();
         RenderUtil.bind(spell.getDisplayAnimation());
         currentSpellFrame = (int)(lastTick + (currentTick - lastTick) * partialTicks) / 64;
         int uOffset = 64 * (currentSpellFrame % 4), vOffset = 0;
-        RenderUtil.blitWithBlend(matrixStack, 88, (this.height / 2) - 94, uOffset, vOffset, 64, 64, 256, 64, 1, 1);
+        RenderUtil.blitWithBlend(matrixStack, 78, (this.height / 2) - 94, uOffset, vOffset, 64, 64, 256, 64, 1, 1);
         matrixStack.popPose();
     }
 
@@ -240,27 +241,27 @@ public class MagicScreen extends Screen
         super.tick();
     }
 
-//    @Override
-//    public boolean mouseScrolled(double mouseX, double mouseY, double scrollDelta) {
-//        if(scrollDelta > 0) {
-//            if (!this.spellTypeChosen) {
-//                if (this.currentSpellType < this.spellTypes.size() - 1)
-//                    ++this.currentSpellType;
-//            } else {
-//                if (this.currentSpell < this.spellsListForCurrentSpellType.size() - 1)
-//                    ++this.currentSpell;
-//            }
-//        } else if(scrollDelta < 0) {
-//            if (!this.spellTypeChosen) {
-//                if(this.currentSpellType > 0)
-//                    --this.currentSpellType;
-//            } else {
-//                if (this.currentSpell > 0)
-//                    --this.currentSpell;
-//            }
-//        }
-//        return true;
-//    }
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if(scrollY < 0) {
+            if (!this.spellTypeChosen) {
+                if (this.currentSpellType < this.spellTypes.size() - 1)
+                    ++this.currentSpellType;
+            } else {
+                if (this.currentSpell < this.spellsListForCurrentSpellType.size() - 1)
+                    ++this.currentSpell;
+            }
+        } else if(scrollY > 0) {
+            if (!this.spellTypeChosen) {
+                if(this.currentSpellType > 0)
+                    --this.currentSpellType;
+            } else {
+                if (this.currentSpell > 0)
+                    --this.currentSpell;
+            }
+        }
+        return true;
+    }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {

@@ -26,7 +26,7 @@ public class SkillBook extends Item
     private final Supplier<Skill> skill;
 
     public SkillBook(Properties properties, Supplier<Skill> skill) {
-        super(properties);
+        super(properties.stacksTo(1));
         this.skill = skill;
     }
 

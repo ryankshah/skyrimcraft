@@ -53,7 +53,7 @@ public class ShoutStormCall extends Spell { // implements IForgeRegistryEntry<IS
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/fireball.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/storm_call.png");
     }
 
     @Override

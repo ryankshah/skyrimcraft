@@ -30,6 +30,7 @@ public class SkyrimcraftLanguageProvider extends LanguageProvider
         add("spellbook.known", "You already know this spell!");
 
         add("skillbook.tooltip", "Improves %s by one level");
+        add("skillbook.learn", "You have just learnt how to improve %s!");
         add("skillbook.fail", "Something has gone wrong with this Skill Book");
 
         // Shout block
@@ -38,7 +39,7 @@ public class SkyrimcraftLanguageProvider extends LanguageProvider
         add("skyrimcraft.shoutblock.used", "The power which once resonated within this wall has since departed...");
 
         // Info
-        add("spell.noselect", "No spell/shout selected");
+        add("skyrimcraft.spell.noselect", "No spell/shout selected");
         add("skyrimcraft.menu.skills", "Skills");
         add("skyrimcraft.menu.map", "Map");
         add("skyrimcraft.menu.quests", "Quests");
@@ -57,6 +58,7 @@ public class SkyrimcraftLanguageProvider extends LanguageProvider
         add("entity.minecraft.villager.skyrimcraft.alchemist", "Alchemist");
         add("entity.minecraft.villager.skyrimcraft.cook", "Food Merchant");
         add("entity.skyrimcraft.sabre_cat", "Sabre Cat");
+        add("entity.skyrimcraft.skeever", "Skeever");
         add("entity.skyrimcraft.snowy_sabre_cat", "Snowy Sabre Cat");
         add("entity.skyrimcraft.giant", "Giant");
         add("entity.skyrimcraft.mammoth", "Mammoth");

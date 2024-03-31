@@ -85,8 +85,8 @@ public class PowerHighborn extends Spell
     }
 
     @Override
-    public boolean isContinuousCast() {
-        return false;
+    public CastReference getCastReference() {
+        return CastReference.CHARGE;
     }
 
     @Override

@@ -32,9 +32,9 @@ public record CastSpell(ResourceKey<Spell> spell) implements CustomPacketPayload
     public static void handle(final CastSpell data, final PlayPayloadContext context) {
         Player player = context.player().orElseThrow();
 
-        if (player instanceof ServerPlayer) {
+        if (player instanceof ServerPlayer serverPlayer) {
             Spell spellInstance = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
-            spellInstance.setCaster(player);
+            spellInstance.setCaster(serverPlayer);
             spellInstance.cast();
         }
     }

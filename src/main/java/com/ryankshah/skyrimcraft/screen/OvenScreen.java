@@ -103,12 +103,16 @@ public class OvenScreen extends Screen
             Object[] categories = this.getCategories(this.items);
 
             for(int i = 0; i < categories.length; i++) {
+                int y = this.height / 2 + 14 * i - this.currentCategory * font.lineHeight;
+                if(y <= MIN_Y || y >= MAX_Y)
+                    continue;
+
                 String categoryName = ((String)categories[i]).toUpperCase();
 
                 if (categoryName.length() >= 10)
                     categoryName = categoryName.substring(0, 8) + "..";
 
-                graphics.drawString(font, categoryName, 18, height / 2 + (i * 14) - this.currentCategory * font.lineHeight, i == currentCategory ? 16777215 : 12632256);
+                graphics.drawString(font, categoryName, 18, y, i == currentCategory ? 16777215 : 12632256);
             }
 
             if (this.itemList != null) {
@@ -121,15 +125,15 @@ public class OvenScreen extends Screen
                         this.drawItemInformation(graphics, recipe);
                     }
 
-//                    int y = this.height / 2 + 14 * i - this.currentItem * 6;
-//                    if(y <= MIN_Y || y >= MAX_Y)
-//                        continue;
+                    int y = this.height / 2 + 14 * i - this.currentItem * font.lineHeight;
+                    if(y <= MIN_Y || y >= MAX_Y)
+                        continue;
 
                     String name = recipe.getResult().getHoverName().getString();
                     if (name.length() >= 16)
                         name = name.substring(0, 14) + "..";
 
-                    graphics.drawString(font, name, 98, height / 2 + (i * 14) - this.currentItem * font.lineHeight, i == currentItem ? 16777215 : 12632256);
+                    graphics.drawString(font, name, 98, y, i == currentItem ? 16777215 : 12632256);
                 }
             }
         }
@@ -155,33 +159,33 @@ public class OvenScreen extends Screen
             ++this.spin;
     }
 
-//    @Override
-//    public boolean mouseScrolled(double mouseX, double mouseY, double scrollDelta) {
-//        if(scrollDelta > 0) {
-//            if (!this.categoryChosen) {
-//                if (this.currentCategory < this.categories.length - 1)
-//                    ++this.currentCategory;
-//
-//                this.itemList.clear();
-//                this.itemList.addAll(this.items.get((String)this.categories[this.currentCategory]));
-//            } else {
-//                if (this.currentItem < this.itemList.size() - 1)
-//                    ++this.currentItem;
-//            }
-//        } else if(scrollDelta < 0) {
-//            if (!this.categoryChosen) {
-//                if(this.currentCategory > 0)
-//                    --this.currentCategory;
-//
-//                this.itemList.clear();
-//                this.itemList.addAll(this.items.get((String)this.categories[this.currentCategory]));
-//            } else {
-//                if (this.currentItem > 0)
-//                    --this.currentItem;
-//            }
-//        }
-//        return true;
-//    }
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if(scrollY < 0) {
+            if (!this.categoryChosen) {
+                if (this.currentCategory < this.categories.length - 1)
+                    ++this.currentCategory;
+
+                this.itemList.clear();
+                this.itemList.addAll(this.items.get((String)this.categories[this.currentCategory]));
+            } else {
+                if (this.currentItem < this.itemList.size() - 1)
+                    ++this.currentItem;
+            }
+        } else if(scrollY > 0) {
+            if (!this.categoryChosen) {
+                if(this.currentCategory > 0)
+                    --this.currentCategory;
+
+                this.itemList.clear();
+                this.itemList.addAll(this.items.get((String)this.categories[this.currentCategory]));
+            } else {
+                if (this.currentItem > 0)
+                    --this.currentItem;
+            }
+        }
+        return true;
+    }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {

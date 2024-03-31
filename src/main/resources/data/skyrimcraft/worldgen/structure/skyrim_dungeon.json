@@ -7,10 +7,10 @@
 
   // This is how many pieces away from the starting piece a piece of the structure can spawn
   // Think of it like the length of the branch of the structure
-  "size": 8,
+  "size": 20,
 
   // Maximum distance away from center that pieces can spawn. Cannot be greater than 128
-  "max_distance_from_center": 80,
+  "max_distance_from_center": 96,
 
   // The biome tag to use for what biomes that this structure can spawn in"
   "biomes": "#skyrimcraft:has_structure/skyrim_dungeon_biomes",
@@ -51,13 +51,13 @@
       "spawns": [
         {
           "type": "skyrimcraft:draugr",
-          "weight": 2,
+          "weight": 20,
           "minCount": 2,
           "maxCount": 4
         },
         {
           "type": "skyrimcraft:dwarven_spider",
-          "weight": 2,
+          "weight": 10,
           "minCount": 1,
           "maxCount": 3
         }

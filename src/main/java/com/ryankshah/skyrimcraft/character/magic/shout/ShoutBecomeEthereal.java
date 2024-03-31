@@ -48,7 +48,7 @@ public class ShoutBecomeEthereal extends Spell { // implements IForgeRegistryEnt
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/fireball.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/become_ethereal.png");
     }
 
     @Override

@@ -25,7 +25,7 @@ public class SpellBook extends Item
     private final Supplier<Spell> spell;
 
     public SpellBook(Properties properties, Supplier<Spell> spell) {
-        super(properties);
+        super(properties.stacksTo(1));
         this.spell = spell;
     }
 

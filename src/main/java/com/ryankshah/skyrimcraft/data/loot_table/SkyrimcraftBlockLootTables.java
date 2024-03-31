@@ -64,6 +64,19 @@ public class SkyrimcraftBlockLootTables extends BlockLootSubProvider
         dropSelf(BlockInit.BLACKSMITH_FORGE.get());
         dropSelf(BlockInit.WEAPON_RACK.get());
 
+        dropSelf(BlockInit.STONE_BRICK_1.get());
+        dropSelf(BlockInit.STONE_BRICK_2.get());
+        dropSelf(BlockInit.STONE_BRICK_3.get());
+        dropSelf(BlockInit.STONE_BRICK_4.get());
+        dropSelf(BlockInit.STONE_BRICK_5.get());
+        dropSelf(BlockInit.COBBLESTONE_1.get());
+        dropSelf(BlockInit.COBBLESTONE_2.get());
+        dropSelf(BlockInit.SNOWY_PLANKS_1.get());
+        dropSelf(BlockInit.PLANKS_1.get());
+        dropSelf(BlockInit.PLANKS_2.get());
+        dropSelf(BlockInit.PLANKS_3.get());
+        dropSelf(BlockInit.PLANKS_4.get());
+
         dropSelf(BlockInit.RED_MOUNTAIN_FLOWER.get());
         dropSelf(BlockInit.BLUE_MOUNTAIN_FLOWER.get());
         dropSelf(BlockInit.YELLOW_MOUNTAIN_FLOWER.get());

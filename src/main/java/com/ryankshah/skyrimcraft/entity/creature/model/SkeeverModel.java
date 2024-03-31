@@ -23,16 +23,13 @@ public class SkeeverModel<S extends Monster> extends QuadrupedModel<Skeever> {
     }
 
     public static LayerDefinition createBodyLayer() {
-//        MeshDefinition meshdefinition = new MeshDefinition();
-//        PartDefinition partdefinition = meshdefinition.getRoot();
-
-
-        MeshDefinition meshdefinition = QuadrupedModel.createBodyMesh(0, CubeDeformation.NONE);
+        MeshDefinition meshdefinition = QuadrupedModel.createBodyMesh(7, CubeDeformation.NONE);
         PartDefinition partdefinition = meshdefinition.getRoot();
 
         PartDefinition skeever = partdefinition.addOrReplaceChild("skeever", CubeListBuilder.create().texOffs(24, 0).addBox(-3.5F, -11.0F, -8.0F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 23.5F, 0.0F));
 
-        PartDefinition body_back = skeever.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 19).addBox(-3.0F, -4.25F, 0.25F, 6.0F, 6.0F, 9.0F, new CubeDeformation(0.25F)), PartPose.offset(0.0F, -6.0F, -1.0F));
+        PartDefinition body_back = skeever.addOrReplaceChild("body_back", CubeListBuilder.create().texOffs(0, 19).addBox(-3.0F, -4.25F, 0.25F, 6.0F, 6.0F, 9.0F, new CubeDeformation(0.25F))
+                .texOffs(24, 0).addBox(-3.5F, -5.0F, -7.0F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -6.0F, -1.0F));
 
         PartDefinition tail = body_back.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(34, 15).addBox(-1.5F, -1.5F, -0.5F, 3.0F, 3.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, 9.5F));
 
@@ -40,9 +37,9 @@ public class SkeeverModel<S extends Monster> extends QuadrupedModel<Skeever> {
 
         PartDefinition tail_third = tail_second.addOrReplaceChild("tail_third", CubeListBuilder.create().texOffs(45, 8).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 8.0F, new CubeDeformation(0.25F)), PartPose.offset(0.0F, 0.0F, 8.5F));
 
-        PartDefinition leg_back_left = body_back.addOrReplaceChild("left_hind_leg", CubeListBuilder.create().texOffs(56, 0).mirror().addBox(-1.0F, -1.5F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, 2.0F, 7.5F));
+        PartDefinition leg_back_left = body_back.addOrReplaceChild("leg_back_left", CubeListBuilder.create().texOffs(56, 0).mirror().addBox(-1.0F, -1.5F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, 2.0F, 7.5F));
 
-        PartDefinition leg_back_right = body_back.addOrReplaceChild("right_hind_leg", CubeListBuilder.create().texOffs(56, 0).addBox(-1.0F, -1.5F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 2.0F, 7.5F));
+        PartDefinition leg_back_right = body_back.addOrReplaceChild("leg_back_right", CubeListBuilder.create().texOffs(56, 0).addBox(-1.0F, -1.5F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 2.0F, 7.5F));
 
         PartDefinition top_back = body_back.addOrReplaceChild("top_back", CubeListBuilder.create().texOffs(24, 14).addBox(-2.0F, -4.0F, 0.0F, 5.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -3.0F, 4.0F, -0.8727F, 0.0F, 0.0F));
 
@@ -63,9 +60,9 @@ public class SkeeverModel<S extends Monster> extends QuadrupedModel<Skeever> {
 
         PartDefinition top_head = head.addOrReplaceChild("top_head", CubeListBuilder.create().texOffs(24, 14).addBox(-2.0F, -4.0F, 0.0F, 5.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -5.0F, 2.0F, -0.9599F, 0.0F, 0.0F));
 
-        PartDefinition leg_front_left = skeever.addOrReplaceChild("left_front_leg", CubeListBuilder.create().texOffs(56, 8).mirror().addBox(-1.0F, -1.5F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, -4.0F, -6.0F));
+        PartDefinition leg_front_left = skeever.addOrReplaceChild("leg_front_left", CubeListBuilder.create().texOffs(56, 8).mirror().addBox(-1.0F, -1.5F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, -4.0F, -6.0F));
 
-        PartDefinition leg_front_right = skeever.addOrReplaceChild("right_front_leg", CubeListBuilder.create().texOffs(56, 8).addBox(-1.0F, -1.5F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, -4.0F, -6.0F));
+        PartDefinition leg_front_right = skeever.addOrReplaceChild("leg_front_right", CubeListBuilder.create().texOffs(56, 8).addBox(-1.0F, -1.5F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, -4.0F, -6.0F));
 
         PartDefinition top_front = skeever.addOrReplaceChild("top_front", CubeListBuilder.create().texOffs(24, 18).addBox(-2.0F, -4.0F, 0.0F, 5.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -11.0F, -5.0F, -1.2217F, 0.0F, 0.0F));
 

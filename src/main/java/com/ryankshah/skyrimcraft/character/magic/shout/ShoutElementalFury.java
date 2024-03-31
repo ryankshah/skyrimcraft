@@ -49,7 +49,7 @@ public class ShoutElementalFury extends Spell //implements IForgeRegistryEntry<I
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/fireball.png");
+        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/elemental_fury.png");
     }
 
     @Override

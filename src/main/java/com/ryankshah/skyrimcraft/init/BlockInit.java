@@ -264,8 +264,45 @@ public class BlockInit
             .instabreak()
             .sound(SoundType.CROP)
             .pushReaction(PushReaction.DESTROY)
-
     ));
+
+    /// DECORATIVE BLOCKS
+    public static final DeferredBlock<Block> STONE_BRICK_1 = BLOCKS.register("stone_brick_1",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredItem<BlockItem> STONE_BRICK_1_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(STONE_BRICK_1);
+    public static final DeferredBlock<Block> STONE_BRICK_2 = BLOCKS.register("stone_brick_2",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredItem<BlockItem> STONE_BRICK_2_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(STONE_BRICK_2);
+    public static final DeferredBlock<Block> STONE_BRICK_3 = BLOCKS.register("stone_brick_3",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredItem<BlockItem> STONE_BRICK_3_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(STONE_BRICK_3);
+    public static final DeferredBlock<Block> STONE_BRICK_4 = BLOCKS.register("stone_brick_4",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredItem<BlockItem> STONE_BRICK_4_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(STONE_BRICK_4);
+    public static final DeferredBlock<Block> STONE_BRICK_5 = BLOCKS.register("stone_brick_5",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredItem<BlockItem> STONE_BRICK_5_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(STONE_BRICK_5);
+    public static final DeferredBlock<Block> COBBLESTONE_1 = BLOCKS.register("cobblestone_1",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredItem<BlockItem> COBBLESTONE_1_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(COBBLESTONE_1);
+    public static final DeferredBlock<Block> COBBLESTONE_2 = BLOCKS.register("cobblestone_2",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredItem<BlockItem> COBBLESTONE_2_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(COBBLESTONE_2);
+    public static final DeferredBlock<Block> SNOWY_PLANKS_1 = BLOCKS.register("snowy_planks_1",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)));
+    public static final DeferredItem<BlockItem> SNOWY_PLANKS_1_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(SNOWY_PLANKS_1);
+    public static final DeferredBlock<Block> PLANKS_1 = BLOCKS.register("planks_1",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)));
+    public static final DeferredItem<BlockItem> PLANKS_1_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(PLANKS_1);
+    public static final DeferredBlock<Block> PLANKS_2 = BLOCKS.register("planks_2",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)));
+    public static final DeferredItem<BlockItem> PLANKS_2_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(PLANKS_2);
+    public static final DeferredBlock<Block> PLANKS_3 = BLOCKS.register("planks_3",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)));
+    public static final DeferredItem<BlockItem> PLANKS_3_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(PLANKS_3);
+    public static final DeferredBlock<Block> PLANKS_4 = BLOCKS.register("planks_4",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)));
+    public static final DeferredItem<BlockItem> PLANKS_4_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(PLANKS_4);
 
     public static void addBlockTranslations(LanguageProvider provider) {
         provider.addBlock(CORUNDUM_ORE, "Corundum Ore");
@@ -282,6 +319,19 @@ public class BlockInit
         provider.addBlock(DEEPSLATE_QUICKSILVER_ORE, "Quicksilver Ore");
         provider.addBlock(SILVER_ORE, "Silver Ore");
         provider.addBlock(DEEPSLATE_SILVER_ORE, "Silver Ore");
+
+        provider.addBlock(STONE_BRICK_1, "Stone Bricks");
+        provider.addBlock(STONE_BRICK_2, "Stone Bricks");
+        provider.addBlock(STONE_BRICK_3, "Stone Bricks");
+        provider.addBlock(STONE_BRICK_4, "Stone Bricks");
+        provider.addBlock(STONE_BRICK_5, "Stone Bricks");
+        provider.addBlock(COBBLESTONE_1, "Cobblestone");
+        provider.addBlock(COBBLESTONE_2, "Cobblestone");
+        provider.addBlock(SNOWY_PLANKS_1, "Snowy Planks");
+        provider.addBlock(PLANKS_1, "Planks");
+        provider.addBlock(PLANKS_2, "Planks");
+        provider.addBlock(PLANKS_3, "Planks");
+        provider.addBlock(PLANKS_4, "Planks");
 
         provider.addBlock(SHOUT_BLOCK, "Shout Block");
 
@@ -325,6 +375,19 @@ public class BlockInit
         normalBlock(provider, DEEPSLATE_QUICKSILVER_ORE.get());
         normalBlock(provider, SILVER_ORE.get());
         normalBlock(provider, DEEPSLATE_SILVER_ORE.get());
+
+        normalBlock(provider, STONE_BRICK_1.get());
+        normalBlock(provider, STONE_BRICK_2.get());
+        normalBlock(provider, STONE_BRICK_3.get());
+        normalBlock(provider, STONE_BRICK_4.get());
+        normalBlock(provider, STONE_BRICK_5.get());
+        normalBlock(provider, COBBLESTONE_1.get());
+        normalBlock(provider, COBBLESTONE_2.get());
+        normalBlock(provider, SNOWY_PLANKS_1.get());
+        normalBlock(provider, PLANKS_1.get());
+        normalBlock(provider, PLANKS_2.get());
+        normalBlock(provider, PLANKS_3.get());
+        normalBlock(provider, PLANKS_4.get());
 
         normalBlock(provider, SHOUT_BLOCK.get());
 

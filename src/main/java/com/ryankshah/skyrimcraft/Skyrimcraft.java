@@ -168,7 +168,7 @@ public class Skyrimcraft
         bus.addListener(this::dataPackRegistry);
         bus.addListener(DataGenerators::gatherData);
         bus.addListener(this::createEntityAttributes);
-        bus.addListener(this::addEntityAttributes);
+        bus.addListener(AttributeInit::modifyEntityAttributes);
         bus.addListener(this::registerLayerDefinitions);
         bus.addListener(this::addPlayerLayers);
         bus.addListener(EntityInit::registerRenderers);
@@ -238,9 +238,9 @@ public class Skyrimcraft
         }
     }
 
-    public void addEntityAttributes(EntityAttributeModificationEvent event) {
-        event.add(EntityType.PLAYER, AttributeInit.MAGICKA_REGEN.value());
-    }
+//    public void addEntityAttributes(EntityAttributeModificationEvent event) {
+//        event.add(EntityType.PLAYER, AttributeInit.MAGICKA_REGEN.value());
+//    }
 
     public void renderCurios(final FMLClientSetupEvent event) {
         CuriosRendererRegistry.register(ItemInit.GOLD_RING.get(), () -> new RingRenderer());

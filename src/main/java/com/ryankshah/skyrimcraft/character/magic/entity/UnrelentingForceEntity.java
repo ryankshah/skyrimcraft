@@ -101,22 +101,12 @@ public class UnrelentingForceEntity extends Projectile
             super.tick();
             ++this.ticksInAir;
 
-            AABB aabb = getBoundingBox();
-            List<Entity> entitiesInBoundingBox = this.level().getEntities(this.shootingEntity, aabb);
-
-            for(Entity entity : entitiesInBoundingBox) {
-                if(entity instanceof LivingEntity livingEntity && livingEntity != shootingEntity) {
-                    if((!livingEntity.isInWater() || !livingEntity.isInLava())) {
-                        livingEntity.knockback(2F, (double) Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), (double) (-Mth.cos(this.getYRot() * ((float) Math.PI / 180F))));
-                    }
-                }
-            }
-
 //            ServerLevel level = (ServerLevel)this.level();
-//            HitResult raytraceresult = ProjectileUtil.getHitResultOnMoveVector(this, entity -> entity.isAlive() && entity != this.shootingEntity);
-//            if (raytraceresult.getType() != HitResult.Type.MISS) {
-//                this.onImpact(raytraceresult);
-//            }
+
+            HitResult raytraceresult = ProjectileUtil.getHitResultOnMoveVector(this, entity -> entity.isAlive() && entity != this.shootingEntity);
+            if (raytraceresult.getType() != HitResult.Type.MISS) {
+                this.onImpact(raytraceresult);
+            }
 
             Vec3 vec3d = this.getDeltaMovement();
             this.setPos(getX() + vec3d.x, getY() + vec3d.y, getZ() + vec3d.z);
@@ -136,15 +126,26 @@ public class UnrelentingForceEntity extends Projectile
 
 
     public void onImpact(HitResult result) {
-        System.out.println("impacting?");
         if (!this.level().isClientSide) {
-            if (result.getType() == HitResult.Type.ENTITY) {
-                Entity entity = ((EntityHitResult)result).getEntity();
-                if((!entity.isInWater() || !entity.isInLava()) && entity instanceof LivingEntity) {
-                    System.out.println("knocking back " + entity.getCustomName());
-                    ((LivingEntity) entity).knockback(2F, (double) Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), (double) (-Mth.cos(this.getYRot() * ((float) Math.PI / 180F))));
+            if(result.getType() != HitResult.Type.MISS) {
+                AABB aabb = getBoundingBox();
+                List<Entity> entitiesInBoundingBox = this.level().getEntities(this.shootingEntity, aabb);
+
+                for(Entity entity : entitiesInBoundingBox) {
+                    if(entity instanceof LivingEntity livingEntity && livingEntity != shootingEntity) {
+                        if((!livingEntity.isInWater() || !livingEntity.isInLava())) {
+                            livingEntity.knockback(2F, (double) Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), (double) (-Mth.cos(this.getYRot() * ((float) Math.PI / 180F))));
+                        }
+                    }
                 }
             }
+//            if (result.getType() == HitResult.Type.ENTITY) {
+//                Entity entity = ((EntityHitResult)result).getEntity();
+//                if((!entity.isInWater() || !entity.isInLava()) && entity instanceof LivingEntity) {
+//                    System.out.println("knocking back " + entity.getCustomName());
+//                    ((LivingEntity) entity).knockback(2F, (double) Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), (double) (-Mth.cos(this.getYRot() * ((float) Math.PI / 180F))));
+//                }
+//            }
             this.remove(RemovalReason.KILLED);
         }
     }

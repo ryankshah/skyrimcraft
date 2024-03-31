@@ -155,33 +155,33 @@ public class AlchemyScreen extends Screen
             ++this.spin;
     }
 
-//    @Override
-//    public boolean mouseScrolled(double mouseX, double mouseY, double scrollDelta) {
-//        if(scrollDelta > 0) {
-//            if (!this.categoryChosen) {
-//                if (this.currentCategory < this.categories.length - 1)
-//                    ++this.currentCategory;
-//
-//                this.itemList.clear();
-//                this.itemList.addAll(this.items.get((String)this.categories[this.currentCategory]));
-//            } else {
-//                if (this.currentItem < this.itemList.size() - 1)
-//                    ++this.currentItem;
-//            }
-//        } else if(scrollDelta < 0) {
-//            if (!this.categoryChosen) {
-//                if(this.currentCategory > 0)
-//                    --this.currentCategory;
-//
-//                this.itemList.clear();
-//                this.itemList.addAll(this.items.get((String)this.categories[this.currentCategory]));
-//            } else {
-//                if (this.currentItem > 0)
-//                    --this.currentItem;
-//            }
-//        }
-//        return true;
-//    }
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if(scrollY < 0) {
+            if (!this.categoryChosen) {
+                if (this.currentCategory < this.categories.length - 1)
+                    ++this.currentCategory;
+
+                this.itemList.clear();
+                this.itemList.addAll(this.items.get((String)this.categories[this.currentCategory]));
+            } else {
+                if (this.currentItem < this.itemList.size() - 1)
+                    ++this.currentItem;
+            }
+        } else if(scrollY > 0) {
+            if (!this.categoryChosen) {
+                if(this.currentCategory > 0)
+                    --this.currentCategory;
+
+                this.itemList.clear();
+                this.itemList.addAll(this.items.get((String)this.categories[this.currentCategory]));
+            } else {
+                if (this.currentItem > 0)
+                    --this.currentItem;
+            }
+        }
+        return true;
+    }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {

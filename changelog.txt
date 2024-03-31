@@ -1,0 +1,26 @@
+1.20.4-0.3.0
+- TODO: Added Skeevers
+- TODO: Added (Basic) Dragons - more variants to come later as well as better fight mechanics
+- TODO: Added shout charging times
+=== FIXES ===
+- TODO: Fixed Skill Books not consuming and updating the skill level
+- TODO: Fixed Khajiit and Falmer NPCs not spawning correctly in Skyrimcraft Villages
+
+1.20.4-0.2.0
+- Added tree features
+- Added altars and snowy variant
+- Added Skyrim villages
+- Added mouse scrolling to magic (spells), forge, alchemy and oven screens
+- Added more decorative blocks (creative only for now)
+- Updated ore generation properties (rarity, vein size, etc.)
+=== FIXES ===
+- Fixed crash on selecting the secondary spell (default B key) in the Magic interface
+- Fixed Ingame Overlay incorrectly displaying spell icons if only second slot was chosen
+- Fixed Spell Cooldown Indicators
+- Fixed missing spell icons and animations
+- Fixed rendering issue when scrolling magic (spells), forge, alchemy and oven screens to now show
+  all items and categories properly.
+- Fixed Unrelenting Force blasting the player into Oblivion
+
+1.20.4-0.1.0
+- First release for NeoForge 1.20.4

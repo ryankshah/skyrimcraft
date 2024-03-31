@@ -77,8 +77,8 @@ public class PowerAncestorsWrath extends Spell
     }
 
     @Override
-    public boolean isContinuousCast() {
-        return false;
+    public CastReference getCastReference() {
+        return CastReference.CHARGE;
     }
 
     @Override
