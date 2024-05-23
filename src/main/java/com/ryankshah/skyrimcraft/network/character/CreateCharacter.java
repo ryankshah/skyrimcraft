@@ -2,16 +2,19 @@ package com.ryankshah.skyrimcraft.network.character;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
+import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.character.feature.Race;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
@@ -55,7 +58,23 @@ public record CreateCharacter(int raceID, boolean fin) implements CustomPacketPa
     }
 
     public static void handleClient(final CreateCharacter data, final IPayloadContext context) {
+        Minecraft minecraft = Minecraft.getInstance();
+        minecraft.execute(() -> {
+            Player player = minecraft.player;
 
+            Race race = Race.getRaces().stream().filter(r -> r.getId() == data.raceID()).findFirst().get();
+            Character character = Character.get(player);
+
+            character.setRace(race);
+            character.setSkills(new ArrayList<>(character.getStartingSkills(race)));
+            character.setHasSetup(true);
+
+            if(data.fin) {
+                for (Supplier<Spell> spell : SpellRegistry.getPowersForRace(race)) {
+                    character.addNewSpell(spell.get());
+                }
+            }
+        });
     }
 
     @Override

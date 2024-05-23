@@ -2,6 +2,7 @@ package com.ryankshah.skyrimcraft.character.attachment;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.mojang.serialization.codecs.UnboundedMapCodec;
 import com.ryankshah.skyrimcraft.character.feature.Race;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
@@ -9,11 +10,14 @@ import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.character.skill.SkillWrapper;
 import com.ryankshah.skyrimcraft.network.character.UpdateCharacter;
+import com.ryankshah.skyrimcraft.util.CodecUtils;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
 import com.ryankshah.skyrimcraft.util.LevelUpdate;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -52,6 +56,42 @@ public class Character
             Codec.INT.fieldOf("currentTarget").forGetter(Character::getCurrentTarget),
             Codec.INT.fieldOf("levelPerkPoints").forGetter(Character::getLevelPerkPoints)
     ).apply(characterInstance, Character::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, Character> STREAM_CODEC = CodecUtils.composite16(
+            ByteBufCodecs.BOOL,
+            Character::getHasSetup,
+            ByteBufCodecs.FLOAT,
+            Character::getMagicka,
+            ByteBufCodecs.FLOAT,
+            Character::getMaxMagicka,
+            ByteBufCodecs.FLOAT,
+            Character::getMagickaRegenModifier,
+            ByteBufCodecs.INT,
+            Character::getCharacterLevel,
+            ByteBufCodecs.INT,
+            Character::getCharacterTotalXp,
+            SkillWrapper.STREAM_CODEC.apply(ByteBufCodecs.list()),
+            Character::getSkills,
+            Race.STREAM_CODEC,
+            Character::getRace,
+            ResourceKey.streamCodec(SpellRegistry.SPELLS_KEY).apply(ByteBufCodecs.list()),
+            Character::getKnownSpells,
+            ResourceKey.streamCodec(SpellRegistry.SPELLS_KEY),
+            Character::getSelectedSpell1,
+            ResourceKey.streamCodec(SpellRegistry.SPELLS_KEY),
+            Character::getSelectedSpell2,
+            ByteBufCodecs.map(HashMap::new, ByteBufCodecs.idMapper(SpellRegistry.SPELLS_REGISTRY), ByteBufCodecs.FLOAT),
+            Character::getSpellsOnCooldown,
+            CompassFeature.STREAM_CODEC.apply(ByteBufCodecs.list()),
+            Character::getCompassFeatures,
+            ByteBufCodecs.INT.apply(ByteBufCodecs.list()),
+            Character::getTargets,
+            ByteBufCodecs.INT,
+            Character::getCurrentTarget,
+            ByteBufCodecs.INT,
+            Character::getLevelPerkPoints,
+            Character::new
+    )
 
 //    public static final StreamCodec<ByteBuf, UpdateCharacter> STREAM_CODEC = StreamCodec.composite(
 //            ByteBufCodecs.BOOL,

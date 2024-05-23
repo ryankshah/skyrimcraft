@@ -3,10 +3,16 @@ package com.ryankshah.skyrimcraft.character.skill;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
+import com.ryankshah.skyrimcraft.util.CodecUtils;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class SkillWrapper
 {
@@ -21,6 +27,28 @@ public class SkillWrapper
         Codec.FLOAT.fieldOf("skillImproveMultiplier").forGetter(SkillWrapper::getSkillImproveMultiplier),
         Codec.INT.fieldOf("skillImproveOffset").forGetter(SkillWrapper::getSkillImproveOffset)
     ).apply(skill, SkillWrapper::new));
+
+    public static StreamCodec<RegistryFriendlyByteBuf, SkillWrapper> STREAM_CODEC = CodecUtils.composite9(
+            ByteBufCodecs.fromCodec(SkillRegistry.SKILLS_REGISTRY.byNameCodec()),
+            SkillWrapper::getSkill,
+            ByteBufCodecs.INT,
+            SkillWrapper::getID,
+            ByteBufCodecs.INT,
+            SkillWrapper::getLevel,
+            ByteBufCodecs.INT,
+            SkillWrapper::getTotalXp,
+            ByteBufCodecs.FLOAT,
+            SkillWrapper::getXpProgress,
+            ByteBufCodecs.FLOAT,
+            SkillWrapper::getSkillUseMultiplier,
+            ByteBufCodecs.INT,
+            SkillWrapper::getSkillUseOffset,
+            ByteBufCodecs.FLOAT,
+            SkillWrapper::getSkillImproveMultiplier,
+            ByteBufCodecs.INT,
+            SkillWrapper::getSkillImproveOffset,
+            SkillWrapper::new
+    );
 
     protected Skill skill;
     protected List<Skill.Perk> perks;

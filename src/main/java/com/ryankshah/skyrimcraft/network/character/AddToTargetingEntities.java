@@ -19,7 +19,7 @@ public record AddToTargetingEntities(int entityId) implements CustomPacketPayloa
     public static final CustomPacketPayload.Type<AddToTargetingEntities> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "addtotargetingentities"));
 
     public static final StreamCodec<ByteBuf, AddToTargetingEntities> CODEC = StreamCodec.composite(
-            ByteBufCodecs.VAR_INT,
+            ByteBufCodecs.INT,
             AddToTargetingEntities::entityId,
             AddToTargetingEntities::new
     );

@@ -4,6 +4,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,6 +34,14 @@ public class Race
             Codec.INT.fieldOf("identifier").forGetter(Race::getId),
             Codec.STRING.fieldOf("name").forGetter(Race::getName)
     ).apply(race, Race::new));
+
+    public static StreamCodec<ByteBuf, Race> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT,
+            Race::getId,
+            ByteBufCodecs.STRING_UTF8,
+            Race::getName,
+            Race::new
+    );
 
     public Race(int id, String name) {
         this.id = id;
