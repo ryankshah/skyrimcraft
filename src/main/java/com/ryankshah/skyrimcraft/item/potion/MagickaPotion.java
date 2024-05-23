@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -37,7 +38,8 @@ public class MagickaPotion extends SkyrimPotion
             Character character = Character.get(player);
             if(character.getMagicka() != character.getMaxMagicka()) {
                 final ReplenishMagicka replenishMagicka = new ReplenishMagicka((int) replenishValue);
-                PacketDistributor.SERVER.noArg().send(replenishMagicka);
+                PacketDistributor.sendToServer(replenishMagicka);
+//                PacketDistributor.SERVER.noArg().send(replenishMagicka);
             }
         }
 
@@ -75,8 +77,8 @@ public class MagickaPotion extends SkyrimPotion
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTooltip, TooltipFlag pFlag) {
         pTooltip.add(Component.literal((int)replenishValue == 20 ? "Completely replenishes your magicka" : "Replenishes " + (int)replenishValue + " magicka"));
-        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+        super.appendHoverText(pStack, pContext, pTooltip, pFlag);
     }
 }

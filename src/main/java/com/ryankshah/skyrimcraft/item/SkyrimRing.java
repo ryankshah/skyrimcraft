@@ -8,7 +8,7 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 public class SkyrimRing extends Item implements ICurioItem
 {
     public SkyrimRing() {
-        super(new Item.Properties().stacksTo(1).defaultDurability(0));
+        super(new Item.Properties().stacksTo(1).durability(0));
     }
 
     @Override

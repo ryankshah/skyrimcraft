@@ -243,7 +243,8 @@ public class BlacksmithForgeScreen extends Screen
             }
 
             final FinishForgeRecipe finishRecipe = new FinishForgeRecipe(currentRecipeObject);
-            PacketDistributor.SERVER.noArg().send(finishRecipe);
+            PacketDistributor.sendToServer(finishRecipe);
+//            PacketDistributor.SERVER.noArg().send(finishRecipe);
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);

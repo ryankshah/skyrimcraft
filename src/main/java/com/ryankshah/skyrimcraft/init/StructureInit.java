@@ -1,6 +1,7 @@
 package com.ryankshah.skyrimcraft.init;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.world.*;
 import net.minecraft.core.registries.Registries;
@@ -42,7 +43,7 @@ public class StructureInit
      * some IDEs cannot resolve the typing correctly. This method explicitly states what the return type
      * is so that the IDE can put it into the DeferredRegistry properly.
      */
-    private static <T extends Structure> StructureType<T> explicitStructureTypeTyping(Codec<T> structureCodec) {
+    private static <T extends Structure> StructureType<T> explicitStructureTypeTyping(MapCodec<T> structureCodec) {
         return () -> structureCodec;
     }
 }

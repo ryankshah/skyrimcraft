@@ -15,17 +15,17 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-@Mod.EventBusSubscriber(modid = Skyrimcraft.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Skyrimcraft.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class InputEvents
 {
     @SubscribeEvent
-    public static void onClientTick(TickEvent.ClientTickEvent event) {
+    public static void onClientTick(ClientTickEvent.Post event) {
 
-        if (event.phase == TickEvent.Phase.END) { // Only call code once as the tick event is called twice every tick
+//        if (event.phase == TickEvent.Phase.END) { // Only call code once as the tick event is called twice every tick
             Minecraft mc = Minecraft.getInstance();
 
             while (KeyEvents.MENU_KEY.get().consumeClick()) {
@@ -37,7 +37,8 @@ public class InputEvents
                 Spell spell = character.getSelectedSpell1();
                 if (spell != null && spell.getID() != SpellRegistry.EMPTY_SPELL.get().getID()) {
                     final CastSpell castSpell = new CastSpell(SpellRegistry.SPELLS_REGISTRY.getResourceKey(spell).get());
-                    PacketDistributor.SERVER.noArg().send(castSpell);
+                    PacketDistributor.sendToServer(castSpell);
+//                    PacketDistributor.SERVER.noArg().send(castSpell);
                 } else
                     mc.player.displayClientMessage(Component.translatable("skyrimcraft.spell.noselect"), false);
                 return;
@@ -47,7 +48,8 @@ public class InputEvents
                 Spell spell = character.getSelectedSpell2();
                 if (spell != null && spell.getID() != SpellRegistry.EMPTY_SPELL.get().getID()) {
                     final CastSpell castSpell = new CastSpell(SpellRegistry.SPELLS_REGISTRY.getResourceKey(spell).get());
-                    PacketDistributor.SERVER.noArg().send(castSpell);
+                    PacketDistributor.sendToServer(castSpell);
+//                    PacketDistributor.SERVER.noArg().send(castSpell);
                 } else
                     mc.player.displayClientMessage(Component.translatable("skyrimcraft.spell.noselect"), false);
                 return;
@@ -62,11 +64,12 @@ public class InputEvents
                             mc.player.knockback(0.5f, (double) -Mth.sin(mc.player.yRotO * ((float)Math.PI / 180F)), (double)(Mth.cos(mc.player.yRotO * ((float)Math.PI / 180F))));
                         } else {
                             final HandlePickpocket handlePickpocket = new HandlePickpocket(entity.getId());
-                            PacketDistributor.SERVER.noArg().send(handlePickpocket);
+                            PacketDistributor.sendToServer(handlePickpocket);
+//                            PacketDistributor.SERVER.noArg().send(handlePickpocket);
                         }
                     }
                 }
             }
-        }
+//        }
     }
 }

@@ -1,7 +1,5 @@
 package com.ryankshah.skyrimcraft.data;
 
-import com.google.gson.JsonElement;
-import com.mojang.serialization.JsonOps;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.data.advancement.SkyrimAdvancementProvider;
 import com.ryankshah.skyrimcraft.data.block.SkyrimcraftBlockStateProvider;
@@ -21,25 +19,12 @@ import com.ryankshah.skyrimcraft.data.tag.SkyrimcraftPoiTypeTagsProvider;
 import com.ryankshah.skyrimcraft.data.world.SkyrimBiomeTagsProvider;
 import com.ryankshah.skyrimcraft.data.world.SkyrimcraftStructureTagsProvider;
 import com.ryankshah.skyrimcraft.data.world.SkyrimcraftWorldGenProvider;
-import com.ryankshah.skyrimcraft.quest.IQuest;
-import com.ryankshah.skyrimcraft.quest.Quest;
-import com.ryankshah.skyrimcraft.quest.provider.SkyrimQuestDataProvider;
-import net.minecraft.advancements.critereon.*;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.RegistryOps;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.List;
-import java.util.Map;
 
 public class DataGenerators
 {
@@ -54,7 +39,7 @@ public class DataGenerators
             generator.addProvider(true, new SkyrimBiomeTagsProvider(output, event.getLookupProvider(), Skyrimcraft.MODID, existingFileHelper));
             generator.addProvider(true, new SkyrimcraftItemModelProvider(output, existingFileHelper));
             generator.addProvider(true, new SkyrimcraftBlockStateProvider(output, Skyrimcraft.MODID, existingFileHelper));
-            generator.addProvider(true, new SkyrimcraftLootTables(output));
+            generator.addProvider(true, new SkyrimcraftLootTables(output, event.getLookupProvider()));
             generator.addProvider(true, new SkyrimcraftRecipeProvider(output, event.getLookupProvider()));
             generator.addProvider(true, new AlchemyRecipeProvider(output, event.getLookupProvider()));
             generator.addProvider(true, new OvenRecipeProvider(output, event.getLookupProvider()));
@@ -65,28 +50,11 @@ public class DataGenerators
             generator.addProvider(event.includeServer(), new SkyrimcraftStructureTagsProvider(output, event.getLookupProvider(), Skyrimcraft.MODID, existingFileHelper));
             generator.addProvider(event.includeServer(), new SkyrimcraftWorldGenProvider(output, event.getLookupProvider()));
             generator.addProvider(event.includeServer(), new SkyrimCuriosDataProvider(Skyrimcraft.MODID, output,existingFileHelper, event.getLookupProvider()));
-            generator.addProvider(true, new SkyrimLootModifierProvider(output, Skyrimcraft.MODID));
+            generator.addProvider(true, new SkyrimLootModifierProvider(output, event.getLookupProvider(), Skyrimcraft.MODID));
             generator.addProvider(event.includeClient(), new SkyrimSoundsProvider(output, Skyrimcraft.MODID, existingFileHelper));
             generator.addProvider(event.includeServer(), new SkyrimcraftPoiTypeTagsProvider(output, event.getLookupProvider(), existingFileHelper));
-
-            generator.addProvider(true, new SkyrimQuestDataProvider(Skyrimcraft.MODID, output, existingFileHelper, event.getLookupProvider()));
         } catch (RuntimeException e) {
             Skyrimcraft.logger.error("Failed to generate data", e);
         }
-    }
-
-    protected Map<ResourceLocation, IQuest> addQuests() {
-        return Map.of(
-            new ResourceLocation(Skyrimcraft.MODID, "quests/kill_spider"), new Quest()
-                    .name("Kill Your First Spider")
-                    .lootTable(BuiltInLootTables.BASTION_HOGLIN_STABLE)
-                    .repeatDelay(0f)
-                    .icon(BuiltInRegistries.BLOCK.getKey(Blocks.DIRT))
-                    .addStep(new Quest.QuestStep()
-                            .task("Kill a Spider")
-                            .reward(BuiltInLootTables.BASTION_HOGLIN_STABLE)
-                            .addTrigger(KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().entityType(EntityTypePredicate.of(EntityType.SPIDER))))
-                            .addTrigger(InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(Items.STRING))))
-        );
     }
 }

@@ -37,7 +37,7 @@ public class WaterWalkingPotion extends SkyrimPotion
         if (!worldIn.isClientSide) {
             if(playerEntity instanceof ServerPlayer) {
                 ServerPlayer serverPlayerEntity = (ServerPlayer) playerEntity;
-                serverPlayerEntity.addEffect(new MobEffectInstance(ModEffects.WATER_WALKING.get(), duration, amplifier, true, true, true));
+                serverPlayerEntity.addEffect(new MobEffectInstance(ModEffects.WATER_WALKING, duration, amplifier, true, true, true));
             }
         }
 
@@ -56,10 +56,10 @@ public class WaterWalkingPotion extends SkyrimPotion
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext pContext, List<Component> tooltip, TooltipFlag flagIn) {
         String regenValue = "";
 
         tooltip.add(Component.literal("Grants " + duration/20 + "s of water walking"));
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        super.appendHoverText(stack, pContext, tooltip, flagIn);
     }
 }

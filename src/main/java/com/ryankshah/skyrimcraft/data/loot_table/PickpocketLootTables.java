@@ -11,7 +11,10 @@ import com.ryankshah.skyrimcraft.data.loot_table.condition.MatchSkillLevel;
 import com.ryankshah.skyrimcraft.data.loot_table.predicate.SkillPredicate;
 import com.ryankshah.skyrimcraft.init.EntityInit;
 import com.ryankshah.skyrimcraft.init.ItemInit;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.LootTableSubProvider;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
@@ -75,16 +78,16 @@ public class PickpocketLootTables implements LootTableSubProvider
         return LootTable.lootTable();
     }
 
-    protected void add(BiConsumer<ResourceLocation, LootTable.Builder> pOutput, EntityType<?> entityType, LootTable.Builder builder) {
+    protected void add(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> pOutput, EntityType<?> entityType, LootTable.Builder builder) {
         pOutput.accept(
-                new ResourceLocation(entityType.getDefaultLootTable().toString().replace("minecraft", Skyrimcraft.MODID).replace("entities", "pickpocket")),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "pickpocket")),
                 builder);
     }
-    protected void add(BiConsumer<ResourceLocation, LootTable.Builder> pOutput, EntityType<?> entityType, Function<EntityType<?>, LootTable.Builder> builder) {
+    protected void add(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> pOutput, EntityType<?> entityType, Function<EntityType<?>, LootTable.Builder> builder) {
         this.add(pOutput, entityType, builder.apply(entityType));
     }
 
-    public void addTables(BiConsumer<ResourceLocation, LootTable.Builder> pOutput) {
+    public void addTables(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> pOutput) {
         LootTable.Builder pickpocketGemPool = LootTable.lootTable().withPool(LootPool.lootPool()
                 .name("pickpocketGemPool")
                 .setRolls(UniformGenerator.between(1.0F, 3.0F))
@@ -123,7 +126,7 @@ public class PickpocketLootTables implements LootTableSubProvider
     }
 
     @Override
-    public void generate(BiConsumer<ResourceLocation, LootTable.Builder> pOutput) {
-        addTables(pOutput);
+    public void generate(HolderLookup.Provider pRegistries, BiConsumer<ResourceKey<LootTable>, LootTable.Builder> pGenerator) {
+        addTables(pGenerator);
     }
 }

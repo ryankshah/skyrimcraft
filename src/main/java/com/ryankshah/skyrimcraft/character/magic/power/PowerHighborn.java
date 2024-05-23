@@ -91,7 +91,7 @@ public class PowerHighborn extends Spell
 
     @Override
     public void onCast() {
-        getCaster().addEffect(new MobEffectInstance(ModEffects.MAGICKA_REGEN.get(), 1200, 0, true, true, true));
+        getCaster().addEffect(new MobEffectInstance(ModEffects.MAGICKA_REGEN, 1200, 0, true, true, true));
 
         super.onCast();
     }

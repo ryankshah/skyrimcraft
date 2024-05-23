@@ -243,7 +243,8 @@ public class OvenScreen extends Screen
             }
 
             final FinishOvenRecipe finishRecipe = new FinishOvenRecipe(currentRecipeObject);
-            PacketDistributor.SERVER.noArg().send(finishRecipe);
+            PacketDistributor.sendToServer(finishRecipe);
+//            PacketDistributor.SERVER.noArg().send(finishRecipe);
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);

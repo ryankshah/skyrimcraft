@@ -75,7 +75,7 @@ public class SpellTurnUndead extends Spell
         // 600 = 30s (30 * 20 ticks/s)
         // moved to ISpell#onCast
         //Networking.sendToServer(new PacketAddXpToSkillOnServer(SkillRegistry.RESTORATION.get().getID(), getBaseXp()));
-        getCaster().addEffect(new MobEffectInstance(ModEffects.UNDEAD_FLEE.get(), 600, 0, false, true, true));
+        getCaster().addEffect(new MobEffectInstance(ModEffects.UNDEAD_FLEE, 600, 0, false, true, true));
         super.onCast();
     }
 }

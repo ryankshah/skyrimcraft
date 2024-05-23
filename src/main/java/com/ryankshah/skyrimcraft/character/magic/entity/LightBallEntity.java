@@ -99,9 +99,10 @@ public class LightBallEntity extends PathfinderMob implements OwnableEntity
 //        );
     }
 
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(DATA_OWNERUUID_ID, Optional.empty());
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(DATA_OWNERUUID_ID, Optional.empty());
     }
 
     @Override

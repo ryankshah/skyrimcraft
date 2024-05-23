@@ -20,14 +20,14 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nullable;
@@ -42,12 +42,12 @@ public class MonarchButterfly extends PathfinderMob implements GeoEntity
         super(p_i48575_1_, p_i48575_2_);
         this.moveControl = new FlyingMoveControl(this, 10, true);
         this.lookControl = new LookControl(this);
-        this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, -1.0F);
+        this.setPathfindingMalus(PathType.DANGER_FIRE, -1.0F);
         // Avoid water instead...
-        this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
-        this.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 16.0F);
-        this.setPathfindingMalus(BlockPathTypes.COCOA, -1.0F);
-        this.setPathfindingMalus(BlockPathTypes.FENCE, -1.0F);
+        this.setPathfindingMalus(PathType.WATER, -1.0F);
+        this.setPathfindingMalus(PathType.WATER_BORDER, 16.0F);
+        this.setPathfindingMalus(PathType.COCOA, -1.0F);
+        this.setPathfindingMalus(PathType.FENCE, -1.0F);
         //this.noCulling = true;
     }
 
@@ -126,7 +126,7 @@ public class MonarchButterfly extends PathfinderMob implements GeoEntity
         return this.geoCache;
     }
 
-    private <E extends MonarchButterfly> PlayState butterflyController(final software.bernie.geckolib.core.animation.AnimationState<MonarchButterfly> event) {
+    private <E extends MonarchButterfly> PlayState butterflyController(final software.bernie.geckolib.animation.AnimationState<MonarchButterfly> event) {
         AnimationController<MonarchButterfly> controller = event.getController();
         controller.transitionLength(0);
 

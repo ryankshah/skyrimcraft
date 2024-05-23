@@ -11,7 +11,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -44,10 +43,10 @@ public class BlacksmithForgeBlock extends Block
     }
 
     @Override
-    public InteractionResult use(BlockState p_225533_1_, Level p_225533_2_, BlockPos p_225533_3_, Player p_225533_4_, InteractionHand p_225533_5_, BlockHitResult p_225533_6_) {
-        List<ForgeRecipe> recipes = p_225533_2_.getRecipeManager().getAllRecipesFor(RecipeTypeInit.FORGE.get()).stream().map(RecipeHolder::value).toList();
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        List<ForgeRecipe> recipes = pLevel.getRecipeManager().getAllRecipesFor(RecipeTypeInit.FORGE.get()).stream().map(RecipeHolder::value).toList();
 //        System.out.println(recipes);
-        if (p_225533_4_ instanceof AbstractClientPlayer)
+        if (pPlayer instanceof AbstractClientPlayer)
             Minecraft.getInstance().setScreen(new BlacksmithForgeScreen(recipes));
 
         return InteractionResult.SUCCESS;

@@ -2,6 +2,7 @@ package com.ryankshah.skyrimcraft.init;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.block.*;
+import com.ryankshah.skyrimcraft.dimension.sovngarde.portal.SovngardePortalBlock;
 import com.ryankshah.skyrimcraft.item.SkyrimBlockItemIngredient;
 import com.ryankshah.skyrimcraft.util.IngredientEffect;
 import net.minecraft.core.Direction;
@@ -135,6 +136,9 @@ public class BlockInit
     public static final DeferredBlock<Block> BLACKSMITH_FORGE = BLOCKS.register("blacksmith_forge",
             BlacksmithForgeBlock::new);
     public static final DeferredItem<BlockItem> BLACKSMITH_FORGE_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(BLACKSMITH_FORGE);
+    public static final DeferredBlock<Block> ARCANE_ENCHANTER = BLOCKS.register("arcane_enchanter",
+            ArcaneEnchanterBlock::new);
+    public static final DeferredItem<BlockItem> ARCANE_ENCHANTER_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(ARCANE_ENCHANTER);
 
     public static final DeferredBlock<Block> WEAPON_RACK = BLOCKS.register("weapon_rack",
             WeaponRackBlock::new);
@@ -266,6 +270,18 @@ public class BlockInit
             .pushReaction(PushReaction.DESTROY)
     ));
 
+
+    public static final DeferredBlock<Block> SOVNGARDE_PORTAL = BLOCKS.register("sovngarde_portal", () -> new SovngardePortalBlock(
+            BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .randomTicks()
+                    .strength(-1.0F)
+                    .sound(SoundType.GLASS)
+                    .lightLevel(p_50872_ -> 11)
+                    .pushReaction(PushReaction.BLOCK)
+    ));
+    public static final DeferredItem<BlockItem> SOVNGARDE_PORTAL_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(SOVNGARDE_PORTAL);
+
     /// DECORATIVE BLOCKS
     public static final DeferredBlock<Block> STONE_BRICK_1 = BLOCKS.register("stone_brick_1",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
@@ -341,6 +357,9 @@ public class BlockInit
         provider.addBlock(OVEN, "Oven");
         provider.addBlock(BLACKSMITH_FORGE, "Blacksmith Forge");
         provider.addBlock(WEAPON_RACK, "Weapon Rack");
+        provider.addBlock(ARCANE_ENCHANTER, "Arcane Enchanter");
+
+        provider.addBlock(SOVNGARDE_PORTAL, "Sovngarde Portal");
 
         provider.addBlock(RED_MOUNTAIN_FLOWER, "Red Mountain Flower");
         provider.addBlock(BLUE_MOUNTAIN_FLOWER, "Blue Mountain Flower");
@@ -390,6 +409,8 @@ public class BlockInit
         normalBlock(provider, PLANKS_4.get());
 
         normalBlock(provider, SHOUT_BLOCK.get());
+
+
 
         flowerBlock(provider, RED_MOUNTAIN_FLOWER.get());
         flowerBlock(provider, BLUE_MOUNTAIN_FLOWER.get());
@@ -461,6 +482,12 @@ public class BlockInit
 
         provider.horizontalBlock(BLACKSMITH_FORGE.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/blacksmith_forge")));
         provider.simpleBlockItem(BLACKSMITH_FORGE.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/blacksmith_forge")));
+
+        provider.horizontalBlock(ARCANE_ENCHANTER.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/arcane_enchanter")));
+        provider.simpleBlockItem(ARCANE_ENCHANTER.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/arcane_enchanter")));
+
+//        provider.horizontalBlock(SOVNGARDE_PORTAL.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/sovngarde_portal")));
+//        provider.simpleBlockItem(SOVNGARDE_PORTAL.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/sovngarde_portal")));
     }
 
     public static void addBlockItemModels(ItemModelProvider provider) {

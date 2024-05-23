@@ -88,9 +88,9 @@ public class SpellConjureFamiliar extends Spell
             } else {
                 Wolf wolfEntity = new Wolf(EntityType.WOLF, getCaster().level());
                 wolfEntity.setPos(getCaster().getX(), getCaster().getY() + 0.2f, getCaster().getZ());
-                wolfEntity.setTame(true);
+                wolfEntity.setTame(true, false);
                 wolfEntity.setHealth(40f);
-                wolfEntity.addEffect(new MobEffectInstance(ModEffects.SPECTRAL.get(), 60 * 20, 0, false, true, true));
+                wolfEntity.addEffect(new MobEffectInstance(ModEffects.SPECTRAL, 60 * 20, 0, false, true, true));
                 wolfEntity.setOwnerUUID(getCaster().getUUID());
                 wolfEntity.getPersistentData().putLong(Skyrimcraft.MODID + "_conjuredfamiliar_timeToKill", getCaster().level().getGameTime() + (60L * 20L));
                 getCaster().level().addFreshEntity(wolfEntity);

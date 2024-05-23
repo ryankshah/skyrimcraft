@@ -22,26 +22,21 @@ import net.minecraft.tags.StructureTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.EnchantmentMenu;
-import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.LogicalSide;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.event.TickEvent;
-import net.neoforged.neoforge.event.enchanting.EnchantmentLevelSetEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.TradeWithVillagerEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@Mod.EventBusSubscriber(modid = Skyrimcraft.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = Skyrimcraft.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class PlayerEvents
 {
     public static boolean flag = false;
@@ -49,7 +44,7 @@ public class PlayerEvents
 
     @SubscribeEvent
     public static void onKeyMappingTriggered(InputEvent.InteractionKeyMappingTriggered event) {
-        if(Minecraft.getInstance().player.hasEffect(ModEffects.PARALYSIS.get())) {
+        if(Minecraft.getInstance().player.hasEffect(ModEffects.PARALYSIS)) {
             event.setSwingHand(false);
             event.setCanceled(true);
         }
@@ -68,16 +63,17 @@ public class PlayerEvents
     @SubscribeEvent
     public static void onTradeWithVillager(TradeWithVillagerEvent event) {
         final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.SPEECH.get()).get(), event.getMerchantOffer().getXp() * SkillRegistry.BASE_SPEECH_XP);
-        PacketDistributor.SERVER.noArg().send(xpToSkill);
+        PacketDistributor.sendToServer(xpToSkill);
+//        PacketDistributor.SERVER.noArg().send(xpToSkill);
     }
 
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        Player playerEntity = event.player;
+    public static void onPlayerTick(PlayerTickEvent.Post event) {
+        Player playerEntity = event.getEntity();
         if (!playerEntity.isAlive() || playerEntity == null)
             return;
 
-        if (event.phase == TickEvent.Phase.END) {
+//        if (event.phase == TickEvent.Phase.END) {
 
 //            Minecraft.getInstance().getConnection().registryAccess().registry(QuestRegistry.QUESTS_REGISTRY_KEY).ifPresent(
 //                    registry -> System.out.println(registry.stream().toList())
@@ -88,18 +84,20 @@ public class PlayerEvents
                     for (Map.Entry<Spell, Float> entry : character.getSpellsOnCooldown().entrySet()) {
                         if (entry.getValue() <= 0f) {
                             final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(SpellRegistry.SPELLS_REGISTRY.getResourceKey(entry.getKey()).get(), 0f);
-                            PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
+                            PacketDistributor.sendToServer(updateShoutCooldown);
+//                            PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
                         }
                         if (entry.getValue() > 0f) {
                             float cooldown = character.getSpellCooldown(entry.getKey());
                             final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(SpellRegistry.SPELLS_REGISTRY.getResourceKey(entry.getKey()).get(), cooldown - 0.05f);
-                            PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
+                            PacketDistributor.sendToServer(updateShoutCooldown);
+//                            PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
                         }
                     }
                 }
             }
 
-            if ((playerEntity.hasEffect(ModEffects.SPECTRAL.get()) || playerEntity.hasEffect(ModEffects.ETHEREAL.get())) && !flag) {
+            if ((playerEntity.hasEffect(ModEffects.SPECTRAL) || playerEntity.hasEffect(ModEffects.ETHEREAL)) && !flag) {
                 flag = true;
                 playerEntity.setInvisible(true);
                 flag = false;
@@ -107,8 +105,8 @@ public class PlayerEvents
                 playerEntity.setInvisible(playerEntity.hasEffect(MobEffects.INVISIBILITY));
             }
 
-            if (!playerEntity.hasEffect(ModEffects.MAGICKA_REGEN.get()))
-                playerEntity.getAttribute(AttributeInit.MAGICKA_REGEN.get()).removeModifiers();
+            if (!playerEntity.hasEffect(ModEffects.MAGICKA_REGEN))
+                playerEntity.getAttribute(AttributeInit.MAGICKA_REGEN).removeModifiers();
 
             if (character.getMagicka() < character.getMaxMagicka()) {
                 if (playerEntity.tickCount % 20 == 0) {
@@ -120,7 +118,7 @@ public class PlayerEvents
                 }
             }
 
-            if (playerEntity instanceof ServerPlayer && playerEntity.level().isLoaded(playerEntity.blockPosition()) && event.side == LogicalSide.SERVER) {
+            if (playerEntity instanceof ServerPlayer && playerEntity.level().isLoaded(playerEntity.blockPosition())) { //&& event.side == LogicalSide.SERVER) {
                 ServerPlayer player = (ServerPlayer) playerEntity;
                 ServerLevel level = (ServerLevel) player.level();
 
@@ -153,7 +151,8 @@ public class PlayerEvents
 //                            playerCompassFeatures.add(compassFeature);
                             final AddToCompassFeatures features = new AddToCompassFeatures(compassFeature.getId(), compassFeature.getFeature().location(), compassFeature.getBlockPos());
 //                            character.setCompassFeatures(playerCompassFeatures);
-                            PacketDistributor.SERVER.noArg().send(features);
+                            PacketDistributor.sendToServer(features);
+//                            PacketDistributor.SERVER.noArg().send(features);
 
 //                                System.out.println(playerCompassFeatures);
                         }
@@ -162,11 +161,11 @@ public class PlayerEvents
             }
 
             // check ethereal
-            if (!playerEntity.hasEffect(ModEffects.ETHEREAL.get())) {
+            if (!playerEntity.hasEffect(ModEffects.ETHEREAL)) {
                 if (playerEntity.isInvulnerable() && (!playerEntity.isCreative() || !playerEntity.isSpectator()))
                     playerEntity.setInvulnerable(false);
             }
-        }
+//        }
     }
 
     private static BlockPos locateFeatureStartChunkFromPlayerBlockPos(ServerLevel world, BlockPos pos, TagKey<Structure> feature) {
@@ -182,7 +181,8 @@ public class PlayerEvents
     @SubscribeEvent
     public static void playerSmelt(PlayerEvent.ItemSmeltedEvent event) {
         final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.SMITHING.get()).get(), event.getSmelting().getCount() * SkillRegistry.BASE_SMITHING_XP);
-        PacketDistributor.SERVER.noArg().send(xpToSkill);
+        PacketDistributor.sendToServer(xpToSkill);
+//        PacketDistributor.SERVER.noArg().send(xpToSkill);
     }
 
     // Open the character creation screen if first login / world created
@@ -199,7 +199,8 @@ public class PlayerEvents
             Character character = Character.get(serverPlayer);
             if (!character.getHasSetup()) {
                 final OpenCharacterCreationScreen packet = new OpenCharacterCreationScreen(character.getHasSetup());
-                PacketDistributor.PLAYER.with(serverPlayer).send(packet);
+                PacketDistributor.sendToPlayer(serverPlayer, packet);
+//                PacketDistributor.PLAYER.with(serverPlayer).send(packet);
             }
         }
     }

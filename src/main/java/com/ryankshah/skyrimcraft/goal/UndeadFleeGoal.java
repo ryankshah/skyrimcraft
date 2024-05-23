@@ -70,7 +70,7 @@ public class UndeadFleeGoal extends Goal
     public boolean canUse() {
         this.toAvoid = this.fleeingEntity.level().getNearestPlayer(fleeingEntity, 12D); // 12D == radius?
         this.fleeingEntity.goalSelector.disableControlFlag(Flag.TARGET);
-        if (this.toAvoid == null || !this.toAvoid.hasEffect(ModEffects.UNDEAD_FLEE.get())) {
+        if (this.toAvoid == null || !this.toAvoid.hasEffect(ModEffects.UNDEAD_FLEE)) {
             return false;
         } else {
             Vec3 vector3d = DefaultRandomPos.getPosAway(this.fleeingEntity, 16, 7, this.toAvoid.position());

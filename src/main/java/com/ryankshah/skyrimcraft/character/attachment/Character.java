@@ -11,6 +11,9 @@ import com.ryankshah.skyrimcraft.character.skill.SkillWrapper;
 import com.ryankshah.skyrimcraft.network.character.UpdateCharacter;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
 import com.ryankshah.skyrimcraft.util.LevelUpdate;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -49,6 +52,13 @@ public class Character
             Codec.INT.fieldOf("currentTarget").forGetter(Character::getCurrentTarget),
             Codec.INT.fieldOf("levelPerkPoints").forGetter(Character::getLevelPerkPoints)
     ).apply(characterInstance, Character::new));
+
+//    public static final StreamCodec<ByteBuf, UpdateCharacter> STREAM_CODEC = StreamCodec.composite(
+//            ByteBufCodecs.BOOL,
+//            Character::getHasSetup,
+//
+//            Character::new
+//    );
 
     private boolean hasSetup;
     private float magicka, maxMagicka, magickaRegenModifier;
@@ -344,13 +354,14 @@ public class Character
     }
 
     protected void syncTo(Player player) {
-        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateCharacter(this));
+        PacketDistributor.sendToPlayer((ServerPlayer) player, new UpdateCharacter(this));
+//        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateCharacter(this));
     }
 
-    protected void syncTo(PacketDistributor.PacketTarget target)
-    {
-        target.send(new UpdateCharacter(this));
-    }
+//    protected void syncTo(PacketDistributor.PacketTarget target)
+//    {
+//        target.send(new UpdateCharacter(this));
+//    }
 
     private static class CharacterEvents
     {
@@ -401,7 +412,8 @@ public class Character
                 var newHandler = get(player);
 
                 player.setData(PlayerAttachments.CHARACTER, player.getData(PlayerAttachments.CHARACTER));
-                PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateCharacter(newHandler));
+                PacketDistributor.sendToPlayer((ServerPlayer) player, new UpdateCharacter(newHandler));
+//                PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateCharacter(newHandler));
             }
         }
 
@@ -416,7 +428,8 @@ public class Character
             Character oldHandler = Character.get(oldPlayer);
             player.setData(PlayerAttachments.CHARACTER, oldHandler);
             Character newHandler = Character.get(player);
-            PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateCharacter(newHandler));
+            PacketDistributor.sendToPlayer((ServerPlayer) player, new UpdateCharacter(newHandler));
+//            PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateCharacter(newHandler));
         }
     }
 }

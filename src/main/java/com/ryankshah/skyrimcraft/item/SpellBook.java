@@ -41,7 +41,8 @@ public class SpellBook extends Item
         List<Spell> knownSpells = character.getKnownSpells();
         if (this.spell != null && !knownSpells.contains(spell.get())) {
             final AddToKnownSpells addSpell = new AddToKnownSpells(SpellRegistry.SPELLS_REGISTRY.getResourceKey(spell.get()).get());
-            PacketDistributor.SERVER.noArg().send(addSpell);
+            PacketDistributor.sendToServer(addSpell);
+//            PacketDistributor.SERVER.noArg().send(addSpell);
             playerIn.displayClientMessage(Component.translatable("spellbook.learn", Component.translatable(spell.get().getName()).withStyle(ChatFormatting.RED)), false);
             playerIn.awardStat(Stats.ITEM_USED.get(this));
             itemstack.shrink(1);
@@ -54,7 +55,7 @@ public class SpellBook extends Item
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if(spell != null) {
             pTooltipComponents.add(Component.translatable("spellbook.tooltip.name", Component.translatable(
                             spell.get().getName())
@@ -63,6 +64,6 @@ public class SpellBook extends Item
                             spell.get().getDifficulty().toString())
                     .withStyle(ChatFormatting.RED)));
         }
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pIsAdvanced);
     }
 }

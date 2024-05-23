@@ -1,17 +1,14 @@
 package com.ryankshah.skyrimcraft.data.world;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.block.PearlOysterBlock;
-import com.ryankshah.skyrimcraft.init.BlockInit;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.*;
 
@@ -37,7 +34,7 @@ public class SkyrimcraftPlacedFeatures
 
     public static final ResourceKey<PlacedFeature> TREES_PLACED_KEY = registerKey("trees_placed");
 
-    public static void bootstrap(BootstapContext<PlacedFeature> context) {
+    public static void bootstrap(BootstrapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
         register(context, CORUNDUM_ORE_PLACED_KEY, configuredFeatures.getOrThrow(SkyrimcraftConfiguredFeatures.CORUNDUM_ORE_KEY),
@@ -127,7 +124,7 @@ public class SkyrimcraftPlacedFeatures
         return ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(Skyrimcraft.MODID, name));
     }
 
-    private static void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration,
+    private static void register(BootstrapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration,
                                  List<PlacementModifier> modifiers) {
         PlacedFeature feature = new PlacedFeature(configuration, List.copyOf(modifiers));
         context.register(key, feature);

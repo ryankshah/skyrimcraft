@@ -1,6 +1,7 @@
 package com.ryankshah.skyrimcraft.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -15,7 +16,7 @@ public class SkyrimFlower extends FlowerBlock
 {
     protected static final VoxelShape SHAPE = Block.box(5.0D, 0.0D, 5.0D, 11.0D, 10.0D, 11.0D);
 
-    public SkyrimFlower(MobEffect effect, int i, BlockBehaviour.Properties props) {
+    public SkyrimFlower(Holder<MobEffect> effect, int i, BlockBehaviour.Properties props) {
         super(effect, i, props);
     }
 

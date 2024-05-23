@@ -2,6 +2,7 @@ package com.ryankshah.skyrimcraft.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.ryankshah.skyrimcraft.effect.ModEffects;
+import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -19,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity
 {
-    @Shadow public abstract boolean hasEffect(MobEffect pEffect);
+    @Shadow public abstract boolean hasEffect(Holder<MobEffect> pEffect);
 
     @Shadow public abstract void travel(Vec3 pTravelVector);
 
@@ -29,7 +30,7 @@ public abstract class LivingEntityMixin extends Entity
 
     @ModifyReturnValue(method = "canStandOnFluid", at = @At("RETURN"))
     public boolean standOnFluidIfWaterWalking(boolean original) {
-        if(hasEffect(ModEffects.WATER_WALKING.get())
+        if(hasEffect(ModEffects.WATER_WALKING)
                 && getBlockStateOn().getFluidState().is(Fluids.WATER)) {
             return true;
         }
@@ -38,12 +39,12 @@ public abstract class LivingEntityMixin extends Entity
 
     @Inject(method = "jumpInLiquid", at = @At("HEAD"), cancellable = true)
     public void canJumpInLiquidIfParalysed(CallbackInfo ci) {
-        if (this.hasEffect(ModEffects.PARALYSIS.get())) ci.cancel();
+        if (this.hasEffect(ModEffects.PARALYSIS)) ci.cancel();
     }
 
     @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;travel(Lnet/minecraft/world/phys/Vec3;)V"))
     public void canTravelIfParalysed(LivingEntity instance, Vec3 v3) {
-        if(hasEffect(ModEffects.PARALYSIS.get())) {
+        if(hasEffect(ModEffects.PARALYSIS)) {
             travel(Vec3.ZERO);
             return;
         }

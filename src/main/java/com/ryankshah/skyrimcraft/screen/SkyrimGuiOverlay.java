@@ -5,6 +5,10 @@ import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.block.AlchemyTableBlock;
+import com.ryankshah.skyrimcraft.block.ArcaneEnchanterBlock;
+import com.ryankshah.skyrimcraft.block.BlacksmithForgeBlock;
+import com.ryankshah.skyrimcraft.block.OvenBlock;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.magic.EmptySpell;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
@@ -17,8 +21,12 @@ import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.LayeredDraw;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.Difficulty;
@@ -29,17 +37,22 @@ import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.RegisterGuiOverlaysEvent;
-import net.neoforged.neoforge.client.gui.overlay.ExtendedGui;
-import net.neoforged.neoforge.client.gui.overlay.IGuiOverlay;
-import net.neoforged.neoforge.client.gui.overlay.VanillaGuiOverlay;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -48,35 +61,35 @@ import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.glfwGetKeyName;
 
-@Mod.EventBusSubscriber(modid = Skyrimcraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value= Dist.CLIENT)
+@EventBusSubscriber(modid = Skyrimcraft.MODID, bus = EventBusSubscriber.Bus.MOD, value= Dist.CLIENT)
 public class SkyrimGuiOverlay
 {
     public static final int PLAYER_BAR_MAX_WIDTH = 78;
     public static List<LevelUpdate> LEVEL_UPDATES = new ArrayList<>();
 
     @SubscribeEvent
-    public static void registerOverlays(RegisterGuiOverlaysEvent event){
+    public static void registerOverlays(RegisterGuiLayersEvent event){
         event.registerAboveAll(new ResourceLocation(Skyrimcraft.MODID,"skyrim_compass"),new SkyrimCompass());
         event.registerAboveAll(new ResourceLocation(Skyrimcraft.MODID, "skyrim_magicka"), new SkyrimMagicka());
         event.registerAboveAll(new ResourceLocation(Skyrimcraft.MODID, "current_spells"), new SkyrimSpells());
         event.registerAboveAll(new ResourceLocation(Skyrimcraft.MODID, "target_health"), new SkyrimTargetHealth());
         event.registerAboveAll(new ResourceLocation(Skyrimcraft.MODID, "level_updates"), new SkyrimLevelUpdates());
-        event.registerAbove(VanillaGuiOverlay.PLAYER_HEALTH.id(), new ResourceLocation(Skyrimcraft.MODID, "skyrim_health"), new SkyrimHealth());
-        event.registerAbove(VanillaGuiOverlay.FOOD_LEVEL.id(), new ResourceLocation(Skyrimcraft.MODID, "skyrim_stamina"), new SkyrimStamina());
-        event.registerAbove(VanillaGuiOverlay.ARMOR_LEVEL.id(), new ResourceLocation(Skyrimcraft.MODID, "skyrim_armor"), new SkyrimArmorIcons());
-        event.registerAbove(VanillaGuiOverlay.AIR_LEVEL.id(), new ResourceLocation(Skyrimcraft.MODID, "skyrim_air"), new SkyrimAir());
-        event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), new ResourceLocation(Skyrimcraft.MODID, "skyrim_crosshair"), new SkyrimCrosshair());
-        event.registerAbove(VanillaGuiOverlay.EXPERIENCE_BAR.id(), new ResourceLocation(Skyrimcraft.MODID, "skyrim_xpbar"), new SkyrimXPBar());
+        event.registerAbove(VanillaGuiLayers.PLAYER_HEALTH, new ResourceLocation(Skyrimcraft.MODID, "skyrim_health"), new SkyrimHealth());
+        event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, new ResourceLocation(Skyrimcraft.MODID, "skyrim_stamina"), new SkyrimStamina());
+        event.registerAbove(VanillaGuiLayers.ARMOR_LEVEL, new ResourceLocation(Skyrimcraft.MODID, "skyrim_armor"), new SkyrimArmorIcons());
+        event.registerAbove(VanillaGuiLayers.AIR_LEVEL, new ResourceLocation(Skyrimcraft.MODID, "skyrim_air"), new SkyrimAir());
+        event.registerAbove(VanillaGuiLayers.CROSSHAIR, new ResourceLocation(Skyrimcraft.MODID, "skyrim_crosshair"), new SkyrimCrosshair());
+        event.registerAbove(VanillaGuiLayers.EXPERIENCE_BAR, new ResourceLocation(Skyrimcraft.MODID, "skyrim_xpbar"), new SkyrimXPBar());
     }
 
-    public static class SkyrimLevelUpdates implements IGuiOverlay
+    public static class SkyrimLevelUpdates implements LayeredDraw.Layer
     {
         private final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID + ":textures/gui/overlay_icons.png");
 
         @Override
-        public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
+        public void render(GuiGraphics guiGraphics, float partialTick) {
             PoseStack poseStack = guiGraphics.pose();
-            Minecraft mc = gui.getMinecraft();
+            Minecraft mc = Minecraft.getInstance();
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
@@ -173,14 +186,14 @@ public class SkyrimGuiOverlay
         }
     }
 
-    public static class SkyrimTargetHealth implements IGuiOverlay
+    public static class SkyrimTargetHealth implements LayeredDraw.Layer
     {
         private final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID + ":textures/gui/overlay_icons.png");
 
         @Override
-        public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
+        public void render(GuiGraphics guiGraphics, float partialTick) {
             PoseStack poseStack = guiGraphics.pose();
-            Minecraft mc = gui.getMinecraft();
+            Minecraft mc = Minecraft.getInstance();
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
@@ -215,7 +228,7 @@ public class SkyrimGuiOverlay
         }
     }
 
-    public static class SkyrimCrosshair implements IGuiOverlay
+    public static class SkyrimCrosshair implements LayeredDraw.Layer
     {
         private final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID + ":textures/gui/overlay_icons.png");
 //        protected static final ResourceLocation CROSSHAIR_SPRITE = new ResourceLocation("hud/crosshair");
@@ -224,12 +237,51 @@ public class SkyrimGuiOverlay
         protected static final ResourceLocation CROSSHAIR_ATTACK_INDICATOR_PROGRESS_SPRITE = new ResourceLocation("hud/crosshair_attack_indicator_progress");
 
         @Override
-        public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
+        public void render(GuiGraphics guiGraphics, float partialTick) {
             PoseStack poseStack = guiGraphics.pose();
-            Minecraft mc = gui.getMinecraft();
+            Minecraft mc = Minecraft.getInstance();
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
+
+            if(mc.hitResult.getType() == HitResult.Type.BLOCK) {
+                BlockPos blockpos = ((BlockHitResult)mc.hitResult).getBlockPos();
+                BlockState blockstate = mc.level.getBlockState(blockpos);
+                if (blockstate.isAir()) {
+                    return;
+                }
+                Block block = blockstate.getBlock();
+                if(block.builtInRegistryHolder().is(BlockTags.WOODEN_DOORS)
+                        || block.builtInRegistryHolder().is(BlockTags.WOODEN_TRAPDOORS)
+                        || block.builtInRegistryHolder().is(BlockTags.SHULKER_BOXES)
+                        || block.builtInRegistryHolder().is(BlockTags.ANVIL)
+                        || block.builtInRegistryHolder().is(BlockTags.BUTTONS)
+                        || block.builtInRegistryHolder().is(BlockTags.BEDS)
+                        || block.builtInRegistryHolder().is(BlockTags.FENCE_GATES)
+                        || block instanceof AbstractFurnaceBlock
+                        || block instanceof AbstractChestBlock<?>
+                        || block instanceof CartographyTableBlock
+                        || block instanceof CraftingTableBlock
+                        || block instanceof EnchantingTableBlock
+                        || block instanceof GrindstoneBlock
+                        || block instanceof LoomBlock
+                        || block instanceof BrewingStandBlock
+                        || block instanceof LeverBlock
+                        || block instanceof RepeaterBlock
+                        || block instanceof HopperBlock
+                        || block instanceof BlacksmithForgeBlock
+                        || block instanceof OvenBlock
+                        || block instanceof AlchemyTableBlock
+                        || block instanceof ArcaneEnchanterBlock
+                ) {
+                    int blockNameWidth = mc.font.width(block.getName());
+                    poseStack.pushPose();
+                    RenderUtil.bind(OVERLAY_ICONS);
+                    RenderUtil.blitWithBlend(poseStack, (scaledWidth / 2) - (blockNameWidth / 2) - 10, scaledHeight / 2 + 4, 185, 103, 8, 16, 256, 256, 3, 1);
+                    poseStack.popPose();
+                    guiGraphics.drawString(mc.font, block.getName(), (scaledWidth / 2) - (blockNameWidth / 2) + 8, scaledHeight / 2 + 10, 0x00FFFFFF);
+                }
+            }
 
             if(mc.crosshairPickEntity instanceof LivingEntity && mc.player.isCrouching()) {
                 LivingEntity entity = (LivingEntity) mc.crosshairPickEntity;
@@ -297,7 +349,7 @@ public class SkyrimGuiOverlay
         }
     }
 
-    public static class SkyrimSpells implements IGuiOverlay
+    public static class SkyrimSpells implements LayeredDraw.Layer
     {
         private final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID + ":textures/gui/overlay_icons.png");
         private int SLOT_WIDTH = 22, SLOT_HEIGHT = 22;
@@ -305,9 +357,9 @@ public class SkyrimGuiOverlay
         private int ICON_WIDTH = 16, ICON_HEIGHT = 16;
 
         @Override
-        public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
+        public void render(GuiGraphics guiGraphics, float partialTick) {
             PoseStack poseStack = guiGraphics.pose();
-            Minecraft mc = gui.getMinecraft();
+            Minecraft mc = Minecraft.getInstance();
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
@@ -393,14 +445,14 @@ public class SkyrimGuiOverlay
         }
     }
 
-    public static class SkyrimStamina implements IGuiOverlay
+    public static class SkyrimStamina implements LayeredDraw.Layer
     {
         private final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID + ":textures/gui/overlay_icons.png");
 
         @Override
-        public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
+        public void render(GuiGraphics guiGraphics, float partialTick) {
             PoseStack poseStack = guiGraphics.pose();
-            Minecraft mc = gui.getMinecraft();
+            Minecraft mc = Minecraft.getInstance();
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
@@ -417,12 +469,12 @@ public class SkyrimGuiOverlay
         }
     }
 
-    public static class SkyrimAir implements IGuiOverlay
+    public static class SkyrimAir implements LayeredDraw.Layer
     {
         @Override
-        public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
+        public void render(GuiGraphics guiGraphics, float partialTick) {
             PoseStack poseStack = guiGraphics.pose();
-            Minecraft mc = gui.getMinecraft();
+            Minecraft mc = Minecraft.getInstance();
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
@@ -433,12 +485,12 @@ public class SkyrimGuiOverlay
             mc.getProfiler().push("air");
             Player player = (Player)mc.getCameraEntity();
             RenderSystem.enableBlend();
-            int left = screenWidth - 20;
+            int left = guiGraphics.guiWidth() - 20;
             int top;
             if(mc.player.getArmorValue() > 0)
-                top = screenHeight - 65;
+                top = guiGraphics.guiHeight() - 65;
             else
-                top = screenHeight - 53;
+                top = guiGraphics.guiHeight() - 53;
             int air = player.getAirSupply();
 
             if (player.isEyeInFluidType((FluidType) NeoForgeMod.WATER_TYPE.value()) || air < 300) {
@@ -454,12 +506,12 @@ public class SkyrimGuiOverlay
         }
     }
 
-    public static class SkyrimXPBar implements IGuiOverlay
+    public static class SkyrimXPBar implements LayeredDraw.Layer
     {
         @Override
-        public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
+        public void render(GuiGraphics guiGraphics, float partialTick) {
             PoseStack poseStack = guiGraphics.pose();
-            Minecraft mc = gui.getMinecraft();
+            Minecraft mc = Minecraft.getInstance();
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
@@ -470,14 +522,14 @@ public class SkyrimGuiOverlay
             guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 
             if (mc.gameMode.hasExperience()) {
-                int pX = screenWidth / 2 - 91;
+                int pX = guiGraphics.guiWidth() / 2 - 91;
 
                 mc.getProfiler().push("expBar");
                 int i = mc.player.getXpNeededForNextLevel();
                 if (i > 0) {
                     int j = 182;
                     int k = (int)(mc.player.experienceProgress * 183.0F);
-                    int l = screenHeight - 32 + 3;
+                    int l = guiGraphics.guiHeight() - 32 + 3;
                     guiGraphics.blitSprite(EXPERIENCE_BAR_BACKGROUND_SPRITE, pX, l, 182, 5);
                     if (k > 0) {
                         guiGraphics.blitSprite(EXPERIENCE_BAR_PROGRESS_SPRITE, 182, 5, 0, 0, pX, l, k, 5);
@@ -488,8 +540,8 @@ public class SkyrimGuiOverlay
                 if (mc.player.experienceLevel > 0) {
                     mc.getProfiler().push("expLevel");
                     String s = mc.player.experienceLevel + "";
-                    int i1 = (screenWidth - mc.font.width(s)) / 2;
-                    int j1 = screenHeight - 31 - 4;
+                    int i1 = (guiGraphics.guiWidth() - mc.font.width(s)) / 2;
+                    int j1 = guiGraphics.guiHeight() - 31 - 4;
                     guiGraphics.drawString(mc.font, s, i1 + 1, j1, 0, false);
                     guiGraphics.drawString(mc.font, s, i1 - 1, j1, 0, false);
                     guiGraphics.drawString(mc.font, s, i1, j1 + 1, 0, false);
@@ -503,12 +555,12 @@ public class SkyrimGuiOverlay
         }
     }
 
-    public static class SkyrimArmorIcons implements IGuiOverlay
+    public static class SkyrimArmorIcons implements LayeredDraw.Layer
     {
         @Override
-        public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
+        public void render(GuiGraphics guiGraphics, float partialTick) {
             PoseStack poseStack = guiGraphics.pose();
-            Minecraft mc = gui.getMinecraft();
+            Minecraft mc = Minecraft.getInstance();
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
@@ -519,8 +571,8 @@ public class SkyrimGuiOverlay
 
             mc.getProfiler().push("armor");
             RenderSystem.enableBlend();
-            int left = screenWidth - 20 - 8;
-            int top = screenHeight - 53;
+            int left = guiGraphics.guiWidth() - 20 - 8;
+            int top = guiGraphics.guiWidth() - 53;
 
             int level = mc.player.getArmorValue();
             for (int i = 1; level > 0 && i < 20; i += 2) {
@@ -540,14 +592,14 @@ public class SkyrimGuiOverlay
         }
     }
 
-    public static class SkyrimMagicka implements IGuiOverlay
+    public static class SkyrimMagicka implements LayeredDraw.Layer
     {
         private final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID + ":textures/gui/overlay_icons.png");
 
         @Override
-        public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
+        public void render(GuiGraphics guiGraphics, float partialTick) {
             PoseStack poseStack = guiGraphics.pose();
-            Minecraft mc = gui.getMinecraft();
+            Minecraft mc = Minecraft.getInstance();
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
@@ -563,14 +615,14 @@ public class SkyrimGuiOverlay
         }
     }
 
-    public static class SkyrimHealth implements IGuiOverlay
+    public static class SkyrimHealth implements LayeredDraw.Layer
     {
         private final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID + ":textures/gui/overlay_icons.png");
 
         @Override
-        public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
+        public void render(GuiGraphics guiGraphics, float partialTick) {
             PoseStack poseStack = guiGraphics.pose();
-            Minecraft mc = gui.getMinecraft();
+            Minecraft mc = Minecraft.getInstance();
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             int scaledHeight = window.getGuiScaledHeight();
@@ -593,14 +645,14 @@ public class SkyrimGuiOverlay
         }
     }
 
-    public static class SkyrimCompass implements IGuiOverlay
+    public static class SkyrimCompass implements LayeredDraw.Layer
     {
         private final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID + ":textures/gui/overlay_icons.png");
 
         @Override
-        public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
+        public void render(GuiGraphics guiGraphics, float partialTick) {
             PoseStack poseStack = guiGraphics.pose();
-            Minecraft mc = gui.getMinecraft();
+            Minecraft mc = Minecraft.getInstance();
             Window window = mc.getWindow();
             int scaledWidth = window.getGuiScaledWidth();
             Character character = Character.get(mc.player);

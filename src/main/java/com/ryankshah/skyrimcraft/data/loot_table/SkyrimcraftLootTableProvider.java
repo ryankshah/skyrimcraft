@@ -2,7 +2,10 @@ package com.ryankshah.skyrimcraft.data.loot_table;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.init.ItemInit;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.LootTableSubProvider;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -18,9 +21,9 @@ import java.util.function.BiConsumer;
 public class SkyrimcraftLootTableProvider implements LootTableSubProvider
 {
     @Override
-    public void generate(BiConsumer<ResourceLocation, LootTable.Builder> pOutput) {
+    public void generate(HolderLookup.Provider pRegistries, BiConsumer<ResourceKey<LootTable>, LootTable.Builder> pOutput) {
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "grasspod"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "grasspod")),
                 LootTable.lootTable().withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
                         .add(LootItem.lootTableItem(ItemInit.GRASS_POD.get())
@@ -31,7 +34,7 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
         );
 
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "oregemdrops"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "oregemdrops")),
                 LootTable.lootTable().withPool(LootPool.lootPool()
                         .name("oresGemPool")
                         .setRolls(UniformGenerator.between(0.125F, 1.0F))
@@ -67,7 +70,7 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
         );
 
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "beehive"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "beehive")),
                 LootTable.lootTable().withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
                         .add(LootItem.lootTableItem(ItemInit.BEEHIVE_HUSK.get())
@@ -78,7 +81,7 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
         );
 
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "spider"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "spider")),
                 LootTable.lootTable().withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
                         .add(LootItem.lootTableItem(ItemInit.SPIDER_EGG.get())
@@ -89,7 +92,7 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
         );
 
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "salmon"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "salmon")),
                 LootTable.lootTable().withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
                         .add(LootItem.lootTableItem(ItemInit.SALMON_ROE.get())
@@ -100,7 +103,7 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
         );
 
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "bee"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "bee")),
                 LootTable.lootTable().withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
                         .add(LootItem.lootTableItem(ItemInit.BEE.get())
@@ -111,7 +114,7 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
         );
 
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "evoker"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "evoker")),
                 LootTable.lootTable().withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
                         .add(LootItem.lootTableItem(ItemInit.CONJURE_FAMILIAR_SPELLBOOK.get())
@@ -142,7 +145,7 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
         );
 
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "witch"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "witch")),
                 LootTable.lootTable().withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
                         .add(LootItem.lootTableItem(ItemInit.CONJURE_FAMILIAR_SPELLBOOK.get())
@@ -361,7 +364,7 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
         );
 
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "chests/village"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/village")),
                 villageTable);
 
         LootTable.Builder watchtowerTable = LootTable.lootTable().withPool(LootPool.lootPool()
@@ -449,7 +452,7 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
         );
 
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "chests/watchtower"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/watchtower")),
                 watchtowerTable);
 
         LootTable.Builder dungeonTable = LootTable.lootTable().withPool(LootPool.lootPool()
@@ -551,7 +554,7 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
                 )
         );
 
-        pOutput.accept(new ResourceLocation(Skyrimcraft.MODID, "chests/skyrim_dungeon"), dungeonTable);
+        pOutput.accept(ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/skyrim_dungeon")), dungeonTable);
 
 
         LootTable.Builder altarTable = LootTable.lootTable().withPool(LootPool.lootPool()
@@ -617,10 +620,10 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
                 )
         );
 
-        pOutput.accept(new ResourceLocation(Skyrimcraft.MODID, "chests/altar"), altarTable);
+        pOutput.accept(ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/altar")), altarTable);
 
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "goat"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "goat")),
                 LootTable.lootTable().withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
                         .add(LootItem.lootTableItem(ItemInit.LEG_OF_GOAT.get())
@@ -631,7 +634,7 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
         );
 
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "horse"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "horse")),
                 LootTable.lootTable().withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
                         .add(LootItem.lootTableItem(ItemInit.HORSE_MEAT.get())
@@ -698,35 +701,35 @@ public class SkyrimcraftLootTableProvider implements LootTableSubProvider
         );
 
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "chests/simple_dungeon"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/simple_dungeon")),
                 chestPool
         );
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "chests/abandoned_mineshaft"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/abandoned_mineshaft")),
                 chestPool
         );
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "chests/buried_treasure"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/buried_treasure")),
                 chestPool
         );
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "chests/desert_pyramid"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/desert_pyramid")),
                 chestPool
         );
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "chests/shipwreck_supply"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/shipwreck_supply")),
                 chestPool
         );
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "chests/stronghold_corridor"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/stronghold_corridor")),
                 chestPool
         );
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "gameplay/piglin_bartering"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "gameplay/piglin_bartering")),
                 chestPool
         );
         pOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID, "gameplay/sniffer_digging"),
+                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "gameplay/sniffer_digging")),
                 LootTable.lootTable().withPool(LootPool.lootPool()
                         .setRolls(UniformGenerator.between(1.0F, 3.0F))
                         .add(LootItem.lootTableItem(ItemInit.TAPROOT)

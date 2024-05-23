@@ -252,7 +252,8 @@ public class SkillScreen extends Screen
                 }
                 System.out.println(statIncreases.getHealthIncrease());
                 final UpdateStatIncreases updateStatIncreases = new UpdateStatIncreases(statIncreases);
-                PacketDistributor.SERVER.noArg().send(updateStatIncreases);
+                PacketDistributor.sendToServer(updateStatIncreases);
+//                PacketDistributor.SERVER.noArg().send(updateStatIncreases);
                 levelPoints--;
                 if(levelPoints == 0) {
                     shouldFocusLevelUpdates = false;

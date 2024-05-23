@@ -1,4 +1,12 @@
+1.20.6-0.3.0
+- Updated to 1.20.6
+- WIPs/TODOs from 1.20.4-0.3.0 still in progress
+
 1.20.4-0.3.0
+- Added Arcane Enchanter (WIP)
+  - TODO: what does it do etc.
+- Added Sovngarde dimension (WIP)
+- TODO: Control Skyrimcraft GUIs with mouse
 - TODO: Added Skeevers
 - TODO: Added (Basic) Dragons - more variants to come later as well as better fight mechanics
 - TODO: Added shout charging times

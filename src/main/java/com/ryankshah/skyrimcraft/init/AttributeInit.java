@@ -10,6 +10,7 @@ import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.UUID;
@@ -19,27 +20,27 @@ public class AttributeInit
 {
     public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(Registries.ATTRIBUTE, Skyrimcraft.MODID);
 
-    public static final Supplier<Attribute> MAX_MAGICKA = ATTRIBUTES.register("max_magicka_attribute", () -> new RangedAttribute("skyrimcraft.character.attribute.max_magicka", 1F, 0F, 100F).setSyncable(true));
-    public static final Supplier<Attribute> MAX_STAMINA = ATTRIBUTES.register("max_stamina_attribute", () -> new RangedAttribute("skyrimcraft.character.attribute.max_stamina", 1F, 0F, 100F).setSyncable(true));
-    public static final Supplier<Attribute> MAGICKA_REGEN = ATTRIBUTES.register("magicka_regen_attribute", () -> new RangedAttribute("skyrimcraft.character.attribute.magicka_regen", 1F, 0F, 20F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> MAX_MAGICKA = ATTRIBUTES.register("max_magicka_attribute", () -> new RangedAttribute("skyrimcraft.character.attribute.max_magicka", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> MAX_STAMINA = ATTRIBUTES.register("max_stamina_attribute", () -> new RangedAttribute("skyrimcraft.character.attribute.max_stamina", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> MAGICKA_REGEN = ATTRIBUTES.register("magicka_regen_attribute", () -> new RangedAttribute("skyrimcraft.character.attribute.magicka_regen", 1F, 0F, 20F).setSyncable(true));
 
-    public static final Supplier<Attribute> POISON_RESIST = ATTRIBUTES.register("poison_resist", () -> new RangedAttribute("skyrimcraft.character.attribute.poison_resistance", 1F, 0F, 100F).setSyncable(true));
-    public static final Supplier<Attribute> SHOCK_RESIST = ATTRIBUTES.register("shock_resist", () -> new RangedAttribute("skyrimcraft.character.attribute.shock_resistance", 1F, 0F, 100F).setSyncable(true));
-    public static final Supplier<Attribute> FIRE_RESIST = ATTRIBUTES.register("fire_resist", () -> new RangedAttribute("skyrimcraft.character.attribute.fire_resistance", 1F, 0F, 100F).setSyncable(true));
-    public static final Supplier<Attribute> FROST_RESIST = ATTRIBUTES.register("frost_resist", () -> new RangedAttribute("skyrimcraft.character.attribute.frost_resistance", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> POISON_RESIST = ATTRIBUTES.register("poison_resist", () -> new RangedAttribute("skyrimcraft.character.attribute.poison_resistance", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> SHOCK_RESIST = ATTRIBUTES.register("shock_resist", () -> new RangedAttribute("skyrimcraft.character.attribute.shock_resistance", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> FIRE_RESIST = ATTRIBUTES.register("fire_resist", () -> new RangedAttribute("skyrimcraft.character.attribute.fire_resistance", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> FROST_RESIST = ATTRIBUTES.register("frost_resist", () -> new RangedAttribute("skyrimcraft.character.attribute.frost_resistance", 1F, 0F, 100F).setSyncable(true));
 
-    public static final Supplier<Attribute> POISON_POWER = ATTRIBUTES.register("poison_power", () -> new RangedAttribute("skyrimcraft.character.attribute.poison_power", 1F, 0F, 100F).setSyncable(true));
-    public static final Supplier<Attribute> SHOCK_POWER = ATTRIBUTES.register("shock_power", () -> new RangedAttribute("skyrimcraft.character.attribute.shock_power", 1F, 0F, 100F).setSyncable(true));
-    public static final Supplier<Attribute> FIRE_POWER = ATTRIBUTES.register("fire_power", () -> new RangedAttribute("skyrimcraft.character.attribute.fire_power", 1F, 0F, 100F).setSyncable(true));
-    public static final Supplier<Attribute> FROST_POWER = ATTRIBUTES.register("frost_power", () -> new RangedAttribute("skyrimcraft.character.attribute.frost_power", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> POISON_POWER = ATTRIBUTES.register("poison_power", () -> new RangedAttribute("skyrimcraft.character.attribute.poison_power", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> SHOCK_POWER = ATTRIBUTES.register("shock_power", () -> new RangedAttribute("skyrimcraft.character.attribute.shock_power", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> FIRE_POWER = ATTRIBUTES.register("fire_power", () -> new RangedAttribute("skyrimcraft.character.attribute.fire_power", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> FROST_POWER = ATTRIBUTES.register("frost_power", () -> new RangedAttribute("skyrimcraft.character.attribute.frost_power", 1F, 0F, 100F).setSyncable(true));
 
-    public static final Supplier<Attribute> ALTERATION_POWER = ATTRIBUTES.register("alteration_power", () -> new RangedAttribute("skyrimcraft.character.attribute.alteration_power", 1F, 0F, 100F).setSyncable(true));
-    public static final Supplier<Attribute> DESTRUCTION_POWER = ATTRIBUTES.register("destruction_power", () -> new RangedAttribute("skyrimcraft.character.attribute.destruction_power", 1F, 0F, 100F).setSyncable(true));
-    public static final Supplier<Attribute> RESTORATION_POWER = ATTRIBUTES.register("restoration_power", () -> new RangedAttribute("skyrimcraft.character.attribute.restoration_power", 1F, 0F, 100F).setSyncable(true));
-    public static final Supplier<Attribute> SHOUT_POWER = ATTRIBUTES.register("shout_power", () -> new RangedAttribute("skyrimcraft.character.attribute.shout_power", 1F, 0F, 100F).setSyncable(true));
-    public static final Supplier<Attribute> POWERS_POWER = ATTRIBUTES.register("powers_power", () -> new RangedAttribute("skyrimcraft.character.attribute.powers_power", 1F, 0F, 100F).setSyncable(true));
-    public static final Supplier<Attribute> ILLUSION_POWER = ATTRIBUTES.register("illusion_power", () -> new RangedAttribute("skyrimcraft.character.attribute.illusion_power", 1F, 0F, 100F).setSyncable(true));
-    public static final Supplier<Attribute> CONJURATION_POWER = ATTRIBUTES.register("conjuration_power", () -> new RangedAttribute("skyrimcraft.character.attribute.conjuration_power", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> ALTERATION_POWER = ATTRIBUTES.register("alteration_power", () -> new RangedAttribute("skyrimcraft.character.attribute.alteration_power", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> DESTRUCTION_POWER = ATTRIBUTES.register("destruction_power", () -> new RangedAttribute("skyrimcraft.character.attribute.destruction_power", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> RESTORATION_POWER = ATTRIBUTES.register("restoration_power", () -> new RangedAttribute("skyrimcraft.character.attribute.restoration_power", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> SHOUT_POWER = ATTRIBUTES.register("shout_power", () -> new RangedAttribute("skyrimcraft.character.attribute.shout_power", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> POWERS_POWER = ATTRIBUTES.register("powers_power", () -> new RangedAttribute("skyrimcraft.character.attribute.powers_power", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> ILLUSION_POWER = ATTRIBUTES.register("illusion_power", () -> new RangedAttribute("skyrimcraft.character.attribute.illusion_power", 1F, 0F, 100F).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> CONJURATION_POWER = ATTRIBUTES.register("conjuration_power", () -> new RangedAttribute("skyrimcraft.character.attribute.conjuration_power", 1F, 0F, 100F).setSyncable(true));
 
     public static final UUID MODIFIER_ID_MAGICKA_REGEN = UUID.fromString("26fcb349-bc96-4593-9b29-5ace7bdee19f");
     private static final UUID MODIFIER_ID_PLAYER_HEALTH = UUID.fromString("671fbcca-aac7-4de7-9399-d951d58adc12");
@@ -52,11 +53,11 @@ public class AttributeInit
 
     public static final UUID ELEMENTAL_FURY_SHOUT_ID = UUID.fromString("92837cbf-7285-41f5-9b12-811421af56fb");
 
-    public static void setModifier(LivingEntity entity, Attribute attribute, UUID uuid, String name, double amount, AttributeModifier.Operation op) {
+    public static void setModifier(LivingEntity entity, Holder<Attribute> attribute, UUID uuid, String name, double amount, AttributeModifier.Operation op) {
         AttributeInstance instance = entity.getAttribute(attribute);
         if (instance == null) return;
         AttributeModifier mod = instance.getModifier(uuid);
-        if (mod != null) instance.removeModifier(mod.getId());
+        if (mod != null) instance.removeModifier(mod.id());
         instance.addPermanentModifier(new AttributeModifier(uuid, name, amount, op));
     }
 
@@ -77,7 +78,7 @@ public class AttributeInit
     public static void setMaxMagicka(LivingEntity entity, double amount, AttributeModifier.Operation op) {
         Character character = entity.getData(PlayerAttachments.CHARACTER);
         double oldMax = character.getMaxMagicka();
-        setModifier(entity, AttributeInit.MAX_MAGICKA.get(), MODIFIER_ID_PLAYER_MAGICKA, MODIFIER_NAME_MAGICKA, amount, op);
+        setModifier(entity, AttributeInit.MAX_MAGICKA, MODIFIER_ID_PLAYER_MAGICKA, MODIFIER_NAME_MAGICKA, amount, op);
         double newMax = character.getMaxMagicka();
 
 //        // Heal entity when increasing max health
@@ -91,17 +92,17 @@ public class AttributeInit
 
     public static void modifyEntityAttributes(EntityAttributeModificationEvent e) {
         e.getTypes().forEach(entity -> {
-            e.add(entity, MAX_MAGICKA.get());
-            e.add(entity, MAGICKA_REGEN.get());
-            e.add(entity, MAX_STAMINA.get());
-            e.add(entity, POISON_RESIST.get());
-            e.add(entity, SHOCK_RESIST.get());
-            e.add(entity, FIRE_RESIST.get());
-            e.add(entity, FROST_RESIST.get());
-            e.add(entity, POISON_POWER.get());
-            e.add(entity, SHOCK_POWER.get());
-            e.add(entity, FIRE_POWER.get());
-            e.add(entity, FROST_POWER.get());
+            e.add(entity, MAX_MAGICKA);
+            e.add(entity, MAGICKA_REGEN);
+            e.add(entity, MAX_STAMINA);
+            e.add(entity, POISON_RESIST);
+            e.add(entity, SHOCK_RESIST);
+            e.add(entity, FIRE_RESIST);
+            e.add(entity, FROST_RESIST);
+            e.add(entity, POISON_POWER);
+            e.add(entity, SHOCK_POWER);
+            e.add(entity, FIRE_POWER);
+            e.add(entity, FROST_POWER);
         });
     }
 }

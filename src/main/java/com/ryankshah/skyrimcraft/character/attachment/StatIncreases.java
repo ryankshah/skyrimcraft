@@ -2,13 +2,7 @@ package com.ryankshah.skyrimcraft.character.attachment;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ryankshah.skyrimcraft.character.feature.Race;
-import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
-import com.ryankshah.skyrimcraft.character.skill.SkillWrapper;
-import com.ryankshah.skyrimcraft.init.AttributeInit;
-import com.ryankshah.skyrimcraft.network.character.UpdateLevelUpdates;
 import com.ryankshah.skyrimcraft.network.character.UpdateStatIncreases;
-import com.ryankshah.skyrimcraft.util.CompassFeature;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -72,7 +66,8 @@ public class StatIncreases
     }
 
     protected static void syncTo(Player player) {
-        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateStatIncreases(player.getData(PlayerAttachments.STAT_INCREASES)));
+        PacketDistributor.sendToPlayer((ServerPlayer) player, new UpdateStatIncreases(player.getData(PlayerAttachments.STAT_INCREASES)));
+//        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateStatIncreases(player.getData(PlayerAttachments.STAT_INCREASES)));
     }
 
     private static class StatIncreaseEvents
@@ -123,7 +118,8 @@ public class StatIncreases
             if(event.getEntity() instanceof Player player) {
                 var old = player.getData(PlayerAttachments.STAT_INCREASES);
                 player.setData(PlayerAttachments.STAT_INCREASES, player.getData(PlayerAttachments.STAT_INCREASES));
-                PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateStatIncreases(old));
+                PacketDistributor.sendToPlayer((ServerPlayer) player, new UpdateStatIncreases(old));
+//                PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateStatIncreases(old));
             }
         }
 
@@ -138,7 +134,8 @@ public class StatIncreases
             StatIncreases oldHandler = oldPlayer.getData(PlayerAttachments.STAT_INCREASES);
             player.setData(PlayerAttachments.STAT_INCREASES, oldHandler);
             StatIncreases newHandler = player.getData(PlayerAttachments.STAT_INCREASES);
-            PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateStatIncreases(newHandler));
+            PacketDistributor.sendToPlayer((ServerPlayer) player, new UpdateStatIncreases(newHandler));
+//            PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateStatIncreases(newHandler));
         }
     }
 }

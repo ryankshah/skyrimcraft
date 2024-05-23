@@ -5,6 +5,7 @@ import com.ryankshah.skyrimcraft.Skyrimcraft;
 import net.minecraft.client.KeyMapping;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
@@ -12,7 +13,7 @@ import net.neoforged.neoforge.client.settings.KeyModifier;
 import net.neoforged.neoforge.common.util.Lazy;
 import org.lwjgl.glfw.GLFW;
 
-@Mod.EventBusSubscriber(modid = Skyrimcraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Skyrimcraft.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class KeyEvents
 {
     public static final Lazy<KeyMapping> MENU_KEY = Lazy.of(() -> new KeyMapping(

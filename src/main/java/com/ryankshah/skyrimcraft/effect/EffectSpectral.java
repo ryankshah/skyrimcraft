@@ -24,7 +24,7 @@ public class EffectSpectral extends MobEffect
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
+    public boolean applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
         if(livingEntity.level() instanceof ServerLevel) {
             ServerLevel world = (ServerLevel)livingEntity.level();
             float radius = 0.5f;
@@ -37,6 +37,6 @@ public class EffectSpectral extends MobEffect
                 world.sendParticles(ParticleTypes.ASH, livingEntity.getX() + point.x, livingEntity.getY() + 0.2f, livingEntity.getZ() + point.z, 1, point.x, 0D, point.z, 0); // set amount to 0 so particles don't fly off and stays in place
             }
         }
-        super.applyEffectTick(livingEntity, p_76394_2_);
+        return super.applyEffectTick(livingEntity, p_76394_2_);
     }
 }

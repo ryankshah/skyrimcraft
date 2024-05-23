@@ -310,16 +310,20 @@ public class MagicScreen extends Screen
             if(!selectedSpell1.equals(currentSpellObject)) {
                 if (!(selectedSpell2.equals(currentSpellObject))) {
                     final UpdateSelectedSpell updatedSpells0 = new UpdateSelectedSpell(1, SpellRegistry.SPELLS_REGISTRY.getResourceKey(currentSpellObject).get());
-                    PacketDistributor.SERVER.noArg().send(updatedSpells0);
+                    PacketDistributor.sendToServer(updatedSpells0);
+//                    PacketDistributor.SERVER.noArg().send(updatedSpells0);
                 } else {
                     final UpdateSelectedSpell updatedSpells0 = new UpdateSelectedSpell(2, SpellRegistry.SPELLS_REGISTRY.getResourceKey(character.getSelectedSpell1()).get());
-                    PacketDistributor.SERVER.noArg().send(updatedSpells0);
+                    PacketDistributor.sendToServer(updatedSpells0);
+//                    PacketDistributor.SERVER.noArg().send(updatedSpells0);
                     final UpdateSelectedSpell updatedSpells1 = new UpdateSelectedSpell(1, SpellRegistry.SPELLS_REGISTRY.getResourceKey(currentSpellObject).get());
-                    PacketDistributor.SERVER.noArg().send(updatedSpells1);
+                    PacketDistributor.sendToServer(updatedSpells1);
+//                    PacketDistributor.SERVER.noArg().send(updatedSpells1);
                 }
             } else {
                 final UpdateSelectedSpell updatedSpells0 = new UpdateSelectedSpell(1, SpellRegistry.SPELLS_REGISTRY.getResourceKey(SpellRegistry.EMPTY_SPELL.get()).get());
-                PacketDistributor.SERVER.noArg().send(updatedSpells0);
+                PacketDistributor.sendToServer(updatedSpells0);
+//                PacketDistributor.SERVER.noArg().send(updatedSpells0);
             }
 
             System.out.println(character.toString());
@@ -332,16 +336,20 @@ public class MagicScreen extends Screen
             if(!selectedSpell2.equals(currentSpellObject)) {
                 if (!selectedSpell1.equals(currentSpellObject)) {
                     final UpdateSelectedSpell updatedSpells0 = new UpdateSelectedSpell(2, SpellRegistry.SPELLS_REGISTRY.getResourceKey(currentSpellObject).get());
-                    PacketDistributor.SERVER.noArg().send(updatedSpells0);
+                    PacketDistributor.sendToServer(updatedSpells0);
+//                    PacketDistributor.SERVER.noArg().send(updatedSpells0);
                 } else {
                     final UpdateSelectedSpell updatedSpells0 = new UpdateSelectedSpell(1, SpellRegistry.SPELLS_REGISTRY.getResourceKey(character.getSelectedSpell2()).get());
-                    PacketDistributor.SERVER.noArg().send(updatedSpells0);
+                    PacketDistributor.sendToServer(updatedSpells0);
+//                    PacketDistributor.SERVER.noArg().send(updatedSpells0);
                     final UpdateSelectedSpell updatedSpells1 = new UpdateSelectedSpell(2, SpellRegistry.SPELLS_REGISTRY.getResourceKey(currentSpellObject).get());
-                    PacketDistributor.SERVER.noArg().send(updatedSpells1);
+                    PacketDistributor.sendToServer(updatedSpells1);
+//                    PacketDistributor.SERVER.noArg().send(updatedSpells1);
                 }
             } else {
                 final UpdateSelectedSpell updatedSpells0 = new UpdateSelectedSpell(2, SpellRegistry.SPELLS_REGISTRY.getResourceKey(SpellRegistry.EMPTY_SPELL.get()).get());
-                PacketDistributor.SERVER.noArg().send(updatedSpells0);
+                PacketDistributor.sendToServer(updatedSpells0);
+//                PacketDistributor.SERVER.noArg().send(updatedSpells0);
             }
         }
 

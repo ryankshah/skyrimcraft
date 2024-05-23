@@ -29,7 +29,7 @@ public class SkyrimcraftRecipeProvider extends RecipeProvider implements ICondit
 
 
     public SkyrimcraftRecipeProvider(PackOutput p_248933_, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-        super(p_248933_); //, lookupProvider
+        super(p_248933_, lookupProvider); //, lookupProvider
     }
 
     @Override

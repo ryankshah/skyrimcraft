@@ -43,7 +43,8 @@ public class SkillBook extends Item
             SkillWrapper skillWrapper = character.getSkill(skill.get().getID());
             double xp = skillWrapper.getXpProgress() / skillWrapper.getXpNeededForNextLevel();
             final AddXpToSkill addXpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(skill.get()).get(), (int)xp);
-            PacketDistributor.SERVER.noArg().send(addXpToSkill);
+            PacketDistributor.sendToServer(addXpToSkill);
+//            PacketDistributor.SERVER.noArg().send(addXpToSkill);
             playerIn.displayClientMessage(Component.translatable("skillbook.learn", Component.translatable(skillWrapper.getName()).withStyle(ChatFormatting.RED)), false);
             playerIn.awardStat(Stats.ITEM_USED.get(this));
             itemstack.shrink(1);
@@ -56,11 +57,11 @@ public class SkillBook extends Item
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if(skill != null)
             pTooltipComponents.add(Component.translatable("skillbook.tooltip", Component.translatable(
                             skill.get().getName())
                     .withStyle(ChatFormatting.RED)));
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pIsAdvanced);
     }
 }

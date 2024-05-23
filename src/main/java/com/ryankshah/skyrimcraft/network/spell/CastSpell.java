@@ -3,39 +3,41 @@ package com.ryankshah.skyrimcraft.network.spell;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
 import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.network.handling.PlayPayloadContext;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record CastSpell(ResourceKey<Spell> spell) implements CustomPacketPayload
 {
-    public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"castspell");
+    public static final CustomPacketPayload.Type<CastSpell> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "castspell"));
 
-    public CastSpell(final FriendlyByteBuf buffer) {
+    public static final StreamCodec<RegistryFriendlyByteBuf, CastSpell> CODEC = StreamCodec.composite(
+            ResourceKey.streamCodec(SpellRegistry.SPELLS_KEY),
+            CastSpell::spell,
+            CastSpell::new
+    );
+
+    public CastSpell(final RegistryFriendlyByteBuf buffer) {
         this(buffer.readResourceKey(SpellRegistry.SPELLS_KEY));
     }
 
-    @Override
-    public void write(final FriendlyByteBuf buffer) {
-        buffer.writeResourceKey(spell);
-    }
-
-    @Override
-    public ResourceLocation id() {
-        return ID;
-    }
-
-    public static void handle(final CastSpell data, final PlayPayloadContext context) {
-        Player player = context.player().orElseThrow();
+    public static void handle(final CastSpell data, final IPayloadContext context) {
+        Player player = context.player();
 
         if (player instanceof ServerPlayer serverPlayer) {
             Spell spellInstance = SpellRegistry.SPELLS_REGISTRY.get(data.spell);
             spellInstance.setCaster(serverPlayer);
             spellInstance.cast();
         }
+    }
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

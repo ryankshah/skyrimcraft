@@ -8,7 +8,7 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 public class SkyrimNecklace extends Item implements ICurioItem
 {
     public SkyrimNecklace() {
-        super(new Properties().stacksTo(1).defaultDurability(0));
+        super(new Properties().stacksTo(1).durability(0));
     }
 
     @Override

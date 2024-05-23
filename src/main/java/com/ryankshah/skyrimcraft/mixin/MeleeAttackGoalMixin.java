@@ -25,7 +25,7 @@ public abstract class MeleeAttackGoalMixin extends Goal
 
     @ModifyReturnValue(method = "canUse", at = @At("RETURN"))
     private boolean canUseIfParalysed(boolean original) {
-        if(mob.hasEffect(ModEffects.PARALYSIS.get())) {
+        if(mob.hasEffect(ModEffects.PARALYSIS)) {
             return false;
         }
         return original;
@@ -33,7 +33,7 @@ public abstract class MeleeAttackGoalMixin extends Goal
 
     @ModifyReturnValue(method = "canContinueToUse", at = @At("RETURN"))
     private boolean canContinueToUseIfParalysed(boolean original) {
-        if(mob.hasEffect(ModEffects.PARALYSIS.get())) {
+        if(mob.hasEffect(ModEffects.PARALYSIS)) {
             return false;
         }
         return original;

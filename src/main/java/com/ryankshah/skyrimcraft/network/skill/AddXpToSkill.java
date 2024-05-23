@@ -2,47 +2,46 @@ package com.ryankshah.skyrimcraft.network.skill;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
-import com.ryankshah.skyrimcraft.character.magic.SpellRegistry;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
 import com.ryankshah.skyrimcraft.character.skill.SkillWrapper;
 import com.ryankshah.skyrimcraft.init.AdvancementTriggersInit;
 import com.ryankshah.skyrimcraft.network.character.AddToLevelUpdates;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.network.handling.PlayPayloadContext;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.Map;
+import java.util.Optional;
 
 public record AddXpToSkill(ResourceKey<Skill> skill, int baseXp) implements CustomPacketPayload
 {
-    public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"addxptoskill");
+    public static final CustomPacketPayload.Type<AddXpToSkill> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "addxptoskill"));
+
+    public static final StreamCodec<ByteBuf, AddXpToSkill> CODEC = StreamCodec.composite(
+            ResourceKey.streamCodec(SkillRegistry.SKILLS_KEY),
+            AddXpToSkill::skill,
+            ByteBufCodecs.VAR_INT,
+            AddXpToSkill::baseXp,
+            AddXpToSkill::new
+    );
 
     public AddXpToSkill(final FriendlyByteBuf buffer) {
         this(buffer.readResourceKey(SkillRegistry.SKILLS_KEY), buffer.readInt());
     }
 
-    @Override
-    public void write(final FriendlyByteBuf buffer) {
-        buffer.writeResourceKey(skill);
-        buffer.writeInt(baseXp);
-    }
-
-    @Override
-    public ResourceLocation id() {
-        return ID;
-    }
-
-    public static void handleServer(final AddXpToSkill data, final PlayPayloadContext context) {
-        context.workHandler().submitAsync(() -> {
-                    Player player = context.player().orElseThrow();
+    public static void handleServer(final AddXpToSkill data, final IPayloadContext context) {
+        context.enqueueWork(() -> {
+                    Player player = context.player();
                     if (player instanceof ServerPlayer) {
                         ServerPlayer serverPlayer = (ServerPlayer) player;
                         Character character = Character.get(serverPlayer);
@@ -53,38 +52,41 @@ public record AddXpToSkill(ResourceKey<Skill> skill, int baseXp) implements Cust
 //                        skill.giveExperiencePoints(data.baseXp);
 
                         final AddXpToSkill sendToClient = new AddXpToSkill(data.skill, data.baseXp);
-                        PacketDistributor.PLAYER.with(serverPlayer).send(sendToClient);
+                        PacketDistributor.sendToPlayer(serverPlayer, sendToClient);
+//                        PacketDistributor.PLAYER.with(serverPlayer).send(sendToClient);
 
                         if(skill.getLevel() > oldSkillLevel) {
                             // The skill has leveled up, so send packet to client to add to the skyrim ingame gui levelUpdates list.
                             final AddToLevelUpdates levelUpdates = new AddToLevelUpdates(skill.getName(), skill.getLevel(), 200);
-                            PacketDistributor.SERVER.noArg().send(levelUpdates); //.with(serverPlayer).send(levelUpdates);
+                            PacketDistributor.sendToServer(levelUpdates);
+//                            PacketDistributor.SERVER.noArg().send(levelUpdates); //.with(serverPlayer).send(levelUpdates);
 
                             int level = character.getCharacterLevel();
                             int totalXp = character.getCharacterTotalXp();
                             int newLevel = (int)Math.floor(-2.5 + Math.sqrt(8 * totalXp + 1225) / 10);
 
                             if(newLevel == 10)
-                                AdvancementTriggersInit.LEVEL_UP.get().trigger(serverPlayer, skill, 10);
+                                AdvancementTriggersInit.LEVEL_UP.get().trigger(serverPlayer, Optional.of(skill), Optional.of(10));
 
                             character.setCharacterTotalXp(totalXp + skill.getLevel());
                             if(newLevel > level) {
                                 character.setCharacterLevel(newLevel);
                                 character.addLevelPerkPoint();
                                 final AddToLevelUpdates charLevelUpdates = new AddToLevelUpdates("characterLevel", character.getCharacterLevel(), 200);
-                                PacketDistributor.PLAYER.with(serverPlayer).send(charLevelUpdates);
+                                PacketDistributor.sendToPlayer(serverPlayer, charLevelUpdates);
+//                                PacketDistributor.PLAYER.with(serverPlayer).send(charLevelUpdates);
                             }
                         }
                     }
                 })
                 .exceptionally(e -> {
                     // Handle exception
-                    context.packetHandler().disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
+                    context.disconnect(Component.translatable(Skyrimcraft.MODID + ".networking.failed", e.getMessage()));
                     return null;
                 });
     }
 
-    public static void handleClient(final AddXpToSkill data, final PlayPayloadContext context) {
+    public static void handleClient(final AddXpToSkill data, final IPayloadContext context) {
         Minecraft minecraft = Minecraft.getInstance();
         minecraft.execute(() -> {
             Player player = Minecraft.getInstance().player;
@@ -106,5 +108,10 @@ public record AddXpToSkill(ResourceKey<Skill> skill, int baseXp) implements Cust
                 }
             }
         });
+    }
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

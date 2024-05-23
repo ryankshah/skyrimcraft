@@ -5,8 +5,8 @@ import com.ryankshah.skyrimcraft.block.inventory.IForgeInventory;
 import com.ryankshah.skyrimcraft.data.recipe.serial.ForgeRecipeSerializer;
 import com.ryankshah.skyrimcraft.init.RecipeTypeInit;
 import com.ryankshah.skyrimcraft.init.SerializerInit;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -27,7 +27,7 @@ public class ForgeRecipe implements Recipe<IForgeInventory>
     protected final int level;
     protected final int xp;
 
-    public static Codec<Optional<WithConditions<ForgeRecipe>>> CONDITIONAL_CODEC = ConditionalOps.createConditionalCodecWithConditions(ForgeRecipeSerializer.CODEC);
+//    public static Codec<Optional<WithConditions<ForgeRecipe>>> CONDITIONAL_CODEC = ConditionalOps.createConditionalCodecWithConditions(ForgeRecipeSerializer.CODEC);
 
     public ForgeRecipe(String category, ItemStack stackToCreate, int level, int xp, NonNullList<Ingredient> recipeItems) {
         this.category = category;
@@ -52,7 +52,7 @@ public class ForgeRecipe implements Recipe<IForgeInventory>
     }
 
     @Override
-    public @NotNull ItemStack assemble(IForgeInventory pContainer, RegistryAccess pRegistryAccess) {
+    public ItemStack assemble(IForgeInventory pCraftingContainer, HolderLookup.Provider pRegistries) {
         return this.stackToCreate.copy();
     }
 
@@ -62,7 +62,7 @@ public class ForgeRecipe implements Recipe<IForgeInventory>
     }
 
     @Override
-    public @NotNull ItemStack getResultItem(RegistryAccess pRegistryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
         return this.stackToCreate;
     }
 

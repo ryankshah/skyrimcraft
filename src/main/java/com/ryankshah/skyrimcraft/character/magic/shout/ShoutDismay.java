@@ -71,7 +71,7 @@ public class ShoutDismay extends Spell
 
     @Override
     public void onCast() {
-        getCaster().addEffect(new MobEffectInstance(ModEffects.DISMAY.get(), 600, 0, false, true, true));
+        getCaster().addEffect(new MobEffectInstance(ModEffects.DISMAY, 600, 0, false, true, true));
         super.onCast();
     }
 }

@@ -15,7 +15,7 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import org.jetbrains.annotations.Nullable;
 
 public class Falmer extends Villager
@@ -26,8 +26,8 @@ public class Falmer extends Villager
         this.getNavigation().setCanFloat(true);
         this.setCanPickUpLoot(true);
 
-        this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 16.0F);
-        this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, -1.0F);
+        this.setPathfindingMalus(PathType.DANGER_FIRE, 16.0F);
+        this.setPathfindingMalus(PathType.DAMAGE_FIRE, -1.0F);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Falmer extends Villager
         double d0 = this.random.nextDouble();
 
         Falmer falmer = new Falmer(EntityInit.FALMER.get(), pLevel);
-        falmer.finalizeSpawn(pLevel, pLevel.getCurrentDifficultyAt(falmer.blockPosition()), MobSpawnType.BREEDING, null, null);
+        falmer.finalizeSpawn(pLevel, pLevel.getCurrentDifficultyAt(falmer.blockPosition()), MobSpawnType.BREEDING, null);
         return falmer;
     }
 }

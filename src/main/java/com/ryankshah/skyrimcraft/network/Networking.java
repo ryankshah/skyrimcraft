@@ -9,48 +9,80 @@ import com.ryankshah.skyrimcraft.network.skill.AddXpToSkill;
 import com.ryankshah.skyrimcraft.network.skill.HandlePickpocket;
 import com.ryankshah.skyrimcraft.network.spell.*;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
-import net.neoforged.neoforge.network.registration.IPayloadRegistrar;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
-@Mod.EventBusSubscriber(modid = Skyrimcraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Skyrimcraft.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class Networking
 {
     @SubscribeEvent
-    public static void register(final RegisterPayloadHandlerEvent event) {
-        final IPayloadRegistrar registrar = event.registrar(Skyrimcraft.MODID);
+    public static void register(final RegisterPayloadHandlersEvent event) {
+        final PayloadRegistrar registrar = event.registrar(Skyrimcraft.MODID);
 
-        registrar.play(AddToLevelUpdates.ID, AddToLevelUpdates::new, payload -> payload.server(AddToLevelUpdates::handleServer).client(AddToLevelUpdates::handleClient));
-        registrar.play(AddXpToSkill.ID, AddXpToSkill::new, payload -> payload.server(AddXpToSkill::handleServer).client(AddXpToSkill::handleClient));
-        registrar.play(HandlePickpocket.ID, HandlePickpocket::new, payload -> payload.server(HandlePickpocket::handleServer).client(HandlePickpocket::handleClient));
+        registrar.playBidirectional(AddToLevelUpdates.TYPE, AddToLevelUpdates.CODEC, new DirectionalPayloadHandler<>(
+                AddToLevelUpdates::handleClient, AddToLevelUpdates::handleServer
+        ));
+        registrar.playBidirectional(AddXpToSkill.TYPE, AddXpToSkill.CODEC, new DirectionalPayloadHandler<>(
+                AddXpToSkill::handleClient, AddXpToSkill::handleServer
+        ));
+        registrar.playBidirectional(HandlePickpocket.TYPE, HandlePickpocket.CODEC, new DirectionalPayloadHandler<>(
+                HandlePickpocket::handleClient, HandlePickpocket::handleServer
+        ));
+        registrar.playBidirectional(AddToTargetingEntities.TYPE, AddToTargetingEntities.CODEC, new DirectionalPayloadHandler<>(
+                AddToTargetingEntities::handleClient, AddToTargetingEntities::handleServer
+        ));
+        registrar.playBidirectional(RemoveFromTargetingEntities.TYPE, RemoveFromTargetingEntities.CODEC, new DirectionalPayloadHandler<>(
+                RemoveFromTargetingEntities::handleClient, RemoveFromTargetingEntities::handleServer
+        ));
+        registrar.playBidirectional(UpdateCurrentTarget.TYPE, UpdateCurrentTarget.CODEC, new DirectionalPayloadHandler<>(
+                UpdateCurrentTarget::handleClient, UpdateCurrentTarget::handleServer
+        ));
+        registrar.playBidirectional(AddToCompassFeatures.TYPE, AddToCompassFeatures.CODEC, new DirectionalPayloadHandler<>(
+                AddToCompassFeatures::handleClient, AddToCompassFeatures::handleServer
+        ));
+        registrar.playBidirectional(AddToKnownSpells.TYPE, AddToKnownSpells.CODEC, new DirectionalPayloadHandler<>(
+                AddToKnownSpells::handleClient, AddToKnownSpells::handleServer
+        ));
+        registrar.playBidirectional(UpdateSelectedSpell.TYPE, UpdateSelectedSpell.CODEC, new DirectionalPayloadHandler<>(
+                UpdateSelectedSpell::handleClient, UpdateSelectedSpell::handleServer
+        ));
+        registrar.playBidirectional(UpdateShoutCooldown.TYPE, UpdateShoutCooldown.CODEC, new DirectionalPayloadHandler<>(
+                UpdateShoutCooldown::handleClient, UpdateShoutCooldown::handleServer
+        ));
+        registrar.playToServer(CastSpell.TYPE, CastSpell.CODEC, CastSpell::handle);
+        registrar.playToClient(DetectLife.TYPE, DetectLife.CODEC, DetectLife::handle);
+        registrar.playBidirectional(ReplenishMagicka.TYPE, ReplenishMagicka.CODEC, new DirectionalPayloadHandler<>(
+                ReplenishMagicka::handleClient, ReplenishMagicka::handleServer
+        ));
+        registrar.playBidirectional(ConsumeMagicka.TYPE, ConsumeMagicka.CODEC, new DirectionalPayloadHandler<>(
+                ConsumeMagicka::handleClient, ConsumeMagicka::handleServer
+        ));
+        registrar.playBidirectional(UpdateMagicka.TYPE, UpdateMagicka.CODEC, new DirectionalPayloadHandler<>(
+                UpdateMagicka::handleClient, UpdateMagicka::handleServer
+        ));
 
-
-        registrar.play(AddToTargetingEntities.ID, AddToTargetingEntities::new, payload -> payload.server(AddToTargetingEntities::handleServer).client(AddToTargetingEntities::handleClient));
-        registrar.play(RemoveFromTargetingEntities.ID, RemoveFromTargetingEntities::new, payload -> payload.server(RemoveFromTargetingEntities::handleServer).client(RemoveFromTargetingEntities::handleClient));
-        registrar.play(UpdateCurrentTarget.ID, UpdateCurrentTarget::new, payload -> payload.server(UpdateCurrentTarget::handleServer).client(UpdateCurrentTarget::handleClient));
-
-        registrar.play(AddToCompassFeatures.ID, AddToCompassFeatures::new, payload -> payload.server(AddToCompassFeatures::handleServer).client(AddToCompassFeatures::handleClient));
-
-        registrar.play(AddToKnownSpells.ID, AddToKnownSpells::new, payload -> payload.server(AddToKnownSpells::handleServer).client(AddToKnownSpells::handleClient));
-        registrar.play(UpdateSelectedSpell.ID, UpdateSelectedSpell::new, payload -> payload.server(UpdateSelectedSpell::handleServer).client(UpdateSelectedSpell::handleClient));
-        registrar.play(UpdateShoutCooldown.ID, UpdateShoutCooldown::new, payload -> payload.server(UpdateShoutCooldown::handleServer).client(UpdateShoutCooldown::handleClient));
-        registrar.play(CastSpell.ID, CastSpell::new, payload -> payload.server(CastSpell::handle));
-
-        registrar.play(DetectLife.ID, DetectLife::new, payload -> payload.client(DetectLife::handle));
-
-        registrar.play(ReplenishMagicka.ID, ReplenishMagicka::new, payload -> payload.server(ReplenishMagicka::handleServer).client(ReplenishMagicka::handleClient));
-        registrar.play(ConsumeMagicka.ID, ConsumeMagicka::new, payload -> payload.server(ConsumeMagicka::handleServer).client(ConsumeMagicka::handleClient));
-
-        registrar.play(OpenCharacterCreationScreen.ID, OpenCharacterCreationScreen::new, payload -> payload.server(OpenCharacterCreationScreen::handleServer).client(OpenCharacterCreationScreen::handleClient));
-        registrar.play(CreateCharacter.ID, CreateCharacter::new, payload -> payload.server(CreateCharacter::handleServer).client(CreateCharacter::handleClient));
-        registrar.play(UpdateCharacter.ID, UpdateCharacter::new, payload -> payload.server(UpdateCharacter::handleServer).client(UpdateCharacter::handleClient));
-        registrar.play(UpdateExtraCharacter.ID, UpdateExtraCharacter::new, payload -> payload.server(UpdateExtraCharacter::handleServer).client(UpdateExtraCharacter::handleClient));
-        registrar.play(UpdateLevelUpdates.ID, UpdateLevelUpdates::new, payload -> payload.server(UpdateLevelUpdates::handleServer).client(UpdateLevelUpdates::handleClient));
-        registrar.play(UpdateStatIncreases.ID, UpdateStatIncreases::new, payload -> payload.server(UpdateStatIncreases::handleServer).client(UpdateStatIncreases::handleClient));
-        registrar.play(UpdateQuestManager.ID, UpdateQuestManager::new, payload -> payload.server(UpdateQuestManager::handleServer).client(UpdateQuestManager::handleClient));
-
-        registrar.play(FinishAlchemyRecipe.ID, FinishAlchemyRecipe::new, payload -> payload.server(FinishAlchemyRecipe::handleServer));
-        registrar.play(FinishOvenRecipe.ID, FinishOvenRecipe::new, payload -> payload.server(FinishOvenRecipe::handleServer));
-        registrar.play(FinishForgeRecipe.ID, FinishForgeRecipe::new, payload -> payload.server(FinishForgeRecipe::handleServer));
+        registrar.playBidirectional(OpenCharacterCreationScreen.TYPE, OpenCharacterCreationScreen.CODEC, new DirectionalPayloadHandler<>(
+                OpenCharacterCreationScreen::handleClient, OpenCharacterCreationScreen::handleServer
+        ));
+        registrar.playBidirectional(CreateCharacter.TYPE, CreateCharacter.CODEC, new DirectionalPayloadHandler<>(
+                CreateCharacter::handleClient, CreateCharacter::handleServer
+        ));
+        registrar.playBidirectional(UpdateCharacter.TYPE, UpdateCharacter.CODEC, new DirectionalPayloadHandler<>(
+                UpdateCharacter::handleClient, UpdateCharacter::handleServer
+        ));
+        registrar.playBidirectional(UpdateExtraCharacter.TYPE, UpdateExtraCharacter.CODEC, new DirectionalPayloadHandler<>(
+                UpdateExtraCharacter::handleClient, UpdateExtraCharacter::handleServer
+        ));
+        registrar.playBidirectional(UpdateLevelUpdates.TYPE, UpdateLevelUpdates.CODEC, new DirectionalPayloadHandler<>(
+                UpdateLevelUpdates::handleClient, UpdateLevelUpdates::handleServer
+        ));
+        registrar.playBidirectional(UpdateStatIncreases.TYPE, UpdateStatIncreases.CODEC, new DirectionalPayloadHandler<>(
+                UpdateStatIncreases::handleClient, UpdateStatIncreases::handleServer
+        ));
+        registrar.playToServer(FinishAlchemyRecipe.TYPE, FinishAlchemyRecipe.CODEC, FinishAlchemyRecipe::handleServer);
+        registrar.playToServer(FinishOvenRecipe.TYPE, FinishOvenRecipe.CODEC, FinishOvenRecipe::handleServer);
+        registrar.playToServer(FinishForgeRecipe.TYPE, FinishForgeRecipe.CODEC, FinishForgeRecipe::handleServer);
     }
 }

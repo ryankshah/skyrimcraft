@@ -63,6 +63,7 @@ public class SkyrimcraftBlockLootTables extends BlockLootSubProvider
         dropSelf(BlockInit.OVEN.get());
         dropSelf(BlockInit.BLACKSMITH_FORGE.get());
         dropSelf(BlockInit.WEAPON_RACK.get());
+        dropSelf(BlockInit.ARCANE_ENCHANTER.get());
 
         dropSelf(BlockInit.STONE_BRICK_1.get());
         dropSelf(BlockInit.STONE_BRICK_2.get());
@@ -76,6 +77,8 @@ public class SkyrimcraftBlockLootTables extends BlockLootSubProvider
         dropSelf(BlockInit.PLANKS_2.get());
         dropSelf(BlockInit.PLANKS_3.get());
         dropSelf(BlockInit.PLANKS_4.get());
+
+        add(BlockInit.SOVNGARDE_PORTAL.get(), noDrop());
 
         dropSelf(BlockInit.RED_MOUNTAIN_FLOWER.get());
         dropSelf(BlockInit.BLUE_MOUNTAIN_FLOWER.get());

@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -36,7 +37,7 @@ public class SpectralPotion extends SkyrimPotion
 
         if(!worldIn.isClientSide) {
             if(playerEntity instanceof ServerPlayer) {
-                playerEntity.addEffect(new MobEffectInstance(ModEffects.SPECTRAL.get(), duration, 0, true, true, true));
+                playerEntity.addEffect(new MobEffectInstance(ModEffects.SPECTRAL, duration, 0, true, true, true));
             }
         }
 
@@ -54,8 +55,8 @@ public class SpectralPotion extends SkyrimPotion
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTooltip, TooltipFlag pFlag) {
         pTooltip.add(Component.literal("Appear spectral for " + duration/20 + " seconds"));
-        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+        super.appendHoverText(pStack, pContext, pTooltip, pFlag);
     }
 }

@@ -2,6 +2,7 @@ package com.ryankshah.skyrimcraft.data.loot_table;
 
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.util.ExtraCodecs;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class DungeonLootEnhancerModifier extends LootModifier
 {
-    public static final Supplier<Codec<DungeonLootEnhancerModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> codecStart(inst)
+    public static final Supplier<MapCodec<DungeonLootEnhancerModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.mapCodec(inst -> codecStart(inst)
             .and(ExtraCodecs.POSITIVE_INT.optionalFieldOf("multiplication_factor", 2).forGetter(m -> m.multiplicationFactor))
             .apply(inst, DungeonLootEnhancerModifier::new)));
 
@@ -41,7 +42,7 @@ public class DungeonLootEnhancerModifier extends LootModifier
     }
 
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
+    public MapCodec<? extends IGlobalLootModifier> codec() {
         return SkyrimLootModifiers.ADD_DUNGEON_LOOT_MODIFIER_TYPE.get();
     }
 }

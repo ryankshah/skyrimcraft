@@ -1,10 +1,6 @@
 package com.ryankshah.skyrimcraft.effect;
 
-import com.ryankshah.skyrimcraft.particle.FireParticle;
-import com.ryankshah.skyrimcraft.particle.LightningParticle;
 import com.ryankshah.skyrimcraft.util.ClientUtil;
-import com.ryankshah.skyrimcraft.util.ParticleColors;
-import com.ryankshah.skyrimcraft.util.ProjectileHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -12,8 +8,6 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.Entity;
@@ -37,7 +31,7 @@ public class EffectFlameCloak extends MobEffect
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
+    public boolean applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
         if(livingEntity.level() instanceof ServerLevel) {
             ServerLevel level = (ServerLevel)livingEntity.level();
             Vec3 loc = livingEntity.position().add(0, 1, 0);
@@ -51,11 +45,11 @@ public class EffectFlameCloak extends MobEffect
 
             for(Entity entity : level.getEntities(livingEntity, new AABB(livingEntity.position(), livingEntity.position().multiply(radius, radius, radius)))) {
                 if(entity instanceof LivingEntity target) {
-                    target.setSecondsOnFire(2);
+                    target.setRemainingFireTicks(20*2);
                 }
             }
         }
-        super.applyEffectTick(livingEntity, p_76394_2_);
+        return super.applyEffectTick(livingEntity, p_76394_2_);
     }
 
     public <T extends ParticleOptions> int sendParticles(

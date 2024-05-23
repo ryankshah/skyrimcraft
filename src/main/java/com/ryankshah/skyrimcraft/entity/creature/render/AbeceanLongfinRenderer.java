@@ -35,9 +35,11 @@ public class AbeceanLongfinRenderer extends MobRenderer<AbeceanLongfin, Colorabl
         super.render(pEntity, pEntityYaw, pPartialTicks, pPoseStack, pBuffer, pPackedLight);
     }
 
-    protected void setupRotations(AbeceanLongfin pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-        float f = 4.3F * Mth.sin(0.6F * pAgeInTicks);
+
+
+    protected void setupRotations(AbeceanLongfin pEntityLiving, PoseStack pPoseStack, float pBob, float pYBodyRot, float pPartialTick, float pScale) {
+        super.setupRotations(pEntityLiving, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
+        float f = 4.3F * Mth.sin(0.6F * pPartialTick);
         pPoseStack.mulPose(Axis.YP.rotationDegrees(f));
         if (!pEntityLiving.isInWater()) {
             pPoseStack.translate(0.2F, 0.1F, 0.0F);

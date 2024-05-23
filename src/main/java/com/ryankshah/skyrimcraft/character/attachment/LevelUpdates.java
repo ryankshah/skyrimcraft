@@ -1,5 +1,6 @@
 package com.ryankshah.skyrimcraft.character.attachment;
 
+import com.ryankshah.skyrimcraft.network.character.UpdateCharacter;
 import com.ryankshah.skyrimcraft.network.character.UpdateLevelUpdates;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -22,7 +23,8 @@ public class LevelUpdates
     }
 
     protected static void syncTo(Player player) {
-        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateLevelUpdates(player.getData(PlayerAttachments.LEVEL_UPDATES)));
+        PacketDistributor.sendToPlayer((ServerPlayer) player, new UpdateLevelUpdates(player.getData(PlayerAttachments.LEVEL_UPDATES)));
+//        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateLevelUpdates(player.getData(PlayerAttachments.LEVEL_UPDATES)));
     }
 
     private static class LevelUpdateEvents
@@ -73,7 +75,8 @@ public class LevelUpdates
             if(event.getEntity() instanceof Player player) {
                 var old = player.getData(PlayerAttachments.LEVEL_UPDATES);
                 player.setData(PlayerAttachments.LEVEL_UPDATES, player.getData(PlayerAttachments.LEVEL_UPDATES));
-                PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateLevelUpdates(old));
+                PacketDistributor.sendToPlayer((ServerPlayer) player, new UpdateLevelUpdates(old));
+//                PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateLevelUpdates(old));
             }
         }
 
@@ -88,7 +91,8 @@ public class LevelUpdates
             int oldHandler = oldPlayer.getData(PlayerAttachments.LEVEL_UPDATES);
             player.setData(PlayerAttachments.LEVEL_UPDATES, oldHandler);
             int newHandler = player.getData(PlayerAttachments.LEVEL_UPDATES);
-            PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateLevelUpdates(newHandler));
+            PacketDistributor.sendToPlayer((ServerPlayer) player, new UpdateLevelUpdates(newHandler));
+//            PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateLevelUpdates(newHandler));
         }
     }
 }

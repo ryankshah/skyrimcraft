@@ -3,7 +3,6 @@ package com.ryankshah.skyrimcraft.entity.creature.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
-import com.ryankshah.skyrimcraft.entity.creature.AbeceanLongfin;
 import com.ryankshah.skyrimcraft.entity.creature.CyrodilicSpadetail;
 import net.minecraft.client.model.ColorableHierarchicalModel;
 import net.minecraft.client.model.TropicalFishModelA;
@@ -36,9 +35,9 @@ public class CyrodilicSpadetailRenderer extends MobRenderer<CyrodilicSpadetail, 
         super.render(pEntity, pEntityYaw, pPartialTicks, pPoseStack, pBuffer, pPackedLight);
     }
 
-    protected void setupRotations(CyrodilicSpadetail pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-        float f = 4.3F * Mth.sin(0.6F * pAgeInTicks);
+    protected void setupRotations(CyrodilicSpadetail pEntityLiving, PoseStack pPoseStack, float pBob, float pYBodyRot, float pPartialTick, float pScale) {
+        super.setupRotations(pEntityLiving, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
+        float f = 4.3F * Mth.sin(0.6F * pPartialTick);
         pPoseStack.mulPose(Axis.YP.rotationDegrees(f));
         if (!pEntityLiving.isInWater()) {
             pPoseStack.translate(0.2F, 0.1F, 0.0F);

@@ -95,7 +95,7 @@ public class SkyrimAdvancementProvider extends AdvancementProvider {
                         .display(provider, Component.literal(spell.get().getName()),
                                 Component.literal("Learn the " + spell.get().getName() + " " + (spell.get().getType() == Spell.SpellType.SHOUT ? "shout" : "spell")),
                                 (ResourceLocation)null, AdvancementType.CHALLENGE, true, true, true)
-                        .addCriterion("spell_learned_" + spell.get().getName().toLowerCase(Locale.ENGLISH).replace(" ", "_"), LearnSpellTrigger.onLearn(spell.get()))
+                        .addCriterion("spell_learned_" + spell.get().getName().toLowerCase(Locale.ENGLISH).replace(" ", "_"), LearnSpellTrigger.onLearn(spell))
                         .save(saver, new ResourceLocation(Skyrimcraft.MODID, (spell.get().getType() == Spell.SpellType.SHOUT ? "shout" : "spell") + "/" + spell.get().getName().toLowerCase(Locale.ENGLISH).replace(" ", "_")), existingFileHelper);
             }
 

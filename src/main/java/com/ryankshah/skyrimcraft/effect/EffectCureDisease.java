@@ -11,11 +11,12 @@ public class EffectCureDisease extends InstantenousMobEffect
     }
 
     @Override
-    public void applyEffectTick(LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         entity.getActiveEffects().stream()
-                .filter(mobEffectInstance -> mobEffectInstance.getEffect().getCategory() == MobEffectCategory.HARMFUL)
+                .filter(mobEffectInstance -> mobEffectInstance.getEffect().value().getCategory() == MobEffectCategory.HARMFUL)
                 .forEach(
                         mobEffectInstance -> entity.removeEffect(mobEffectInstance.getEffect())
                 );
+        return super.applyEffectTick(entity, amplifier);
     }
 }

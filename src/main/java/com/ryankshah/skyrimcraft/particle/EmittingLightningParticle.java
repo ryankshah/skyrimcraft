@@ -43,10 +43,10 @@ public class EmittingLightningParticle extends TextureSheetParticle {
         this.renderer = new BoltRenderer();
     }
 
-    @Override
-    public boolean shouldCull() {
-        return false;
-    }
+//    @Override
+//    public boolean shouldCull() {
+//        return false;
+//    }
 
     @Override
     public void render(@NotNull VertexConsumer pBuffer, @NotNull Camera pRenderInfo, float pPartialTicks) {
@@ -88,17 +88,17 @@ public class EmittingLightningParticle extends TextureSheetParticle {
     }
 
     public record EmittingLightningParticleOptions(Vector3f color, float scalar, int lifetime) implements ParticleOptions {
-        public static Deserializer<EmittingLightningParticleOptions> DESERIALIZER = new Deserializer<>() {
-            public @NotNull EmittingLightningParticleOptions fromCommand(@NotNull ParticleType<EmittingLightningParticleOptions> type, @NotNull StringReader reader) throws CommandSyntaxException {
-                Vector3f color = EmittingLightningParticleOptions.readColorVector3f(reader);
-                reader.expect(' ');
-                return new EmittingLightningParticleOptions(color, reader.readFloat(), reader.readInt());
-            }
-
-            public @NotNull EmittingLightningParticleOptions fromNetwork(@NotNull ParticleType<EmittingLightningParticleOptions> type, @NotNull FriendlyByteBuf buf) {
-                return new EmittingLightningParticleOptions(EmittingLightningParticleOptions.readColorFromNetwork(buf), buf.readFloat(), buf.readInt());
-            }
-        };
+//        public static Deserializer<EmittingLightningParticleOptions> DESERIALIZER = new Deserializer<>() {
+//            public @NotNull EmittingLightningParticleOptions fromCommand(@NotNull ParticleType<EmittingLightningParticleOptions> type, @NotNull StringReader reader) throws CommandSyntaxException {
+//                Vector3f color = EmittingLightningParticleOptions.readColorVector3f(reader);
+//                reader.expect(' ');
+//                return new EmittingLightningParticleOptions(color, reader.readFloat(), reader.readInt());
+//            }
+//
+//            public @NotNull EmittingLightningParticleOptions fromNetwork(@NotNull ParticleType<EmittingLightningParticleOptions> type, @NotNull FriendlyByteBuf buf) {
+//                return new EmittingLightningParticleOptions(EmittingLightningParticleOptions.readColorFromNetwork(buf), buf.readFloat(), buf.readInt());
+//            }
+//        };
 
         @Override
         public @NotNull ParticleType<?> getType() {
@@ -119,20 +119,20 @@ public class EmittingLightningParticle extends TextureSheetParticle {
             return new Vector3f(buf.readFloat(), buf.readFloat(), buf.readFloat());
         }
 
-        @Override
-        public void writeToNetwork(FriendlyByteBuf buf) {
-            buf.writeFloat(this.color.x);
-            buf.writeFloat(this.color.y);
-            buf.writeFloat(this.color.z);
-            buf.writeFloat(this.scalar);
-            buf.writeInt(this.lifetime);
-        }
-
-        @Override
-        public @NotNull String writeToString() {
-            return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f %d", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                    this.color.x, this.color.y, this.color.z, this.scalar, this.lifetime);
-        }
+//        @Override
+//        public void writeToNetwork(FriendlyByteBuf buf) {
+//            buf.writeFloat(this.color.x);
+//            buf.writeFloat(this.color.y);
+//            buf.writeFloat(this.color.z);
+//            buf.writeFloat(this.scalar);
+//            buf.writeInt(this.lifetime);
+//        }
+//
+//        @Override
+//        public @NotNull String writeToString() {
+//            return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f %d", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
+//                    this.color.x, this.color.y, this.color.z, this.scalar, this.lifetime);
+//        }
     }
 
     public static class Provider implements ParticleProvider<EmittingLightningParticleOptions> {

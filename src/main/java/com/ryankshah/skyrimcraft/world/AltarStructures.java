@@ -1,6 +1,7 @@
 package com.ryankshah.skyrimcraft.world;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ryankshah.skyrimcraft.init.StructureInit;
 import net.minecraft.core.BlockPos;
@@ -22,7 +23,7 @@ public class AltarStructures extends Structure {
 
     // A custom codec that changes the size limit for our code_structure_sky_fan.json's config to not be capped at 7.
     // With this, we can have a structure with a size limit up to 30 if we want to have extremely long branches of pieces in the structure.
-    public static final Codec<AltarStructures> CODEC = RecordCodecBuilder.<AltarStructures>mapCodec(instance ->
+    public static final MapCodec<AltarStructures> CODEC = RecordCodecBuilder.<AltarStructures>mapCodec(instance ->
             instance.group(AltarStructures.settingsCodec(instance),
                     StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
                     ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
@@ -30,7 +31,7 @@ public class AltarStructures extends Structure {
                     HeightProvider.CODEC.fieldOf("start_height").forGetter(structure -> structure.startHeight),
                     Heightmap.Types.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(structure -> structure.projectStartToHeightmap),
                     Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter)
-            ).apply(instance, AltarStructures::new)).codec();
+            ).apply(instance, AltarStructures::new));//.codec();
 
     private final Holder<StructureTemplatePool> startPool;
     private final Optional<ResourceLocation> startJigsawName;

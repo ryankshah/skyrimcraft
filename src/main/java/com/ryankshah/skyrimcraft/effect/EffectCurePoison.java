@@ -12,8 +12,9 @@ public class EffectCurePoison extends InstantenousMobEffect
     }
 
     @Override
-    public void applyEffectTick(LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         if(entity.hasEffect(MobEffects.POISON))
             entity.removeEffect(MobEffects.POISON);
+        return super.applyEffectTick(entity, amplifier);
     }
 }

@@ -107,7 +107,7 @@ public class SpellConjureZombie extends Spell
                 zombieEntity.targetSelector.addGoal(2, new ConjuredOwnerHurtTargetGoal(zombieEntity, getCaster()));
 //                zombieEntity.setTame(true);
                 zombieEntity.setHealth(40f);
-                zombieEntity.addEffect(new MobEffectInstance(ModEffects.SPECTRAL.get(), 60 * 20, 0, false, true, true));
+                zombieEntity.addEffect(new MobEffectInstance(ModEffects.SPECTRAL, 60 * 20, 0, false, true, true));
 //                zombieEntity.setOwnerUUID(getCaster().getUUID());
                 zombieEntity.getPersistentData().putLong(Skyrimcraft.MODID + "_" + getCaster().getUUID() + "_conjuredzombie_timeToKill", getCaster().level().getGameTime() + (60L * 20L));
                 getCaster().level().addFreshEntity(zombieEntity);

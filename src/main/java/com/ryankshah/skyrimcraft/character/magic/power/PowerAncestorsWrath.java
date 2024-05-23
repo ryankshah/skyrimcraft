@@ -83,7 +83,7 @@ public class PowerAncestorsWrath extends Spell
 
     @Override
     public void onCast() {
-        getCaster().addEffect(new MobEffectInstance(ModEffects.FLAME_CLOAK.get(), 1200, 0, false, true, true));
+        getCaster().addEffect(new MobEffectInstance(ModEffects.FLAME_CLOAK, 1200, 0, false, true, true));
         super.onCast();
     }
 }

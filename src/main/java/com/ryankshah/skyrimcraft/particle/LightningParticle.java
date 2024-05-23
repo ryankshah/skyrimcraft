@@ -2,17 +2,23 @@ package com.ryankshah.skyrimcraft.particle;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.MapCodec;
 import com.ryankshah.skyrimcraft.init.ParticleInit;
 import com.ryankshah.skyrimcraft.init.ParticleRenderTypeInit;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
@@ -66,17 +72,17 @@ public class LightningParticle extends TextureSheetParticle {
     }
 
     public record LightningParticleOptions(Vector3f color, float scalar, int lifetime) implements ParticleOptions {
-        public static Deserializer<LightningParticleOptions> DESERIALIZER = new Deserializer<>() {
-            public @NotNull LightningParticleOptions fromCommand(@NotNull ParticleType<LightningParticleOptions> type, @NotNull StringReader reader) throws CommandSyntaxException {
-                Vector3f color = LightningParticleOptions.readColorVector3f(reader);
-                reader.expect(' ');
-                return new LightningParticleOptions(color, reader.readFloat(), reader.readInt());
-            }
-
-            public @NotNull LightningParticleOptions fromNetwork(@NotNull ParticleType<LightningParticleOptions> type, @NotNull FriendlyByteBuf buf) {
-                return new LightningParticleOptions(LightningParticleOptions.readColorFromNetwork(buf), buf.readFloat(), buf.readInt());
-            }
-        };
+//        public static Deserializer<LightningParticleOptions> DESERIALIZER = new Deserializer<>() {
+//            public @NotNull LightningParticleOptions fromCommand(@NotNull ParticleType<LightningParticleOptions> type, @NotNull StringReader reader) throws CommandSyntaxException {
+//                Vector3f color = LightningParticleOptions.readColorVector3f(reader);
+//                reader.expect(' ');
+//                return new LightningParticleOptions(color, reader.readFloat(), reader.readInt());
+//            }
+//
+//            public @NotNull LightningParticleOptions fromNetwork(@NotNull ParticleType<LightningParticleOptions> type, @NotNull FriendlyByteBuf buf) {
+//                return new LightningParticleOptions(LightningParticleOptions.readColorFromNetwork(buf), buf.readFloat(), buf.readInt());
+//            }
+//        };
 
         @Override
         public @NotNull ParticleType<?> getType() {
@@ -97,20 +103,20 @@ public class LightningParticle extends TextureSheetParticle {
             return new Vector3f(buf.readFloat(), buf.readFloat(), buf.readFloat());
         }
 
-        @Override
-        public void writeToNetwork(FriendlyByteBuf buf) {
-            buf.writeFloat(this.color.x);
-            buf.writeFloat(this.color.y);
-            buf.writeFloat(this.color.z);
-            buf.writeFloat(this.scalar);
-            buf.writeInt(this.lifetime);
-        }
-
-        @Override
-        public @NotNull String writeToString() {
-            return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f %d", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                    this.color.x, this.color.y, this.color.z, this.scalar, this.lifetime);
-        }
+//        @Override
+//        public void writeToNetwork(FriendlyByteBuf buf) {
+//            buf.writeFloat(this.color.x);
+//            buf.writeFloat(this.color.y);
+//            buf.writeFloat(this.color.z);
+//            buf.writeFloat(this.scalar);
+//            buf.writeInt(this.lifetime);
+//        }
+//
+//        @Override
+//        public @NotNull String writeToString() {
+//            return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f %d", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
+//                    this.color.x, this.color.y, this.color.z, this.scalar, this.lifetime);
+//        }
     }
 
     public static class Provider implements ParticleProvider<LightningParticleOptions> {

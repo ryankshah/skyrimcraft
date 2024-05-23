@@ -4,18 +4,17 @@ import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.init.ItemInit;
 import com.ryankshah.skyrimcraft.init.ParticleInit;
 import com.ryankshah.skyrimcraft.particle.EmittingLightningParticle;
-import com.ryankshah.skyrimcraft.particle.FireParticle;
 import com.ryankshah.skyrimcraft.particle.LightningParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
-@Mod.EventBusSubscriber(modid = Skyrimcraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Skyrimcraft.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents
 {
     @SubscribeEvent
@@ -27,7 +26,7 @@ public class ClientEvents
     public static void onRegisterParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ParticleInit.LIGHTNING.get(), LightningParticle.Provider::new);
         event.registerSpriteSet(ParticleInit.EMITTING_LIGHTNING.get(), EmittingLightningParticle.Provider::new);
-        event.registerSpriteSet(ParticleInit.FIRE.get(), FireParticle.Provider::new);
+//        event.registerSpriteSet(ParticleInit.FIRE.get(), FireParticle.Provider::new);
     }
 
     public static float noUse(ItemStack sword, ClientLevel clientWorld, LivingEntity entity, int i) {

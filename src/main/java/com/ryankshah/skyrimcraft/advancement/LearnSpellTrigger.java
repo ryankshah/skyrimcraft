@@ -9,6 +9,7 @@ import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ExtraCodecs;
 
@@ -21,25 +22,26 @@ public final class LearnSpellTrigger extends SimpleCriterionTrigger<LearnSpellTr
         return Instance.CODEC;
     }
 
-    public void trigger(ServerPlayer player, Spell spell) {
-        trigger(player, instance -> instance.test(spell));
+    public void trigger(ServerPlayer player, Holder<Spell> spell) {
+        trigger(player, instance -> instance.matches(spell));
     }
 
-    public static Criterion<Instance> onLearn(@Nullable ContextAwarePredicate conditions, @Nullable Spell spell) {
+    public static Criterion<Instance> onLearn(@Nullable ContextAwarePredicate conditions, @Nullable Holder<Spell> spell) {
         return AdvancementTriggersInit.LEARN_SPELL.get().createCriterion(new Instance(Optional.ofNullable(conditions), spell != null ? Optional.of(spell) : Optional.empty()));
     }
 
-    public static Criterion<Instance> onLearn(@Nullable Spell spell) {
+    public static Criterion<Instance> onLearn(@Nullable Holder<Spell> spell) {
         return onLearn(null, spell);
     }
 
-    public record Instance(Optional<ContextAwarePredicate> player, Optional<Spell> spell) implements SimpleCriterionTrigger.SimpleInstance {
+
+    public record Instance(Optional<ContextAwarePredicate> player, Optional<Holder<Spell>> spell) implements SimpleCriterionTrigger.SimpleInstance {
         private static final Codec<Instance> CODEC = RecordCodecBuilder.create(codec -> codec.group(
-                ExtraCodecs.strictOptionalField(EntityPredicate.ADVANCEMENT_CODEC, "player").forGetter(Instance::player),
-                ExtraCodecs.strictOptionalField(SpellRegistry.SPELLS_REGISTRY.byNameCodec(), "skill").forGetter(Instance::spell)
+                EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(Instance::player),
+                SpellRegistry.SPELLS_REGISTRY.holderByNameCodec().optionalFieldOf("skill").forGetter(Instance::spell)
         ).apply(codec, Instance::new));
 
-        public boolean test(Spell spell) {
+        public boolean matches(Holder<Spell> spell) {
             return spell().isEmpty() || spell().get() == spell;
         }
 

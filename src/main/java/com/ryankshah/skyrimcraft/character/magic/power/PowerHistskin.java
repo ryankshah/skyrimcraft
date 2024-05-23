@@ -80,7 +80,7 @@ public class PowerHistskin extends Spell
     @Override
     public void onCast() {
 //        getCaster().addEffect(new MobEffectInstance(MobEffects.REGENERATION, 1200, 1, true, true, true));
-        getCaster().addEffect(new MobEffectInstance(ModEffects.HIST.get(), 1200, 1, true, true, true));
+        getCaster().addEffect(new MobEffectInstance(ModEffects.HIST, 1200, 1, true, true, true));
         super.onCast();
     }
 }

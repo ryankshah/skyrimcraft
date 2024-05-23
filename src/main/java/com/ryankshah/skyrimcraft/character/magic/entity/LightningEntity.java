@@ -136,11 +136,9 @@ public class LightningEntity extends SkyrimcraftProjectile {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-
-        this.entityData.define(DATA_YAW, 0.0F);
-        this.entityData.define(DATA_PITCH, 0.0F);
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        pBuilder.define(DATA_YAW, 0.0F);
+        pBuilder.define(DATA_PITCH, 0.0F);
     }
 
     public float getYaw() {

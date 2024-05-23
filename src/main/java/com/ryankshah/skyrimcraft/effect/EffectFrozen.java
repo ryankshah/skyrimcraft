@@ -21,13 +21,13 @@ public class EffectFrozen extends MobEffect
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
+    public boolean applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
         if(livingEntity instanceof Mob mob) {
             mob.goalSelector.disableControlFlag(Goal.Flag.MOVE);
             mob.goalSelector.disableControlFlag(Goal.Flag.JUMP);
         } else if(livingEntity instanceof Player player) {
         }
 
-        super.applyEffectTick(livingEntity, p_76394_2_);
+        return super.applyEffectTick(livingEntity, p_76394_2_);
     }
 }

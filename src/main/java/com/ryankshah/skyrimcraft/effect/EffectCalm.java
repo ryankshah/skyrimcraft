@@ -13,11 +13,11 @@ public class EffectCalm extends MobEffect
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
-        super.applyEffectTick(livingEntity, p_76394_2_);
-
+    public boolean applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
         if(livingEntity instanceof Raider raider) {
             raider.targetSelector.setControlFlag(Goal.Flag.TARGET, false);
         }
+
+        return super.applyEffectTick(livingEntity, p_76394_2_);
     }
 }

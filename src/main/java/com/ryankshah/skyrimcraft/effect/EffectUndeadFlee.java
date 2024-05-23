@@ -11,7 +11,7 @@ public class EffectUndeadFlee extends MobEffect
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
-        super.applyEffectTick(livingEntity, p_76394_2_);
+    public boolean applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
+        return super.applyEffectTick(livingEntity, p_76394_2_);
     }
 }

@@ -33,7 +33,7 @@ public class ShoutDisarm extends Spell //implements IForgeRegistryEntry<ISpell>
     @Override
     public SoundEvent getSound() {
         //return ModSounds.UNRELENTING_FORCE.get();
-        return SoundEvents.GENERIC_EXPLODE;
+        return SoundEvents.GENERIC_EXPLODE.value();
     }
 
     @Override

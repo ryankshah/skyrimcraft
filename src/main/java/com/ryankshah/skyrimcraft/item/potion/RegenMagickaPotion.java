@@ -43,8 +43,8 @@ public class RegenMagickaPotion extends SkyrimPotion
         if (!worldIn.isClientSide) {
             if(playerEntity instanceof ServerPlayer) {
                 ServerPlayer serverPlayerEntity = (ServerPlayer) playerEntity;
-                serverPlayerEntity.getAttribute(AttributeInit.MAGICKA_REGEN.get()).addTransientModifier(new AttributeModifier(AttributeInit.MODIFIER_ID_MAGICKA_REGEN.toString(), modifierValue, AttributeModifier.Operation.MULTIPLY_BASE));
-                serverPlayerEntity.addEffect(new MobEffectInstance(ModEffects.MAGICKA_REGEN.get(), duration, 0, true, true, true));
+                serverPlayerEntity.getAttribute(AttributeInit.MAGICKA_REGEN).addTransientModifier(new AttributeModifier(AttributeInit.MODIFIER_ID_MAGICKA_REGEN.toString(), modifierValue, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+                serverPlayerEntity.addEffect(new MobEffectInstance(ModEffects.MAGICKA_REGEN, duration, 0, true, true, true));
             }
         }
 
@@ -79,7 +79,7 @@ public class RegenMagickaPotion extends SkyrimPotion
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext pContext, List<Component> tooltip, TooltipFlag flagIn) {
         String regenValue = "";
 
         Item item = stack.getItem();
@@ -96,6 +96,6 @@ public class RegenMagickaPotion extends SkyrimPotion
         }
 
         tooltip.add(Component.literal("Grants " + duration/20 + "s of " + regenValue + " magicka regen"));
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        super.appendHoverText(stack, pContext, tooltip, flagIn);
     }
 }

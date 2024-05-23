@@ -4,48 +4,70 @@ import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import com.ryankshah.skyrimcraft.screen.SkyrimGuiOverlay;
 import com.ryankshah.skyrimcraft.util.LevelUpdate;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.toasts.SystemToast;
-import net.minecraft.client.gui.components.toasts.ToastComponent;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.network.handling.PlayPayloadContext;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record AddToLevelUpdates(String updateName, int level, int levelUpRenderTime) implements CustomPacketPayload
 {
-    public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"addtolevelupdates");
+    public static final CustomPacketPayload.Type<AddToLevelUpdates> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "addtolevelupdates"));
+
+    public static final StreamCodec<ByteBuf, AddToLevelUpdates> CODEC = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8,
+            AddToLevelUpdates::updateName,
+            ByteBufCodecs.VAR_INT,
+            AddToLevelUpdates::level,
+            ByteBufCodecs.VAR_INT,
+            AddToLevelUpdates::levelUpRenderTime,
+            AddToLevelUpdates::new
+    );
 
     public AddToLevelUpdates(final FriendlyByteBuf buffer) {
         this(buffer.readUtf(), buffer.readInt(), buffer.readInt());
     }
 
-    @Override
-    public void write(final FriendlyByteBuf buffer) {
-        buffer.writeUtf(updateName);
-        buffer.writeInt(level);
-        buffer.writeInt(levelUpRenderTime);
+    public AddToLevelUpdates() {
+        this("", 0, 0);
     }
 
     @Override
-    public ResourceLocation id() {
-        return ID;
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
-    public static void handleServer(final AddToLevelUpdates data, final PlayPayloadContext context) {
-        ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
+//    @Override
+//    public void write(final FriendlyByteBuf buffer) {
+//        buffer.writeUtf(updateName);
+//        buffer.writeInt(level);
+//        buffer.writeInt(levelUpRenderTime);
+//    }
+//
+//    @Override
+//    public ResourceLocation id() {
+//        return ID;
+//    }
+
+    public static void handleServer(final AddToLevelUpdates data, final IPayloadContext context) {
+        ServerPlayer player = (ServerPlayer) context.player();
         if(data.updateName.equals("characterLevel"))
             player.setData(PlayerAttachments.LEVEL_UPDATES, player.getData(PlayerAttachments.LEVEL_UPDATES)+1);
         final AddToLevelUpdates updates = new AddToLevelUpdates(data.updateName, data.level, data.levelUpRenderTime);
-        PacketDistributor.PLAYER.with((ServerPlayer) context.player().orElseThrow()).send(updates);
+        PacketDistributor.sendToPlayer(player, updates);
+//        PacketDistributor.PLAYER.with((ServerPlayer) context.player().orElseThrow()).send(updates);
     }
 
-    public static void handleClient(final AddToLevelUpdates data, final PlayPayloadContext context) {
+    public static void handleClient(final AddToLevelUpdates data, final IPayloadContext  context) {
         Minecraft minecraft = Minecraft.getInstance();
         minecraft.execute(() -> {
             Player player = minecraft.player;
@@ -58,4 +80,3 @@ public record AddToLevelUpdates(String updateName, int level, int levelUpRenderT
         });
     }
 }
-

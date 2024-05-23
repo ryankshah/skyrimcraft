@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.PanoramaRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -48,7 +49,8 @@ public class CharacterCreationScreen extends Screen
         currentRace = 0;
         currentRaceObject = races.get(currentRace);
         final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId(), false);
-        PacketDistributor.SERVER.noArg().send(createCharacter);
+        PacketDistributor.sendToServer(createCharacter);
+//        PacketDistributor.SERVER.noArg().send(createCharacter);
     }
 
     @Override
@@ -69,7 +71,7 @@ public class CharacterCreationScreen extends Screen
 
         float f = this.fading ? (float)(Util.getMillis() - this.fadeInStart) / 1000.0F : 1.0F;
 //        graphics.fill(0, 0, this.width, this.height, -1);
-        this.panorama.render(partialTicks, Mth.clamp(f, 0.0F, 1.0F));
+        this.panorama.render(graphics, width, height, Mth.clamp(f, 0.0F, 1.0F), partialTicks); // TODO: Check this!
 //        CUBE_MAP.render(this.minecraft, Mth.sin(cubeMapPosition * 0.001F) * 5.0F + 25.0F, -cubeMapPosition * 0.1F, Mth.clamp(f, 0.0F, 1.0F));
         int i = 274;
         int j = this.width / 2 + 40;
@@ -115,7 +117,8 @@ public class CharacterCreationScreen extends Screen
 
             currentRaceObject = races.get(currentRace);
             final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId(), false);
-            PacketDistributor.SERVER.noArg().send(createCharacter);
+            PacketDistributor.sendToServer(createCharacter);
+//            PacketDistributor.SERVER.noArg().send(createCharacter);
         } else if(scrollY < 0) {
             if (this.currentRace < this.races.size() - 1)
                 ++this.currentRace;
@@ -124,7 +127,8 @@ public class CharacterCreationScreen extends Screen
 
             currentRaceObject = races.get(currentRace);
             final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId(), false);
-            PacketDistributor.SERVER.noArg().send(createCharacter);
+            PacketDistributor.sendToServer(createCharacter);
+//            PacketDistributor.SERVER.noArg().send(createCharacter);
         }
         return true;
     }
@@ -139,7 +143,8 @@ public class CharacterCreationScreen extends Screen
 
             currentRaceObject = races.get(currentRace);
             final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId(), false);
-            PacketDistributor.SERVER.noArg().send(createCharacter);
+            PacketDistributor.sendToServer(createCharacter);
+//            PacketDistributor.SERVER.noArg().send(createCharacter);
         }
 
         if (KeyEvents.SKYRIM_MENU_NORTH.get().isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
@@ -150,12 +155,14 @@ public class CharacterCreationScreen extends Screen
 
             currentRaceObject = races.get(currentRace);
             final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId(), false);
-            PacketDistributor.SERVER.noArg().send(createCharacter);
+            PacketDistributor.sendToServer(createCharacter);
+//            PacketDistributor.SERVER.noArg().send(createCharacter);
         }
 
         if (KeyEvents.SKYRIM_MENU_ENTER.get().isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
             final CreateCharacter createCharacter = new CreateCharacter(currentRaceObject.getId(), true);
-            PacketDistributor.SERVER.noArg().send(createCharacter);
+            PacketDistributor.sendToServer(createCharacter);
+//            PacketDistributor.SERVER.noArg().send(createCharacter);
 //            System.out.println(minecraft.player.getData(PlayerAttachments.SKILLS).getRace().getName() + " " + minecraft.player.getData(PlayerAttachments.SKILLS).getRace().getStartingSkills());
             minecraft.setScreen(null);
         }

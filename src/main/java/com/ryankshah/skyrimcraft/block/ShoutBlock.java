@@ -10,7 +10,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -58,8 +57,8 @@ public class ShoutBlock extends Block {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (!pLevel.isClientSide) {
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if(!pLevel.isClientSide) {
             ServerPlayer player = (ServerPlayer)pPlayer;
             List<BlockState> nearbyShoutBlocks = pLevel.getBlockStates(new AABB(pPos.getX() - 5, pPos.getY() - 5, pPos.getZ() - 5,
                     pPos.getX() + 5, pPos.getY() + 5, pPos.getZ() + 5)).collect(Collectors.toList());
@@ -84,7 +83,8 @@ public class ShoutBlock extends Block {
                         System.out.println(shout);
 
                         final AddToKnownSpells addSpell = new AddToKnownSpells(SpellRegistry.SPELLS_REGISTRY.getResourceKey(shout).get());
-                        PacketDistributor.SERVER.noArg().send(addSpell);
+                        PacketDistributor.sendToServer(addSpell);
+//                        PacketDistributor.SERVER.noArg().send(addSpell);
 
                         pLevel.setBlockAndUpdate(pPos, pState.setValue(SHOUT_GIVEN, true));
                         for(BlockState state : nearbyShoutBlocks) {
@@ -98,7 +98,8 @@ public class ShoutBlock extends Block {
                     }
                 } else {
                     final AddToKnownSpells addSpell = new AddToKnownSpells(SpellRegistry.SPELLS_REGISTRY.getResourceKey(SpellRegistry.UNRELENTING_FORCE.get()).get());
-                    PacketDistributor.SERVER.noArg().send(addSpell);
+                    PacketDistributor.sendToServer(addSpell);
+//                    PacketDistributor.SERVER.noArg().send(addSpell);
 
                     pLevel.setBlockAndUpdate(pPos, pState.setValue(SHOUT_GIVEN, true));
                     for(BlockState state : nearbyShoutBlocks) {

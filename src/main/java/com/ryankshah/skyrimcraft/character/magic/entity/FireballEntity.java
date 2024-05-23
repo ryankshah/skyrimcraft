@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -58,7 +59,7 @@ public class FireballEntity extends Projectile
     }
 
     @Override
-    protected void defineSynchedData() {
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -120,11 +121,12 @@ public class FireballEntity extends Projectile
                     LivingEntity livingEntity = (LivingEntity)entity;
                     ServerLevel world = (ServerLevel) entity.level();
                     livingEntity.hurt(this.damageSources().magic(), 5.5f);
-                    livingEntity.setSecondsOnFire(4); // 4 seconds too long/short?
+                    livingEntity.setRemainingFireTicks(4*20);
+//                    livingEntity.setSecondsOnFire(4); // 4 seconds too long/short?
                     //igniteBlocks(4); // needed ?
                 }
             } else if (result.getType() == HitResult.Type.BLOCK) {
-                this.level().playSound(null, new BlockPos((int)result.getLocation().x, (int)result.getLocation().y, (int)result.getLocation().z), SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE, 1.0F, 1.0F);
+                this.level().playSound(null, new BlockPos((int)result.getLocation().x, (int)result.getLocation().y, (int)result.getLocation().z), SoundEvents.GENERIC_EXPLODE.value(), SoundSource.HOSTILE, 1.0F, 1.0F);
             }
             this.remove(RemovalReason.DISCARDED);
         }

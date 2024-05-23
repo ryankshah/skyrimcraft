@@ -11,11 +11,11 @@ public class EffectEthereal extends MobEffect
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingEntity, int amplifier) {
+    public boolean applyEffectTick(LivingEntity livingEntity, int amplifier) {
         // Apply your effect logic here.
         if(!livingEntity.isInvulnerable())
             livingEntity.setInvulnerable(true);
-        super.applyEffectTick(livingEntity, amplifier);
+        return super.applyEffectTick(livingEntity, amplifier);
     }
 
     // Whether the effect should apply this tick. Used e.g. by the Regeneration effect that only applies

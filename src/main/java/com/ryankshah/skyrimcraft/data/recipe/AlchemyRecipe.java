@@ -1,12 +1,13 @@
 package com.ryankshah.skyrimcraft.data.recipe;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.ryankshah.skyrimcraft.block.inventory.IAlchemyInventory;
 import com.ryankshah.skyrimcraft.data.recipe.serial.AlchemyRecipeSerializer;
 import com.ryankshah.skyrimcraft.init.RecipeTypeInit;
 import com.ryankshah.skyrimcraft.init.SerializerInit;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -27,7 +28,7 @@ public class AlchemyRecipe implements Recipe<IAlchemyInventory>
     protected final int level;
     protected final int xp;
 
-    public static Codec<Optional<WithConditions<AlchemyRecipe>>> CONDITIONAL_CODEC = ConditionalOps.createConditionalCodecWithConditions(AlchemyRecipeSerializer.CODEC);
+//    public static MapCodec<Optional<WithConditions<AlchemyRecipe>>> CONDITIONAL_CODEC = ConditionalOps.createConditionalCodecWithConditions(AlchemyRecipeSerializer.CODEC);
 
     public AlchemyRecipe(String category, ItemStack stackToCreate, int level, int xp, NonNullList<Ingredient> recipeItems) {
         this.category = category;
@@ -52,7 +53,7 @@ public class AlchemyRecipe implements Recipe<IAlchemyInventory>
     }
 
     @Override
-    public @NotNull ItemStack assemble(IAlchemyInventory pContainer, RegistryAccess pRegistryAccess) {
+    public ItemStack assemble(IAlchemyInventory pCraftingContainer, HolderLookup.Provider pRegistries) {
         return this.stackToCreate.copy();
     }
 
@@ -62,7 +63,7 @@ public class AlchemyRecipe implements Recipe<IAlchemyInventory>
     }
 
     @Override
-    public @NotNull ItemStack getResultItem(RegistryAccess pRegistryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
         return this.stackToCreate;
     }
 

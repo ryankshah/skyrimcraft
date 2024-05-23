@@ -55,10 +55,10 @@ public class PearlOysterBlock extends Block implements IPlantable
     }
 
     @Override
-    public InteractionResult use(BlockState p_225533_1_, Level p_225533_2_, BlockPos p_225533_3_, Player p_225533_4_, InteractionHand p_225533_5_, BlockHitResult p_225533_6_) {
-        if(!p_225533_1_.getValue(IS_OPEN)) {
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if(!pState.getValue(IS_OPEN)) {
             System.out.println("opening");
-            p_225533_1_.setValue(IS_OPEN, true);
+            pState.setValue(IS_OPEN, true);
         } else {
             System.out.println("already open");
             // Give player the fucking oyster

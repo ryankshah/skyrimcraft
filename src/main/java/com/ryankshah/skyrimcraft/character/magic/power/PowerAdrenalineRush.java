@@ -77,7 +77,7 @@ public class PowerAdrenalineRush extends Spell
 
     @Override
     public void onCast() {
-        getCaster().addEffect(new MobEffectInstance(ModEffects.ADRENALINE_RUSH.get(), 1200, 0, false, true, true));
+        getCaster().addEffect(new MobEffectInstance(ModEffects.ADRENALINE_RUSH, 1200, 0, false, true, true));
         super.onCast();
     }
 }

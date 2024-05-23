@@ -4,7 +4,9 @@ import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.data.recipe.OvenRecipe;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -13,30 +15,26 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.neoforged.neoforge.network.handling.PlayPayloadContext;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.List;
 
 public record FinishOvenRecipe(Recipe<?> recipe) implements CustomPacketPayload
 {
-    public static final ResourceLocation ID = new ResourceLocation(Skyrimcraft.MODID,"finishovenrecipe");
+    public static final CustomPacketPayload.Type<FinishOvenRecipe> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "finishovenrecipe"));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, FinishOvenRecipe> CODEC = StreamCodec.composite(
+            Recipe.STREAM_CODEC,
+            FinishOvenRecipe::recipe,
+            FinishOvenRecipe::new
+    );
 
     public FinishOvenRecipe(final FriendlyByteBuf buffer) {
         this(buffer.readJsonWithCodec(OvenRecipe.CODEC));
     }
 
-    @Override
-    public void write(final FriendlyByteBuf buffer) {
-        buffer.writeJsonWithCodec(OvenRecipe.CODEC, recipe);
-    }
-
-    @Override
-    public ResourceLocation id() {
-        return ID;
-    }
-
-    public static void handleServer(final FinishOvenRecipe data, final PlayPayloadContext context) {
-        ServerPlayer player = (ServerPlayer) context.player().orElseThrow();
+    public static void handleServer(final FinishOvenRecipe data, final IPayloadContext context) {
+        ServerPlayer player = (ServerPlayer) context.player();
         Character character = Character.get(player);
         if(data.recipe instanceof OvenRecipe currentRecipeObject) {
             List<Ingredient> recipe = currentRecipeObject.getRecipeItems();
@@ -103,6 +101,11 @@ public record FinishOvenRecipe(Recipe<?> recipe) implements CustomPacketPayload
                 }
             }
         }
+    }
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }
 

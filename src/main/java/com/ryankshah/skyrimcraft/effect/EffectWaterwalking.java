@@ -19,7 +19,7 @@ public class EffectWaterwalking extends MobEffect
     }
 
     @Override
-    public void applyEffectTick(LivingEntity entity, int p_76394_2_) {
+    public boolean applyEffectTick(LivingEntity entity, int p_76394_2_) {
         // we use the mixin from LivingEntityMixin now
 //        if (!entity.level().getBlockState(entity.blockPosition()).getFluidState().isEmpty()) {
 //            Vec3 movement = entity.getDeltaMovement();
@@ -42,6 +42,6 @@ public class EffectWaterwalking extends MobEffect
 //        }
 
 
-        super.applyEffectTick(entity, p_76394_2_);
+        return super.applyEffectTick(entity, p_76394_2_);
     }
 }

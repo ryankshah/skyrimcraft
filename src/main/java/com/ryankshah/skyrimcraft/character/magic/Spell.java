@@ -220,32 +220,39 @@ public abstract class Spell
     public void onCast() {
         if(getType() == SpellType.DESTRUCTION) {
             final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.DESTRUCTION.get()).get(), getBaseXp());
-            PacketDistributor.PLAYER.with((ServerPlayer) caster).send(xpToSkill);
+            PacketDistributor.sendToPlayer((ServerPlayer) caster, xpToSkill);
+//            PacketDistributor.PLAYER.with((ServerPlayer) caster).send(xpToSkill);
         } else if(getType() == SpellType.ALTERATION) {
             final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ALTERATION.get()).get(), getBaseXp());
-            PacketDistributor.PLAYER.with((ServerPlayer) caster).send(xpToSkill);
+            PacketDistributor.sendToPlayer((ServerPlayer) caster, xpToSkill);
+//            PacketDistributor.PLAYER.with((ServerPlayer) caster).send(xpToSkill);
         } else if(getType() == SpellType.RESTORATION) {
             final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.RESTORATION.get()).get(), getBaseXp());
-            PacketDistributor.PLAYER.with((ServerPlayer) caster).send(xpToSkill);
+            PacketDistributor.sendToPlayer((ServerPlayer) caster, xpToSkill);
+//            PacketDistributor.PLAYER.with((ServerPlayer) caster).send(xpToSkill);
         } else if(getType() == SpellType.ILLUSION) {
             final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ILLUSION.get()).get(), getBaseXp());
-            PacketDistributor.PLAYER.with((ServerPlayer) caster).send(xpToSkill);
+            PacketDistributor.sendToPlayer((ServerPlayer) caster, xpToSkill);
+//            PacketDistributor.PLAYER.with((ServerPlayer) caster).send(xpToSkill);
         } else if(getType() == SpellType.CONJURATION) {
             final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.CONJURATION.get()).get(), getBaseXp());
-            PacketDistributor.PLAYER.with((ServerPlayer) caster).send(xpToSkill);
+            PacketDistributor.sendToPlayer((ServerPlayer) caster, xpToSkill);
+//            PacketDistributor.PLAYER.with((ServerPlayer) caster).send(xpToSkill);
         }
 
-        if(caster.hasEffect(ModEffects.ETHEREAL.get()) && canInterrupt())
-            caster.removeEffect(ModEffects.ETHEREAL.get());
+        if(caster.hasEffect(ModEffects.ETHEREAL) && canInterrupt())
+            caster.removeEffect(ModEffects.ETHEREAL);
 
         if(!caster.isCreative()) {
             if (getType() == SpellType.SHOUT) {
                 final UpdateShoutCooldown updateShoutCooldown = new UpdateShoutCooldown(SpellRegistry.SPELLS_REGISTRY.getResourceKey(this).get(), getCooldown());
-                PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
+                PacketDistributor.sendToServer(updateShoutCooldown);
+//                PacketDistributor.SERVER.noArg().send(updateShoutCooldown);
 //                Networking.sendToServer(new PacketUpdateShoutCooldownOnServer(this, getCooldown()));
             } else {
                 final ConsumeMagicka consumeMagicka = new ConsumeMagicka(getCost());
-                PacketDistributor.SERVER.noArg().send(consumeMagicka);
+                PacketDistributor.sendToServer(consumeMagicka);
+//                PacketDistributor.SERVER.noArg().send(consumeMagicka);
 //                Networking.sendToServer(new ConsumeMagicka(getCost()));
             }
         }

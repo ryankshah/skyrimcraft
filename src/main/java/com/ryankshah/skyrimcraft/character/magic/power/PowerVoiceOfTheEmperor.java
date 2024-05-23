@@ -86,7 +86,7 @@ public class PowerVoiceOfTheEmperor extends Spell
         AABB playerBoundingBox = getCaster().getBoundingBox();
         List<Raider> raiders = getCaster().level().getEntities(EntityTypeTest.forClass(Raider.class), playerBoundingBox.inflate(4D), p -> true);
         for(Raider raider : raiders) {
-            raider.addEffect(new MobEffectInstance(ModEffects.CALM.get(), 1200));
+            raider.addEffect(new MobEffectInstance(ModEffects.CALM, 1200));
         }
         super.onCast();
     }

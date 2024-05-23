@@ -121,7 +121,7 @@ public class OvenRecipeProvider implements DataProvider, IConditionBuilder
                     if (!set.add(p_312039_)) {
                         throw new IllegalStateException("Duplicate recipe " + p_312039_);
                     } else {
-                        list.add(DataProvider.saveStable(pOutput, Recipe.CONDITIONAL_CODEC, Optional.of(new WithConditions(p_312254_, conditions)), OvenRecipeProvider.this.recipePathProvider.json(p_312039_)));
+                        list.add(DataProvider.saveStable(pOutput, provider, Recipe.CONDITIONAL_CODEC, Optional.of(new WithConditions(p_312254_, conditions)), OvenRecipeProvider.this.recipePathProvider.json(p_312039_)));
                     }
                 }
             });

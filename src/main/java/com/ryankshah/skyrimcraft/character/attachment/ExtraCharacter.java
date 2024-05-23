@@ -89,13 +89,14 @@ public class ExtraCharacter
     }
 
     protected void syncTo(Player player) {
-        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateExtraCharacter(this));
+        PacketDistributor.sendToPlayer((ServerPlayer) player, new UpdateExtraCharacter(this));
+//        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateExtraCharacter(this));
     }
 
-    protected void syncTo(PacketDistributor.PacketTarget target)
-    {
-        target.send(new UpdateExtraCharacter(this));
-    }
+//    protected void syncTo(PacketDistributor.PacketTarget target)
+//    {
+//        target.send(new UpdateExtraCharacter(this));
+//    }
 
     private static class CharacterEvents
     {
@@ -146,7 +147,8 @@ public class ExtraCharacter
                 var newHandler = get(player);
 
                 player.setData(PlayerAttachments.EXTRA_CHARACTER, player.getData(PlayerAttachments.EXTRA_CHARACTER));
-                PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateExtraCharacter(newHandler));
+                PacketDistributor.sendToPlayer((ServerPlayer) player, new UpdateExtraCharacter(newHandler));
+//                PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateExtraCharacter(newHandler));
             }
         }
 
@@ -161,7 +163,8 @@ public class ExtraCharacter
             ExtraCharacter oldHandler = ExtraCharacter.get(oldPlayer);
             player.setData(PlayerAttachments.EXTRA_CHARACTER, oldHandler);
             ExtraCharacter newHandler = ExtraCharacter.get(player);
-            PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateExtraCharacter(newHandler));
+            PacketDistributor.sendToPlayer((ServerPlayer) player, new UpdateExtraCharacter(newHandler));
+//            PacketDistributor.PLAYER.with((ServerPlayer) player).send(new UpdateExtraCharacter(newHandler));
         }
     }
 }

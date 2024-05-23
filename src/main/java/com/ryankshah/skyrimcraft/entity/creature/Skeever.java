@@ -43,13 +43,19 @@ public class Skeever extends Monster
                 .add(Attributes.ATTACK_DAMAGE, 2.0F);
     }
 
-    @Override
-    public MobType getMobType() {
-        return MobType.UNDEFINED;
-    }
+//    @Override
+//    public MobType getMobType() {
+//        return MobType.UNDEFINED;
+//    }
+
 
     @Override
-    protected float getStandingEyeHeight(Pose pPose, EntityDimensions pSize) {
-        return 0.65F;
+    public float getEyeHeightAccess(Pose pose) {
+        return 0.65f;
     }
+
+//    @Override
+//    protected float getStandingEyeHeight(Pose pPose, EntityDimensions pSize) {
+//        return 0.65F;
+//    }
 }

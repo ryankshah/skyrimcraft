@@ -2,21 +2,17 @@ package com.ryankshah.skyrimcraft.character.magic.spell;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.magic.Spell;
-import com.ryankshah.skyrimcraft.effect.ModEffects;
 import com.ryankshah.skyrimcraft.network.spell.DetectLife;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
-import it.unimi.dsi.fastutil.ints.IntLists;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -93,12 +89,13 @@ public class SpellDetectLife extends Spell
             IntList ids = IntArrayList.of();
             for(Entity entity : level.getEntities(getCaster(), new AABB(getCaster().position(), getCaster().position().multiply(radius, radius, radius)))) {
                 if(entity instanceof LivingEntity target
-                        && target.getMobType() != MobType.UNDEAD) {
+                        && target.getType().is(EntityTypeTags.UNDEAD)) {
                     ids.add(target.getId());
                     System.out.println(ids);
                 }
             }
-            PacketDistributor.PLAYER.with((ServerPlayer) getCaster()).send(new DetectLife(ids));
+            PacketDistributor.sendToPlayer((ServerPlayer) getCaster(), new DetectLife(ids));
+//            PacketDistributor.PLAYER.with((ServerPlayer) getCaster()).send(new DetectLife(ids));
         }
 
         super.onCast();

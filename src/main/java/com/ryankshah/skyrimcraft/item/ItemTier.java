@@ -9,102 +9,92 @@ import net.neoforged.neoforge.common.SimpleTier;
 public class ItemTier
 {
     public static final Tier ANCIENT_NORD = new SimpleTier(
-            2,
+            TagsInit.BlockTagsInit.NEEDS_ANCIENT_NORD_TOOL,
             250,
             6.0f,
             2.0f,
             14,
-            TagsInit.BlockTagsInit.NEEDS_ANCIENT_NORD_TOOL,
             () -> Ingredient.EMPTY
     );
 
     public static final Tier DRAGONBONE = new SimpleTier(
-            2,
+            TagsInit.BlockTagsInit.NEEDS_DRAGONBONE_TOOL,
             250,
             6.0f,
             2.0f,
             14,
-            TagsInit.BlockTagsInit.NEEDS_DRAGONBONE_TOOL,
             () -> Ingredient.EMPTY
     );
 
     public static final Tier STEEL = new SimpleTier(
-            2,
+            TagsInit.BlockTagsInit.NEEDS_STEEL_TOOL,
             275,
             6.5f,
             2.25f,
             20,
-            TagsInit.BlockTagsInit.NEEDS_STEEL_TOOL,
             () -> Ingredient.of(ItemInit.STEEL_INGOT)
     );
 
     public static final Tier FALMER = new SimpleTier(
-            2,
+            TagsInit.BlockTagsInit.NEEDS_FALMER_TOOL,
             250,
             6.0f,
             2.0f,
             14,
-            TagsInit.BlockTagsInit.NEEDS_FALMER_TOOL,
             () -> Ingredient.EMPTY
     );
 
     public static final Tier GLASS = new SimpleTier(
-            0,
+            TagsInit.BlockTagsInit.NEEDS_GLASS_TOOL,
             32,
             12.0f,
             1.0f,
             22,
-            TagsInit.BlockTagsInit.NEEDS_GLASS_TOOL,
             () -> Ingredient.of(ItemInit.MALACHITE_INGOT)
     );
 
     public static final Tier ELVEN = new SimpleTier(
-        0,
+            TagsInit.BlockTagsInit.NEEDS_ELVEN_TOOL,
         32,
         12.0f,
         1.0f,
         22,
-        TagsInit.BlockTagsInit.NEEDS_ELVEN_TOOL,
         () -> Ingredient.of(ItemInit.MOONSTONE_INGOT)
     );
 
     public static final Tier ORCISH = new SimpleTier(
-            2,
+            TagsInit.BlockTagsInit.NEEDS_ORCISH_TOOL,
             250,
             6.0f,
             2.0f,
             22,
-            TagsInit.BlockTagsInit.NEEDS_ORCISH_TOOL,
             () -> Ingredient.of(ItemInit.ORICHALCUM_INGOT)
     );
 
     public static final Tier DWARVEN = new SimpleTier(
-            3,
+            TagsInit.BlockTagsInit.NEEDS_DWARVEN_TOOL,
             450,
             6.5f,
             2.5f,
             22,
-            TagsInit.BlockTagsInit.NEEDS_DWARVEN_TOOL,
             () -> Ingredient.of(ItemInit.DWARVEN_METAL_INGOT)
     );
 
     public static final Tier DAEDRIC = new SimpleTier(
-            4,
+            TagsInit.BlockTagsInit.NEEDS_DAEDRIC_TOOL,
             2031,
             9.0f,
             4.0f,
             22,
-            TagsInit.BlockTagsInit.NEEDS_DAEDRIC_TOOL,
             () -> Ingredient.of(ItemInit.EBONY_INGOT)
     );
 
     public static final Tier EBONY = new SimpleTier(
-            4,
+            TagsInit.BlockTagsInit.NEEDS_EBONY_TOOL,
             1743,
             7.0f,
             2.5f,
             18,
-            TagsInit.BlockTagsInit.NEEDS_EBONY_TOOL,
             () -> Ingredient.of(ItemInit.EBONY_INGOT)
     );
 

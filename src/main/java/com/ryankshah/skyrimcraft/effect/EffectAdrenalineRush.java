@@ -18,12 +18,15 @@ public class EffectAdrenalineRush extends MobEffect
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
+    public boolean applyEffectTick(LivingEntity livingEntity, int p_76394_2_) {
         super.applyEffectTick(livingEntity, p_76394_2_);
 
         if (livingEntity instanceof Player player && livingEntity.getHealth() < livingEntity.getMaxHealth()) {
-            if(player.getFoodData().needsFood())
+            if (player.getFoodData().needsFood()) {
                 player.getFoodData().eat(4, 20); // 10x faster (technically 10.0F compared to 1.0F by regen effect, but lets do this)
+                return true;
+            }
         }
+        return false;
     }
 }

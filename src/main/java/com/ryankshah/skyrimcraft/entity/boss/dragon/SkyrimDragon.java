@@ -17,6 +17,8 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.RangedAttackMob;
@@ -32,7 +34,6 @@ import net.tslat.smartbrainlib.api.core.behaviour.FirstApplicableBehaviour;
 import net.tslat.smartbrainlib.api.core.behaviour.OneRandomBehaviour;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.attack.AnimatableRangedAttack;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.look.LookAtTarget;
-import net.tslat.smartbrainlib.api.core.behaviour.custom.misc.Idle;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.MoveToWalkTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.path.SetRandomFlyingTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.path.SetRandomHoverTarget;
@@ -46,11 +47,11 @@ import net.tslat.smartbrainlib.api.core.sensor.custom.UnreachableTargetSensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.HurtBySensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyPlayersSensor;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nullable;
@@ -59,10 +60,11 @@ import java.util.List;
 //TODO: Rework the entire dragon mechanics using SmartBrainLib @See(https://github.com/Tslat/SmartBrainLib/wiki/Making-an-Entity-With-SmartBrainLib)
 public class SkyrimDragon extends PathfinderMob implements GeoEntity, Enemy, FlyingAnimal, RangedAttackMob, SmartBrainOwner<SkyrimDragon>
 {
-    public static final EntityDataAccessor<Integer> DATA_PHASE = SynchedEntityData.defineId(SkyrimDragon.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PREV_ANIMATION_STATE = SynchedEntityData.defineId(SkyrimDragon.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> ANIMATION_STATE = SynchedEntityData.defineId(SkyrimDragon.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> DATA_FLYING = SynchedEntityData.defineId(SkyrimDragon.class, EntityDataSerializers.BOOLEAN);
 
+    public static final int ALTITUDE_FLYING_THRESHOLD = 3;
     private static final float SITTING_ALLOWED_DAMAGE_PERCENTAGE = 0.25F;
 
     protected static final RawAnimation FLY_IDLE = RawAnimation.begin().thenLoop("animation.dragon.flyidle");
@@ -84,6 +86,18 @@ public class SkyrimDragon extends PathfinderMob implements GeoEntity, Enemy, Fly
         this.noPhysics = true;
         this.noCulling = true;
         this.xpReward = XP_REWARD_BOSS;
+
+        this.moveControl = new DragonMoveController(this); //new FlyingMoveControl(this, 20, true);
+//        this.navigation = new FlyingPathNavigation(this, worldIn);
+    }
+
+    @Override
+    protected PathNavigation createNavigation(Level pLevel) {
+        FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, pLevel);
+        flyingpathnavigation.setCanOpenDoors(false);
+        flyingpathnavigation.setCanFloat(true);
+        flyingpathnavigation.setCanPassDoors(false);
+        return flyingpathnavigation;
     }
 
     @Override
@@ -103,7 +117,7 @@ public class SkyrimDragon extends PathfinderMob implements GeoEntity, Enemy, Fly
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 200.0f).add(Attributes.JUMP_STRENGTH, 0.5D).add(Attributes.ATTACK_DAMAGE, 9.0D).add(Attributes.KNOCKBACK_RESISTANCE, 10000);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 200.0f).add(Attributes.MOVEMENT_SPEED, 0.1f).add(Attributes.FLYING_SPEED, 0.1f).add(Attributes.JUMP_STRENGTH, 0.5D).add(Attributes.ATTACK_DAMAGE, 9.0D).add(Attributes.KNOCKBACK_RESISTANCE, 10000);
     }
 
     @Override
@@ -153,10 +167,11 @@ public class SkyrimDragon extends PathfinderMob implements GeoEntity, Enemy, Fly
         this.gameEvent(GameEvent.ENTITY_DIE);
     }
 
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(ANIMATION_STATE, 0);
-        this.entityData.define(PREV_ANIMATION_STATE, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(ANIMATION_STATE, 0);
+        pBuilder.define(PREV_ANIMATION_STATE, 0);
+        pBuilder.define(DATA_FLYING, false);
     }
 
     @Override
@@ -164,6 +179,68 @@ public class SkyrimDragon extends PathfinderMob implements GeoEntity, Enemy, Fly
         super.onSyncedDataUpdated(pKey);
     }
 
+    public boolean canFly() {
+        return true;
+    }
+
+    public boolean shouldFly() {
+        return canFly() && !isInWater() && isHighEnough(ALTITUDE_FLYING_THRESHOLD);
+    }
+
+    /**
+     * Returns the int-precision distance to solid ground.
+     * Describe an inclusive limit to reduce iterations.
+     */
+    public double getAltitude(int limit) {
+        var pointer = blockPosition().mutable().move(0, -1, 0);
+        var min = level().dimensionType().minY();
+        var i = 0;
+
+        while(i <= limit && pointer.getY() > min && !level().getBlockState(pointer).isSolid()) //.getMaterial().isSolid())
+            pointer.setY(getBlockY() - ++i);
+
+        return i;
+    }
+
+    /**
+     * Returns the distance to the ground while the entity is flying.
+     */
+    public double getAltitude() {
+        return getAltitude(level().getMaxBuildHeight());
+    }
+
+    public boolean isHighEnough(int height) {
+        return getAltitude(height) >= height;
+    }
+
+    public void liftOff() {
+        if (canFly()) jumpFromGround();
+    }
+
+    @Override
+    protected float getJumpPower() {
+        // stronger jumps for easier lift-offs
+        return super.getJumpPower() * (canFly()? 3 : 1);
+    }
+
+    @Override
+    public boolean causeFallDamage(float pFallDistance, float pMultiplier, DamageSource pSource) {
+        return !canFly() && super.causeFallDamage(pFallDistance, pMultiplier, pSource);
+    }
+
+    /**
+     * Returns true if the entity is flying.
+     */
+    public boolean isFlying() {
+        return entityData.get(DATA_FLYING);
+    }
+
+    /**
+     * Set the flying flag of the entity.
+     */
+    public void setFlying(boolean flying) {
+        entityData.set(DATA_FLYING, flying);
+    }
 
     public void addAdditionalSaveData(CompoundTag p_213281_1_) {
         super.addAdditionalSaveData(p_213281_1_);
@@ -202,10 +279,10 @@ public class SkyrimDragon extends PathfinderMob implements GeoEntity, Enemy, Fly
         return SoundEvents.ENDER_DRAGON_DEATH;
     }
 
-    @Override
-    public MobType getMobType() {
-        return MobType.UNDEFINED;
-    }
+//    @Override
+//    public MobType getMobType() {
+//        return MobType.UNDEFINED;
+//    }
 
     @Override
     public boolean canAttackType(EntityType<?> pType) {
@@ -229,12 +306,11 @@ public class SkyrimDragon extends PathfinderMob implements GeoEntity, Enemy, Fly
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_213386_1_, DifficultyInstance p_213386_2_, MobSpawnType p_213386_3_, @Nullable SpawnGroupData p_213386_4_, @Nullable CompoundTag p_213386_5_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pSpawnType, @Nullable SpawnGroupData pSpawnGroupData) {
 //        this.anchorPoint = this.blockPosition().above(20);
-
         this.setAnimationState(0);
         this.setPrevAnimationState(0);
-        return super.finalizeSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
+        return super.finalizeSpawn(pLevel, pDifficulty, pSpawnType, pSpawnGroupData);
     }
 
     @Override
@@ -242,34 +318,43 @@ public class SkyrimDragon extends PathfinderMob implements GeoEntity, Enemy, Fly
         return this.geoCache;
     }
 
-    private <E extends SkyrimDragon> PlayState dragonController(final software.bernie.geckolib.core.animation.AnimationState<SkyrimDragon> event) {
+    private <E extends SkyrimDragon> PlayState dragonController(final software.bernie.geckolib.animation.AnimationState<SkyrimDragon> event) {
         AnimationController<SkyrimDragon> controller = event.getController();
         controller.transitionLength(0);
 
-        if(this.getAnimationState() == 0) {
-            return event.setAndContinue(FLY_IDLE);
-        } else if(this.getAnimationState() == 1) {
-            event.setAnimation(FLY_SHOUT_BREATHE);
-            return event.setAndContinue(FLY_IDLE);
-        } else if(this.getAnimationState() == 2) {
-            return event.setAndContinue(LAND);
-        } else if(this.getAnimationState() == 3) {
-            return event.setAndContinue(STAND);
-        } else if(this.getAnimationState() == 4) {
-            return event.setAndContinue(WALK);
-        } else if(this.getAnimationState() == 5) {
-            return event.setAndContinue(BITE);
-        } else if(this.getAnimationState() == 6) {
-            return event.setAndContinue(TAKE_OFF);
-        } else if(this.getAnimationState() == 7) {
-            return event.setAndContinue(GLIDE);
-        } else if(this.getAnimationState() == 8) {
-            return event.setAndContinue(DEATH);
-        } else if(this.getAnimationState() == 9) {
-            return event.setAndContinue(DEAD);
+        if(event.isMoving()) {
+            event.getController().setAnimation(WALK);
         }
 
-        return event.setAndContinue(FLY_IDLE);
+//        if (this.isSitting()) {
+//        }
+
+        event.getController().setAnimation(FLY_IDLE);
+
+//        if(this.getAnimationState() == 0) {
+//            return event.setAndContinue(FLY_IDLE);
+//        } else if(this.getAnimationState() == 1) {
+//            event.setAnimation(FLY_SHOUT_BREATHE);
+//            return event.setAndContinue(FLY_IDLE);
+//        } else if(this.getAnimationState() == 2) {
+//            return event.setAndContinue(LAND);
+//        } else if(this.getAnimationState() == 3) {
+//            return event.setAndContinue(STAND);
+//        } else if(this.getAnimationState() == 4) {
+//            return event.setAndContinue(WALK);
+//        } else if(this.getAnimationState() == 5) {
+//            return event.setAndContinue(BITE);
+//        } else if(this.getAnimationState() == 6) {
+//            return event.setAndContinue(TAKE_OFF);
+//        } else if(this.getAnimationState() == 7) {
+//            return event.setAndContinue(GLIDE);
+//        } else if(this.getAnimationState() == 8) {
+//            return event.setAndContinue(DEATH);
+//        } else if(this.getAnimationState() == 9) {
+//            return event.setAndContinue(DEAD);
+//        }
+
+        return PlayState.CONTINUE; //event.setAndContinue(FLY_IDLE);
     }
 
     @Override
@@ -384,8 +469,13 @@ public class SkyrimDragon extends PathfinderMob implements GeoEntity, Enemy, Fly
     public void performRangedAttack(LivingEntity pTarget, float pVelocity) {
     }
 
+//    @Override
+//    public boolean isFlying() {
+//        return !this.onGround();
+//    }
+
     @Override
-    public boolean isFlying() {
-        return !this.onGround();
+    public boolean isFlapping() {
+        return !this.onGround() && this.isFlying();
     }
 }

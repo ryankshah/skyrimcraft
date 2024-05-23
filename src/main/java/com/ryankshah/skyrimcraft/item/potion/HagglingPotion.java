@@ -74,7 +74,7 @@ public class HagglingPotion extends SkyrimPotion
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext pContext, List<Component> tooltip, TooltipFlag flagIn) {
         String regenValue = "";
 
         Item item = stack.getItem();
@@ -91,6 +91,6 @@ public class HagglingPotion extends SkyrimPotion
         }
 
         tooltip.add(Component.literal("Grants " + duration/20 + "s of " + regenValue + " magicka regen"));
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        super.appendHoverText(stack, pContext, tooltip, flagIn);
     }
 }

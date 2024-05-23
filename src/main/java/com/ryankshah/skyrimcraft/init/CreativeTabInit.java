@@ -130,8 +130,10 @@ public class CreativeTabInit
             output.accept(ItemInit.FLOUR);
             ItemInit.ITEMS.getEntries()
                     .stream()
-                    .filter(item -> item.get().isEdible() || item.get() instanceof PotionItem)
+//                    .filter(item -> item.get().getFoodProperties(new ItemStack(item), null) != null || item.get() instanceof PotionItem) //TODO: item -> item.get().isEdible() ||
                     .map(DeferredHolder::get)
+                    .map(Item::getDefaultInstance)
+                    .filter(stack -> stack.getFoodProperties(null) != null || stack.getItem() instanceof PotionItem)
                     .forEach(output::accept);
         });
 

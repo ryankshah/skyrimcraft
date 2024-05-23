@@ -52,18 +52,8 @@ public class Draugr extends Monster
         }
     }
 
-    @Override
-    public MobType getMobType() {
-        return MobType.UNDEAD;
-    }
-
-    @Override
-    protected float getStandingEyeHeight(Pose pPose, EntityDimensions pSize) {
-        return 1.74F;
-    }
-
-    @Override
-    protected float ridingOffset(Entity pEntity) {
-        return -0.7F;
-    }
+//    @Override
+//    public MobType getMobType() {
+//        return MobType.UNDEAD;
+//    }
 }

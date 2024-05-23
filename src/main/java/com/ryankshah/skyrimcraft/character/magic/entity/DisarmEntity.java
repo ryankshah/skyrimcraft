@@ -3,6 +3,7 @@ package com.ryankshah.skyrimcraft.character.magic.entity;
 import com.ryankshah.skyrimcraft.init.EntityInit;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -57,7 +58,7 @@ public class DisarmEntity extends Projectile
     }
 
     @Override
-    protected void defineSynchedData() {
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
     }
 
     @OnlyIn(Dist.CLIENT)

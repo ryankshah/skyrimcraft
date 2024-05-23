@@ -85,7 +85,7 @@ public class ShoutIceForm extends Spell //implements IForgeRegistryEntry<ISpell>
             double y = rayTracedEntity.getY();
             double z = rayTracedEntity.getZ();
             // freeze player for 8s (160 ticks = 8 * 20)
-            ((LivingEntity) rayTracedEntity).addEffect(new MobEffectInstance(ModEffects.FROZEN.get(), 160, 0, false, true, true));
+            ((LivingEntity) rayTracedEntity).addEffect(new MobEffectInstance(ModEffects.FROZEN, 160, 0, false, true, true));
             super.onCast();
         } else {
             getCaster().displayClientMessage(Component.translatable("skyrimcraft.shout.notarget"), false);

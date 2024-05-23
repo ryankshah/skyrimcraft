@@ -27,8 +27,6 @@ import com.ryankshah.skyrimcraft.entity.npc.model.FalmerModel;
 import com.ryankshah.skyrimcraft.entity.npc.model.KhajiitModel;
 import com.ryankshah.skyrimcraft.entity.passive.flying.*;
 import com.ryankshah.skyrimcraft.init.*;
-import com.ryankshah.skyrimcraft.quest.Quest;
-import com.ryankshah.skyrimcraft.quest.registry.QuestRegistry;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -42,11 +40,9 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import software.bernie.geckolib.GeckoLib;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 /**
@@ -107,18 +103,12 @@ import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
  *
  * - Add potions!!
  *
- * - Work on how all the food, drink and ingredient items are to be obtainable (i.e. chest loots, mob loots, new plants, etc.)
- * - Textures are DONE for the following items, just create them!
- *  - Ingredients
- *    - -- all added --
- *    - --- there's more but CBA (start next from Fine Cut Void Salts - https://elderscrolls.fandom.com/wiki/Ingredients_(Skyrim)
  */
 @Mod(Skyrimcraft.MODID)
 public class Skyrimcraft
 {
     public static final String MODID = "skyrimcraft";
     public static Logger logger = LoggerFactory.getLogger(Skyrimcraft.class);
-
 
     public Skyrimcraft(IEventBus bus) {
         ModLoadingContext.get().getActiveContainer().getEventBus().addListener(FMLClientSetupEvent.class, (fmlClientSetupEvent -> {
@@ -129,7 +119,7 @@ public class Skyrimcraft
             });
         }));
 
-        GeckoLib.initialize(bus);
+//        GeckoLib.initialize(bus);
 
         SkyrimLootModifiers.GLOBAL_LOOT_MODIFIER_SERIALIZERS.register(bus);
 
@@ -165,7 +155,7 @@ public class Skyrimcraft
         VillagerInit.PROFESSIONS.register(bus);
 
         // listeners
-        bus.addListener(this::dataPackRegistry);
+//        bus.addListener(this::dataPackRegistry);
         bus.addListener(DataGenerators::gatherData);
         bus.addListener(this::createEntityAttributes);
         bus.addListener(AttributeInit::modifyEntityAttributes);
@@ -180,9 +170,9 @@ public class Skyrimcraft
         return ImmutableList.of(EntityType.VILLAGER);//, EntityInit.KHAJIIT.get(), EntityInit.FALMER.get());
     }
 
-    public void dataPackRegistry(DataPackRegistryEvent.NewRegistry event) {
-        event.dataPackRegistry(QuestRegistry.QUESTS_REGISTRY_KEY, Quest.CODEC); //, Quest.CODEC); // only keep first codec as we dont want it stored on client
-    }
+//    public void dataPackRegistry(DataPackRegistryEvent.NewRegistry event) {
+//        event.dataPackRegistry(QuestRegistry.QUESTS_REGISTRY_KEY, Quest.CODEC); //, Quest.CODEC); // only keep first codec as we dont want it stored on client
+//    }
 
     public void createEntityAttributes(EntityAttributeCreationEvent event) {
         event.put(EntityInit.SABRE_CAT.get(), SabreCat.createAttributes().build());

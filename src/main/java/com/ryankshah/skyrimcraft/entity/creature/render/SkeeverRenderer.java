@@ -1,13 +1,16 @@
 package com.ryankshah.skyrimcraft.entity.creature.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
+import com.ryankshah.skyrimcraft.entity.creature.AbeceanLongfin;
 import com.ryankshah.skyrimcraft.entity.creature.Skeever;
 import com.ryankshah.skyrimcraft.entity.creature.model.SkeeverModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class SkeeverRenderer extends MobRenderer<Skeever, SkeeverModel<Skeever>>
 {
@@ -26,7 +29,7 @@ public class SkeeverRenderer extends MobRenderer<Skeever, SkeeverModel<Skeever>>
         return MODEL_TEXTURE;
     }
 
-    protected void setupRotations(Skeever pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+    protected void setupRotations(Skeever pEntityLiving, PoseStack pPoseStack, float pBob, float pYBodyRot, float pPartialTick, float pScale) {
+        super.setupRotations(pEntityLiving, pPoseStack, pBob, pYBodyRot, pPartialTick, pScale);
     }
 }

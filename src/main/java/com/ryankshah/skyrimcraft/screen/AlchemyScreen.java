@@ -239,7 +239,8 @@ public class AlchemyScreen extends Screen
             }
 
             final FinishAlchemyRecipe finishRecipe = new FinishAlchemyRecipe(currentRecipeObject);
-            PacketDistributor.SERVER.noArg().send(finishRecipe);
+            PacketDistributor.sendToServer(finishRecipe);
+//            PacketDistributor.SERVER.noArg().send(finishRecipe);
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);

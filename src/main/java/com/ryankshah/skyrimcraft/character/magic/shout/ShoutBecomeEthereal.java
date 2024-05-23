@@ -33,7 +33,7 @@ public class ShoutBecomeEthereal extends Spell { // implements IForgeRegistryEnt
     @Override
     public SoundEvent getSound() {
         //return ModSounds.UNRELENTING_FORCE.get();
-        return SoundEvents.GENERIC_EXPLODE;
+        return SoundEvents.GENERIC_EXPLODE.value();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ShoutBecomeEthereal extends Spell { // implements IForgeRegistryEnt
     @Override
     public void onCast() {
         // 360 = 18s (18 * 20 ticks/s)
-        getCaster().addEffect(new MobEffectInstance(ModEffects.ETHEREAL.get(), 360, 0, false, true, true));
+        getCaster().addEffect(new MobEffectInstance(ModEffects.ETHEREAL, 360, 0, false, true, true));
         super.onCast();
     }
 }

@@ -1,6 +1,7 @@
 package com.ryankshah.skyrimcraft.data.loot_table.condition;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
@@ -24,7 +25,7 @@ public class MatchSkillLevel implements LootItemCondition
         this.skillPredicate = skillPredicate;
     }
 
-    public static final Codec<MatchSkillLevel> CODEC = RecordCodecBuilder.create(
+    public static final MapCodec<MatchSkillLevel> CODEC = RecordCodecBuilder.mapCodec(
             p_298173_ -> p_298173_.group(
                     SkillPredicate.CODEC.fieldOf("skillPredicate").forGetter(MatchSkillLevel::getPredicate)
             ).apply(p_298173_, MatchSkillLevel::new)

@@ -25,10 +25,10 @@ public class SkyrimIngredient extends Item
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("Effects: ").withStyle(ChatFormatting.DARK_PURPLE));
         for(int i = 0; i < ingredientEffects.length; i++)
             pTooltipComponents.add(Component.translatable(ingredientEffects[i].toString()));
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pIsAdvanced);
     }
 }
