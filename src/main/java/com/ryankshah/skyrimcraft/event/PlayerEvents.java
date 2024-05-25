@@ -141,11 +141,11 @@ public class PlayerEvents
                 // TODO: We should do this check after we do the player bounds check...
                 for (TagKey<Structure> structure : structureTags) {
                     BlockPos featureStartPos = locateFeatureStartChunkFromPlayerBlockPos(level, player.blockPosition(), structure);
-                    if (featureStartPos != null) {
+                    if (featureStartPos != null && structure != null) {
                         System.out.println("Found Structure: " + structure.toString());
                         List<CompassFeature> playerCompassFeatures = character.getCompassFeatures();
                         CompassFeature compassFeature = new CompassFeature(UUID.randomUUID().toString(), structure, featureStartPos);
-                        if (playerCompassFeatures.stream().noneMatch(feature -> feature.equals(compassFeature))) {
+                        if (playerCompassFeatures.isEmpty() || playerCompassFeatures.stream().noneMatch(feature -> feature.equals(compassFeature))) {
 //                                System.out.println(playerCompassFeatures);
 //                            character.addCompassFeature(compassFeature);
 //                            playerCompassFeatures.add(compassFeature);

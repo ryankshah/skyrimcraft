@@ -28,7 +28,7 @@ public class QuestScreen extends Screen
         int scaledWidth = window.getGuiScaledWidth();
         int scaledHeight = window.getGuiScaledHeight();
 
-        this.renderBackground(graphics, mouseX, mouseY, partialTick);
+//        this.renderBackground(graphics, mouseX, mouseY, partialTick);
 
         graphics.fill(0, this.height * 3 / 4 + 20, this.width, this.height, 0xAA000000);
         graphics.fill(0, this.height * 3 / 4 + 22, this.width, this.height * 3 / 4 + 23, 0xFF6E6B64);

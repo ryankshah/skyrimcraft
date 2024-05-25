@@ -70,7 +70,7 @@ public class OvenScreen extends Screen
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         PoseStack matrixStack = graphics.pose();
         RenderSystem.clearColor(1.0F, 1.0F, 1.0F, 1.0F);
-        this.renderBackground(graphics, mouseX, mouseY, partialTicks);
+//        this.renderBackground(graphics, mouseX, mouseY, partialTicks);
 
 //        Minecraft.getInstance().getConnection().registryAccess().registry(QuestRegistry.QUESTS_REGISTRY_KEY).ifPresent(
 //                registry -> System.out.println(registry.stream().toList())
@@ -147,7 +147,7 @@ public class OvenScreen extends Screen
         renderHealth(graphics);
 
 
-        super.render(graphics, mouseX, mouseY, partialTicks);
+//        super.render(graphics, mouseX, mouseY, partialTicks);
     }
 
     @Override

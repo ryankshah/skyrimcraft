@@ -60,7 +60,7 @@ public class MenuScreen extends Screen
         poseStack.pushPose();
         RenderUtil.bind(MENU_ICONS);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        this.renderBackground(graphics, mouseX, mouseY, partialTick);
+        this.renderTransparentBackground(graphics);
         RenderUtil.blitWithBlend(poseStack, scaledWidth / 2 - 103, scaledHeight / 2 - 50, 24, 81, 207, 100, 256, 256, 1, 1.0f);
 
         if(currentDirection == Direction.NORTH) {

@@ -19,7 +19,7 @@ public record UpdateExtraCharacter(ExtraCharacter character) implements CustomPa
     public static final CustomPacketPayload.Type<UpdateExtraCharacter> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "updateextracharacter"));
 
     public static final StreamCodec<ByteBuf, UpdateExtraCharacter> CODEC = StreamCodec.composite(
-            ByteBufCodecs.fromCodec(ExtraCharacter.CODEC),
+            ExtraCharacter.STREAM_CODEC,
             UpdateExtraCharacter::character,
             UpdateExtraCharacter::new
     );

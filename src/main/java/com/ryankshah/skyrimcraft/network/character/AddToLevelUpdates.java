@@ -26,9 +26,9 @@ public record AddToLevelUpdates(String updateName, int level, int levelUpRenderT
     public static final StreamCodec<ByteBuf, AddToLevelUpdates> CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8,
             AddToLevelUpdates::updateName,
-            ByteBufCodecs.VAR_INT,
+            ByteBufCodecs.INT,
             AddToLevelUpdates::level,
-            ByteBufCodecs.VAR_INT,
+            ByteBufCodecs.INT,
             AddToLevelUpdates::levelUpRenderTime,
             AddToLevelUpdates::new
     );

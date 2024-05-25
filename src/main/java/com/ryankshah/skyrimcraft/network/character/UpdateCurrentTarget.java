@@ -19,7 +19,7 @@ public record UpdateCurrentTarget(int target) implements CustomPacketPayload
     public static final CustomPacketPayload.Type<UpdateCurrentTarget> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "updatecurrenttarget"));
 
     public static final StreamCodec<ByteBuf, UpdateCurrentTarget> CODEC = StreamCodec.composite(
-            ByteBufCodecs.VAR_INT,
+            ByteBufCodecs.INT,
             UpdateCurrentTarget::target,
             UpdateCurrentTarget::new
     );

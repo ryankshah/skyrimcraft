@@ -3,6 +3,9 @@ package com.ryankshah.skyrimcraft.character.attachment;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ryankshah.skyrimcraft.network.character.UpdateStatIncreases;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -20,6 +23,16 @@ public class StatIncreases
             Codec.INT.fieldOf("magickaIncrease").forGetter(StatIncreases::getMagickaIncrease),
             Codec.INT.fieldOf("staminaIncrease").forGetter(StatIncreases::getStaminaIncrease)
     ).apply(instance, StatIncreases::new));
+
+    public static StreamCodec<ByteBuf, StatIncreases> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT,
+            StatIncreases::getHealthIncrease,
+            ByteBufCodecs.INT,
+            StatIncreases::getMagickaIncrease,
+            ByteBufCodecs.INT,
+            StatIncreases::getStaminaIncrease,
+            StatIncreases::new
+    );
 
     protected int healthIncrease, magickaIncrease, staminaIncrease;
 

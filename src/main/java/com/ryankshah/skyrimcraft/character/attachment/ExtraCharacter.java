@@ -8,6 +8,9 @@ import com.ryankshah.skyrimcraft.character.skill.SkillWrapper;
 import com.ryankshah.skyrimcraft.network.character.UpdateCharacter;
 import com.ryankshah.skyrimcraft.network.character.UpdateExtraCharacter;
 import com.ryankshah.skyrimcraft.util.CompassFeature;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -26,6 +29,16 @@ public class ExtraCharacter
             Codec.BOOL.fieldOf("isVampireAfflicted").forGetter(ExtraCharacter::isVampireAfflicted),
             Codec.BOOL.fieldOf("isVampire").forGetter(ExtraCharacter::isVampire)
     ).apply(characterInstance, ExtraCharacter::new));
+
+    public static StreamCodec<ByteBuf, ExtraCharacter> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT,
+            ExtraCharacter::getDragonSouls,
+            ByteBufCodecs.BOOL,
+            ExtraCharacter::isVampireAfflicted,
+            ByteBufCodecs.BOOL,
+            ExtraCharacter::isVampire,
+            ExtraCharacter::new
+    );
 
     protected int dragonSouls;
     protected boolean isVampireAfflicted, isVampire;

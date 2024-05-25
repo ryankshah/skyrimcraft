@@ -22,7 +22,7 @@ public record UpdateStatIncreases(StatIncreases statIncreases) implements Custom
     public static final CustomPacketPayload.Type<UpdateStatIncreases> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "updatestatincreases"));
 
     public static final StreamCodec<ByteBuf, UpdateStatIncreases> CODEC = StreamCodec.composite(
-            ByteBufCodecs.fromCodec(StatIncreases.CODEC),
+            StatIncreases.STREAM_CODEC,
             UpdateStatIncreases::statIncreases,
             UpdateStatIncreases::new
     );

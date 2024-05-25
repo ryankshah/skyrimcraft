@@ -19,7 +19,7 @@ public record RemoveFromTargetingEntities(int entityId) implements CustomPacketP
     public static final CustomPacketPayload.Type<RemoveFromTargetingEntities> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "removefromtargetingentities"));
 
     public static final StreamCodec<ByteBuf, RemoveFromTargetingEntities> CODEC = StreamCodec.composite(
-            ByteBufCodecs.VAR_INT,
+            ByteBufCodecs.INT,
             RemoveFromTargetingEntities::entityId,
             RemoveFromTargetingEntities::new
     );

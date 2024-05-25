@@ -74,11 +74,11 @@ public class Character
             Character::getSkills,
             Race.STREAM_CODEC,
             Character::getRace,
-            ResourceKey.streamCodec(SpellRegistry.SPELLS_KEY).apply(ByteBufCodecs.list()),
+            ByteBufCodecs.idMapper(SpellRegistry.SPELLS_REGISTRY).apply(ByteBufCodecs.list()),
             Character::getKnownSpells,
-            ResourceKey.streamCodec(SpellRegistry.SPELLS_KEY),
+            ByteBufCodecs.idMapper(SpellRegistry.SPELLS_REGISTRY),
             Character::getSelectedSpell1,
-            ResourceKey.streamCodec(SpellRegistry.SPELLS_KEY),
+            ByteBufCodecs.idMapper(SpellRegistry.SPELLS_REGISTRY),
             Character::getSelectedSpell2,
             ByteBufCodecs.map(HashMap::new, ByteBufCodecs.idMapper(SpellRegistry.SPELLS_REGISTRY), ByteBufCodecs.FLOAT),
             Character::getSpellsOnCooldown,
@@ -91,7 +91,7 @@ public class Character
             ByteBufCodecs.INT,
             Character::getLevelPerkPoints,
             Character::new
-    )
+    );
 
 //    public static final StreamCodec<ByteBuf, UpdateCharacter> STREAM_CODEC = StreamCodec.composite(
 //            ByteBufCodecs.BOOL,

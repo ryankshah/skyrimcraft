@@ -92,7 +92,7 @@ public class MagicScreen extends Screen
         poseStack.pushPose();
 //        RenderUtil.bind(MENU_ICONS);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        this.renderBackground(graphics, mouseX, mouseY, partialTick);
+        this.renderTransparentBackground(graphics);
 
         if(this.spellTypeChosen) {
             graphics.fillGradient(this.width - 90, 0, this.width - 10, this.height, 0xAA000000, 0xAA000000);
@@ -176,7 +176,7 @@ public class MagicScreen extends Screen
 
         poseStack.popPose();
 
-        super.render(graphics, mouseX, mouseY, partialTick);
+//        super.render(graphics, mouseX, mouseY, partialTick);
     }
 
     private void drawGradientRect(GuiGraphics graphics, PoseStack matrixStack, int startX, int startY, int endX, int endY, int colorStart, int colorEnd, int borderColor) {

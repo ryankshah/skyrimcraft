@@ -6,6 +6,7 @@ import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -18,7 +19,7 @@ public record UpdateCharacter(Character character) implements CustomPacketPayloa
 {
     public static final CustomPacketPayload.Type<UpdateCharacter> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "updatecharacter"));
 
-    public static final StreamCodec<ByteBuf, UpdateCharacter> CODEC = StreamCodec.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, UpdateCharacter> CODEC = StreamCodec.composite(
             Character.STREAM_CODEC,
             UpdateCharacter::character,
             UpdateCharacter::new

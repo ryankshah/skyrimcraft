@@ -175,6 +175,7 @@ public class SabreCat extends PathfinderMob implements GeoEntity
     }
 
     protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
         pBuilder.define(BIOME_TYPE, Biomes.PLAINS.location().toString());
         pBuilder.define(ANIMATION_STATE, 0);
         pBuilder.define(PREV_ANIMATION_STATE, 0);
