@@ -44,12 +44,12 @@ public class ShoutElementalFury extends Spell //implements IForgeRegistryEntry<I
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/elemental_fury.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/elemental_fury.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/elemental_fury.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/elemental_fury.png");
     }
 
     @Override

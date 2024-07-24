@@ -14,7 +14,7 @@ import net.minecraft.util.Mth;
 
 public class SkeeverRenderer extends MobRenderer<Skeever, SkeeverModel<Skeever>>
 {
-    private static final ResourceLocation MODEL_TEXTURE = new ResourceLocation(Skyrimcraft.MODID, "textures/entity/skeever.png");
+    private static final ResourceLocation MODEL_TEXTURE = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/skeever.png");
 
     public SkeeverRenderer(EntityRendererProvider.Context p_174428_) {
         super(p_174428_, new SkeeverModel<>(p_174428_.bakeLayer(SkeeverModel.LAYER_LOCATION)), 0.15F);

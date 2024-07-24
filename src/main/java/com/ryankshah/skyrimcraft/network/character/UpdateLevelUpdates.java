@@ -15,7 +15,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record UpdateLevelUpdates(int levelUpdates) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<UpdateLevelUpdates> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "updatelevelupdates"));
+    public static final CustomPacketPayload.Type<UpdateLevelUpdates> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "updatelevelupdates"));
 
     public static final StreamCodec<ByteBuf, UpdateLevelUpdates> CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,

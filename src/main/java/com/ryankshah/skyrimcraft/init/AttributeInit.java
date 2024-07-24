@@ -5,6 +5,7 @@ import com.ryankshah.skyrimcraft.character.attachment.Character;
 import com.ryankshah.skyrimcraft.character.attachment.PlayerAttachments;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.player.Player;
@@ -42,28 +43,28 @@ public class AttributeInit
     public static final DeferredHolder<Attribute, Attribute> ILLUSION_POWER = ATTRIBUTES.register("illusion_power", () -> new RangedAttribute("skyrimcraft.character.attribute.illusion_power", 1F, 0F, 100F).setSyncable(true));
     public static final DeferredHolder<Attribute, Attribute> CONJURATION_POWER = ATTRIBUTES.register("conjuration_power", () -> new RangedAttribute("skyrimcraft.character.attribute.conjuration_power", 1F, 0F, 100F).setSyncable(true));
 
-    public static final UUID MODIFIER_ID_MAGICKA_REGEN = UUID.fromString("26fcb349-bc96-4593-9b29-5ace7bdee19f");
-    private static final UUID MODIFIER_ID_PLAYER_HEALTH = UUID.fromString("671fbcca-aac7-4de7-9399-d951d58adc12");
-    private static final UUID MODIFIER_ID_PLAYER_MAGICKA = UUID.fromString("496fe98b-9c36-41b9-a04b-5e06e6a13bb5");
-    private static final UUID MODIFIER_ID_PLAYER_STAMINA = UUID.fromString("8745453b-a3d7-47c6-a986-a01f043da892");
+    public static final ResourceLocation MODIFIER_ID_MAGICKA_REGEN = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "26fcb349-bc96-4593-9b29-5ace7bdee19f");
+    private static final ResourceLocation MODIFIER_ID_PLAYER_HEALTH = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "671fbcca-aac7-4de7-9399-d951d58adc12");
+    private static final ResourceLocation MODIFIER_ID_PLAYER_MAGICKA = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "496fe98b-9c36-41b9-a04b-5e06e6a13bb5");
+    private static final ResourceLocation MODIFIER_ID_PLAYER_STAMINA = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "8745453b-a3d7-47c6-a986-a01f043da892");
 
     private static final String MODIFIER_NAME_HEALTH = Skyrimcraft.MODID + ".healthModifier";
     private static final String MODIFIER_NAME_MAGICKA = Skyrimcraft.MODID + ".magickaModifier";
     private static final String MODIFIER_NAME_STAMINA = Skyrimcraft.MODID + ".staminaModifier";
 
-    public static final UUID ELEMENTAL_FURY_SHOUT_ID = UUID.fromString("92837cbf-7285-41f5-9b12-811421af56fb");
+    public static final ResourceLocation ELEMENTAL_FURY_SHOUT_ID = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "92837cbf-7285-41f5-9b12-811421af56fb");
 
-    public static void setModifier(LivingEntity entity, Holder<Attribute> attribute, UUID uuid, String name, double amount, AttributeModifier.Operation op) {
+    public static void setModifier(LivingEntity entity, Holder<Attribute> attribute, ResourceLocation id, double amount, AttributeModifier.Operation op) {
         AttributeInstance instance = entity.getAttribute(attribute);
         if (instance == null) return;
-        AttributeModifier mod = instance.getModifier(uuid);
+        AttributeModifier mod = instance.getModifier(id);
         if (mod != null) instance.removeModifier(mod.id());
-        instance.addPermanentModifier(new AttributeModifier(uuid, name, amount, op));
+        instance.addPermanentModifier(new AttributeModifier(id, amount, op));
     }
 
     public static void setMaxHealth(LivingEntity entity, double amount, AttributeModifier.Operation op) {
         double oldMax = entity.getMaxHealth();
-        setModifier(entity, Attributes.MAX_HEALTH, MODIFIER_ID_PLAYER_HEALTH, MODIFIER_NAME_HEALTH, amount, op);
+        setModifier(entity, Attributes.MAX_HEALTH, MODIFIER_ID_PLAYER_HEALTH, amount, op);
         double newMax = entity.getMaxHealth();
 
         // Heal entity when increasing max health
@@ -78,7 +79,7 @@ public class AttributeInit
     public static void setMaxMagicka(LivingEntity entity, double amount, AttributeModifier.Operation op) {
         Character character = entity.getData(PlayerAttachments.CHARACTER);
         double oldMax = character.getMaxMagicka();
-        setModifier(entity, AttributeInit.MAX_MAGICKA, MODIFIER_ID_PLAYER_MAGICKA, MODIFIER_NAME_MAGICKA, amount, op);
+        setModifier(entity, AttributeInit.MAX_MAGICKA, MODIFIER_ID_PLAYER_MAGICKA, amount, op);
         double newMax = character.getMaxMagicka();
 
 //        // Heal entity when increasing max health

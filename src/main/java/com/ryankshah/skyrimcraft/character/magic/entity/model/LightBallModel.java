@@ -14,7 +14,7 @@ import net.minecraft.world.entity.Entity;
 public class LightBallModel <T extends Entity> extends EntityModel<T>
 {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Skyrimcraft.MODID, "light_ball"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "light_ball"), "main");
     private final ModelPart bb_main;
 
     public LightBallModel(ModelPart root) {
@@ -36,7 +36,7 @@ public class LightBallModel <T extends Entity> extends EntityModel<T>
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        bb_main.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int x) {
+        bb_main.render(poseStack, vertexConsumer, packedLight, packedOverlay, x);
     }
 }

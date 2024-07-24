@@ -87,7 +87,7 @@ public class CompassFeature
 
     public static CompassFeature deserialise(CompoundTag nbt) {
         String id = nbt.getString("id");
-        ResourceLocation feature = new ResourceLocation(nbt.getString("resourcelocation"));
+        ResourceLocation feature = ResourceLocation.parse(nbt.getString("resourcelocation"));
         int x = nbt.getInt("xPos");
         int y = nbt.getInt("yPos");
         int z = nbt.getInt("zPos");

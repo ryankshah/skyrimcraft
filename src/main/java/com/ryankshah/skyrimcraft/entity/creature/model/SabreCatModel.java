@@ -16,7 +16,7 @@ public class SabreCatModel extends GeoModel<SabreCat>
 {
     @Override
     public ResourceLocation getModelResource(SabreCat animatable) {
-        return new ResourceLocation(Skyrimcraft.MODID, "geo/sabre_cat.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "geo/sabre_cat.geo.json");
     }
 
     @Override
@@ -29,13 +29,13 @@ public class SabreCatModel extends GeoModel<SabreCat>
                 Biomes.JAGGED_PEAKS
         );
         if(SNOWY_BIOMES.contains(animatable.getBiomeType())) //biome.isPresent() &&
-            return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/snowy_sabre_cat.png");
+            return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/snowy_sabre_cat.png");
         else
-            return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/sabre_cat.png");
+            return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/sabre_cat.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(SabreCat animatable) {
-        return new ResourceLocation(Skyrimcraft.MODID, "animations/sabre_cat.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "animations/sabre_cat.animation.json");
     }
 }

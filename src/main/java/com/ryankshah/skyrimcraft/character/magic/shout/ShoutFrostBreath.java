@@ -49,12 +49,12 @@ public class ShoutFrostBreath extends Spell //implements IForgeRegistryEntry<ISp
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/frost_breath.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/frost_breath.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/ice_spell_icon.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/ice_spell_icon.png");
     }
 
     @Override

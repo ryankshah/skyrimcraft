@@ -16,7 +16,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record RemoveFromTargetingEntities(int entityId) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<RemoveFromTargetingEntities> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "removefromtargetingentities"));
+    public static final CustomPacketPayload.Type<RemoveFromTargetingEntities> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "removefromtargetingentities"));
 
     public static final StreamCodec<ByteBuf, RemoveFromTargetingEntities> CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,

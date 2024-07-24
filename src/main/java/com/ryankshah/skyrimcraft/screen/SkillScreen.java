@@ -38,8 +38,8 @@ import java.util.Map;
 public class SkillScreen extends Screen
 {
     // Skill Nebula Cube Map
-    public static final CubeMap SKILL_NEBULA_CUBE_MAP = new CubeMap(new ResourceLocation(Skyrimcraft.MODID, "textures/gui/panorama/magic_end"));
-    protected static final ResourceLocation SKILL_ICONS = new ResourceLocation(Skyrimcraft.MODID, "textures/gui/skill_icons.png");
+    public static final CubeMap SKILL_NEBULA_CUBE_MAP = new CubeMap(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/gui/panorama/magic_end"));
+    protected static final ResourceLocation SKILL_ICONS = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/gui/skill_icons.png");
 
     private final int PLAYER_BAR_MAX_WIDTH = 78,
             SKILL_BAR_CONTAINER_U = 1,

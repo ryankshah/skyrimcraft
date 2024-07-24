@@ -10,17 +10,17 @@ public class MammothModel extends GeoModel<Mammoth>
     @Override
     public ResourceLocation getModelResource(Mammoth object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "geo/mammoth.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "geo/mammoth.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(Mammoth object) {
-        return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/mammoth.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/mammoth.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(Mammoth object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "animations/mammoth.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "animations/mammoth.animation.json");
     }
 }

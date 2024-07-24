@@ -11,18 +11,18 @@ public class LunarMothModel extends GeoModel<LunarMoth>
     @Override
     public ResourceLocation getModelResource(LunarMoth object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "geo/lunarmoth.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "geo/lunarmoth.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(LunarMoth object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/lunarmoth.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/lunarmoth.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(LunarMoth object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "animations/lunarmoth.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "animations/lunarmoth.animation.json");
     }
 }

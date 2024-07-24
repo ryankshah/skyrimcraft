@@ -11,18 +11,18 @@ public class OrangeDartwingModel extends GeoModel<OrangeDartwing>
     @Override
     public ResourceLocation getModelResource(OrangeDartwing object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "geo/orangedartwing.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "geo/orangedartwing.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(OrangeDartwing object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/orangedartwing.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/orangedartwing.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(OrangeDartwing object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "animations/orangedartwing.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "animations/orangedartwing.animation.json");
     }
 }

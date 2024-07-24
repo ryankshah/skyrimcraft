@@ -29,10 +29,10 @@ import java.util.List;
 
 public class CharacterCreationScreen extends Screen
 {
-    //protected static final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID, "textures/gui/character_creation_icons.png");
+    //protected static final ResourceLocation OVERLAY_ICONS = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/gui/character_creation_icons.png");
 
-    public static final CubeMap CUBE_MAP = new CubeMap(new ResourceLocation(Skyrimcraft.MODID, "textures/gui/panorama/panorama"));
-    private static final ResourceLocation PANORAMA_OVERLAY = new ResourceLocation("textures/gui/title/background/panorama_overlay.png");
+    public static final CubeMap CUBE_MAP = new CubeMap(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/gui/panorama/panorama"));
+    private static final ResourceLocation PANORAMA_OVERLAY = ResourceLocation.withDefaultNamespace("textures/gui/title/background/panorama_overlay.png");
     private final PanoramaRenderer panorama = new PanoramaRenderer(CUBE_MAP);
 //    private final CUbema panorama = new RenderSkybox(CUBE_MAP);
     private final boolean fading = true;

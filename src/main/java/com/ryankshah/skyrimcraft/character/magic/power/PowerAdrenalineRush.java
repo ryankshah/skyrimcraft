@@ -33,12 +33,12 @@ public class PowerAdrenalineRush extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/adrenaline_rush.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/adrenaline_rush.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/adrenaline.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/adrenaline.png");
     }
 
     public SoundEvent getSound() {

@@ -28,7 +28,7 @@ import java.util.List;
 
 public record HandlePickpocket(int entity) implements CustomPacketPayload //(int raceID, String raceName, Map<Integer, IntList> skills)
 {
-    public static final CustomPacketPayload.Type<HandlePickpocket> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "handlepickpocket"));
+    public static final CustomPacketPayload.Type<HandlePickpocket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "handlepickpocket"));
 
     public static final StreamCodec<ByteBuf, HandlePickpocket> CODEC = StreamCodec.composite(
             ByteBufCodecs.VAR_INT,
@@ -46,7 +46,7 @@ public record HandlePickpocket(int entity) implements CustomPacketPayload //(int
 
         LivingEntity livingEntity = (LivingEntity) player.level().getEntity(data.entity);
 
-        LootTable loottable = player.level().getServer().reloadableRegistries().getLootTable(ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "pickpocket")));
+        LootTable loottable = player.level().getServer().reloadableRegistries().getLootTable(ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "pickpocket")));
         LootParams lootparams = new LootParams.Builder(player.serverLevel())
                 .withParameter(LootContextParams.THIS_ENTITY, player)
                 .withParameter(LootContextParams.ORIGIN, player.position())

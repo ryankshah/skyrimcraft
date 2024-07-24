@@ -39,17 +39,17 @@ public class EntityInit
                     .setTrackingRange(64)
                     .setShouldReceiveVelocityUpdates(true)
                     .setUpdateInterval(2)
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "spell_fireball").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "spell_fireball").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<LightningEntity>> SKYRIM_LIGHTNING = ENTITY_TYPES.register("skyrim_lightning", () ->
             EntityType.Builder.<LightningEntity>of(LightningEntity::new, MobCategory.MISC)
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "skyrim_lightning").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "skyrim_lightning").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<LightBallEntity>> LIGHTBALL_ENTITY = ENTITY_TYPES.register("lightball",
             () -> EntityType.Builder.<LightBallEntity>of(LightBallEntity::new, MobCategory.MISC)
                     .sized(1.25f, 1.25f) // Hitbox Size
                     .setTrackingRange(64)
                     .setShouldReceiveVelocityUpdates(true)
                     .setUpdateInterval(2)
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "lightball").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "lightball").toString()));
 
     // Shout entity types
     public static final DeferredHolder<EntityType<?>, EntityType<UnrelentingForceEntity>> SHOUT_UNRELENTING_FORCE_ENTITY = ENTITY_TYPES.register(
@@ -58,86 +58,86 @@ public class EntityInit
                     .sized(4f, 4f) // Hitbox Size
                     .setTrackingRange(64)
                     .setShouldReceiveVelocityUpdates(true)
-                    .setUpdateInterval(2).build(new ResourceLocation(Skyrimcraft.MODID, "shout_unrelenting_force").toString()));
+                    .setUpdateInterval(2).build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "shout_unrelenting_force").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<DisarmEntity>> SHOUT_DISARM_ENTITY = ENTITY_TYPES.register(
             "shout_disarm_entity",
             () -> EntityType.Builder.<DisarmEntity>of(DisarmEntity::new, MobCategory.MISC)
                     .sized(4f, 4f) // Hitbox Size
                     .setTrackingRange(64)
                     .setShouldReceiveVelocityUpdates(true)
-                    .setUpdateInterval(2).build(new ResourceLocation(Skyrimcraft.MODID, "shout_disarm").toString()));
+                    .setUpdateInterval(2).build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "shout_disarm").toString()));
 
     // Mobs
     public static final DeferredHolder<EntityType<?>, EntityType<SabreCat>> SABRE_CAT = ENTITY_TYPES.register("sabre_cat",
             () -> EntityType.Builder.of(SabreCat::new, MobCategory.MONSTER)
                     .sized(1.25f, 1.25f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "sabre_cat").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "sabre_cat").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<Giant>> GIANT = ENTITY_TYPES.register("giant",
             () -> EntityType.Builder.of(Giant::new, MobCategory.MONSTER)
                     .sized(1.0f, 4.0f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "giant").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "giant").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<Mammoth>> MAMMOTH = ENTITY_TYPES.register("mammoth",
             () -> EntityType.Builder.of(Mammoth::new, MobCategory.MONSTER)
                     .sized(4.0f, 4.0f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "mammoth").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "mammoth").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<SkyrimDragon>> DRAGON = ENTITY_TYPES.register("dragon",
             () -> EntityType.Builder.of(SkyrimDragon::new, MobCategory.MONSTER)
                     .fireImmune().sized(4.0F, 4.0F).clientTrackingRange(64)
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "dragon").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "dragon").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<DwarvenSpider>> DWARVEN_SPIDER = ENTITY_TYPES.register("dwarven_spider",
             () -> EntityType.Builder.of(DwarvenSpider::new, MobCategory.MONSTER)
                     .sized(2.0f, 2.0f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "dwarven_spider").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "dwarven_spider").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<BlueButterfly>> BLUE_BUTTERFLY = ENTITY_TYPES.register("blue_butterfly",
             () -> EntityType.Builder.of(BlueButterfly::new, MobCategory.AMBIENT)
                     .sized(0.5f, 0.5f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "blue_butterfly").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "blue_butterfly").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<MonarchButterfly>> MONARCH_BUTTERFLY = ENTITY_TYPES.register("monarch_butterfly",
             () -> EntityType.Builder.of(MonarchButterfly::new, MobCategory.AMBIENT)
                     .sized(0.5f, 0.5f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "monarch_butterfly").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "monarch_butterfly").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<OrangeDartwing>> ORANGE_DARTWING = ENTITY_TYPES.register("orange_dartwing",
             () -> EntityType.Builder.of(OrangeDartwing::new, MobCategory.AMBIENT)
                     .sized(0.5f, 0.5f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "orange_dartwing").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "orange_dartwing").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<BlueDartwing>> BLUE_DARTWING = ENTITY_TYPES.register("blue_dartwing",
             () -> EntityType.Builder.of(BlueDartwing::new, MobCategory.AMBIENT)
                     .sized(0.5f, 0.5f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "blue_dartwing").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "blue_dartwing").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<LunarMoth>> LUNAR_MOTH = ENTITY_TYPES.register("lunar_moth",
             () -> EntityType.Builder.of(LunarMoth::new, MobCategory.AMBIENT)
                     .sized(0.5f, 0.5f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "lunar_moth").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "lunar_moth").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<TorchBug>> TORCHBUG = ENTITY_TYPES.register("torchbug",
             () -> EntityType.Builder.of(TorchBug::new, MobCategory.AMBIENT)
                     .sized(0.5f, 0.5f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "torchbug").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "torchbug").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<Khajiit>> KHAJIIT = ENTITY_TYPES.register("khajiit",
             () -> EntityType.Builder.of(Khajiit::new, MobCategory.AMBIENT)
                     .sized(1.0f, 2.0f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "khajiit").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "khajiit").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<Falmer>> FALMER = ENTITY_TYPES.register("falmer",
             () -> EntityType.Builder.of(Falmer::new, MobCategory.AMBIENT)
                     .sized(1.0f, 2.0f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "falmer").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "falmer").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<Draugr>> DRAUGR = ENTITY_TYPES.register("draugr",
             () -> EntityType.Builder.of(Draugr::new, MobCategory.MONSTER)
                     .sized(1.0f, 2.0f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "draugr").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "draugr").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<Skeever>> SKEEVER = ENTITY_TYPES.register("skeever",
             () -> EntityType.Builder.of(Skeever::new, MobCategory.MONSTER)
                     .sized(1.0f, 1.0f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "skeever").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "skeever").toString()));
 
     public static final DeferredHolder<EntityType<?>, EntityType<AbeceanLongfin>> ABECEAN_LONGFIN = ENTITY_TYPES.register("abecean_longfin",
             () -> EntityType.Builder.of(AbeceanLongfin::new, MobCategory.WATER_CREATURE)
                     .sized(1.0f, 1.0f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "abecean_longfin").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "abecean_longfin").toString()));
 
     public static final DeferredHolder<EntityType<?>, EntityType<CyrodilicSpadetail>> CYRODILIC_SPADETAIL = ENTITY_TYPES.register("cyrodilic_spadetail",
             () -> EntityType.Builder.of(CyrodilicSpadetail::new, MobCategory.WATER_CREATURE)
                     .sized(1.0f, 1.0f) // Hitbox Size
-                    .build(new ResourceLocation(Skyrimcraft.MODID, "cyrodilic_spadetail").toString()));
+                    .build(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "cyrodilic_spadetail").toString()));
 
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
 //        RenderingRegistry.registerEntityRenderingHandler((EntityType<AncientNordArrowEntity>) ModEntityType.ANCIENT_NORD_ARROW_ENTITY.get(), AncientNordArrowRenderer::new);

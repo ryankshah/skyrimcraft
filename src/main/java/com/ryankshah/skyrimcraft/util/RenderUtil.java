@@ -14,20 +14,20 @@ public class RenderUtil
 
     public static void blitWithBlend(PoseStack matrices, float x, float y, float texPosX, float texPosY, float width, float height, float texWidth, float texHeight, float zOffset, float alpha){
         RenderSystem.enableBlend();
-        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
-        BufferBuilder vertex = Tesselator.getInstance().getBuilder();
+        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+        BufferBuilder vertex = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
         float u1 = texPosX / (float)texWidth;
         float u2 = (texPosX + width) / (float)texWidth;
         float v1 = texPosY / (float)texHeight;
         float v2 = (texPosY + height) / (float)texHeight;
         Matrix4f m = matrices.last().pose();
-        vertex.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
-        vertex.vertex(m,x,y,zOffset).color(1,1,1,alpha).uv(u1,v1).endVertex();
-        vertex.vertex(m,x,y + height,zOffset).color(1,1,1,alpha).uv(u1,v2).endVertex();
-        vertex.vertex(m,x + width,y + height,zOffset).color(1,1,1,alpha).uv(u2,v2).endVertex();
-        vertex.vertex(m,x + width,y,zOffset).color(1,1,1,alpha).uv(u2,v1).endVertex();
+//        vertex.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        vertex.addVertex(m,x,y,zOffset).setColor(1,1,1,alpha).setUv(u1,v1);
+        vertex.addVertex(m,x,y + height,zOffset).setColor(1,1,1,alpha).setUv(u1,v2);
+        vertex.addVertex(m,x + width,y + height,zOffset).setColor(1,1,1,alpha).setUv(u2,v2);
+        vertex.addVertex(m,x + width,y,zOffset).setColor(1,1,1,alpha).setUv(u2,v1);
 
-        BufferUploader.drawWithShader(vertex.end());
+        BufferUploader.drawWithShader(vertex.buildOrThrow());
         RenderSystem.disableBlend();
     }
 
@@ -48,19 +48,19 @@ public class RenderUtil
         }
         matrices.pushPose();
         Matrix4f matrix4f = matrices.last().pose();
-        BufferBuilder builder = Tesselator.getInstance().getBuilder();
+        BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        builder.begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION_COLOR);
+//        builder.begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION_COLOR);
 
-        builder.vertex(matrix4f,(float)x1,(float)y1,0).color(r,g,b,a).endVertex();
-        builder.vertex(matrix4f,(float)x1,(float)y2,0).color(r,g,b,a).endVertex();
-        builder.vertex(matrix4f,(float)x2,(float)y2,0).color(r,g,b,a).endVertex();
-        builder.vertex(matrix4f,(float)x2,(float)y1,0).color(r,g,b,a).endVertex();
+        builder.addVertex(matrix4f,(float)x1,(float)y1,0).setColor(r,g,b,a);
+        builder.addVertex(matrix4f,(float)x1,(float)y2,0).setColor(r,g,b,a);
+        builder.addVertex(matrix4f,(float)x2,(float)y2,0).setColor(r,g,b,a);
+        builder.addVertex(matrix4f,(float)x2,(float)y1,0).setColor(r,g,b,a);
 
-        BufferUploader.drawWithShader(builder.end());
+        BufferUploader.drawWithShader(builder.buildOrThrow());
         RenderSystem.disableBlend();
         matrices.popPose();
     }
@@ -77,7 +77,7 @@ public class RenderUtil
             y2 = k;
         }
         Matrix4f matrix4f = matrices.last().pose();
-        BufferBuilder builder = Tesselator.getInstance().getBuilder();
+        BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 
         double sizeY = y2 - y1;
 
@@ -85,20 +85,20 @@ public class RenderUtil
 //        RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        builder.begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION_COLOR);
+//        builder.begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION_COLOR);
 
-        builder.vertex(matrix4f,(float)x1,(float)y1,0).color(r,g,b,0).endVertex();
-        builder.vertex(matrix4f,(float)x1,(float)(y2 - sizeY/2f),0).color(r,g,b,a).endVertex();
-        builder.vertex(matrix4f,(float)x2,(float)(y2 - sizeY/2f),0).color(r,g,b,a).endVertex();
-        builder.vertex(matrix4f,(float)x2,(float)y1,0).color(r,g,b,0).endVertex();
+        builder.addVertex(matrix4f,(float)x1,(float)y1,0).setColor(r,g,b,0);
+        builder.addVertex(matrix4f,(float)x1,(float)(y2 - sizeY/2f),0).setColor(r,g,b,a);
+        builder.addVertex(matrix4f,(float)x2,(float)(y2 - sizeY/2f),0).setColor(r,g,b,a);
+        builder.addVertex(matrix4f,(float)x2,(float)y1,0).setColor(r,g,b,0);
 
-        builder.vertex(matrix4f,(float)x1,(float)(y1 + sizeY/2),0).color(r,g,b,a).endVertex();
-        builder.vertex(matrix4f,(float)x1,(float)y2 ,0).color(r,g,b,0).endVertex();
-        builder.vertex(matrix4f,(float)x2,(float)y2 ,0).color(r,g,b,0).endVertex();
-        builder.vertex(matrix4f,(float)x2,(float)(y1 + sizeY/2),0).color(r,g,b,a).endVertex();
+        builder.addVertex(matrix4f,(float)x1,(float)(y1 + sizeY/2),0).setColor(r,g,b,a);
+        builder.addVertex(matrix4f,(float)x1,(float)y2 ,0).setColor(r,g,b,0);
+        builder.addVertex(matrix4f,(float)x2,(float)y2 ,0).setColor(r,g,b,0);
+        builder.addVertex(matrix4f,(float)x2,(float)(y1 + sizeY/2),0).setColor(r,g,b,a);
 
 
-        BufferUploader.drawWithShader(builder.end());
+        BufferUploader.drawWithShader(builder.buildOrThrow());
 //        RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
@@ -115,25 +115,25 @@ public class RenderUtil
             y2 = k;
         }
         Matrix4f matrix4f = matrices.last().pose();
-        BufferBuilder builder = Tesselator.getInstance().getBuilder();
+        BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         double sizeX = x2 - x1;
         RenderSystem.enableBlend();
 //        RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        builder.begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION_COLOR);
+//        builder.begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION_COLOR);
 
-        builder.vertex(matrix4f,(float)x1,(float)y1,0).color(r,g,b,0).endVertex();
-        builder.vertex(matrix4f,(float)x1,(float)y2,0).color(r,g,b,0).endVertex();
-        builder.vertex(matrix4f,(float)(x2 - sizeX/2f),(float)y2,0).color(r,g,b,a).endVertex();
-        builder.vertex(matrix4f,(float)(x2 - sizeX/2f),(float)y1,0).color(r,g,b,a).endVertex();
+        builder.addVertex(matrix4f,(float)x1,(float)y1,0).setColor(r,g,b,0);
+        builder.addVertex(matrix4f,(float)x1,(float)y2,0).setColor(r,g,b,0);
+        builder.addVertex(matrix4f,(float)(x2 - sizeX/2f),(float)y2,0).setColor(r,g,b,a);
+        builder.addVertex(matrix4f,(float)(x2 - sizeX/2f),(float)y1,0).setColor(r,g,b,a);
 
-        builder.vertex(matrix4f,(float)(x1 + sizeX/2f),(float)y1,0).color(r,g,b,a).endVertex();
-        builder.vertex(matrix4f,(float)(x1 + sizeX/2f),(float)y2,0).color(r,g,b,a).endVertex();
-        builder.vertex(matrix4f,(float)x2 ,(float)y2,0).color(r,g,b,0).endVertex();
-        builder.vertex(matrix4f,(float)x2 ,(float)y1,0).color(r,g,b,0).endVertex();
+        builder.addVertex(matrix4f,(float)(x1 + sizeX/2f),(float)y1,0).setColor(r,g,b,a);
+        builder.addVertex(matrix4f,(float)(x1 + sizeX/2f),(float)y2,0).setColor(r,g,b,a);
+        builder.addVertex(matrix4f,(float)x2 ,(float)y2,0).setColor(r,g,b,0);
+        builder.addVertex(matrix4f,(float)x2 ,(float)y1,0).setColor(r,g,b,0);
 
-        BufferUploader.drawWithShader(builder.end());
+        BufferUploader.drawWithShader(builder.buildOrThrow());
 //        RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }

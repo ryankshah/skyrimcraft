@@ -28,8 +28,8 @@ public class NbtFeature extends Feature<NbtFeatureConfig> {
         super(NbtFeatureConfig.CODEC);
     }
 
-    private final BlockIgnoreProcessor IGNORE_STRUCTURE_VOID = new BlockIgnoreProcessor(ImmutableList.of(Blocks.STRUCTURE_VOID));
-    private final StructurePlaceSettings placementsettings = (new StructurePlaceSettings()).setMirror(Mirror.NONE).addProcessor(IGNORE_STRUCTURE_VOID).setIgnoreEntities(false);
+    private final BlockIgnoreProcessor ignoreStructureVoid = new BlockIgnoreProcessor(ImmutableList.of(Blocks.STRUCTURE_VOID));
+    private final StructurePlaceSettings placementSettings = (new StructurePlaceSettings()).setMirror(Mirror.NONE).addProcessor(ignoreStructureVoid).setIgnoreEntities(false);
 
     @Override
     public boolean place(FeaturePlaceContext<NbtFeatureConfig> context) {
@@ -88,19 +88,18 @@ public class NbtFeature extends Feature<NbtFeatureConfig> {
         }
 
         BlockPos halfLengths = new BlockPos(template.get().getSize().getX() / 2, 0, template.get().getSize().getZ() / 2);
-        placementsettings.setRotation(Rotation.getRandom(context.random())).setRotationPivot(halfLengths).setIgnoreEntities(false);
+        placementSettings.setRotation(Rotation.getRandom(context.random())).setRotationPivot(halfLengths).setIgnoreEntities(false);
         if(context.config().processor != null) {
             context.level().registryAccess().registryOrThrow(Registries.PROCESSOR_LIST)
-                    .getOptional(context.config().processor).ifPresent(processor -> processor.list().forEach(placementsettings::addProcessor));
+                    .getOptional(context.config().processor).ifPresent(processor -> processor.list().forEach(placementSettings::addProcessor));
         }
         blockpos$Mutable.set(context.origin());
         BlockPos offset = new BlockPos(-template.get().getSize().getX() / 2, context.config().heightOffset, -template.get().getSize().getZ() / 2);
-        template.get().placeInWorld(context.level(), blockpos$Mutable.offset(offset), blockpos$Mutable.offset(offset), placementsettings, context.random(), Block.UPDATE_CLIENTS);
+        template.get().placeInWorld(context.level(), blockpos$Mutable.offset(offset), blockpos$Mutable.offset(offset), placementSettings, context.random(), Block.UPDATE_CLIENTS);
 
         return true;
     }
 
-    // Weighted Random from: https://stackoverflow.com/a/6737362
     public static <T> T getRandomEntry(List<Pair<T, Integer>> rlList, RandomSource random) {
         double totalWeight = 0.0;
 

@@ -19,7 +19,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record UpdateShoutCooldown(ResourceKey<Spell> spell, float cooldown) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<UpdateShoutCooldown> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "updateshoutcooldown"));
+    public static final CustomPacketPayload.Type<UpdateShoutCooldown> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "updateshoutcooldown"));
 
     public static final StreamCodec<ByteBuf, UpdateShoutCooldown> CODEC = StreamCodec.composite(
             ResourceKey.streamCodec(SpellRegistry.SPELLS_KEY),

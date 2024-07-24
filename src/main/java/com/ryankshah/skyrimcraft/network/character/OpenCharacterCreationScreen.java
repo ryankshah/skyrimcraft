@@ -18,7 +18,7 @@ import org.apache.logging.log4j.core.jmx.Server;
 
 public record OpenCharacterCreationScreen(boolean hasSetup) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<OpenCharacterCreationScreen> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "opencharactercreationscreen"));
+    public static final CustomPacketPayload.Type<OpenCharacterCreationScreen> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "opencharactercreationscreen"));
 
     public static final StreamCodec<ByteBuf, OpenCharacterCreationScreen> CODEC = StreamCodec.composite(
             ByteBufCodecs.BOOL,

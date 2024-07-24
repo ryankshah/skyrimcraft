@@ -13,9 +13,9 @@ import java.util.function.Supplier;
 
 public class SkillRegistry
 {
-    public static final ResourceKey<Registry<Skill>> SKILLS_KEY = ResourceKey.createRegistryKey(new ResourceLocation(Skyrimcraft.MODID + ":skills_key"));
+    public static final ResourceKey<Registry<Skill>> SKILLS_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "skills_key"));
     public static final DeferredRegister<Skill> SKILLS = DeferredRegister.create(SKILLS_KEY, Skyrimcraft.MODID);
-    public static final Registry<Skill> SKILLS_REGISTRY = SKILLS.makeRegistry(builder -> builder.sync(true).defaultKey(new ResourceLocation(Skyrimcraft.MODID, "empty")));
+    public static final Registry<Skill> SKILLS_REGISTRY = SKILLS.makeRegistry(builder -> builder.sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "empty")));
 
     public static final int BASE_ARCHERY_XP = 4;
     public static final int BASE_BLOCK_XP = 4;

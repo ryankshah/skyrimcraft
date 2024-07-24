@@ -14,7 +14,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record CastSpell(ResourceKey<Spell> spell) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<CastSpell> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "castspell"));
+    public static final CustomPacketPayload.Type<CastSpell> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "castspell"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, CastSpell> CODEC = StreamCodec.composite(
             ResourceKey.streamCodec(SpellRegistry.SPELLS_KEY),

@@ -2,83 +2,61 @@ package com.ryankshah.skyrimcraft.init;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ParticleRenderTypeInit
 {
     public static ParticleRenderType GLOW = new ParticleRenderType() {
+        @Nullable
         @Override
-        public void begin(BufferBuilder buffer, @NotNull TextureManager manager) {
+        public BufferBuilder begin(Tesselator p_350949_, TextureManager p_107437_) {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
             RenderSystem.enableCull();
             RenderSystem.enableDepthTest();
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public void end(Tesselator tesselator) {
-            tesselator.end();
-
-            RenderSystem.defaultBlendFunc();
+            return new BufferBuilder(new ByteBufferBuilder(512), VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
     };
 
     public static ParticleRenderType ADDITIVE = new ParticleRenderType() {
+        @Nullable
         @Override
-        public void begin(BufferBuilder buffer, @NotNull TextureManager manager) {
-            RenderSystem.depthMask(true);
+        public BufferBuilder begin(Tesselator p_350949_, TextureManager p_107437_) {
+            RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
             RenderSystem.enableCull();
             RenderSystem.enableDepthTest();
             RenderSystem.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public void end(Tesselator tesselator) {
-            tesselator.end();
-
-            RenderSystem.defaultBlendFunc();
+            return new BufferBuilder(new ByteBufferBuilder(512), VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
     };
 
     public static ParticleRenderType TRANSLUCENT = new ParticleRenderType() {
+        @Nullable
         @Override
-        public void begin(BufferBuilder buffer, @NotNull TextureManager manager) {
-            RenderSystem.depthMask(true);
+        public BufferBuilder begin(Tesselator p_350949_, TextureManager p_107437_) {
+            RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
+            RenderSystem.enableCull();
             RenderSystem.enableDepthTest();
-            RenderSystem.defaultBlendFunc();
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public void end(Tesselator tesselator) {
-            tesselator.end();
+            return new BufferBuilder(new ByteBufferBuilder(512), VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
     };
 
     public static ParticleRenderType CUSTOM = new ParticleRenderType() {
+        @Nullable
         @Override
-        public void begin(@NotNull BufferBuilder buffer, @NotNull TextureManager manager) {
-            buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.NEW_ENTITY);
-        }
-
-        @Override
-        public void end(Tesselator tesselator) {
-            tesselator.end();
+        public BufferBuilder begin(Tesselator p_350949_, TextureManager p_107437_) {
+            return new BufferBuilder(new ByteBufferBuilder(512), VertexFormat.Mode.QUADS, DefaultVertexFormat.NEW_ENTITY);
         }
     };
 }

@@ -44,12 +44,12 @@ public class ShoutUnrelentingForce extends Spell //implements IForgeRegistryEntr
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/unrelenting_force.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/unrelenting_force.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/unrelenting_force_icon.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/unrelenting_force_icon.png");
     }
 
     @Override

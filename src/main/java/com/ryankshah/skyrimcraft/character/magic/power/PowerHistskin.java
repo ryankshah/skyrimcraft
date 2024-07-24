@@ -35,12 +35,12 @@ public class PowerHistskin extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/gray_spell.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/gray_spell.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/fireball.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/fireball.png");
     }
 
     public SoundEvent getSound() {

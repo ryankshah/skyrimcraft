@@ -24,7 +24,7 @@ import java.util.List;
 
 public record FinishForgeRecipe(Recipe<?> recipe) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<FinishForgeRecipe> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "finishforgerecipe"));
+    public static final CustomPacketPayload.Type<FinishForgeRecipe> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "finishforgerecipe"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, FinishForgeRecipe> CODEC = StreamCodec.composite(
             Recipe.STREAM_CODEC,

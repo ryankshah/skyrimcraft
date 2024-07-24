@@ -24,7 +24,7 @@ import java.util.List;
 
 public record FinishAlchemyRecipe(Recipe<?> recipe) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<FinishAlchemyRecipe> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "finishalchemyrecipe"));
+    public static final CustomPacketPayload.Type<FinishAlchemyRecipe> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "finishalchemyrecipe"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, FinishAlchemyRecipe> CODEC = StreamCodec.composite(
             Recipe.STREAM_CODEC,

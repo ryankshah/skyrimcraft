@@ -16,7 +16,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record UpdateMagicka(float magicka, float maxMagicka, float magickaRegenModifier) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<UpdateMagicka> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "updatemagicka"));
+    public static final CustomPacketPayload.Type<UpdateMagicka> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "updatemagicka"));
 
     public static final StreamCodec<ByteBuf, UpdateMagicka> CODEC = StreamCodec.composite(
             ByteBufCodecs.FLOAT,

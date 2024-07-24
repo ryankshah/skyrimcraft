@@ -49,7 +49,7 @@ public class AlchemyRecipeProvider implements DataProvider, IConditionBuilder
             NonNullList<Ingredient> ings = potion.getIngredients();
             AlchemyRecipe recipe = new AlchemyRecipe(potion.getCategory().toString(), new ItemStack(potion, 1), 2, 1, ings);
 
-            pRecipeOutput.accept(new ResourceLocation(Skyrimcraft.MODID + ":alchemy/" + BuiltInRegistries.ITEM.getKey(potion).getPath()), recipe, null);
+            pRecipeOutput.accept(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "alchemy/" + BuiltInRegistries.ITEM.getKey(potion).getPath()), recipe, null);
         }
     }
 

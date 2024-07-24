@@ -30,7 +30,7 @@ public class SkyrimLootModifierProvider extends GlobalLootModifierProvider
                             LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.TALL_GRASS)
                                     .or(LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.LARGE_FERN)).build()
                     },
-                    ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "grasspod"))
+                    ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "grasspod"))
                 )
         );
 
@@ -45,7 +45,7 @@ public class SkyrimLootModifierProvider extends GlobalLootModifierProvider
                                         .or(LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DEEPSLATE_IRON_ORE))
                                         .build()
                         },
-                        ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "oregemdrops"))
+                        ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "oregemdrops"))
                 )
         );
 
@@ -54,7 +54,7 @@ public class SkyrimLootModifierProvider extends GlobalLootModifierProvider
                         new LootItemCondition[] {
                                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.BEEHIVE).build()
                         },
-                        ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "beehive"))
+                        ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "beehive"))
                 )
         );
 
@@ -66,7 +66,7 @@ public class SkyrimLootModifierProvider extends GlobalLootModifierProvider
                                                 LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(EntityType.SPIDER)
                                         )).build()
                         },
-                        ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "spider"))
+                        ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spider"))
                 )
         );
 
@@ -78,7 +78,7 @@ public class SkyrimLootModifierProvider extends GlobalLootModifierProvider
                                                 LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(EntityType.WITCH)
                                         )).build()
                         },
-                        ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "witch"))
+                        ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "witch"))
                 )
         );
 
@@ -90,7 +90,7 @@ public class SkyrimLootModifierProvider extends GlobalLootModifierProvider
                                                 LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(EntityType.EVOKER)
                                         )).build()
                         },
-                        ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "evoker"))
+                        ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "evoker"))
                 )
         );
 
@@ -102,7 +102,7 @@ public class SkyrimLootModifierProvider extends GlobalLootModifierProvider
                                                 LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(EntityType.SALMON)
                                         )).build()
                         },
-                        ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "salmon"))
+                        ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "salmon"))
                 )
         );
 
@@ -114,7 +114,7 @@ public class SkyrimLootModifierProvider extends GlobalLootModifierProvider
                                                 LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(EntityType.GOAT)
                                 )).build()
                         },
-                        ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "goat"))
+                        ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "goat"))
                 )
         );
 
@@ -126,51 +126,51 @@ public class SkyrimLootModifierProvider extends GlobalLootModifierProvider
                                                 LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(EntityType.BEE)
                                         )).build()
                         },
-                        ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "bee"))
+                        ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "bee"))
                 )
         );
 
 
         this.add("chests/simple_dungeon", new AddTableLootModifier(
             new LootItemCondition[] {
-                    LootTableIdCondition.builder(new ResourceLocation("chests/simple_dungeon")).build()
-            }, ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/simple_dungeon"))
+                    LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/simple_dungeon")).build()
+            }, ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "chests/simple_dungeon"))
         ));
 
         this.add("chests/abandoned_mineshaft", new AddTableLootModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("chests/abandoned_mineshaft")).build()
-                }, ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/abandoned_mineshaft"))
+                        LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/abandoned_mineshaft")).build()
+                }, ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "chests/abandoned_mineshaft"))
         ));
         this.add("chests/buried_treasure", new AddTableLootModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("chests/buried_treasure")).build()
-                }, ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/buried_treasure"))
+                        LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/buried_treasure")).build()
+                }, ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "chests/buried_treasure"))
         ));
         this.add("chests/desert_pyramid", new AddTableLootModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("chests/desert_pyramid")).build()
-                }, ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/desert_pyramid"))
+                        LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/desert_pyramid")).build()
+                }, ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "chests/desert_pyramid"))
         ));
         this.add("chests/shipwreck_supply", new AddTableLootModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("chests/shipwreck_supply")).build()
-                }, ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/shipwreck_supply"))
+                        LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/shipwreck_supply")).build()
+                }, ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "chests/shipwreck_supply"))
         ));
         this.add("chests/stronghold_corridor", new AddTableLootModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("chests/stronghold_corridor")).build()
-                }, ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "chests/stronghold_corridor"))
+                        LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/stronghold_corridor")).build()
+                }, ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "chests/stronghold_corridor"))
         ));
         this.add("gameplay/piglin_bartering", new AddTableLootModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("gameplay/piglin_bartering")).build()
-                }, ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "gameplay/piglin_bartering"))
+                        LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("gameplay/piglin_bartering")).build()
+                }, ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "gameplay/piglin_bartering"))
         ));
         this.add("gameplay/sniffer_digging", new AddTableLootModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("gameplay/sniffer_digging")).build()
-                }, ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "gameplay/sniffer_digging"))
+                        LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("gameplay/sniffer_digging")).build()
+                }, ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "gameplay/sniffer_digging"))
         ));
     }
 }

@@ -11,7 +11,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class KhajiitTailModel extends EntityModel<AbstractClientPlayer> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("minecraft:player"), "khajiit_tail");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.withDefaultNamespace("player"), "khajiit_tail");
     private final ModelPart tail;
 
     public KhajiitTailModel(ModelPart root) {
@@ -36,7 +36,7 @@ public class KhajiitTailModel extends EntityModel<AbstractClientPlayer> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        tail.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int x) {
+        tail.render(poseStack, vertexConsumer, packedLight, packedOverlay, x);
     }
 }

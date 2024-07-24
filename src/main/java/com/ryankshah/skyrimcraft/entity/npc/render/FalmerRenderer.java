@@ -28,6 +28,6 @@ public class FalmerRenderer extends HumanoidMobRenderer<Falmer, FalmerModel<Falm
 
     @Override
     public ResourceLocation getTextureLocation(Falmer pEntity) {
-        return pEntity.getRandom().nextInt(1,2) == 1 ? new ResourceLocation(Skyrimcraft.MODID, "textures/entity/falmer_1.png") : new ResourceLocation(Skyrimcraft.MODID, "textures/entity/falmer_2.png");
+        return pEntity.getRandom().nextInt(1,2) == 1 ? ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/falmer_1.png") : ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/falmer_2.png");
     }
 }

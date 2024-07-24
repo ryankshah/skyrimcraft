@@ -14,7 +14,7 @@ import org.joml.Matrix4f;
 
 public class FireballRenderer extends EntityRenderer<FireballEntity>
 {
-    private static final ResourceLocation SPELL_FIREBALL_TEXTURE = new ResourceLocation(Skyrimcraft.MODID, "textures/effect/fireball2.png");
+    private static final ResourceLocation SPELL_FIREBALL_TEXTURE = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/effect/fireball2.png");
 
     public FireballRenderer(EntityRendererProvider.Context pContext) {
         super(pContext);
@@ -32,10 +32,10 @@ public class FireballRenderer extends EntityRenderer<FireballEntity>
 
         pPoseStack.mulPose(entityRenderDispatcher.cameraOrientation());
 
-        ivertexbuilder.vertex(matrix4f, -1, -1, 0).color(255, 255, 255, 255).uv(0, 0 +  t * (1.0f / 4.0f)).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(pPackedLight).normal(0, 1, 0).endVertex();
-        ivertexbuilder.vertex(matrix4f, -1, 1, 0).color(255, 255, 255, 255).uv(0, 0 +  t * (1.0f / 4.0f) + (1.0f / 4.0f)).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(pPackedLight).normal(0, 1, 0).endVertex();
-        ivertexbuilder.vertex(matrix4f, 1, 1, 0).color(255, 255, 255, 255).uv(1, 0 +  t * (1.0f / 4.0f) + (1.0f / 4.0f)).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(pPackedLight).normal(0, 1, 0).endVertex();
-        ivertexbuilder.vertex(matrix4f, 1, -1, 0).color(255, 255, 255, 255).uv(1, 0 +  t * (1.0f / 4.0f)).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(pPackedLight).normal(0, 1, 0).endVertex();
+        ivertexbuilder.addVertex(matrix4f, -1, -1, 0).setColor(255, 255, 255, 255).setUv(0, 0 +  t * (1.0f / 4.0f)).setOverlay(OverlayTexture.NO_OVERLAY).setUv2(pPackedLight, pPackedLight).setNormal(0, 1, 0);
+        ivertexbuilder.addVertex(matrix4f, -1, 1, 0).setColor(255, 255, 255, 255).setUv(0, 0 +  t * (1.0f / 4.0f) + (1.0f / 4.0f)).setOverlay(OverlayTexture.NO_OVERLAY).setUv2(pPackedLight, pPackedLight).setNormal(0, 1, 0);
+        ivertexbuilder.addVertex(matrix4f, 1, 1, 0).setColor(255, 255, 255, 255).setUv(1, 0 +  t * (1.0f / 4.0f) + (1.0f / 4.0f)).setOverlay(OverlayTexture.NO_OVERLAY).setUv2(pPackedLight, pPackedLight).setNormal(0, 1, 0);
+        ivertexbuilder.addVertex(matrix4f, 1, -1, 0).setColor(255, 255, 255, 255).setUv(1, 0 +  t * (1.0f / 4.0f)).setOverlay(OverlayTexture.NO_OVERLAY).setUv2(pPackedLight, pPackedLight).setNormal(0, 1, 0);
 
         pPoseStack.popPose();
         super.render(pEntity, pEntityYaw, pPartialTick, pPoseStack, pBuffer, pPackedLight);

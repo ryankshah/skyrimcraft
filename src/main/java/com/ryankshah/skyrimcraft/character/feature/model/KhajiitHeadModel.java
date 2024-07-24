@@ -11,7 +11,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class KhajiitHeadModel extends EntityModel<AbstractClientPlayer> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("minecraft:player"), "khajiit_head");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.withDefaultNamespace("player"), "khajiit_head");
     private final ModelPart ears;
     private final ModelPart Whiskers;
     private final ModelPart nose;
@@ -61,9 +61,9 @@ public class KhajiitHeadModel extends EntityModel<AbstractClientPlayer> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        ears.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-        Whiskers.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-        nose.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int x) {
+        ears.render(poseStack, vertexConsumer, packedLight, packedOverlay, x);
+        Whiskers.render(poseStack, vertexConsumer, packedLight, packedOverlay, x);
+        nose.render(poseStack, vertexConsumer, packedLight, packedOverlay, x);
     }
 }

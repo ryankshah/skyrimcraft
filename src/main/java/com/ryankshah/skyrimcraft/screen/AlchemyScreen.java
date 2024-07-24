@@ -34,7 +34,7 @@ import java.util.List;
 
 public class AlchemyScreen extends Screen
 {
-    protected static final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID, "textures/gui/overlay_icons.png");
+    protected static final ResourceLocation OVERLAY_ICONS = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/gui/overlay_icons.png");
 
     private Multimap<String, AlchemyRecipe> items;
     private List<AlchemyRecipe> itemList;

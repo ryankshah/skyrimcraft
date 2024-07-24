@@ -30,6 +30,6 @@ public class KhajiitRenderer extends HumanoidMobRenderer<Khajiit, KhajiitModel<K
 
     @Override
     public ResourceLocation getTextureLocation(Khajiit pEntity) {
-        return pEntity.getSex() ? new ResourceLocation(Skyrimcraft.MODID, "textures/entity/khajiit_male.png") : new ResourceLocation(Skyrimcraft.MODID, "textures/entity/khajiit_female.png");
+        return pEntity.getSex() ? ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/khajiit_male.png") : ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/khajiit_female.png");
     }
 }

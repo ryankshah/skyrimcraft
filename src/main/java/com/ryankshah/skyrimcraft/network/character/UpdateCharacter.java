@@ -17,7 +17,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record UpdateCharacter(Character character) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<UpdateCharacter> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "updatecharacter"));
+    public static final CustomPacketPayload.Type<UpdateCharacter> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "updatecharacter"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, UpdateCharacter> CODEC = StreamCodec.composite(
             Character.STREAM_CODEC,

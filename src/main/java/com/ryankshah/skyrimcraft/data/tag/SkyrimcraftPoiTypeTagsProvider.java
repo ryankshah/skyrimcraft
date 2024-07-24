@@ -19,6 +19,6 @@ public class SkyrimcraftPoiTypeTagsProvider extends PoiTypeTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
         tag(PoiTypeTags.ACQUIRABLE_JOB_SITE)
-                .addOptional(new ResourceLocation(Skyrimcraft.MODID, "warrior_poi"));
+                .addOptional(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "warrior_poi"));
     }
 }

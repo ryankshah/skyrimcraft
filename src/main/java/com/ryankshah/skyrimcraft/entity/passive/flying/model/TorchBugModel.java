@@ -11,18 +11,18 @@ public class TorchBugModel extends GeoModel<TorchBug>
     @Override
     public ResourceLocation getModelResource(TorchBug object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "geo/torchbug.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "geo/torchbug.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(TorchBug object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/torchbug.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/torchbug.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(TorchBug object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "animations/torchbug.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "animations/torchbug.animation.json");
     }
 }

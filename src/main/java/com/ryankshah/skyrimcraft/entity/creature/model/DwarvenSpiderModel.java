@@ -10,17 +10,17 @@ public class DwarvenSpiderModel extends GeoModel<DwarvenSpider>
     @Override
     public ResourceLocation getModelResource(DwarvenSpider object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "geo/dwarven_spider.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "geo/dwarven_spider.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(DwarvenSpider object) {
-        return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/dwarven_spider.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/dwarven_spider.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(DwarvenSpider object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "animations/dwarven_spider.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "animations/dwarven_spider.animation.json");
     }
 }

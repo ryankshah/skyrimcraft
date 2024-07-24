@@ -16,7 +16,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record UpdateCurrentTarget(int target) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<UpdateCurrentTarget> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "updatecurrenttarget"));
+    public static final CustomPacketPayload.Type<UpdateCurrentTarget> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "updatecurrenttarget"));
 
     public static final StreamCodec<ByteBuf, UpdateCurrentTarget> CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,

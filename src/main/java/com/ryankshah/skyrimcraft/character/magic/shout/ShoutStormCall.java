@@ -48,12 +48,12 @@ public class ShoutStormCall extends Spell { // implements IForgeRegistryEntry<IS
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/storm_call.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/storm_call.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/storm_call.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/storm_call.png");
     }
 
     @Override

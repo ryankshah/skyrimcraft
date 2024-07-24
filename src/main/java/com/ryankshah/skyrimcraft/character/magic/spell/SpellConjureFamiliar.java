@@ -39,12 +39,12 @@ public class SpellConjureFamiliar extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/conjure_familiar.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/conjure_familiar.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/conjure_familiar.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/conjure_familiar.png");
     }
 
     @Override

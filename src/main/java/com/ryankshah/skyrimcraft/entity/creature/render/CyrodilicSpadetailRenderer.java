@@ -16,7 +16,7 @@ import net.minecraft.util.Mth;
 public class CyrodilicSpadetailRenderer extends MobRenderer<CyrodilicSpadetail, ColorableHierarchicalModel<CyrodilicSpadetail>>
 {
     private final ColorableHierarchicalModel<CyrodilicSpadetail> modelA = this.getModel();
-    private static final ResourceLocation MODEL_A_TEXTURE = new ResourceLocation(Skyrimcraft.MODID, "textures/entity/cyrodilic_spadetail.png");
+    private static final ResourceLocation MODEL_A_TEXTURE = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/cyrodilic_spadetail.png");
 
     public CyrodilicSpadetailRenderer(EntityRendererProvider.Context p_174428_) {
         super(p_174428_, new TropicalFishModelA<>(p_174428_.bakeLayer(ModelLayers.TROPICAL_FISH_SMALL)), 0.15F);

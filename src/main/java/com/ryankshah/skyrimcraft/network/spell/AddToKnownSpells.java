@@ -20,7 +20,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record AddToKnownSpells(ResourceKey<Spell> spell) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<AddToKnownSpells> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "addtoknownspells"));
+    public static final CustomPacketPayload.Type<AddToKnownSpells> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "addtoknownspells"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, AddToKnownSpells> CODEC = StreamCodec.composite(
             ResourceKey.streamCodec(SpellRegistry.SPELLS_KEY),

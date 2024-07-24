@@ -34,12 +34,12 @@ public class PowerNightEye extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/night_eye.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/night_eye.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/night_eye.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/night_eye.png");
     }
 
     public SoundEvent getSound() {

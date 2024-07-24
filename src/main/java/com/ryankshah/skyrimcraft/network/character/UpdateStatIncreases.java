@@ -19,7 +19,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record UpdateStatIncreases(StatIncreases statIncreases) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<UpdateStatIncreases> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "updatestatincreases"));
+    public static final CustomPacketPayload.Type<UpdateStatIncreases> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "updatestatincreases"));
 
     public static final StreamCodec<ByteBuf, UpdateStatIncreases> CODEC = StreamCodec.composite(
             StatIncreases.STREAM_CODEC,

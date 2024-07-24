@@ -3,8 +3,9 @@ package com.ryankshah.skyrimcraft.block.inventory;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 
-public class IForgeInventory implements Container {
+public class IForgeInventory implements Container, RecipeInput {
     /**
      * Returns the number of slots in the inventory.
      */
@@ -26,6 +27,11 @@ public class IForgeInventory implements Container {
     @Override
     public ItemStack getItem(int index) {
         return ItemStack.EMPTY;
+    }
+
+    @Override
+    public int size() {
+        return 0;
     }
 
     /**

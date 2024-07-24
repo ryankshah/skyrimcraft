@@ -16,7 +16,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record AddToTargetingEntities(int entityId) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<AddToTargetingEntities> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "addtotargetingentities"));
+    public static final CustomPacketPayload.Type<AddToTargetingEntities> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "addtotargetingentities"));
 
     public static final StreamCodec<ByteBuf, AddToTargetingEntities> CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,

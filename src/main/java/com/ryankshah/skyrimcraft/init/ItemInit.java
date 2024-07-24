@@ -1048,16 +1048,16 @@ public class ItemInit
     }
 
     private static void registerTwoHandedProperties(Item item) {
-        ItemProperties.register(item, new ResourceLocation(Skyrimcraft.MODID, "no_use"), ClientEvents::noUse);
-        ItemProperties.register(item, new ResourceLocation(Skyrimcraft.MODID, "blocking"), ClientEvents::blocking);
+        ItemProperties.register(item, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "no_use"), ClientEvents::noUse);
+        ItemProperties.register(item, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "blocking"), ClientEvents::blocking);
     }
 
     private static void registerBowProperties(Item item) {
-        ItemProperties.register(item, new ResourceLocation(Skyrimcraft.MODID, "pulling"), ClientEvents::pulling);
-        ItemProperties.register(item, new ResourceLocation(Skyrimcraft.MODID, "pull"), ClientEvents::pull);
+        ItemProperties.register(item, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "pulling"), ClientEvents::pulling);
+        ItemProperties.register(item, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "pull"), ClientEvents::pull);
     }
 
     private static void registerShield(Item item) {
-        ItemProperties.register(item, new ResourceLocation(Skyrimcraft.MODID, "blocking"), ClientEvents::blocking);
+        ItemProperties.register(item, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "blocking"), ClientEvents::blocking);
     }
 }

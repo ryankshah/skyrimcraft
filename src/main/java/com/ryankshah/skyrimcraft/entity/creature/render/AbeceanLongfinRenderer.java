@@ -16,7 +16,7 @@ import net.minecraft.util.Mth;
 public class AbeceanLongfinRenderer extends MobRenderer<AbeceanLongfin, ColorableHierarchicalModel<AbeceanLongfin>>
 {
     private final ColorableHierarchicalModel<AbeceanLongfin> modelA = this.getModel();
-    private static final ResourceLocation MODEL_A_TEXTURE = new ResourceLocation(Skyrimcraft.MODID, "textures/entity/abecean_longfin.png");
+    private static final ResourceLocation MODEL_A_TEXTURE = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/abecean_longfin.png");
 
     public AbeceanLongfinRenderer(EntityRendererProvider.Context p_174428_) {
         super(p_174428_, new TropicalFishModelA<>(p_174428_.bakeLayer(ModelLayers.TROPICAL_FISH_SMALL)), 0.15F);

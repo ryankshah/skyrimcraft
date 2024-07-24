@@ -19,9 +19,9 @@ public class SpellRegistry
     /// -- Ticks in mc day (one day cooldown) = 24000 (1200 seconds)
     public static final int DAY_COOLDOWN = 1200;
 
-    public static final ResourceKey<Registry<Spell>> SPELLS_KEY = ResourceKey.createRegistryKey(new ResourceLocation(Skyrimcraft.MODID + ":spells_key"));
+    public static final ResourceKey<Registry<Spell>> SPELLS_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells_key"));
     public static final DeferredRegister<Spell> SPELLS = DeferredRegister.create(SPELLS_KEY, Skyrimcraft.MODID);
-    public static final Registry<Spell> SPELLS_REGISTRY = SPELLS.makeRegistry(builder -> builder.sync(true).defaultKey(new ResourceLocation(Skyrimcraft.MODID, "empty")));
+    public static final Registry<Spell> SPELLS_REGISTRY = SPELLS.makeRegistry(builder -> builder.sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "empty")));
 
     // Shouts
     public static Supplier<Spell> EMPTY_SPELL = SPELLS.register("empty_spell", EmptySpell::new);

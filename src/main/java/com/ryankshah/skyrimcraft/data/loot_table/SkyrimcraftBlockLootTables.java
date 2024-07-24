@@ -5,19 +5,18 @@ import com.ryankshah.skyrimcraft.block.PearlOysterBlock;
 import com.ryankshah.skyrimcraft.init.BlockInit;
 import com.ryankshah.skyrimcraft.init.ItemInit;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.WaterlilyBlock;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
-import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
-import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -31,8 +30,8 @@ import java.util.stream.Collectors;
 
 public class SkyrimcraftBlockLootTables extends BlockLootSubProvider
 {
-    protected SkyrimcraftBlockLootTables() {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+    protected SkyrimcraftBlockLootTables(HolderLookup.Provider provider) {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), provider);
     }
 
     @Override
@@ -78,8 +77,6 @@ public class SkyrimcraftBlockLootTables extends BlockLootSubProvider
         dropSelf(BlockInit.PLANKS_3.get());
         dropSelf(BlockInit.PLANKS_4.get());
 
-        add(BlockInit.SOVNGARDE_PORTAL.get(), noDrop());
-
         dropSelf(BlockInit.RED_MOUNTAIN_FLOWER.get());
         dropSelf(BlockInit.BLUE_MOUNTAIN_FLOWER.get());
         dropSelf(BlockInit.YELLOW_MOUNTAIN_FLOWER.get());
@@ -110,19 +107,19 @@ public class SkyrimcraftBlockLootTables extends BlockLootSubProvider
                         .setRolls(ConstantValue.exactly(1.0F))
                         .add(LootItem.lootTableItem(ItemInit.HAWK_EGG)
                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
-                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(registries, UniformGenerator.between(1.0F, 2.0F)))
                         )
                         .add(LootItem.lootTableItem(ItemInit.PINE_THRUSH_EGG)
                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
-                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(registries, UniformGenerator.between(1.0F, 2.0F)))
                         )
                         .add(LootItem.lootTableItem(ItemInit.ROCK_WARBLER_EGG)
                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
-                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(registries, UniformGenerator.between(1.0F, 2.0F)))
                         )
                         .add(LootItem.lootTableItem(Items.EGG))
                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
-                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(registries, UniformGenerator.between(1.0F, 2.0F)))
                         );
         add(BlockInit.BIRDS_NEST.get(), birdsNestDrops);
     }

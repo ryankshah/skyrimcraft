@@ -31,12 +31,12 @@ public class SpellCandlelight extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/candlelight.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/candlelight.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/candlelight.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/candlelight.png");
     }
 
     @Override

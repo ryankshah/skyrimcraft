@@ -25,6 +25,6 @@ public class DraugrRenderer extends HumanoidMobRenderer<Draugr, DraugrModel<Drau
 
     @Override
     public ResourceLocation getTextureLocation(Draugr pEntity) {
-        return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/draugr.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/draugr.png");
     }
 }

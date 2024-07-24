@@ -437,7 +437,7 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         getBuilder(name)
                 .parent(getExistingFile(modLoc("item/greatsword")))
                 .texture("layer0", "item/" + name)
-                .override().predicate(new ResourceLocation(Skyrimcraft.MODID, "no_use"), 1.0f)
+                .override().predicate(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "no_use"), 1.0f)
                 .model(getExistingFile(modLoc("item/" + name + "_no_use"))).end()
                 .override().predicate(modLoc("blocking"), 1.0f)
                 .model(getExistingFile(modLoc("item/" + name + "_blocking"))).end();
@@ -448,8 +448,8 @@ public class SkyrimcraftItemModelProvider extends ItemModelProvider
         getBuilder(name)
                 .parent(getExistingFile(mcLoc("item/bow")))
                 .texture("layer0", "item/" + name)
-                .override().predicate(new ResourceLocation("pulling"), 1).model(item(name + "_pulling_0")).end()
-                .override().predicate(new ResourceLocation("pulling"), 1).predicate(new ResourceLocation("pull"), 0.65f).model(item(name + "_pulling_1")).end()
-                .override().predicate(new ResourceLocation("pulling"), 1).predicate(new ResourceLocation("pull"), 0.9f).model(item(name + "_pulling_2")).end();
+                .override().predicate(ResourceLocation.withDefaultNamespace("pulling"), 1).model(item(name + "_pulling_0")).end()
+                .override().predicate(ResourceLocation.withDefaultNamespace("pulling"), 1).predicate(ResourceLocation.withDefaultNamespace("pull"), 0.65f).model(item(name + "_pulling_1")).end()
+                .override().predicate(ResourceLocation.withDefaultNamespace("pulling"), 1).predicate(ResourceLocation.withDefaultNamespace("pull"), 0.9f).model(item(name + "_pulling_2")).end();
     }
 }

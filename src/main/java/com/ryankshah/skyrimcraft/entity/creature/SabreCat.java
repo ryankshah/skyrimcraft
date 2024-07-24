@@ -190,7 +190,7 @@ public class SabreCat extends PathfinderMob implements GeoEntity
 
     public void readAdditionalSaveData(CompoundTag p_70037_1_) {
         super.readAdditionalSaveData(p_70037_1_);
-        this.setBiomeType(ResourceKey.create(Registries.BIOME, new ResourceLocation(p_70037_1_.getString("BiomeType"))));
+        this.setBiomeType(ResourceKey.create(Registries.BIOME, ResourceLocation.parse(p_70037_1_.getString("BiomeType"))));
         this.setAnimationState(p_70037_1_.getInt("AnimationState"));
         this.setPrevAnimationState(p_70037_1_.getInt("PrevAnimationState"));
     }
@@ -200,7 +200,7 @@ public class SabreCat extends PathfinderMob implements GeoEntity
     }
 
     public ResourceKey<Biome> getBiomeType() {
-        return ResourceKey.create(Registries.BIOME, new ResourceLocation(this.entityData.get(BIOME_TYPE)));
+        return ResourceKey.create(Registries.BIOME, ResourceLocation.parse(this.entityData.get(BIOME_TYPE)));
     }
 
     public void setAnimationState(int animationState) {

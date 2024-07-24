@@ -52,10 +52,10 @@ public class SkyrimAdvancementProvider extends AdvancementProvider {
                     .display(ItemInit.SWEET_ROLL.get(),
                             Component.literal("Skyrimcraft"),
                             Component.literal("Your adventure begins here..."),
-                            new ResourceLocation("textures/gui/advancements/backgrounds/stone.png"),
+                            ResourceLocation.withDefaultNamespace("textures/gui/advancements/backgrounds/stone.png"),
                             AdvancementType.TASK, false, false, false)
                     .addCriterion("skyrimcraft_login", PlayerTrigger.TriggerInstance.located(LocationPredicate.Builder.location().setX(MinMaxBounds.Doubles.ANY)))
-                    .save(saver, new ResourceLocation(Skyrimcraft.MODID, "root"), existingFileHelper);
+                    .save(saver, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "root"), existingFileHelper);
 
             Advancement.Builder.advancement()
                     .parent(skyrimcraft)
@@ -81,10 +81,10 @@ public class SkyrimAdvancementProvider extends AdvancementProvider {
 
             AdvancementHolder spells = Advancement.Builder.advancement().parent(skyrimcraft)
                     .display(ItemInit.FIREBALL_SPELLBOOK.get(), Component.literal("Spells"), Component.literal("Learned spells"), (ResourceLocation)null, AdvancementType.CHALLENGE, true, true, true)
-                    .addCriterion("spells_list", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance())).save(saver, new ResourceLocation(Skyrimcraft.MODID, "spell/root"), existingFileHelper);
+                    .addCriterion("spells_list", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance())).save(saver, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spell/root"), existingFileHelper);
             AdvancementHolder shouts = Advancement.Builder.advancement().parent(skyrimcraft)
                     .display(BlockInit.SHOUT_BLOCK.get(), Component.literal("Shouts"), Component.literal("Learnt shouts"), (ResourceLocation)null, AdvancementType.CHALLENGE, true, true, true)
-                    .addCriterion("shouts_list", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance())).save(saver, new ResourceLocation(Skyrimcraft.MODID, "shout/root"), existingFileHelper);
+                    .addCriterion("shouts_list", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance())).save(saver, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "shout/root"), existingFileHelper);
 
             for(DeferredHolder<Spell, ? extends Spell> spell : SpellRegistry.SPELLS.getEntries()) {
                 if(spell.get().equals(SpellRegistry.EMPTY_SPELL.get()))
@@ -96,18 +96,18 @@ public class SkyrimAdvancementProvider extends AdvancementProvider {
                                 Component.literal("Learn the " + spell.get().getName() + " " + (spell.get().getType() == Spell.SpellType.SHOUT ? "shout" : "spell")),
                                 (ResourceLocation)null, AdvancementType.CHALLENGE, true, true, true)
                         .addCriterion("spell_learned_" + spell.get().getName().toLowerCase(Locale.ENGLISH).replace(" ", "_"), LearnSpellTrigger.onLearn(spell))
-                        .save(saver, new ResourceLocation(Skyrimcraft.MODID, (spell.get().getType() == Spell.SpellType.SHOUT ? "shout" : "spell") + "/" + spell.get().getName().toLowerCase(Locale.ENGLISH).replace(" ", "_")), existingFileHelper);
+                        .save(saver, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, (spell.get().getType() == Spell.SpellType.SHOUT ? "shout" : "spell") + "/" + spell.get().getName().toLowerCase(Locale.ENGLISH).replace(" ", "_")), existingFileHelper);
             }
 
 
             // Level-Based
             AdvancementHolder combat = Advancement.Builder.advancement().parent(skyrimcraft)
                     .display(ItemInit.DAEDRIC_SWORD.get(), Component.literal("Combat"), Component.literal("Skyrimcraft Combat Achievements"), (ResourceLocation)null, AdvancementType.CHALLENGE, false, false, false)
-                    .addCriterion("deal_damage", PlayerHurtEntityTrigger.TriggerInstance.playerHurtEntity()).save(saver, new ResourceLocation(Skyrimcraft.MODID, "combat/root"), existingFileHelper);
+                    .addCriterion("deal_damage", PlayerHurtEntityTrigger.TriggerInstance.playerHurtEntity()).save(saver, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "combat/root"), existingFileHelper);
 
             AdvancementHolder reach_level_10 = Advancement.Builder.advancement().parent(combat)
                     .display(ItemInit.IRON_SWORD.get(), Component.literal("Level 10"), Component.literal("Reach Combat Level 10"), (ResourceLocation)null, AdvancementType.TASK, true, true, false)
-                    .addCriterion("level_10", LevelUpTrigger.onLevelUp(Optional.of(10))).save(saver, new ResourceLocation(Skyrimcraft.MODID, "combat/reach_level_10"), existingFileHelper);
+                    .addCriterion("level_10", LevelUpTrigger.onLevelUp(Optional.of(10))).save(saver, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "combat/reach_level_10"), existingFileHelper);
 
         }
     }

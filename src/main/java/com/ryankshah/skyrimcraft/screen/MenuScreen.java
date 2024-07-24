@@ -23,8 +23,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class MenuScreen extends Screen
 {
-    protected static final ResourceLocation MENU_ICONS = new ResourceLocation(Skyrimcraft.MODID, "textures/gui/cross.png");
-    private final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID, "textures/gui/overlay_icons.png");
+    protected static final ResourceLocation MENU_ICONS = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/gui/cross.png");
+    private final ResourceLocation OVERLAY_ICONS = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/gui/overlay_icons.png");
     protected static final int PLAYER_BAR_MAX_WIDTH = 78;
 
     private Direction currentDirection;

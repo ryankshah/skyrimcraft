@@ -34,12 +34,12 @@ public class PowerBerserkerRage extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/berserker_rage.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/berserker_rage.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/berserker_rage.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/berserker_rage.png");
     }
 
     public SoundEvent getSound() {

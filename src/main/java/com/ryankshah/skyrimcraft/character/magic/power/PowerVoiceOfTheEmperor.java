@@ -39,12 +39,12 @@ public class PowerVoiceOfTheEmperor extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/voice_of_the_emperor.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/voice_of_the_emperor.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/voice_of_the_emperor.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/voice_of_the_emperor.png");
     }
 
     public SoundEvent getSound() {

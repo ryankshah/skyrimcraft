@@ -41,7 +41,7 @@ public class OvenRecipeProvider implements DataProvider, IConditionBuilder
 
     protected void buildRecipes(RecipeOutput pRecipeOutput) {
         pRecipeOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID + ":oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.SWEET_ROLL.get()).getPath()),
+                ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.SWEET_ROLL.get()).getPath()),
                 new OvenRecipe("food", new ItemStack(ItemInit.SWEET_ROLL.get(), 1), 1, 5,
                         NonNullList.of(
                                 Ingredient.of(new ItemStack(ItemInit.BUTTER.get(), 1)),
@@ -53,7 +53,7 @@ public class OvenRecipeProvider implements DataProvider, IConditionBuilder
                 null
         );
         pRecipeOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID + ":oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.GARLIC_BREAD.get()).getPath()),
+                ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.GARLIC_BREAD.get()).getPath()),
                 new OvenRecipe("food", new ItemStack(ItemInit.GARLIC_BREAD.get(), 1), 1, 5,
                         NonNullList.of(
                                 Ingredient.of(new ItemStack(ItemInit.BUTTER.get(), 1)),
@@ -63,7 +63,7 @@ public class OvenRecipeProvider implements DataProvider, IConditionBuilder
                 null
         );
         pRecipeOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID + ":oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.APPLE_PIE.get()).getPath()),
+                ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.APPLE_PIE.get()).getPath()),
                 new OvenRecipe("food", new ItemStack(ItemInit.APPLE_PIE.get(), 1), 1, 5,
                         NonNullList.of(
                                 Ingredient.of(new ItemStack(ItemInit.FLOUR.get(), 1)),
@@ -75,7 +75,7 @@ public class OvenRecipeProvider implements DataProvider, IConditionBuilder
                 null
         );
         pRecipeOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID + ":oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.POTATO_BREAD.get()).getPath()),
+                ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.POTATO_BREAD.get()).getPath()),
                 new OvenRecipe("food", new ItemStack(ItemInit.POTATO_BREAD.get(), 1), 1, 5,
                         NonNullList.of(
                                 Ingredient.of(new ItemStack(ItemInit.FLOUR.get(), 1)),
@@ -87,7 +87,7 @@ public class OvenRecipeProvider implements DataProvider, IConditionBuilder
                 null
         );
         pRecipeOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID + ":oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.HORSE_HAUNCH.get()).getPath()),
+                ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.HORSE_HAUNCH.get()).getPath()),
                 new OvenRecipe("food", new ItemStack(ItemInit.HORSE_HAUNCH.get(), 1), 1, 5,
                         NonNullList.of(
                                 Ingredient.of(new ItemStack(ItemInit.HORSE_MEAT.get(), 1)),
@@ -96,7 +96,7 @@ public class OvenRecipeProvider implements DataProvider, IConditionBuilder
                 null
         );
         pRecipeOutput.accept(
-                new ResourceLocation(Skyrimcraft.MODID + ":oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.LEG_OF_GOAT_ROAST.get()).getPath()),
+                ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "oven/" + BuiltInRegistries.ITEM.getKey(ItemInit.LEG_OF_GOAT_ROAST.get()).getPath()),
                 new OvenRecipe("food", new ItemStack(ItemInit.LEG_OF_GOAT_ROAST.get(), 1), 1, 5,
                         NonNullList.of(
                                 Ingredient.of(new ItemStack(ItemInit.LEG_OF_GOAT.get(), 1)),

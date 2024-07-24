@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class HighElfEarModel extends EntityModel<AbstractClientPlayer> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("minecraft:player"), "high_elf_ears");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.withDefaultNamespace("player"), "high_elf_ears");
     private final ModelPart Ears;
 
     public HighElfEarModel(ModelPart root) {
@@ -42,8 +42,8 @@ public class HighElfEarModel extends EntityModel<AbstractClientPlayer> {
 //    }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        Ears.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int x, int packedLight, int packedOverlay) {
+        Ears.render(poseStack, vertexConsumer, x, packedLight, packedOverlay);
     }
 
     @Override

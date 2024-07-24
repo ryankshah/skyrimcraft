@@ -39,12 +39,12 @@ public class PowerAncestorsWrath extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/ancestors_wrath.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/ancestors_wrath.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/ancestors_wrath.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/ancestors_wrath.png");
     }
 
     public SoundEvent getSound() {

@@ -16,7 +16,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record DetectLife(IntList ids) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<DetectLife> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "detectlife"));
+    public static final CustomPacketPayload.Type<DetectLife> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "detectlife"));
 
     public static final StreamCodec<FriendlyByteBuf, DetectLife> CODEC = StreamCodec.composite(
             StreamCodec.of(FriendlyByteBuf::writeIntIdList, FriendlyByteBuf::readIntIdList),

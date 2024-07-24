@@ -47,12 +47,12 @@ public class PowerHighborn extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/purple_spell.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/purple_spell.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/highborn.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/highborn.png");
     }
 
     public SoundEvent getSound() {

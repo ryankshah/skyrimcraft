@@ -47,12 +47,12 @@ public class SpellConjureZombie extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/conjure_zombie.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/conjure_zombie.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/conjure_zombie.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/conjure_zombie.png");
     }
 
     @Override

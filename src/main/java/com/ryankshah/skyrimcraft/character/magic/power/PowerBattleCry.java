@@ -33,12 +33,12 @@ public class PowerBattleCry extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/battle_cry.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/battle_cry.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/battle_cry.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/battle_cry.png");
     }
 
     public SoundEvent getSound() {

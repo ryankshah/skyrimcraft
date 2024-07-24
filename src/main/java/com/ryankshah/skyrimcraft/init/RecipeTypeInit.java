@@ -15,9 +15,9 @@ public class RecipeTypeInit
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(BuiltInRegistries.RECIPE_TYPE, Skyrimcraft.MODID);
 
     public static final DeferredHolder<RecipeType<?>, RecipeType<AlchemyRecipe>> ALCHEMY = RECIPE_TYPES.register("alchemy",
-            () -> RecipeType.simple(new ResourceLocation(Skyrimcraft.MODID, "alchemy")));
+            () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "alchemy")));
     public static final DeferredHolder<RecipeType<?>, RecipeType<OvenRecipe>> OVEN = RECIPE_TYPES.register("oven",
-            () -> RecipeType.simple(new ResourceLocation(Skyrimcraft.MODID, "oven")));
+            () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "oven")));
     public static final DeferredHolder<RecipeType<?>, RecipeType<ForgeRecipe>> FORGE = RECIPE_TYPES.register("forge",
-            () -> RecipeType.simple(new ResourceLocation(Skyrimcraft.MODID, "forge")));
+            () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "forge")));
 }

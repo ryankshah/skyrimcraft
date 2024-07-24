@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 
 public record CreateCharacter(int raceID, boolean fin) implements CustomPacketPayload //(int raceID, String raceName, Map<Integer, IntList> skills)
 {
-    public static final CustomPacketPayload.Type<CreateCharacter> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "createcharacter"));
+    public static final CustomPacketPayload.Type<CreateCharacter> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "createcharacter"));
 
     public static final StreamCodec<ByteBuf, CreateCharacter> CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,

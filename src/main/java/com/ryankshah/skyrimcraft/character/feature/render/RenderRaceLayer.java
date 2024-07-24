@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 
 public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>
 {
@@ -52,7 +53,7 @@ public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
         this.getParentModel().getHead().translateAndRotate(matrixStack);
         //matrixStack.mulPose(YP.rotationDegrees(180F));
         getParentModel().copyPropertiesTo(highElfEarModel);
-        highElfEarModel.renderToBuffer(matrixStack, ivertexbuilder, packedLight, overlayCoords, 1.0F, 1.0F, 1.0F, 1.0F);
+        highElfEarModel.renderToBuffer(matrixStack, ivertexbuilder, packedLight, overlayCoords, 0xFFFFFFFF);
         matrixStack.popPose();
     }
 
@@ -64,7 +65,7 @@ public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
         this.getParentModel().getHead().translateAndRotate(matrixStack);
         //matrixStack.mulPose(YP.rotationDegrees(180F));
         getParentModel().copyPropertiesTo(dunmerEarModel);
-        dunmerEarModel.renderToBuffer(matrixStack, ivertexbuilder, packedLight, overlayCoords, 1.0F, 1.0F, 1.0F, 1.0F);
+        dunmerEarModel.renderToBuffer(matrixStack, ivertexbuilder, packedLight, overlayCoords, 0xFFFFFFFF);
         matrixStack.popPose();
     }
 
@@ -76,12 +77,12 @@ public class RenderRaceLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
         poseStack.pushPose();
         this.getParentModel().getHead().translateAndRotate(poseStack);
         getParentModel().copyPropertiesTo(khajiitHeadModel);
-        khajiitHeadModel.renderToBuffer(poseStack, ivertexbuilder, packedLight, overlayCoords, 1.0F, 1.0F, 1.0F, 1.0F);
+        khajiitHeadModel.renderToBuffer(poseStack, ivertexbuilder, packedLight, overlayCoords, 0xFFFFFFFF);
         poseStack.popPose();
 
         poseStack.pushPose();
         getParentModel().copyPropertiesTo(khajiitTailModel);
-        khajiitTailModel.renderToBuffer(poseStack, ivertexbuilder, packedLight, overlayCoords, 1.0F, 1.0F, 1.0F, 1.0F);
+        khajiitTailModel.renderToBuffer(poseStack, ivertexbuilder, packedLight, overlayCoords, 0xFFFFFFFF);
         poseStack.popPose();
     }
 }

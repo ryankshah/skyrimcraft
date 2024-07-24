@@ -28,7 +28,7 @@ import static org.lwjgl.glfw.GLFW.glfwGetKeyName;
 
 public class MagicScreen extends Screen
 {
-    protected static final ResourceLocation OVERLAY_ICONS = new ResourceLocation(Skyrimcraft.MODID, "textures/gui/overlay_icons.png");
+    protected static final ResourceLocation OVERLAY_ICONS = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/gui/overlay_icons.png");
     private static final int PADDING = 7;
 
     private Map<Spell.SpellType, ArrayList<Spell>> spellsAndTypes;

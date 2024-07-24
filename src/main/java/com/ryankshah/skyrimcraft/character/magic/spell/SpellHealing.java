@@ -35,12 +35,12 @@ public class SpellHealing extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/healing.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/healing.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/healing.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/healing.png");
     }
 
     @Override

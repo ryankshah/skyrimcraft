@@ -16,7 +16,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record ReplenishMagicka(float amount) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<ReplenishMagicka> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "replenishmagicka"));
+    public static final CustomPacketPayload.Type<ReplenishMagicka> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "replenishmagicka"));
 
     public static final StreamCodec<ByteBuf, ReplenishMagicka> CODEC = StreamCodec.composite(
             ByteBufCodecs.FLOAT,

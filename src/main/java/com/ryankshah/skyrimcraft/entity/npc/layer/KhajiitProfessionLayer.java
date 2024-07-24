@@ -22,11 +22,11 @@ import net.minecraft.world.entity.npc.VillagerType;
 public class KhajiitProfessionLayer <T extends LivingEntity & VillagerDataHolder, M extends EntityModel<T>> extends RenderLayer<T, M>
 {
     private static final Int2ObjectMap<ResourceLocation> LEVEL_LOCATIONS = Util.make(new Int2ObjectOpenHashMap<>(), p_117657_ -> {
-        p_117657_.put(1, new ResourceLocation("stone"));
-        p_117657_.put(2, new ResourceLocation("iron"));
-        p_117657_.put(3, new ResourceLocation("gold"));
-        p_117657_.put(4, new ResourceLocation("emerald"));
-        p_117657_.put(5, new ResourceLocation("diamond"));
+        p_117657_.put(1, ResourceLocation.parse("stone"));
+        p_117657_.put(2, ResourceLocation.parse("iron"));
+        p_117657_.put(3, ResourceLocation.parse("gold"));
+        p_117657_.put(4, ResourceLocation.parse("emerald"));
+        p_117657_.put(5, ResourceLocation.parse("diamond"));
     });
     private final ResourceManager resourceManager;
     private final String path;
@@ -55,21 +55,21 @@ public class KhajiitProfessionLayer <T extends LivingEntity & VillagerDataHolder
             VillagerProfession villagerprofession = villagerdata.getProfession();
             M m = this.getParentModel();
             ResourceLocation resourcelocation = this.getResourceLocation("type", BuiltInRegistries.VILLAGER_TYPE.getKey(villagertype));
-            renderColoredCutoutModel(m, resourcelocation, pPoseStack, pBuffer, pPackedLight, pLivingEntity, 1.0F, 1.0F, 1.0F);
+            renderColoredCutoutModel(m, resourcelocation, pPoseStack, pBuffer, pPackedLight, pLivingEntity, 1);
             if (villagerprofession != VillagerProfession.NONE && !pLivingEntity.isBaby()) {
                 ResourceLocation resourcelocation1 = this.getResourceLocation("profession", BuiltInRegistries.VILLAGER_PROFESSION.getKey(villagerprofession));
-                renderColoredCutoutModel(m, resourcelocation1, pPoseStack, pBuffer, pPackedLight, pLivingEntity, 1.0F, 1.0F, 1.0F);
+                renderColoredCutoutModel(m, resourcelocation1, pPoseStack, pBuffer, pPackedLight, pLivingEntity, 1);
                 if (villagerprofession != VillagerProfession.NITWIT) {
                     ResourceLocation resourcelocation2 = this.getResourceLocation(
                             "profession_level", LEVEL_LOCATIONS.get(Mth.clamp(villagerdata.getLevel(), 1, LEVEL_LOCATIONS.size()))
                     );
-                    renderColoredCutoutModel(m, resourcelocation2, pPoseStack, pBuffer, pPackedLight, pLivingEntity, 1.0F, 1.0F, 1.0F);
+                    renderColoredCutoutModel(m, resourcelocation2, pPoseStack, pBuffer, pPackedLight, pLivingEntity, 1);
                 }
             }
         }
     }
 
     private ResourceLocation getResourceLocation(String pFolder, ResourceLocation pLocation) {
-        return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/" + this.path + "/" + pFolder + "/" + pLocation.getPath() + ".png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/" + this.path + "/" + pFolder + "/" + pLocation.getPath() + ".png");
     }
 }

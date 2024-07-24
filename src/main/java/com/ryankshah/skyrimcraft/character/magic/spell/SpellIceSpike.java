@@ -32,12 +32,12 @@ public class SpellIceSpike extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/ice_spike.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/ice_spike.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/ice_spell_icon.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/ice_spell_icon.png");
     }
 
     @Override

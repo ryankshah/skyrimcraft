@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 
 public class SpectralLayerRenderer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>
 {
@@ -30,7 +31,7 @@ public class SpectralLayerRenderer extends RenderLayer<AbstractClientPlayer, Pla
                     ivertexbuilder,
                     p_225628_3_,
                     PlayerRenderer.getOverlayCoords(p_225628_4_, 0.0F),
-                    197/255f, 205/255f, 216/255f, 0.4F);
+                    OverlayTexture.NO_OVERLAY);
             RenderSystem.disableBlend();
         }
     }

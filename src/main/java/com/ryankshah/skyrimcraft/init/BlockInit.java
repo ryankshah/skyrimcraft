@@ -2,7 +2,6 @@ package com.ryankshah.skyrimcraft.init;
 
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.block.*;
-import com.ryankshah.skyrimcraft.dimension.sovngarde.portal.SovngardePortalBlock;
 import com.ryankshah.skyrimcraft.item.SkyrimBlockItemIngredient;
 import com.ryankshah.skyrimcraft.util.IngredientEffect;
 import net.minecraft.core.Direction;
@@ -12,21 +11,20 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DropExperienceBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-
-import java.util.function.Function;
 
 public class BlockInit
 {
@@ -269,19 +267,7 @@ public class BlockInit
             .sound(SoundType.CROP)
             .pushReaction(PushReaction.DESTROY)
     ));
-
-
-    public static final DeferredBlock<Block> SOVNGARDE_PORTAL = BLOCKS.register("sovngarde_portal", () -> new SovngardePortalBlock(
-            BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .randomTicks()
-                    .strength(-1.0F)
-                    .sound(SoundType.GLASS)
-                    .lightLevel(p_50872_ -> 11)
-                    .pushReaction(PushReaction.BLOCK)
-    ));
-    public static final DeferredItem<BlockItem> SOVNGARDE_PORTAL_ITEM = ItemInit.ITEMS.registerSimpleBlockItem(SOVNGARDE_PORTAL);
-
+    
     /// DECORATIVE BLOCKS
     public static final DeferredBlock<Block> STONE_BRICK_1 = BLOCKS.register("stone_brick_1",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
@@ -359,8 +345,6 @@ public class BlockInit
         provider.addBlock(WEAPON_RACK, "Weapon Rack");
         provider.addBlock(ARCANE_ENCHANTER, "Arcane Enchanter");
 
-        provider.addBlock(SOVNGARDE_PORTAL, "Sovngarde Portal");
-
         provider.addBlock(RED_MOUNTAIN_FLOWER, "Red Mountain Flower");
         provider.addBlock(BLUE_MOUNTAIN_FLOWER, "Blue Mountain Flower");
         provider.addBlock(YELLOW_MOUNTAIN_FLOWER, "Yellow Mountain Flower");
@@ -432,23 +416,23 @@ public class BlockInit
                     Direction facing = state.getValue(PearlOysterBlock.FACING);
 
                     return ConfiguredModel.builder()
-                            .modelFile(provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster")))
+                            .modelFile(provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/pearl_oyster")))
                             .rotationY(((int) facing.toYRot() + 180) % 360)
                             .nextModel()
-                            .modelFile(provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_open")))
+                            .modelFile(provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/pearl_oyster_open")))
                             .rotationY(((int) facing.toYRot() + 180) % 360)
                             .nextModel()
-                            .modelFile(provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_empty")))
+                            .modelFile(provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/pearl_oyster_empty")))
                             .rotationY(((int) facing.toYRot() + 180) % 360)
                             .build();
                 });
 
 //                .partialState().with(PearlOysterBlock.IS_OPEN, true)
-//                .modelForState().modelFile(provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_open"))).addModel()
+//                .modelForState().modelFile(provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/pearl_oyster_open"))).addModel()
 //                .partialState().with(PearlOysterBlock.IS_EMPTY, true)
-//                .modelForState().modelFile(provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_empty"))).addModel()
+//                .modelForState().modelFile(provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/pearl_oyster_empty"))).addModel()
 //                .partialState().with(PearlOysterBlock.IS_OPEN, false)
-//                .modelForState().modelFile(provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster"))).addModel();
+//                .modelForState().modelFile(provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/pearl_oyster"))).addModel();
 
 //        forAllStates(state -> {
 //            boolean open = state.getValue(PearlOysterBlock.IS_OPEN);
@@ -458,36 +442,36 @@ public class BlockInit
 //            return ConfiguredModel.builder()
 //                    .modelFile(open ?
 //                            (empty ?
-//                                    provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_empty")) :
-//                                    provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster_open"))
+//                                    provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/pearl_oyster_empty")) :
+//                                    provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/pearl_oyster_open"))
 //                            ) :
-//                            provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster"))
+//                            provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/pearl_oyster"))
 //                    )
 //                    .rotationY(((int) facing.toYRot() + 180) % 360) // 180 is default angle offset
 //                    .build();
 //        });
-        provider.simpleBlockItem(PEARL_OYSTER_BLOCK.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/pearl_oyster")));
+        provider.simpleBlockItem(PEARL_OYSTER_BLOCK.get(), provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/pearl_oyster")));
 
-        provider.horizontalBlock(ALCHEMY_TABLE.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/alchemy_table")));
-        provider.simpleBlockItem(ALCHEMY_TABLE.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/alchemy_table")));
+        provider.horizontalBlock(ALCHEMY_TABLE.get(), state -> provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/alchemy_table")));
+        provider.simpleBlockItem(ALCHEMY_TABLE.get(), provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/alchemy_table")));
 
-        provider.horizontalBlock(WEAPON_RACK.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/weapon_rack")));
-        provider.simpleBlockItem(WEAPON_RACK.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/weapon_rack")));
+        provider.horizontalBlock(WEAPON_RACK.get(), state -> provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/weapon_rack")));
+        provider.simpleBlockItem(WEAPON_RACK.get(), provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/weapon_rack")));
 
-        provider.simpleBlock(BIRDS_NEST.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/birds_nest")));
-        provider.simpleBlockItem(BIRDS_NEST.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/birds_nest")));
+        provider.simpleBlock(BIRDS_NEST.get(), provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/birds_nest")));
+        provider.simpleBlockItem(BIRDS_NEST.get(), provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/birds_nest")));
 
-        provider.horizontalBlock(OVEN.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/oven")));
-        provider.simpleBlockItem(OVEN.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/oven")));
+        provider.horizontalBlock(OVEN.get(), state -> provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/oven")));
+        provider.simpleBlockItem(OVEN.get(), provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/oven")));
 
-        provider.horizontalBlock(BLACKSMITH_FORGE.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/blacksmith_forge")));
-        provider.simpleBlockItem(BLACKSMITH_FORGE.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/blacksmith_forge")));
+        provider.horizontalBlock(BLACKSMITH_FORGE.get(), state -> provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/blacksmith_forge")));
+        provider.simpleBlockItem(BLACKSMITH_FORGE.get(), provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/blacksmith_forge")));
 
-        provider.horizontalBlock(ARCANE_ENCHANTER.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/arcane_enchanter")));
-        provider.simpleBlockItem(ARCANE_ENCHANTER.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/arcane_enchanter")));
+        provider.horizontalBlock(ARCANE_ENCHANTER.get(), state -> provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/arcane_enchanter")));
+        provider.simpleBlockItem(ARCANE_ENCHANTER.get(), provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/arcane_enchanter")));
 
-//        provider.horizontalBlock(SOVNGARDE_PORTAL.get(), state -> provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/sovngarde_portal")));
-//        provider.simpleBlockItem(SOVNGARDE_PORTAL.get(), provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/sovngarde_portal")));
+//        provider.horizontalBlock(SOVNGARDE_PORTAL.get(), state -> provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/sovngarde_portal")));
+//        provider.simpleBlockItem(SOVNGARDE_PORTAL.get(), provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/sovngarde_portal")));
     }
 
     public static void addBlockItemModels(ItemModelProvider provider) {
@@ -511,7 +495,7 @@ public class BlockInit
         String path = blockKey.getPath();
 
         provider.simpleBlock(block, provider.models().getBuilder(blockKey.toString())
-                .parent(provider.models().getExistingFile(new ResourceLocation(Skyrimcraft.MODID, "block/triple_mushroom_generic")))
+                .parent(provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "block/triple_mushroom_generic")))
                 .texture("0", provider.modLoc("block/"+path))
                 .renderType("cutout")
                 .texture("particle", provider.modLoc("block/"+path))
@@ -522,7 +506,7 @@ public class BlockInit
         ResourceLocation blockKey = BuiltInRegistries.BLOCK.getKey(block);
         String path = blockKey.getPath();
 
-        provider.simpleBlock(block, provider.models().getBuilder(blockKey.toString()).parent(provider.models().getExistingFile(new ResourceLocation("minecraft:block/cross")))
+        provider.simpleBlock(block, provider.models().getBuilder(blockKey.toString()).parent(provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(ResourceLocation.DEFAULT_NAMESPACE, "block/cross")))
                 .texture("cross", provider.modLoc("block/"+path))
                 .renderType("cutout"));
     }
@@ -532,7 +516,7 @@ public class BlockInit
         String path = blockKey.getPath();
 
         provider.simpleBlock(block, provider.models().getBuilder(blockKey.toString())
-                .parent(provider.models().getExistingFile(new ResourceLocation("minecraft:block/lily_pad")))
+                .parent(provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(ResourceLocation.DEFAULT_NAMESPACE, "block/lily_pad")))
                 .texture("texture", provider.modLoc("block/"+path))
                 .renderType("cutout")
                 .texture("particle", provider.modLoc("block/"+path)));
@@ -542,7 +526,7 @@ public class BlockInit
         ResourceLocation blockKey = BuiltInRegistries.BLOCK.getKey(block);
         String path = blockKey.getPath();
 
-        provider.simpleBlock(block, provider.models().getBuilder(blockKey.toString()).parent(provider.models().getExistingFile(new ResourceLocation("minecraft:block/cross"))).texture("cross", provider.modLoc("block/"+path)).renderType("cutout"));
+        provider.simpleBlock(block, provider.models().getBuilder(blockKey.toString()).parent(provider.models().getExistingFile(ResourceLocation.fromNamespaceAndPath(ResourceLocation.DEFAULT_NAMESPACE, "block/cross"))).texture("cross", provider.modLoc("block/"+path)).renderType("cutout"));
         provider.simpleBlockItem(block, provider.models().getExistingFile(provider.modLoc("block/" + path)));
 
     }

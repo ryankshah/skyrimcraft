@@ -16,7 +16,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.monster.Monster;
 
 public class SkeeverModel<S extends Monster> extends QuadrupedModel<Skeever> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Skyrimcraft.MODID, "skeever"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "skeever"), "main");
 
     public SkeeverModel(ModelPart root) {
         super(root, false, 8.0F, 4.0F, 2.0F, 2.0F, 24);

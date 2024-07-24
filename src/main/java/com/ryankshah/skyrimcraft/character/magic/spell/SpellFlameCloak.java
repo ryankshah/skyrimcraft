@@ -44,12 +44,12 @@ public class SpellFlameCloak extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/flame_cloak.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/flame_cloak.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/flame_cloak.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/flame_cloak.png");
     }
 
     public SoundEvent getSound() {

@@ -20,8 +20,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record AddToCompassFeatures(String uuid, ResourceLocation location, BlockPos blockPos) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<AddToCompassFeatures> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "addtocompassfeatures"));
-
+    public static final CustomPacketPayload.Type<AddToCompassFeatures> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "addtocompassfeatures"));
     public static final StreamCodec<ByteBuf, AddToCompassFeatures> CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8,
             AddToCompassFeatures::uuid,

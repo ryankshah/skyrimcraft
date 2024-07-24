@@ -22,10 +22,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.IPlantable;
-import net.neoforged.neoforge.common.PlantType;
 
-public class PearlOysterBlock extends Block implements IPlantable
+public class PearlOysterBlock extends Block
 {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty IS_OPEN = BlockStateProperties.OPEN;
@@ -98,19 +96,17 @@ public class PearlOysterBlock extends Block implements IPlantable
     }
 
     @Override
-    public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
-        BlockState soil = pLevel.getBlockState(pPos.below());
-//        return soil.is(BlockTags.SAND);
-
-        if (soil.canSustainPlant(pLevel, pPos.below(), Direction.UP, this)) return true;
+    protected boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
         BlockState blockstate = pLevel.getBlockState(pPos.below());
         if (blockstate.is(this)) {
             return true;
         } else {
+            net.neoforged.neoforge.common.util.TriState soilDecision = blockstate.canSustainPlant(pLevel, pPos.below(), Direction.UP, pState);
+            if (!soilDecision.isDefault()) return soilDecision.isTrue();
             if (blockstate.is(BlockTags.DIRT) || blockstate.is(BlockTags.SAND)) {
                 BlockPos blockpos = pPos.below();
 
-                for(Direction direction : Direction.Plane.HORIZONTAL) {
+                for (Direction direction : Direction.Plane.HORIZONTAL) {
                     BlockState blockstate1 = pLevel.getBlockState(blockpos.relative(direction));
                     FluidState fluidstate = pLevel.getFluidState(blockpos.relative(direction));
                     if (pState.canBeHydrated(pLevel, pPos, fluidstate, blockpos.relative(direction)) || blockstate1.is(Blocks.FROSTED_ICE) || blockstate1.is(Blocks.GRAVEL)) {
@@ -121,15 +117,5 @@ public class PearlOysterBlock extends Block implements IPlantable
 
             return false;
         }
-    }
-
-    @Override
-    public PlantType getPlantType(BlockGetter level, BlockPos pos) {
-        return PlantType.BEACH;
-    }
-
-    @Override
-    public BlockState getPlant(BlockGetter level, BlockPos pos) {
-        return defaultBlockState();
     }
 }

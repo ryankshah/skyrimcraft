@@ -1,44 +1,44 @@
 package com.ryankshah.skyrimcraft.data.loot_table;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.ryankshah.skyrimcraft.Skyrimcraft;
 import com.ryankshah.skyrimcraft.character.skill.Skill;
 import com.ryankshah.skyrimcraft.character.skill.SkillRegistry;
-import com.ryankshah.skyrimcraft.character.skill.SkillWrapper;
 import com.ryankshah.skyrimcraft.data.loot_table.condition.MatchSkillLevel;
 import com.ryankshah.skyrimcraft.data.loot_table.predicate.SkillPredicate;
-import com.ryankshah.skyrimcraft.init.EntityInit;
 import com.ryankshah.skyrimcraft.init.ItemInit;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
-import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class PickpocketLootTables implements LootTableSubProvider
 {
     private final Map<ResourceLocation, LootTable.Builder> map = Maps.newHashMap();
+    private HolderLookup.Provider provider;
+
+    public PickpocketLootTables(HolderLookup.Provider provider) {
+        this.provider = provider;
+    }
 
     protected static LootItemCondition.Builder getSkillLevelCondition(Skill skill, int level) {
         return MatchSkillLevel.skillMatches(SkillPredicate.Builder.skill().of(skill, level, 1F));
@@ -80,7 +80,7 @@ public class PickpocketLootTables implements LootTableSubProvider
 
     protected void add(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> pOutput, EntityType<?> entityType, LootTable.Builder builder) {
         pOutput.accept(
-                ResourceKey.create(Registries.LOOT_TABLE, new ResourceLocation(Skyrimcraft.MODID, "pickpocket")),
+                ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "pickpocket")),
                 builder);
     }
     protected void add(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> pOutput, EntityType<?> entityType, Function<EntityType<?>, LootTable.Builder> builder) {
@@ -93,31 +93,31 @@ public class PickpocketLootTables implements LootTableSubProvider
                 .setRolls(UniformGenerator.between(1.0F, 3.0F))
                 .add(LootItem.lootTableItem(ItemInit.FLAWED_RUBY)
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
-                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.provider, UniformGenerator.between(1.0F, 2.0F)))
                 )
                 .add(LootItem.lootTableItem(ItemInit.FLAWED_EMERALD)
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
-                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.provider, UniformGenerator.between(1.0F, 2.0F)))
                 )
                 .add(LootItem.lootTableItem(ItemInit.FLAWED_DIAMOND)
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
-                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.provider, UniformGenerator.between(1.0F, 2.0F)))
                 )
                 .add(LootItem.lootTableItem(ItemInit.FLAWLESS_RUBY)
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
-                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.provider, UniformGenerator.between(1.0F, 2.0F)))
                 )
                 .add(LootItem.lootTableItem(ItemInit.FLAWED_GARNET)
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
-                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.provider, UniformGenerator.between(1.0F, 2.0F)))
                 )
                 .add(LootItem.lootTableItem(ItemInit.FLAWLESS_GARNET)
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
-                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.provider, UniformGenerator.between(1.0F, 2.0F)))
                 )
                 .add(LootItem.lootTableItem(ItemInit.FLAWED_AMETHYST)
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.25F, 1.0F)))
-                        .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1.0F, 2.0F)))
+                        .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.provider, UniformGenerator.between(1.0F, 2.0F)))
                 )
                 .when(getSkillLevelConditionWithChance(SkillRegistry.PICKPOCKET.get(), 15, 0.4f))
         );
@@ -126,7 +126,7 @@ public class PickpocketLootTables implements LootTableSubProvider
     }
 
     @Override
-    public void generate(HolderLookup.Provider pRegistries, BiConsumer<ResourceKey<LootTable>, LootTable.Builder> pGenerator) {
-        addTables(pGenerator);
+    public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> p_249643_) {
+        addTables(p_249643_);
     }
 }

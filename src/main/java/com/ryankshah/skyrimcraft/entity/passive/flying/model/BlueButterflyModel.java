@@ -11,18 +11,18 @@ public class BlueButterflyModel extends GeoModel<BlueButterfly>
     @Override
     public ResourceLocation getModelResource(BlueButterfly object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "geo/bluebutterfly.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "geo/bluebutterfly.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(BlueButterfly object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/bluebutterfly.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/bluebutterfly.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(BlueButterfly object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "animations/bluebutterfly.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "animations/bluebutterfly.animation.json");
     }
 }

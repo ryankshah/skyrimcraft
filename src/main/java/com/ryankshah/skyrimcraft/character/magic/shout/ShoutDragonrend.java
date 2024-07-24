@@ -48,12 +48,12 @@ public class ShoutDragonrend extends Spell //implements IForgeRegistryEntry<ISpe
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/dragonrend.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/dragonrend.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/dragonrend.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/dragonrend.png");
     }
 
     @Override

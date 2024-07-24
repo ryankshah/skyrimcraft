@@ -24,15 +24,15 @@ public class SkyrimCuriosDataProvider extends CuriosDataProvider
         this.createEntities("entities").addEntities(EntityType.PLAYER).addSlots("circlet", "necklace", "ring");
         this.createSlot("circlet")
                 .size(1)
-                .icon(new ResourceLocation(Skyrimcraft.MODID, "slot/circlet"))
+                .icon(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "slot/circlet"))
                 .dropRule(ICurio.DropRule.ALWAYS_KEEP);
         this.createSlot("necklace")
                 .size(1)
-                .icon(new ResourceLocation(Skyrimcraft.MODID, "slot/necklace"))
+                .icon(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "slot/necklace"))
                 .dropRule(ICurio.DropRule.ALWAYS_KEEP);
         this.createSlot("ring")
                 .size(1)
-                .icon(new ResourceLocation(Skyrimcraft.MODID, "slot/ring"))
+                .icon(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "slot/ring"))
                 .dropRule(ICurio.DropRule.ALWAYS_KEEP);
     }
 }

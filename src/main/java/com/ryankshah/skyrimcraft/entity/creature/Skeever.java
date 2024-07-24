@@ -50,7 +50,7 @@ public class Skeever extends Monster
 
 
     @Override
-    public float getEyeHeightAccess(Pose pose) {
+    public double getEyeY() {
         return 0.65f;
     }
 

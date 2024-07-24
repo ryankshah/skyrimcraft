@@ -139,11 +139,11 @@ public class SkyrimDragon extends PathfinderMob implements GeoEntity, Enemy, Fly
      * Returns false if this Entity can't move between dimensions. True if it can.
      */
     @Override
-    public boolean canChangeDimensions() {
+    public boolean canChangeDimensions(Level p_352904_, Level p_352909_) {
         return false;
     }
 
-//    @Override
+    //    @Override
 //    public boolean canAttack(LivingEntity pTarget) {
 //        return pTarget.canBeSeenAsEnemy();
 //    }

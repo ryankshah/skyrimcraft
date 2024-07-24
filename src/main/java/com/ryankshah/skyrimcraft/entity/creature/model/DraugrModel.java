@@ -18,9 +18,9 @@ import net.minecraft.world.item.Items;
 
 public class DraugrModel<T extends Monster> extends HumanoidModel<T>
 {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Skyrimcraft.MODID, "draugr"), "main");
-    public static final ModelLayerLocation INNER_ARMOR_LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Skyrimcraft.MODID, "draugr"), "inner_armor");
-    public static final ModelLayerLocation OUTER_ARMOR_LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Skyrimcraft.MODID, "draugr"), "outer_armor");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "draugr"), "main");
+    public static final ModelLayerLocation INNER_ARMOR_LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "draugr"), "inner_armor");
+    public static final ModelLayerLocation OUTER_ARMOR_LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "draugr"), "outer_armor");
 
 
     public DraugrModel(ModelPart pRoot) {

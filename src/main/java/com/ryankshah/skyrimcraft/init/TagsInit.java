@@ -47,7 +47,7 @@ public class TagsInit {
 //        public static TagKey<Block> STORAGE_BLOCKS_EXAMPLE = BlockTags.create(createResourceLocation("storage_blocks/example_block"));
 
         private static ResourceLocation createResourceLocation(String name) {
-            return new ResourceLocation(Skyrimcraft.MODID, name);
+            return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  name);
         }
     }
 
@@ -80,16 +80,16 @@ public class TagsInit {
 
 
         private static ResourceLocation createResourceLocation(String name) {
-            return new ResourceLocation(Skyrimcraft.MODID, name);
+            return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  name);
         }
     }
 
     public static class StructureTagsInit {
-        public static TagKey<Structure> NETHER_FORTRESS = TagKey.create(Registries.STRUCTURE, new ResourceLocation(Skyrimcraft.MODID, "fortress"));
-        public static TagKey<Structure> SHOUT_WALL = TagKey.create(Registries.STRUCTURE, new ResourceLocation(Skyrimcraft.MODID, "shout_wall"));
+        public static TagKey<Structure> NETHER_FORTRESS = TagKey.create(Registries.STRUCTURE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "fortress"));
+        public static TagKey<Structure> SHOUT_WALL = TagKey.create(Registries.STRUCTURE, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "shout_wall"));
     }
 
     public static class BiomeTagsInit {
-        public static TagKey<Biome> WHITE_SABRE_BIOMES = TagKey.create(Registries.BIOME, new ResourceLocation(Skyrimcraft.MODID, "all_snow"));
+        public static TagKey<Biome> WHITE_SABRE_BIOMES = TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID,  "all_snow"));
     }
 }

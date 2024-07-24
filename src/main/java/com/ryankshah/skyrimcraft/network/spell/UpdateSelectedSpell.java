@@ -19,7 +19,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record UpdateSelectedSpell(int position, ResourceKey<Spell> spell) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<UpdateSelectedSpell> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "updateselectedspells"));
+    public static final CustomPacketPayload.Type<UpdateSelectedSpell> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "updateselectedspells"));
 
     public static final StreamCodec<ByteBuf, UpdateSelectedSpell> CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,

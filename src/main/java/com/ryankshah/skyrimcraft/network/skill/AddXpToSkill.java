@@ -25,7 +25,7 @@ import java.util.Optional;
 
 public record AddXpToSkill(ResourceKey<Skill> skill, int baseXp) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<AddXpToSkill> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "addxptoskill"));
+    public static final CustomPacketPayload.Type<AddXpToSkill> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "addxptoskill"));
 
     public static final StreamCodec<ByteBuf, AddXpToSkill> CODEC = StreamCodec.composite(
             ResourceKey.streamCodec(SkillRegistry.SKILLS_KEY),

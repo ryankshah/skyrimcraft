@@ -11,7 +11,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class DunmerEarModel extends EntityModel<AbstractClientPlayer> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("minecraft:player"), "dunmer_ears");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.withDefaultNamespace("player"), "dunmer_ears");
     private final ModelPart Ears;
 
     public DunmerEarModel(ModelPart root) {
@@ -41,7 +41,7 @@ public class DunmerEarModel extends EntityModel<AbstractClientPlayer> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        Ears.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack p_103111_, VertexConsumer p_103112_, int p_103113_, int p_103114_, int p_350308_) {
+        Ears.render(p_103111_, p_103112_, p_103113_, p_103114_, p_350308_);
     }
 }

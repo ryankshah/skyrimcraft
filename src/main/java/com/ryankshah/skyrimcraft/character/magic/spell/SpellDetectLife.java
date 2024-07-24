@@ -40,12 +40,12 @@ public class SpellDetectLife extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/detect_life.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/detect_life.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/detect_life.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/detect_life.png");
     }
 
     public SoundEvent getSound() {

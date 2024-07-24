@@ -21,7 +21,7 @@ import java.util.List;
 
 public record FinishOvenRecipe(Recipe<?> recipe) implements CustomPacketPayload
 {
-    public static final CustomPacketPayload.Type<FinishOvenRecipe> TYPE = new Type<>(new ResourceLocation(Skyrimcraft.MODID, "finishovenrecipe"));
+    public static final CustomPacketPayload.Type<FinishOvenRecipe> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "finishovenrecipe"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, FinishOvenRecipe> CODEC = StreamCodec.composite(
             Recipe.STREAM_CODEC,

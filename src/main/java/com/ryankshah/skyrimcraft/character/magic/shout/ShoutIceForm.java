@@ -48,12 +48,12 @@ public class ShoutIceForm extends Spell //implements IForgeRegistryEntry<ISpell>
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/ice_form.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/ice_form.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/ice_spell_icon.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/ice_spell_icon.png");
     }
 
     @Override

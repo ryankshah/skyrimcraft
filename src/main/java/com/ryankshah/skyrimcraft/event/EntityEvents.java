@@ -23,8 +23,8 @@ import net.minecraft.world.item.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.LivingAttackEvent;
-import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Iterator;
@@ -38,8 +38,8 @@ public class EntityEvents
     private static List<EntityType<?>> pickPocketableEntities = StreamSupport.stream(Skyrimcraft.getPickpocketableEntities().spliterator(), false).toList();
 
     @SubscribeEvent
-    public static void entitySetAttackTarget(LivingAttackEvent event) {
-        if(event.getSource().getDirectEntity() != null && event.getSource().getDirectEntity() instanceof ServerPlayer && event.getAmount() > 0) {
+    public static void entitySetAttackTarget(LivingDamageEvent.Post event) {
+        if(event.getSource().getDirectEntity() != null && event.getSource().getDirectEntity() instanceof ServerPlayer && event.getNewDamage() > 0) {
             ServerPlayer player = (ServerPlayer) event.getSource().getDirectEntity();
             Character character = Character.get(player);
             List<Integer> targetingEntities = character.getTargets();
@@ -53,38 +53,14 @@ public class EntityEvents
             }
         }
 
-        if(event.getSource().getDirectEntity() != null && event.getEntity() instanceof ServerPlayer player && event.getAmount() > 0) {
+        if(event.getSource().getDirectEntity() != null && event.getEntity() instanceof ServerPlayer player && event.getNewDamage() > 0) {
             Character character = Character.get(player);
             final UpdateCurrentTarget currentTarget = new UpdateCurrentTarget(event.getSource().getDirectEntity().getId());
             character.addTarget(event.getSource().getDirectEntity().getId());
             PacketDistributor.sendToPlayer(player, currentTarget);
 //            PacketDistributor.PLAYER.with(player).send(currentTarget);
         }
-    }
 
-    /**
-     * Used to add panic AI task for undead mobs (for UndeadFleeEffect to activate)
-     */
-    @SubscribeEvent
-    public static void entityJoin(EntityJoinLevelEvent event) {
-        if(pickPocketableEntities.contains(event.getEntity().getType())) {
-            event.getEntity().addTag(EntityInit.PICKPOCKET_TAG);
-        }
-
-        if(event.getEntity() instanceof PathfinderMob mob) {
-            mob.goalSelector.addGoal(0, new DismayGoal(mob, 16.0F, 0.8D, 1.33D));
-        }
-
-        if(event.getEntity() instanceof Monster) {
-            Monster monsterEntity = (Monster) event.getEntity();
-            if(monsterEntity.getType().is(EntityTypeTags.UNDEAD)) {
-                monsterEntity.goalSelector.addGoal(0, new UndeadFleeGoal(monsterEntity, 16.0F, 0.8D, 1.33D));
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onEntityHit(LivingHurtEvent event) {
         if(event.getSource().getEntity() instanceof Player) {
             Player playerEntity = (Player) event.getSource().getEntity();
             Character character = Character.get(playerEntity);
@@ -98,22 +74,22 @@ public class EntityEvents
                 }
 
                 if(playerEntity.isCrouching() && !playerEntity.canBeSeenAsEnemy()) {
-                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.SNEAK.get()).get(), (int)event.getAmount());
+                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.SNEAK.get()).get(), (int)event.getNewDamage());
                     PacketDistributor.sendToServer(xpToSkill);
 //                    PacketDistributor.SERVER.noArg().send(xpToSkill);
                 }
 
                 if (playerEntity.getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
-                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ARCHERY.get()).get(), (int)event.getAmount());
+                    final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ARCHERY.get()).get(), (int)event.getNewDamage());
                     PacketDistributor.sendToServer(xpToSkill);
 //                    PacketDistributor.SERVER.noArg().send(xpToSkill);
                 } else if(playerEntity.getMainHandItem().getItem() instanceof SwordItem) {
                     if(playerEntity.getMainHandItem().getItem() instanceof SkyrimTwoHandedSword) {
-                        final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.TWO_HANDED.get()).get(), (int) event.getAmount());
+                        final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.TWO_HANDED.get()).get(), (int) event.getNewDamage());
                         PacketDistributor.sendToServer(xpToSkill);
 //                        PacketDistributor.SERVER.noArg().send(xpToSkill);
                     } else {
-                        final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ONE_HANDED.get()).get(), (int) event.getAmount());
+                        final AddXpToSkill xpToSkill = new AddXpToSkill(SkillRegistry.SKILLS_REGISTRY.getResourceKey(SkillRegistry.ONE_HANDED.get()).get(), (int) event.getNewDamage());
                         PacketDistributor.sendToServer(xpToSkill);
 //                        PacketDistributor.SERVER.noArg().send(xpToSkill);
                     }
@@ -168,6 +144,32 @@ public class EntityEvents
                 }
             }
         }
+    }
+
+    /**
+     * Used to add panic AI task for undead mobs (for UndeadFleeEffect to activate)
+     */
+    @SubscribeEvent
+    public static void entityJoin(EntityJoinLevelEvent event) {
+        if(pickPocketableEntities.contains(event.getEntity().getType())) {
+            event.getEntity().addTag(EntityInit.PICKPOCKET_TAG);
+        }
+
+        if(event.getEntity() instanceof PathfinderMob mob) {
+            mob.goalSelector.addGoal(0, new DismayGoal(mob, 16.0F, 0.8D, 1.33D));
+        }
+
+        if(event.getEntity() instanceof Monster) {
+            Monster monsterEntity = (Monster) event.getEntity();
+            if(monsterEntity.getType().is(EntityTypeTags.UNDEAD)) {
+                monsterEntity.goalSelector.addGoal(0, new UndeadFleeGoal(monsterEntity, 16.0F, 0.8D, 1.33D));
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityHit(AttackEntityEvent event) {
+
     }
 
 }

@@ -10,17 +10,17 @@ public class GiantModel extends GeoModel<Giant>
     @Override
     public ResourceLocation getModelResource(Giant object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "geo/giant.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "geo/giant.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(Giant object) {
-        return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/giant.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/giant.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(Giant object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "animations/giant.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "animations/giant.animation.json");
     }
 }

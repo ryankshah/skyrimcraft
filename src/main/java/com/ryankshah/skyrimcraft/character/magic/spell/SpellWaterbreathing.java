@@ -34,12 +34,12 @@ public class SpellWaterbreathing extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/waterbreathing.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/waterbreathing.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/waterbreathing.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/waterbreathing.png");
     }
 
     public SoundEvent getSound() {

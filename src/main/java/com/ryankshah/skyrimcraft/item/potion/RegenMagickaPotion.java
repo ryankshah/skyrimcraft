@@ -43,7 +43,7 @@ public class RegenMagickaPotion extends SkyrimPotion
         if (!worldIn.isClientSide) {
             if(playerEntity instanceof ServerPlayer) {
                 ServerPlayer serverPlayerEntity = (ServerPlayer) playerEntity;
-                serverPlayerEntity.getAttribute(AttributeInit.MAGICKA_REGEN).addTransientModifier(new AttributeModifier(AttributeInit.MODIFIER_ID_MAGICKA_REGEN.toString(), modifierValue, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+                serverPlayerEntity.getAttribute(AttributeInit.MAGICKA_REGEN).addTransientModifier(new AttributeModifier(AttributeInit.MODIFIER_ID_MAGICKA_REGEN, modifierValue, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
                 serverPlayerEntity.addEffect(new MobEffectInstance(ModEffects.MAGICKA_REGEN, duration, 0, true, true, true));
             }
         }

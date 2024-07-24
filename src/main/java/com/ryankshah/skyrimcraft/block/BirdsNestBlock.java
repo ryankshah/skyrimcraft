@@ -22,10 +22,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.IPlantable;
-import net.neoforged.neoforge.common.PlantType;
+import net.neoforged.neoforge.common.SpecialPlantable;
 
-public class BirdsNestBlock extends Block implements IPlantable
+public class BirdsNestBlock extends Block
 {
     private VoxelShape shape = Shapes.or(
             Block.box(0, 0, 0, 16, 4, 16)
@@ -56,18 +55,23 @@ public class BirdsNestBlock extends Block implements IPlantable
 
     @Override
     public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
-        BlockState soil = pLevel.getBlockState(pPos.below());
-        if (soil.canSustainPlant(pLevel, pPos.below(), Direction.UP, this)) return true;
-        return false;
+        BlockState blockstate = pLevel.getBlockState(pPos.below());
+        if (blockstate.is(this)) {
+            return true;
+        } else if(blockstate.canSustainPlant(pLevel, pPos.below(), Direction.UP, pState).isTrue()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    @Override
-    public PlantType getPlantType(BlockGetter level, BlockPos pos) {
-        return PlantType.PLAINS;
-    }
-
-    @Override
-    public BlockState getPlant(BlockGetter level, BlockPos pos) {
-        return defaultBlockState();
-    }
+//    @Override
+//    public PlantType getPlantType(BlockGetter level, BlockPos pos) {
+//        return PlantType.PLAINS;
+//    }
+//
+//    @Override
+//    public BlockState getPlant(BlockGetter level, BlockPos pos) {
+//        return defaultBlockState();
+//    }
 }

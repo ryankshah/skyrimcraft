@@ -11,8 +11,8 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.ToolAction;
-import net.neoforged.neoforge.common.ToolActions;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
 
 public class SkyrimTwoHandedSword extends SwordItem
 {
@@ -32,7 +32,7 @@ public class SkyrimTwoHandedSword extends SwordItem
 
     public InteractionResultHolder<ItemStack> use(Level p_77659_1_, Player p_77659_2_, InteractionHand p_77659_3_) {
         ItemStack itemstack = p_77659_2_.getItemInHand(p_77659_3_);
-        if(p_77659_2_.getOffhandItem().equals(ItemStack.EMPTY)) {
+        if (p_77659_2_.getOffhandItem().equals(ItemStack.EMPTY)) {
             p_77659_2_.startUsingItem(p_77659_3_);
             return InteractionResultHolder.consume(itemstack);
         } else {
@@ -41,12 +41,12 @@ public class SkyrimTwoHandedSword extends SwordItem
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
-        return ToolActions.DEFAULT_SHIELD_ACTIONS.contains(toolAction);
+    public boolean canPerformAction(ItemStack stack, ItemAbility toolAction) {
+        return ItemAbilities.DEFAULT_SHIELD_ACTIONS.contains(toolAction);
     }
 
     @Override
-    public boolean canEquip(ItemStack stack, EquipmentSlot armorType, Entity entity) {
+    public boolean canEquip(ItemStack stack, EquipmentSlot armorType, LivingEntity entity) {
         if(armorType == EquipmentSlot.OFFHAND)
             return false;
         else return super.canEquip(stack, armorType, entity);

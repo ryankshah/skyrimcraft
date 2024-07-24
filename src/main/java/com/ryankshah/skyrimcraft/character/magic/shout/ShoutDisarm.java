@@ -43,12 +43,12 @@ public class ShoutDisarm extends Spell //implements IForgeRegistryEntry<ISpell>
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/disarm.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/disarm.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/disarm.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/disarm.png");
     }
 
     @Override

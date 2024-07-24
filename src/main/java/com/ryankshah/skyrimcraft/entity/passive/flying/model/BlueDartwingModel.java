@@ -11,18 +11,18 @@ public class BlueDartwingModel extends GeoModel<BlueDartwing>
     @Override
     public ResourceLocation getModelResource(BlueDartwing object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "geo/bluedartwing.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "geo/bluedartwing.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(BlueDartwing object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "textures/entity/bluedartwing.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "textures/entity/bluedartwing.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(BlueDartwing object)
     {
-        return new ResourceLocation(Skyrimcraft.MODID, "animations/bluedartwing.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "animations/bluedartwing.animation.json");
     }
 }

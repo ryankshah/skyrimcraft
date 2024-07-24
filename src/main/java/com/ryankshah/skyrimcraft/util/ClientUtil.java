@@ -97,40 +97,40 @@ public class ClientUtil
         Matrix4f matrix = matrixStack.last().pose();
 
         // up
-        builder.vertex(matrix, minX, minY, minZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, maxX, minY, minZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, maxX, minY, maxZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, minX, minY, maxZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
+        builder.addVertex(matrix, minX, minY, minZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, maxX, minY, minZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, maxX, minY, maxZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, minX, minY, maxZ).setColor(colors[0], colors[1], colors[2], colors[3]);
 
         //down
-        builder.vertex(matrix, minX, maxY, minZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, minX, maxY, maxZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, maxX, maxY, maxZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, maxX, maxY, minZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
+        builder.addVertex(matrix, minX, maxY, minZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, minX, maxY, maxZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, maxX, maxY, maxZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, maxX, maxY, minZ).setColor(colors[0], colors[1], colors[2], colors[3]);
 
         //north
-        builder.vertex(matrix, minX, minY, minZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, minX, maxY, minZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, maxX, maxY, minZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, maxX, minY, minZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
+        builder.addVertex(matrix, minX, minY, minZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, minX, maxY, minZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, maxX, maxY, minZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, maxX, minY, minZ).setColor(colors[0], colors[1], colors[2], colors[3]);
 
         //south
-        builder.vertex(matrix, minX, minY, maxZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, maxX, minY, maxZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, maxX, maxY, maxZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, minX, maxY, maxZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
+        builder.addVertex(matrix, minX, minY, maxZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, maxX, minY, maxZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, maxX, maxY, maxZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, minX, maxY, maxZ).setColor(colors[0], colors[1], colors[2], colors[3]);
 
         //east
-        builder.vertex(matrix, maxX, minY, minZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, maxX, maxY, minZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, maxX, maxY, maxZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, maxX, minY, maxZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
+        builder.addVertex(matrix, maxX, minY, minZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, maxX, maxY, minZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, maxX, maxY, maxZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, maxX, minY, maxZ).setColor(colors[0], colors[1], colors[2], colors[3]);
 
         //west
-        builder.vertex(matrix, minX, minY, minZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, minX, minY, maxZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, minX, maxY, maxZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
-        builder.vertex(matrix, minX, maxY, minZ).color(colors[0], colors[1], colors[2], colors[3]).endVertex();
+        builder.addVertex(matrix, minX, minY, minZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, minX, minY, maxZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, minX, maxY, maxZ).setColor(colors[0], colors[1], colors[2], colors[3]);
+        builder.addVertex(matrix, minX, maxY, minZ).setColor(colors[0], colors[1], colors[2], colors[3]);
 
         matrixStack.popPose();
         RenderSystem.disableDepthTest();

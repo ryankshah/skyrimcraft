@@ -32,12 +32,12 @@ public class ShoutDismay extends Spell
 
     @Override
     public ResourceLocation getDisplayAnimation() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/dismay.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/dismay.png");
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Skyrimcraft.MODID, "spells/icons/fireball.png");
+        return ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, "spells/icons/fireball.png");
     }
 
     public SoundEvent getSound() {

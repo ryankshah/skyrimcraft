@@ -37,7 +37,7 @@ public abstract class Spell
     public Spell(int identifier, String location) {
         this.identifier = identifier;
         this.loc = location;
-        this.location = new ResourceLocation(Skyrimcraft.MODID, this.loc);
+        this.location = ResourceLocation.fromNamespaceAndPath(Skyrimcraft.MODID, this.loc);
     }
 
     /**
@@ -86,13 +86,13 @@ public abstract class Spell
      * Get the display animation for the spell (within the magic gui)
      * @return display animation
      */
-    public ResourceLocation getDisplayAnimation() { return new ResourceLocation(""); }
+    public ResourceLocation getDisplayAnimation() { return ResourceLocation.withDefaultNamespace(""); }
 
     /**
      * Get the in-game overlay icon for the spell
      * @return spell icon
      */
-    public ResourceLocation getIcon() { return new ResourceLocation(""); }
+    public ResourceLocation getIcon() { return ResourceLocation.withDefaultNamespace(""); }
 
     /**
      * Get the magicka cost of the spell

@@ -114,7 +114,7 @@ public class DisarmEntity extends Projectile
                     ItemStack mainHand = livingEntity.getMainHandItem();
 
                     // Check its not vanishing curse and there is indeed something in the entity's main hand
-                    if (!livingEntity.getMainHandItem().isEmpty() && !EnchantmentHelper.hasVanishingCurse(mainHand)) {
+                    if (!livingEntity.getMainHandItem().isEmpty()) { // && !EnchantmentHelper.hasVanishingCurse(mainHand)) {
                         ItemEntity mainHandItemEntity = new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), mainHand);
                         this.level().addFreshEntity(mainHandItemEntity);
                         livingEntity.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
